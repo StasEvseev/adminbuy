@@ -1,0 +1,55 @@
+{% block visible_begin %}
+<div>
+{% endblock %}
+    <table class="table inner-table">
+        <thead>
+            <tr>
+                {% for t, n, f in columns_local %}
+                    <th>{{ t }}</th>
+                {% endfor %}
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="row-local" ng-repeat="item in items.{{ tab_id }}ITEMS" ng-click="{{ tab_id }}editItem(item)" style="cursor:pointer;">
+
+                {% for t, n, f in columns_local %}
+                    <td class="{{ n|replace(".", "_")  }}"><span>[[ item.{{ n }} {% if f %}|{{ f }}{% endif %} ]]</span></td>
+                {% endfor %}
+                <td class="td-remove">
+                    {% block delete_begin %}
+                        <span>
+                    {% endblock %}
+                    <div class="btn-remove" ng-show="editMode" ng-click="{{ tab_id }}deleteItem(item, $event)">
+                        <i class="fa fa-trash-o"></i>
+                    </div>
+                    {% block delete_end %}
+                        </span>
+                    {% endblock %}
+                </td>
+            </tr>
+            <tr>
+                <td colspan="{{ columns_local|length + 1 }}">
+                    {% block addable_begin %}
+                        <span>
+                    {% endblock %}
+                        <a class="add-item-to-local" ng-show="editMode" ng-click="{{ tab_id }}openToAdd()" style="cursor:pointer; font-weight: bold">Добавить</a>
+                    {% block addable_end %}
+                        </span>
+                    {% endblock %}
+                    &nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td colspan="{{ columns_local|length + 1 }}">
+                    &nbsp;
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr></tr>
+        </tfoot>
+    </table>
+{% block visible_end %}
+</div>
+{% endblock %}

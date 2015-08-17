@@ -1,0 +1,19 @@
+<form name="myForm.item">
+    <div class="box-body">
+
+        <div class="form-group">
+            <label>Наименование</label>
+            <input type="text" ng-model="model.name" required class="form-control" id="exampleInputPassword1"
+                   placeholder="Введите наименование ...">
+        </div>
+
+        <div class="form-group">
+            <label>Адрес</label>
+            <textarea class="form-control" ng-model="model.address" required rows="3" placeholder="Введите адрес ..."></textarea>
+        </div>
+        <div class="form-group">
+            <label>Центральная точка</label>
+            <input type="checkbox" ng-model="model.is_central" id="is_central">
+        </div>
+    </div>
+</form>

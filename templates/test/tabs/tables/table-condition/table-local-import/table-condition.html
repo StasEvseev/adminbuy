@@ -1,0 +1,28 @@
+{% extends "test/tabs/tables/table-ms-edt/table.html" %}
+
+
+{% block visible_begin %}
+    <div ng-hide="model.status == {{ status_1 }} || model.status == undefined {% if type %}|| model.type == {{ type }}{% endif %}">
+{% endblock %}
+
+{% block visible_end %}
+    </div>
+{% endblock %}
+
+
+{% block add_start%}
+    <span ng-hide="model.status == {{ status_1 }} || model.status == {{ status_2 }}">
+{% endblock %}
+
+{% block add_end %}
+    </span>
+{% endblock %}
+
+
+{% block delete_begin %}
+    <span ng-hide="model.status == {{ status_1 }} || model.status == {{ status_2 }}">
+{% endblock %}
+
+{% block delete_end %}
+    </span>
+{% endblock %}

@@ -1,0 +1,175 @@
+<div class="top-bar">
+
+
+    <div class="content-header">
+
+        <h1>
+            Накладные прихода
+            <small>SMALL</small>
+        </h1>
+
+        <ol class="breadcrumb">
+            <li><a ui-sref="index.dash"><i class="fa fa-dashboard"></i> Дом</a></li>
+            <li><a ui-sref="index.invoice_in.list">Накладные</a></li>
+            <li class="active">[[ item.number ]]</li>
+        </ol>
+
+        <div class="row" style="margin: 10px 0 10px 0">
+            <div class="col-md-6 col-sm-6 col-xs-6 ng-scope">
+                <span ng-hide="editMode" class="">
+                    <button class="btn-edt btn-flat btn btn-default btn-sm" ng-click="edit()">Редактировать</button>
+
+                </span>
+                <!--<span ng-hide="!editMode" class="ng-hide">
+                    <a class="btn btn-danger btn-sm btn-sv" ng-click="save()">Сохранить</a> или <a class="btn-cl"
+                                                                                                   ng-click="discard()"
+                                                                                                   style="cursor:pointer;">Отменить</a>
+                </span> -->
+            </div>
+            <div class="btn-group ng-scope col-md-6 col-sm-6 col-xs-6" ng-hide="editMode">
+                <button type="button" class="dropdown-toggle btn btn-flat btn-default btn-sm" data-toggle="dropdown"
+                        aria-expanded="false">
+                    Больше <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+
+                    <li><a class="btn-print" href="#" ng-click="print()">Печать</a></li>
+
+                    <li><a class="btn-del" href="#" ng-click="delete()">Удалить</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+<header style="background-color: bisque; min-height: 40px; padding: 8px 8px 8px 0px;">
+    <div>
+        <ul class="pull-right status-bar" style="float:right;">
+            <li class="status-item" ng-class="{'active': model.status == 1 || model.status == undefined}"
+                style="  display: inline-block; border: 1px solid #c8c8d3; padding-left: 0px;">
+                <span>Новая</span>
+            </li>
+            <li class="status-item" ng-class="{'active': model.status == 2}"
+                style="  display: inline-block; border: 1px solid #c8c8d3; padding-left: 0px;">
+                <span>Формирование</span>
+            </li>
+            <li class="status-item" ng-class="{'active': model.status == 3}"
+                style="  display: inline-block; border: 1px solid #c8c8d3; padding-left: 0px;">
+                <span>Доставка</span>
+            </li>
+            <li class="status-item active" ng-class="{'active': model.status == 4}"
+                style="  display: inline-block; border: 1px solid #c8c8d3; padding-left: 0px;">
+                <span>Завершено</span>
+            </li>
+        </ul>
+    </div>
+
+</header>
+</div>
+
+
+<div class="main-content" my-auto-padding>
+
+    <section class="invoice">
+        <!-- title row -->
+        <div class="row">
+            <div class="col-xs-12">
+                <h2 class="page-header">
+                    <i class="fa fa-globe"></i> [[nameInvoice]]
+                    <small class="pull-right">Дата: [[ item.date | date:'d MMM y' ]]</small>
+                </h2>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- info row -->
+        <div class="row invoice-info">
+            <div class="col-sm-4 invoice-col">
+                От
+                <address>
+                    <strong>[[ item.pointsale_from ]]</strong><br>
+                    <br>
+                    Адрес: [[model.pointSource.address]]
+                </address>
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-4 invoice-col">
+                К
+                <address>
+                    <strong>[[ item.pointsale ]]</strong><br>
+                    <br>
+                    Адрес: [[model.pointReceiver.address]]
+                </address>
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-4 invoice-col">
+                <b>Invoice #[[ item.number ]]</b><br/>
+                <br/>
+                <!--<b><br/>-->
+                <!--<b>Payment Due:</b> 2/22/2014<br/>
+                <b>Account:</b> 968-34567-->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+        <!-- Table row -->
+        <div class="row">
+            <div class="col-xs-12 table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Наименование</th>
+                        <th>Кол-во</th>
+                        <th>Цена</th>
+                        <th>Сумма</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="row in items">
+                        <td>[[ row.good.full_name ]]</td>
+                        <td>[[ row.count ]]</td>
+                        <td>[[ row.good.price.price_retail ]] руб.</td>
+                        <td>[[ row.count * row.good.price.price_retail ]]</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+        <div class="row">
+            <div class="col-xs-6">
+                <!--<p class="lead">Payment Methods:</p>
+                <img src="../../dist/img/credit/visa.png" alt="Visa"/>
+                <img src="../../dist/img/credit/mastercard.png" alt="Mastercard"/>
+                <img src="../../dist/img/credit/american-express.png" alt="American Express"/>
+                <img src="../../dist/img/credit/paypal2.png" alt="Paypal"/>
+                <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
+                  Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles, weebly ning heekya handango imeem plugg dopplr jibjab, movity jajah plickers sifteo edmodo ifttt zimbra.
+                </p>-->
+            </div>
+            <div class="col-xs-6">
+                <p class="lead">Сумма</p>
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <tr>
+                            <th style="width:50%">Итог:</th>
+                            <td>[[ getTotal() ]] р.</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- this row will not appear when printing -->
+        <div class="row no-print">
+            <div class="col-xs-12">
+                <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Печать</a>
+                <button class="btn btn-flat btn-primary pull-right" style="margin-right: 5px;"><i class="fa fa-download"></i>
+                    Генерация PDF
+                </button>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>

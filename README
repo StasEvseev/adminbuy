@@ -1,0 +1,5 @@
+#Создать
+
+
+#Deploy to one line
+fab remote deploy

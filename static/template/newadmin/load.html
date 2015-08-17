@@ -1,0 +1,16 @@
+<!-- Main content -->
+<section class="content">
+    <div class="lockscreen">
+    <!-- Automatic element centering -->
+    <div class="lockscreen-wrapper">
+      <div class="lockscreen-logo">
+        <span ng-bind-html="companyName"></span>
+      </div>
+      <progressbar class="progress-striped active" max="max" value="dynamic" type="{{type}}"><span style="color:white; white-space:nowrap;"></span></progressbar>
+      <div class='lockscreen-footer text-center'>
+        Copyright &copy; 2015 <span ng-bind-html="authorLink"></span><br>
+        All rights reserved
+      </div>
+    </div><!-- /.center -->
+  </div>
+</section>

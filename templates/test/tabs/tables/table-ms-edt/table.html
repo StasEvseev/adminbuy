@@ -1,0 +1,60 @@
+{% block visible_begin %}
+<div>
+{% endblock %}
+    <table class="table inner-table">
+        <thead>
+            <tr>
+                {% for col in columns_local %}
+                    {{ col.render_th()|safe }}
+                {% endfor %}
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="row-local" ng-repeat="item in items.{{ tab_id }}ITEMS">
+
+                {% for col in columns_local %}
+                    {{ col.render_td()|safe }}
+                {% endfor %}
+                <td class="td-remove">
+                    {% if remove %}
+                        {% block delete_begin %}
+                            <span>
+                        {% endblock %}
+                        <div class="btn-remove" ng-show="editMode" ng-click="{{ tab_id }}deleteItem(item, $event)">
+                            <i class="fa fa-trash-o"></i>
+                        </div>
+                        {% block delete_end %}
+                            </span>
+                        {% endblock %}
+                    {% endif %}
+                </td>
+            </tr>
+
+            {% for _import in imports %}
+                <tr>
+                    <td colspan="{{ columns_local|length + 1 }}">
+                        {% block add_start %}
+                            <span>
+                        {% endblock %}
+                                <a class="add-item-to-local" ng-show="editMode" ng-click="{{ _import.import_id() }}openAdd()" style="cursor:pointer; font-weight: bold">{{ _import.label() }}</a>
+                        {% block add_end %}
+                            </span>
+                        {% endblock %}
+                        &nbsp;
+                    </td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="{{ columns_local|length + 1 }}">
+                    &nbsp;
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr></tr>
+        </tfoot>
+    </table>
+{% block visible_end %}
+</div>
+{% endblock %}

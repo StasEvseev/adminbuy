@@ -1,0 +1,28 @@
+<table-remote-br resource="{{ resource }}" class="table table-bordered table-striped my-table"
+                 {% if selectable %}
+                    handlerclkrow="{{ select_func }}"
+                 {% endif %}
+                 {% if main %}
+                     main="true"
+                 {% else %}
+                     main="false"
+                 {% endif %}
+                 load="rel"
+                 filter-field="filter_field" param="{{ resource }}params" ms="multiselects" {% if counts %} counts='{{ counts }}' {% endif %}>
+    <row r-repeat="item in $data" {% if selectable %}
+                                    style="cursor: pointer"
+                                  {% endif %}>
+        {% if ms %}
+            <column width="30" style="text-align: left" header="'ng-table/headers/checkbox.html'">
+                <input type="checkbox" ng-model="checkboxes.items[item.id]" />
+            </column>
+        {% endif %}
+        {% for c, name, f in list_columns %}
+            <column data-title="'{{ c }}'">
+                <span
+                        >[[item.{{ name }} {% if f %}|{{ f }}{% endif %}]]
+                </span>
+            </column>
+        {% endfor %}
+    </row>
+</table-remote-br>

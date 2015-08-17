@@ -1,0 +1,43 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+{{ super() }}
+<div class="row-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Приход - возврат
+                </div>
+                <div class="panel-body">
+                    <canvas id="myChart" style="height: 100%; width: 100%"></canvas>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% endblock body %}
+
+{% block tail %}
+    {{ super() }}
+
+    {% assets 'chart_js' %}
+        <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+
+    <script type="text/javascript">
+        var ctx = document.getElementById("myChart").getContext("2d");
+            var myLineChart = new Chart(ctx).Bar({
+    labels: ["Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь"],
+    datasets: [
+        {
+            data: [15000, 17543, 24001, 53000, 11000, 13546, 4861]
+        },
+        {
+            data: [5000, 13000, 48000, 45000, 8000, 11000, 3000]
+        }
+    ]
+});
+    </script>
+{% endblock %}

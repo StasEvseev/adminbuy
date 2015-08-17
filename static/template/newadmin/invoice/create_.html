@@ -1,0 +1,59 @@
+<div class="top-bar">
+
+    <div class="content-header">
+
+        <h1>
+            Накладные прихода
+            <small>SMALL</small>
+        </h1>
+
+        <ol class="breadcrumb" ui-view>
+            <li><a ui-sref="index.dash"><i class="fa fa-dashboard"></i> Дом</a></li>
+            <li><a ui-sref="index.invoice_in.list">Накладные</a></li>
+            <li class="active">Создание</li>
+        </ol>
+
+        <div class="row" style="margin: 10px 0 10px 0">
+            <div class="col-md-6 col-sm-6 col-xs-6 ng-scope">
+                <span ng-hide="editMode" class="">
+                    <button class="btn-edt btn-flat btn btn-primary btn-sm" ng-click="save()">Сохранить</button>
+                </span>
+                <span ng-hide="editMode" class="">
+                    <button class="btn-edt btn-flat btn btn-warning btn-sm" ng-click="cancel()">Отмена</button>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <header style="background-color: bisque; min-height: 40px; padding: 8px 8px 8px 0px;">
+        <div>
+            <ul class="pull-right status-bar" style="float:right;">
+                <li class="status-item" ng-class="{'active': model.status == 1 || model.status == undefined}"
+                    style="  display: inline-block; border: 1px solid #c8c8d3; padding-left: 0px;">
+                    <span>Новая</span>
+                </li>
+                <li class="status-item" ng-class="{'active': model.status == 2}"
+                    style="  display: inline-block; border: 1px solid #c8c8d3; padding-left: 0px;">
+                    <span>Формирование</span>
+                </li>
+                <li class="status-item" ng-class="{'active': model.status == 3}"
+                    style="  display: inline-block; border: 1px solid #c8c8d3; padding-left: 0px;">
+                    <span>Доставка</span>
+                </li>
+                <li class="status-item active" ng-class="{'active': model.status == 4}"
+                    style="  display: inline-block; border: 1px solid #c8c8d3; padding-left: 0px;">
+                    <span>Завершено</span>
+                </li>
+            </ul>
+        </div>
+
+    </header>
+
+</div>
+
+
+<!-- Main content -->
+<div class="main-content" my-auto-padding>
+    <div ng-include src="'InvoiceForm'"></div>
+</div>
+

@@ -1,0 +1,61 @@
+{% extends "test/reestr.html" %}
+
+{% block panel_header %}
+    <header class="panel panel-heading panel-extra">
+    {% for ext in extra %}
+        {{ ext.view_header()|safe }}
+    {% endfor %}
+    </header>
+{% endblock %}
+
+{% block resources %}
+    {% for ext in extra %}
+        {{ ext.resources()|safe }}
+    {% endfor %}
+{% endblock %}
+
+{% block dependency_create %}
+    {% for ext in extra %}
+        {% if ext.dependency() %}
+            ,{{ ext.dependency()|safe }}
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
+{% block dependency_edit %}
+    {% for ext in extra %}
+        {% if ext.dependency() %}
+            ,{{ ext.dependency()|safe }}
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
+{% block controller_create %}
+    {% for ext in extra %}
+        {{ ext.create_js()|safe }}
+    {% endfor %}
+{% endblock %}
+
+{% block controller_create_after %}
+    {% for ext in extra %}
+        {{ ext.create_js_after()|safe }}
+    {% endfor %}
+{% endblock %}
+
+{% block controller_edit %}
+    {% for ext in extra %}
+        {{ ext.edit_js()|safe }}
+    {% endfor %}
+{% endblock %}
+
+{% block controller_edit_instance %}
+    {% for ext in extra %}
+        {{ ext.edit_js_instance()|safe }}
+    {% endfor %}
+{% endblock %}
+
+{% block edit %}
+    {% for ext in extra %}
+        {{ ext.edit_btn()|safe }}
+    {% endfor %}
+{% endblock %}

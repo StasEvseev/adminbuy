@@ -1,0 +1,22 @@
+<dict-select-field-br id="{{ id }}"
+                   id_form="{{ id_form }}"
+                   label="{{ label }}"
+                   placeholder="{{ placeholder }}"
+                   resource="{{ id }}"
+                   attrdisplay="{{ tostring }}"
+                   {% if modal_id and modal_cntr %}
+                       modal="['{{ modal_id }}', '{{ modal_cntr }}', 'lg']"
+                   {% endif %}
+                   selected="{{ prefix }}.{{ id }}"
+                   clbkclose=""
+                   disabled="disabled"
+                   link="{{ link }}"
+                   is_main='{{ is_main }}'
+                   can_create='{{ can_create }}'
+                   can_edit="{{ can_edit }}"
+                   ng-class="{'has-error': errors.{{ id_form }}}"
+                   {% if behavior_view %}
+                       {{ behavior_view.view()|safe }}
+                   {% endif %}
+        >
+</dict-select-field-br>

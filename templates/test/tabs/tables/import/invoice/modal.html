@@ -1,0 +1,28 @@
+<script type="text/ng-template" id="{{ modal_id }}">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancel()"><span aria-hidden="true">&times;</span></button>
+        <h3><span>{{ label }} : {{ label_model }}</span></h3>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            {{ dict_select.render()|safe }}
+        </div>
+
+        <div style="margin-top: 15px">
+            <search-field placeholder="Поиск..." clbkclick="rel"></search-field>
+        </div>
+
+        <div class="row" style="margin-top: 15px;">
+            <div class="col-md-12">
+                {{ table.render()|safe }}
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <div class="pull-left">
+            <button class="btn btn-ok btn-danger btn-sm" ng-click="ok()">{{ btn_ok }}</button> или
+            <a class="btn-cl" ng-click="cancel()" style="cursor:pointer;">{{ btn_cancel }}</a>
+        </div>
+    </div>
+</script>

@@ -1,0 +1,35 @@
+{% if is_main %}
+    <div ng-class="{'has-error': errors.{{ id_form }}}" class=""
+            {% if behavior_view %}
+                       {{ behavior_view.view()|safe }}
+                   {% endif %}>
+        <div class="span-view" ng-show="disabled">
+            {% if main %}
+                <h3 id="{{ id_form }}">[[ {{ prefix + id_s }} ]]</h3>
+            {% else %}
+                <h4 id="{{ id_form }}">[[ {{ prefix + id_s }} ]]</h4>
+            {% endif %}
+        </div>
+        <div ng-hide="disabled">
+            <label for="{{ id_form }}" class="control-label main-attr">{{ label }}</label>
+            <input type="text" class="form-control " style="font-size: 20px" id="{{ id_form }}"
+                   ng-model="{{ prefix + id_s }} {% if filter %}|{{ filter }}{% endif %}" placeholder="{{ placeholder }}">
+        </div>
+    </div>
+
+{% else %}
+    <div class="form-group form-group-my" ng-class="{'has-error': errors.{{ id_form }}}"
+            {% if behavior_view %}
+                       {{ behavior_view.view()|safe }}
+                   {% endif %}>
+        <label for="{{ id_form }}" class="control-label col-md-5">{{ label }}</label>
+        <div class="col-md-7">
+            <div class="span-view" ng-show="disabled">
+                <span id="{{ id_form }}">[[ {{ prefix + id_s }}{% if filter %}|{{ filter }}{% endif %} ]]</span>&nbsp;
+            </div>
+            <div ng-hide="disabled">
+                <input type="text" class="form-control input-sm" id="{{ id_form }}" ng-model="{{ prefix + id_s }}" placeholder="{{ placeholder }}">
+            </div>
+        </div>
+    </div>
+{% endif %}

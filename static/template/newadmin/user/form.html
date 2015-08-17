@@ -1,0 +1,53 @@
+<form name="myForm.item">
+    <div class="box-body">
+
+        <div class="form-group" ng-class="{'has-error': Form.isSubmitted() && myForm.item.login.$error.required}">
+            <label>Логин</label>
+            <input type="text" ng-model="model.login" required name="login" class="form-control" id="exampleInputPassword1"
+                   placeholder="Введите логин">
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': Form.isSubmitted() && myForm.item.first_name.$error.required}">
+            <label>Фамилия</label>
+            <input type="text" ng-model="model.first_name" required name="first_name" class="form-control" id="exampleInputPassword1"
+                   placeholder="Введите фамилию">
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': Form.isSubmitted() && myForm.item.last_name.$error.required}">
+            <label>Имя</label>
+            <input type="text" ng-model="model.last_name" required name="last_name" class="form-control" id="exampleInputPassword1"
+                   placeholder="Введите имя">
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': Form.isSubmitted() && myForm.item.email.$error.required}">
+            <label for="exampleInputPassword1">Почтовый ящик</label>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                <input type="text" ng-model="model.email" required name="email" class="form-control" id="exampleInputPassword1"
+                       placeholder="Введите ящик">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Суперпользователь</label>
+            <input type="checkbox" ng-model="model.is_superuser" id="is_central">
+        </div>
+
+        <div class="form-group has-feedback" ng-hide="model.id">
+            <label>Пароль</label>
+            <input name="password" ng-model="model.password" type="password" class="form-control" placeholder="Пароль"/>
+            <!--<span class="glyphicon glyphicon-lock form-control-feedback"></span>-->
+          </div>
+          <div class="form-group has-feedback" ng-hide="model.id">
+            <label>Повторите пароль</label>
+            <input name="retypepassword" ng-model="model.retypepassword" type="password" class="form-control" placeholder="Повторите пароль"/>
+            <!--<span class="glyphicon glyphicon-log-in form-control-feedback"></span>-->
+          </div>
+    </div>
+    <!--<button ng-click="cancel()"></button>-->
+    <!-- /.box-body -->
+
+    <!--<div class="box-footer">
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </div> -->
+</form>

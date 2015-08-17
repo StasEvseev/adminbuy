@@ -1,0 +1,79 @@
+{% extends 'admin/base.html' %}
+
+{% block head_css %}
+
+    <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon" />
+
+    {% assets 'bootstrap-css' %}
+        <link href="{{ ASSET_URL }}" rel="stylesheet"/>
+    {% endassets %}
+
+    {% assets 'font-awesome-css' %}
+        <link href="{{ ASSET_URL }}" rel="stylesheet"/>
+    {% endassets %}
+
+    {% assets 'selectize-css' %}
+        <link href="{{ ASSET_URL }}" rel="stylesheet"/>
+    {% endassets %}
+
+{% endblock %}
+
+
+{% block page_body %}
+<div class="container">
+    <div style="  margin: 100px auto 0;">
+        <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+{#            <img src="{{ url_for('static', filename='images/logo/Original_transparent_199x75.png') }}">#}
+            <div class="panel panel-info" >
+{#                <div class="panel-heading">#}
+{#                    <div class="panel-title">Вход</div>#}
+{#                    <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#">Forgot password?</a></div>#}
+{#                </div>#}
+                <div style="padding-top:30px" class="panel-body">
+
+                    <form method="POST"  class="form-horizontal" role="form">
+                        {{ form.hidden_tag() if form.hidden_tag }}
+
+                        {% for f in form if f.type != 'CSRFTokenField' %}
+                        <div style="margin-bottom: 25px" class="input-group">
+                            <input type="{{ f.type }}" name="{{ f.name }}" id="{{ f.name }}"
+                                   class="form-control" placeholder="{{ f.label }}">
+                            {% if f.errors %}
+                            <ul>
+                                {% for e in f.errors %}
+                                <li>{{ e }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+
+                        <div style="margin-top:10px" class="form-group">
+                            <div class="col-sm-12 controls">
+                                <button class="btn btn-primary" type="submit">Войти</button>
+                                <span class="pull-right">{{ link | safe }}</span>
+                            </div>
+                        </div>
+                    </form>
+
+{#                    <form method="POST"  class="form-horizontal" role="form">#}
+{#                        <div style="margin-bottom: 25px" class="input-group">#}
+{#                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>#}
+{#                            <input type="text" id="username" class="form-control" name="username" placeholder="Username">#}
+{#                        </div>#}
+{#                        <div style="margin-bottom: 25px" class="input-group">#}
+{#                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>#}
+{#                            <input type="password" id="password" class="form-control" name="password" placeholder="Password">#}
+{#                        </div>#}
+{#                        <div style="margin-top:10px" class="form-group">#}
+{#                            <div class="col-sm-12 controls">#}
+{#                              <a id="btn-login" href="#" class="btn btn-success">Login  </a>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </form>#}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock page_body %}

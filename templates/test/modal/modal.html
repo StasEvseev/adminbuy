@@ -1,0 +1,19 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancel()"><span aria-hidden="true">&times;</span></button>
+    <h3 class="modal-title"><span ng-hide="isNew">{{ label_edit }} : {{ label_model }}</span><span ng-show="isNew">{{ label_new }} : {{ label_model }}</span></h3>
+</div>
+<div class="modal-body">
+
+    {{ form.render()|safe }}
+
+    <div>
+        {{ form.form_tables_render()|safe }}
+    </div>
+
+</div>
+<div class="modal-footer">
+    <div class="pull-left">
+        <span ng-hide="isNew"><button class="btn btn-ok btn-danger btn-sm" ng-click="ok()">{{ btn_ok }}</button></span><span ng-show="isNew"><button class="btn btn-ok btn-danger btn-sm" ng-click="ok()">{{ btn_ok_edit }}</button></span> или
+        <a class="btn-cl" ng-click="cancel()" style="cursor:pointer;">{{ btn_cancel }}</a>
+    </div>
+</div>

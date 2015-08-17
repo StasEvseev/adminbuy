@@ -1,0 +1,16 @@
+<h1>
+    Почтовый ящик
+    <small ng-if="countNew()">[[ countNew() ]] новых сообщений</small>
+</h1>
+<ol class="breadcrumb">
+    <li><a ui-sref="index.dash"><i class="fa fa-dashboard"></i> Дом</a></li>
+    <li><a ui-sref="index.mailbox.list">Почтовый ящик</a></li>
+    <li class="active">[[item.title]]</li>
+</ol>
+<div class="row">
+    <div style="margin: 10px 0 10px 0">
+        <div class="col-md-3 ng-scope">
+            <a ng-click="checkMail()" class="btn btn-flat btn-primary btn-block margin-bottom">Проверить почту</a>
+        </div>
+    </div>
+</div>
