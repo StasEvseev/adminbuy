@@ -26,7 +26,23 @@ describe('project home page', function() {
                 countItems = $("table.dataTable > tbody > tr").length;
                 $('button.btn-crt').click().then(function() {
                     expect(browser.getLocationAbsUrl()).toEqual("/user/create");
+                    element(by.model("model.login")).sendKeys("Логин");
+                    element(by.model("model.first_name")).sendKeys("Фамилия");
+                    element(by.model("model.last_name")).sendKeys("Имя");
+                    element(by.model("model.email")).sendKeys("a@a.ru");
+                    element(by.model("model.password")).sendKeys("123");
+                    element(by.model("model.retypepassword")).sendKeys("123");
 
+                    $("button.btn-sv").click().then(function() {
+                        liitem.element(by.css("ul > li > a.user-item")).click().then(function() {
+                            browser.pause()
+                            expect($("table.dataTable > tbody > tr").length).toEqual(2);
+
+                            $("table.dataTable > tbody > tr")[0].click().then(function() {
+                                expect(browser.getLocationAbsUrl()).toEqual("/user/2");
+                            });
+                        });
+                    });
                 });
 
             });
