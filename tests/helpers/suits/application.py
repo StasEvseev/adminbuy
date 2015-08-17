@@ -1,7 +1,7 @@
 #coding: utf-8
 from applications.commodity.models import Commodity
-from tests.helpers.suits.commodity import CommodityTestSuite
-from tests.helpers.suits.good import GoodTestSuite
+from all.helpers.suits.commodity import CommodityTestSuite
+from all.helpers.suits.good import GoodTestSuite
 
 
 class ApplicationSuite(object):

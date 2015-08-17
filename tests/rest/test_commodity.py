@@ -1,8 +1,8 @@
 #coding: utf-8
 from applications.commodity.models import Commodity
 
-from tests import BaseTestCase
-from tests.helpers.suits.commodity import CommodityTestSuite
+from all import BaseTestCase
+from all.helpers.suits.commodity import CommodityTestSuite
 
 
 class CommodityTest(BaseTestCase):

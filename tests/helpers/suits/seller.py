@@ -2,7 +2,7 @@
 # from models import db
 from app import db
 from applications.seller.model import Seller
-from tests.helpers.suits import BaseSuite
+from all.helpers.suits import BaseSuite
 
 
 class SellerSuite(BaseSuite):

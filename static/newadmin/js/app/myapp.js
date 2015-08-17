@@ -18,6 +18,9 @@ AdminApp = angular.module('AdminApp', [
     'commodity.module',
     'commodity.service',
 
+    'good.module',
+    'good.service',
+
     'pointsales.module',
     'pointsales.service',
 

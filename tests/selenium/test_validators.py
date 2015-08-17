@@ -4,8 +4,8 @@ import collections
 from selenium.common.exceptions import TimeoutException
 from angular.field.validator import RequiredValidator, RequiredPredicate
 from db import db
-from tests.helpers import Generator
-from tests.selenium.test_common_ui import _gen_data, fill_form
+from all.helpers import Generator
+from all.selenium.test_common_ui import _gen_data, fill_form
 
 
 class Res(object):

@@ -1,6 +1,6 @@
 #coding: utf-8
-from tests import BaseTestCase
-from tests.helpers.suits.pointsale import PointSaleSuite
+from all import BaseTestCase
+from all.helpers.suits.pointsale import PointSaleSuite
 
 
 class PointsaleTest(BaseTestCase):

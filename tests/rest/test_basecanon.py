@@ -11,9 +11,9 @@ from applications.provider_app.resource import ProviderCanon
 from applications.receiver.resource import ReceiverCanonResource
 from applications.seller import SellerResource
 from resources.revision import RevisionItemResource, RevisionResource
-from tests import BaseTestCase
-from tests.helpers import Generator
-from tests.helpers.suits.canon import BaseCanonSuite
+from all import BaseTestCase
+from all.helpers import Generator
+from all.helpers.suits.canon import BaseCanonSuite
 
 
 class BaseCanonTest(BaseTestCase):

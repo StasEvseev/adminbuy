@@ -1,6 +1,6 @@
 #coding: utf-8
 from applications.receiver.view import ReceiverAngularView
-from tests.selenium.test_common_ui import CommonTestUi
+from all.selenium.test_common_ui import CommonTestUi
 
 
 class GoodTest(CommonTestUi):

@@ -3,9 +3,9 @@ from applications.commodity.models import Commodity
 from applications.good.model import Good
 from applications.price.model import Price
 
-from tests import BaseTestCase
-from tests.helpers.suits.commodity import CommodityTestSuite
-from tests.helpers.suits.good import GoodTestSuite
+from all import BaseTestCase
+from all.helpers.suits.commodity import CommodityTestSuite
+from all.helpers.suits.good import GoodTestSuite
 
 
 class GoodTest(BaseTestCase):

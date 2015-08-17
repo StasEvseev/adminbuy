@@ -4,12 +4,12 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
 from applications.good.model import Good
-from tests.helpers.suits.application import ApplicationSuite
-from tests.selenium.test_common_ui import (
+from all.helpers.suits.application import ApplicationSuite
+from all.selenium.test_common_ui import (
     CommonTestUi, fill_input, data_form, fill_form, check_data, select_item_dict_select, get_tabpanel,
     add_to_local_table, click_btn_modal, rows_local_table, add_btn_local_table, get_button_from_extra)
 from applications.inventory.views import InventoryView
-from tests.selenium.test_ui import get_modal_btns, get_confirm_btns
+from all.selenium.test_ui import get_modal_btns, get_confirm_btns
 
 
 def _td_rows_local_table(row):

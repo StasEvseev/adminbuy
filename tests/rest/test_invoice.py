@@ -4,9 +4,9 @@ from flask import json
 
 from applications.good.model import Good
 from applications.price.model import Price, PriceParish
-from tests import BaseTestCase
-from tests.helpers.suits.invoice import MailInvoiceTestSuite
-from tests.helpers.suits.providersuit import ProviderTestSuite
+from all import BaseTestCase
+from all.helpers.suits.invoice import MailInvoiceTestSuite
+from all.helpers.suits.providersuit import ProviderTestSuite
 from models.invoice import Invoice
 from models.invoiceitem import InvoiceItem
 from applications.mails.model import Mail

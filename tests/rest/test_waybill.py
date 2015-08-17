@@ -4,16 +4,16 @@ from applications.waybill.constant import GOOD_ATTR, COUNT_ATTR
 
 from models.invoice import Invoice
 
-from tests import BaseTestCase
-from tests.helpers import Generator
-from tests.helpers.suits.application import ApplicationSuite
-from tests.helpers.suits.commodity import CommodityTestSuite
-from tests.helpers.suits.good import GoodTestSuite
-from tests.helpers.suits.invoice import MailInvoiceTestSuite
-from tests.helpers.suits.pointsale import PointSaleSuite
-from tests.helpers.suits.providersuit import ProviderTestSuite
-from tests.helpers.suits.receiver import ReceiverSuite
-from tests.helpers.suits.waybill import WayBillTestSuite
+from all import BaseTestCase
+from all.helpers import Generator
+from all.helpers.suits.application import ApplicationSuite
+from all.helpers.suits.commodity import CommodityTestSuite
+from all.helpers.suits.good import GoodTestSuite
+from all.helpers.suits.invoice import MailInvoiceTestSuite
+from all.helpers.suits.pointsale import PointSaleSuite
+from all.helpers.suits.providersuit import ProviderTestSuite
+from all.helpers.suits.receiver import ReceiverSuite
+from all.helpers.suits.waybill import WayBillTestSuite
 from applications.waybill.models import WayBill, RETAIL, GROSS, POINTSALE, RECEIVER, IN_PROG, IN_DELIVERY, FINISH
 
 

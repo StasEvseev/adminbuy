@@ -1,7 +1,7 @@
 #coding: utf-8
 from app import db
 
-from tests.helpers.suits import BaseSuite
+from all.helpers.suits import BaseSuite
 from applications.provider_app.models import Provider
 
 # import provider

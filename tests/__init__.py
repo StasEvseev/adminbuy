@@ -7,16 +7,10 @@ from flask import json
 import psycopg2
 import app
 from config import COMMON_URL, USER, PASSWORD, DB
-from db import db
 from manage import man
 
 CURRENT_DIR = os.path.dirname(__file__)
 PATH_DB = os.path.join(CURRENT_DIR, "app.db")
-
-import sqlalchemy.event.base
-# class mCl(ConnectionEventsDispatch):
-# <sqlalchemy.event.base.ConnectionEventsDispatch object at 0x7f02340e0210>
-#     pass
 
 
 def initializetest(app):
@@ -74,21 +68,11 @@ class BaseTestCase(unittest.TestCase):
             'password': 'I'
         }, follow_redirects=True)
         assert data.status_code, 200
-        # assert "Добро пожаловать!" in data.data
 
     def tearDown(self):
-
-
-
-        # with app.app.app_context():
-        #     db.drop_all()
-        # os.remove(PATH_DB)
-
         self.tear_down()
         with app.app.app_context():
             app.app.db.engine.dispose()
-            # app.app.db.engine.pool.recreate()
-        # app.db.
 
     def _serialize(self, dict):
         return json.dumps(dict)

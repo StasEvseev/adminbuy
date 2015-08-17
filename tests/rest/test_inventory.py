@@ -3,11 +3,11 @@ from applications.inventory.constant import COUNT_AFTER_ATTR, GOOD_ATTR, GOOD_ID
 from applications.inventory.models import InventoryItems, IN_PROG, VALIDATED
 from applications.point_sale.models import PointSaleItem
 
-from tests import BaseTestCase
-from tests.helpers import Generator
-from tests.helpers.suits.application import ApplicationSuite
-from tests.helpers.suits.inventory import InventorySuite
-from tests.helpers.suits.pointsale import PointSaleSuite
+from all import BaseTestCase
+from all.helpers import Generator
+from all.helpers.suits.application import ApplicationSuite
+from all.helpers.suits.inventory import InventorySuite
+from all.helpers.suits.pointsale import PointSaleSuite
 
 
 class InventoryTest(BaseTestCase):

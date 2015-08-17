@@ -2,7 +2,7 @@
 from app import db
 from applications.receiver.model import Receiver
 
-from tests.helpers.suits import BaseSuite
+from all.helpers.suits import BaseSuite
 # from models import db
 
 

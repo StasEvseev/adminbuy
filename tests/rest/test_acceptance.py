@@ -9,13 +9,13 @@ from applications.price.model import Price, PriceParish
 from models.invoice import Invoice
 from models.invoiceitem import InvoiceItem
 from applications.point_sale.models import PointSaleItem
-from tests import BaseTestCase
-from tests.helpers import Generator
-from tests.helpers.suits.acceptance import AcceptanceSuite
-from tests.helpers.suits.application import ApplicationSuite
-from tests.helpers.suits.invoice import MailInvoiceTestSuite
-from tests.helpers.suits.pointsale import PointSaleSuite
-from tests.helpers.suits.providersuit import ProviderTestSuite
+from all import BaseTestCase
+from all.helpers import Generator
+from all.helpers.suits.acceptance import AcceptanceSuite
+from all.helpers.suits.application import ApplicationSuite
+from all.helpers.suits.invoice import MailInvoiceTestSuite
+from all.helpers.suits.pointsale import PointSaleSuite
+from all.helpers.suits.providersuit import ProviderTestSuite
 
 
 class AcceptanceTest(BaseTestCase):

@@ -4,11 +4,11 @@ import os
 from mock import Mock
 
 from excel import InvoiceModel, get_name_number
-from tests.helpers.suits import BaseSuite
+from all.helpers.suits import BaseSuite
 from services import MailInvoiceService
 from applications.mails.action import MailHepls, MailObjectNew
 from applications.mails.action import MailObject
-from tests.helpers.suits.providersuit import ProviderTestSuite
+from all.helpers.suits.providersuit import ProviderTestSuite
 from models.invoiceitem import InvoiceItem
 
 
