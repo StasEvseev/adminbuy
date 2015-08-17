@@ -119,7 +119,7 @@
         <ul class="sidebar-menu">
             <li class="header">ПАНЕЛЬ НАВИГАЦИИ</li>
 
-            <li class="treeview" ng-show="is_superuser">
+            <li class="treeview user-menu" ng-show="is_superuser">
                 <a href="#">
                     <i class="fa fa-users"></i> <span>Пользовательские данные</span>
                     <i class="fa fa-angle-left pull-right"></i>
@@ -131,46 +131,46 @@
                 </ul> -->
 
                 <ul class="treeview-menu">
-                    <li><a ui-sref="index.user.list"><i class="fa fa-circle-o"></i> Пользователи</a>
+                    <li><a class="user-item" ui-sref="index.user.list"><i class="fa fa-circle-o"></i> Пользователи</a>
                     </li>
                 </ul>
             </li>
 
-            <li class="treeview">
+            <li class="treeview invoice-menu">
                 <a href="#">
                     <i class="fa fa-table"></i> <span>Накладные</span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a ui-sref="index.invoice_in.list"><i class="fa fa-circle-o"></i> Накладные прихода</a>
+                    <li><a class="invoice-item" ui-sref="index.invoice_in.list"><i class="fa fa-circle-o"></i> Накладные прихода</a>
                     </li>
                     <!--<li><a ui-sref="index.invoice_out"><i class="fa fa-circle-o"></i> Накладные возврата</a>
                     </li>-->
                 </ul>
             </li>
             <li>
-                <a ui-sref="index.mailbox.list" ui-sref-opts="{inherit: false}">
+                <a class="mailbox-item" ui-sref="index.mailbox.list" ui-sref-opts="{inherit: false}">
                     <i class="fa fa-envelope"></i> <span>Почтовый ящик</span>
                     <small ng-if="countNew()" class="label pull-right bg-yellow">[[countNew()]]</small>
                 </a>
             </li>
             <li>
-                <a ui-sref="index.receiver.list" ui-sref-opts="{inherit: false}">
+                <a class="receiver-item" ui-sref="index.receiver.list" ui-sref-opts="{inherit: false}">
                     <i class="fa fa-users"></i> <span>Оптовики</span>
                 </a>
             </li>
             <li>
-                <a ui-sref="index.commodity.list" ui-sref-opts="{inherit: false}">
+                <a class="commodity-item" ui-sref="index.commodity.list" ui-sref-opts="{inherit: false}">
                     <i class="fa fa-users"></i> <span>Номенклатура</span>
                 </a>
             </li>
             <li>
-                <a ui-sref="index.good.list" ui-sref-opts="{inherit: false}">
+                <a class="good-item" ui-sref="index.good.list" ui-sref-opts="{inherit: false}">
                     <i class="fa fa-users"></i> <span>Товар</span>
                 </a>
             </li>
             <li>
-                <a ui-sref="index.pointsale.list" ui-sref-opts="{inherit: false}">
+                <a class="pointsale-item" ui-sref="index.pointsale.list" ui-sref-opts="{inherit: false}">
                     <i class="fa fa-archive"></i> <span>Торговые точки</span>
                 </a>
             </li>

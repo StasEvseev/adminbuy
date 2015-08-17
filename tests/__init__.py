@@ -85,3 +85,26 @@ class BaseTestCase(unittest.TestCase):
 
     def tear_down(self):
         pass
+
+
+class BaseLiveTestCase(unittest.TestCase):
+    def __init__(self, *args, **kwargs):
+        super(BaseLiveTestCase, self).__init__(*args, **kwargs)
+
+        self.module = app
+        self.application = self.module.app
+
+    def setUp(self):
+
+        self.set_up()
+
+    def tearDown(self):
+        self.tear_down()
+        with app.app.app_context():
+            app.app.db.engine.dispose()
+
+    def set_up(self):
+        pass
+
+    def tear_down(self):
+        pass

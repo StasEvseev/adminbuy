@@ -142,6 +142,19 @@ def login():
 def index():
     return redirect("/admin2?%s" % request.query_string)
 
+def create_superuser():
+    from services.userservice import UserService
+    with app.app_context():
+        if UserService.check_duplicate('admin', None, 0):
+            user = UserService.registration('admin', 'a@a.ru', 'admin', is_superuser=True,
+                                            first_name='Админов', last_name='Админ')
+            db.session.add(user)
+            db.session.commit()
+        else:
+            raise Exception(u"Has admin.")
+
+app.create_superuser = create_superuser
+
 if __name__ == "__main__":
     debug(u"Запуск системы.")
     app.run(debug=True)

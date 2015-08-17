@@ -93,15 +93,7 @@ class FixtureCommand(Command):
 
 class SuperUserCommand(Command):
     def run(self):
-        from services.userservice import UserService
-        with app.app_context():
-            if UserService.check_duplicate('admin', None, 0):
-                user = UserService.registration('admin', 'a@a.ru', 'admin', is_superuser=True,
-                                                first_name='Админов', last_name='Админ')
-                db.session.add(user)
-                db.session.commit()
-            else:
-                raise Exception(u"Has admin.")
+        app.create_superuser()
 
 manager.add_command('db', MigrateCommand)
 manager.add_command('fixture', FixtureCommand())
