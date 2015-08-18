@@ -1,21 +1,20 @@
 #coding: utf-8
 
 from fabric.api import local, sudo, lcd, put, cd
+from fabric.context_managers import settings
 from fabric.contrib.files import exists
+from fabric.decorators import roles
 from fabric.operations import local as lrun, run
 from fabric.api import task
 
 from fabric.state import env
 
-from app import app, db
-from services.userservice import UserService
-
 import os
 
-env.user = 'user'
+env.user = 'vagrant'
 
 proj_dir = '/home/user/www'
-root_folder = '/buyapi'
+root_folder = '/adminbuy'
 
 local_config_dir = proj_dir + root_folder + '/config'
 local_config_dir_super = local_config_dir + "/supervisor"
@@ -50,19 +49,21 @@ def remote():
 
 @task
 def deploy():
-    install_env()
-    clone_proj()
-    install_dependency()
-    install_rabbitmq()
-    install_redis()
-    prepare_db()
-    configure_nginx()
-    configure_supervisor_proj()
-    configure_supervisor_socket()
-    configure_supervisor_celery()
-    reload_nginx()
-    reload_super()
-    create_superuser()
+    create_user()
+    with settings(user='user'):
+        install_env()
+        clone_proj()
+        install_dependency()
+        install_rabbitmq()
+        install_redis()
+        prepare_db()
+        configure_nginx()
+        configure_supervisor_proj()
+        configure_supervisor_socket()
+        configure_supervisor_celery()
+        reload_nginx()
+        reload_super()
+        create_superuser()
 
 
 @task
@@ -95,23 +96,29 @@ def prepare_db():
 
 @task
 def clone_proj():
-    run('mkdir ' + proj_dir)
+    run('mkdir ' + proj_dir + ' -p')
     with cd(proj_dir):
         run('git clone https://github.com/StasEvseev/adminbuy.git')
 
+@task
+def create_user():
+    sudo('useradd -d /home/user -m user')
+    sudo('usermod -a -G sudo user')
+    sudo('passwd user')
 
 @task
 def install_env():
     sudo('apt-get update')
     sudo('apt-get install -y python')
     sudo('apt-get install -y python-pip')
+    sudo('pip install --upgrade setuptools')
     sudo('apt-get install -y python-virtualenv')
     sudo('apt-get install -y nginx')
     sudo('apt-get install -y gunicorn')
     sudo('apt-get install -y supervisor')
     sudo('apt-get install -y git')
     sudo('apt-get install libpq-dev python-dev -y')
-    sudo('apt-get install postgresql-9.3 -y')
+    sudo('apt-get install postgresql-9.1 -y')
 
 
 @task

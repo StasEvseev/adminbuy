@@ -1,3 +1,4 @@
+functools32
 psycopg2
 flask
 flask-restful==0.3.1
