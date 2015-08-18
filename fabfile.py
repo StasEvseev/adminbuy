@@ -97,7 +97,7 @@ def prepare_db():
 def clone_proj():
     run('mkdir ' + proj_dir)
     with cd(proj_dir):
-        run('git clone https://Tamplier@bitbucket.org/Tamplier/buyapi.git')
+        run('git clone https://github.com/StasEvseev/adminbuy.git')
 
 
 @task
