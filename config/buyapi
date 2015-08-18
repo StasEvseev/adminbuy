@@ -33,12 +33,12 @@ server {
         proxy_set_header Host $http_host;
     }
     location /static {
-        alias /home/user/www/buyapi/static/;
+        alias /home/user/www/adminbuy/static/;
         access_log off; # не пишем логи
         expires 3d; # кешируем у клиента на 3 дня
     }
     location /media {
-        alias /home/user/www/buyapi/wiki/media;
+        alias /home/user/www/adminbuy/wiki/media;
     }
 
     location /render {

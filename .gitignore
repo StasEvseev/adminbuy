@@ -11,3 +11,4 @@ attachments
 *.log
 celerybeat-schedule
 celerybeat.pid
+.vagrant

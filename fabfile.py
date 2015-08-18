@@ -102,16 +102,15 @@ def clone_proj():
 
 @task
 def create_user():
-    sudo('useradd -d /home/user -m user')
-    sudo('usermod -a -G sudo user')
-    sudo('passwd user')
+    sudo('adduser user')
+    sudo('gpasswd -a user sudo')
 
 @task
 def install_env():
     sudo('apt-get update')
     sudo('apt-get install -y python')
-    sudo('apt-get install -y python-pip')
-    sudo('pip install --upgrade setuptools')
+    sudo('apt-get install python-setuptools')
+    sudo('easy_install pip')
     sudo('apt-get install -y python-virtualenv')
     sudo('apt-get install -y nginx')
     sudo('apt-get install -y gunicorn')
