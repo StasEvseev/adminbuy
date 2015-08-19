@@ -107,13 +107,13 @@ def create_user():
 
 @task
 def install_env():
+    sudo('add-apt-repository ppa:chris-lea/nginx-devel -y')
     sudo('apt-get update')
     sudo('apt-get install -y python')
     sudo('apt-get install python-setuptools')
     sudo('easy_install pip')
     sudo('apt-get install -y python-virtualenv')
     sudo('apt-get install -y nginx')
-    sudo('apt-get install -y gunicorn')
     sudo('apt-get install -y supervisor')
     sudo('apt-get install -y git')
     sudo('apt-get install libpq-dev python-dev -y')
