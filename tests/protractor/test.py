@@ -21,10 +21,16 @@ __author__ = 'user'
 class BaseProtractorTestCase(BaseLiveTestCase):
 
     def run_test(self, path_test):
+        #TODO сделать интерактив с webdriver
         path = os.path.dirname(__file__)
-        proc = Popen("protractor %s" % os.path.join(path, "all", path_test), shell=True, stdout=subprocess.PIPE)
-        proc.wait()
-        self._calc_output(proc.stdout.readlines())
+        proc = Popen("protractor %s" % os.path.join(path, "all", path_test), shell=True,
+                     stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.PIPE)
+        res = []
+        for it in iter(proc.stdout.readline, ''):
+            res.append(it)
+            sys.stdout.write(it)
+
+        self._calc_output(res)
 
     def _calc_output(self, outps):
         outs = outps
