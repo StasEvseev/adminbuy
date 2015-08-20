@@ -95,14 +95,17 @@ describe('project home page', function() {
     });
 
     it("CRUD pointsale", function() {
-        hlp.CRUDSimple("pointsale-item", "/pointsale", function() {
-            element(by.model("model.name")).sendKeys("Название");
-            element(by.model("model.address")).sendKeys("Адрес");
-            element(by.model("model.is_central")).click();
+        var name = "Название",
+            address = "Адрес",
+            is_central = false,
+            name2 = "Название2",
+            address2 = "Адрес2",
+            is_central2 = true;
+        var urlclass = hlp.urlclassPointsale();
+        hlp.CRUDSimple(urlclass[0], urlclass[1], function() {
+            hlp.fillFormPointsale(name, address, is_central);
         }, function() {
-            element(by.model("model.name")).sendKeys("Название2");
-            element(by.model("model.address")).sendKeys("Адрес2");
-            element(by.model("model.is_central")).click();
+            hlp.fillFormPointsale(name2, address2, is_central2);
         });
     });
 
@@ -118,7 +121,6 @@ describe('project home page', function() {
 
                 hlp.fillDictSelectField("model.commodity", name_commodity).then(function() {
                     element(by.model("model.number_local")).sendKeys("1");
-                    element(by.model("model.number_local")).sendKeys("1");
                     element(by.model("model.number_global")).sendKeys("1");
                     element(by.model("model['price.price_retail']")).sendKeys("1.2");
                     element(by.model("model['price.price_gross']")).sendKeys("1.4");
@@ -127,8 +129,8 @@ describe('project home page', function() {
                 hlp.fillDictSelectField("model.commodity", name_commodity2).then(function() {
                     element(by.model("model.number_local")).sendKeys("2");
                     element(by.model("model.number_global")).sendKeys("2");
-                    element(by.model("model.price.price_retail")).sendKeys("2");
-                    element(by.model("model.price.price_gross")).sendKeys("4");
+                    element(by.model("model['price.price_retail']")).sendKeys("2");
+                    element(by.model("model['price.price_gross']")).sendKeys("4");
                 });
             });
         });

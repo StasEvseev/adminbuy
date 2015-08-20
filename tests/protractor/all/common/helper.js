@@ -67,6 +67,25 @@ var obj = {
         return q.promise;
     },
 
+    urlclassPointsale: function() {
+        return ["pointsale-item", "/pointsale"];
+    },
+    fillFormPointsale: function(name, address, is_central) {
+
+        element(by.model("model.name")).sendKeys(name);
+        element(by.model("model.address")).sendKeys(address);
+
+        if (is_central) {
+            if (!element(by.model('model.is_central')).isSelected()) {
+                element(by.model("model.is_central")).click();
+            }
+        } else {
+            if(element(by.model('model.is_central')).isSelected()) {
+                element(by.model("model.is_central")).click();
+            }
+        }
+    },
+
     urlclassCommodity: function() {
         return ["commodity-item", "/commodity"];
     },
@@ -74,12 +93,32 @@ var obj = {
         element(by.model("model.name")).sendKeys(name);
         element(by.model("model.thematic")).sendKeys(thematic);
         if (is_num) {
-            element(by.model("model.numeric")).click();
+            if (!element(by.model('model.numeric')).isSelected()) {
+                element(by.model("model.numeric")).click();
+            }
         } else {
-            element(by.model("model.numeric")).click();
-            element(by.model("model.numeric")).click();
+            if(element(by.model('model.numeric')).isSelected()) {
+                element(by.model("model.numeric")).click();
+            }
         }
     }
+};
+
+obj['createPointsale'] = function(name, address, is_central) {
+    var q = protractor.promise.defer();
+    var urlclass = obj.urlclassPointsale();
+    var anchor = $("ul.sidebar-menu > li > a." + urlclass[0]);
+    anchor.click().then(function() {
+        obj.buttonCreate().then(function() {
+            obj.fillFormPointsale(name, address, is_central);
+            obj.buttonSave().then(function() {
+                anchor.click().then(function() {
+                    q.fulfill();
+                });
+            });
+        })
+    });
+    return q.promise;
 };
 
 obj['createCommodity'] = function(name, thematic, is_num) {

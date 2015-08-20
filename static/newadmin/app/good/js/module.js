@@ -81,20 +81,36 @@ angular.module('good.module', ['core.controllers']).constant('config', {
     };
 })
 
-.controller("GoodCreateCntr", function($scope, $controller, config, CommodityService) {
+.controller("GoodCreateCntr", function($scope, $controller, goods, config, CommodityService) {
     $controller('BaseCreateController', {$scope: $scope});
     $scope.name_head = config.name;
 
     $scope.formname =  config.formname;
     $scope.CommodityService = CommodityService;
+
+    $scope.saveToServer = function() {
+        return goods.create($scope.model);
+    };
+
+    $scope.goView = function() {
+        return "index.good.view";
+    };
 })
 
-.controller("GoodEditCntr", function($scope, $controller, item, config, CommodityService) {
+.controller("GoodEditCntr", function($scope, $controller, goods, item, config, CommodityService) {
     $controller('BaseCreateController', {$scope: $scope});
     $scope.model = item;
     $scope.name_head = config.name;
     $scope.formname =  config.formname;
     $scope.CommodityService = CommodityService;
+
+    $scope.saveToServer = function() {
+        return goods.create($scope.model);
+    };
+
+    $scope.goView = function() {
+        return "index.good.view";
+    };
 })
 
 .controller("GoodViewCntr", function($scope, $stateParams, $state, goods, config, item) {
