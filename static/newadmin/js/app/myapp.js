@@ -158,7 +158,7 @@ AdminApp.config(function ($stateProvider, $urlRouterProvider) {
             url: '/signin',
             views: {
                 'main@': {
-                    templateUrl: 'static/template/newadmin/login.html',
+                    templateUrl: 'static/newadmin/template/login.html',
                     controller: function ($scope, $state, principal) {
                         $scope.signin = function () {
 
@@ -187,7 +187,7 @@ AdminApp.config(function ($stateProvider, $urlRouterProvider) {
         .state('index.accessdenied', {
             views: {
                 'content': {
-                    templateUrl: "static/template/newadmin/403.html",
+                    templateUrl: "static/newadmin/template/403.html",
                     controller: function() {
 
                     }
@@ -200,7 +200,7 @@ AdminApp.config(function ($stateProvider, $urlRouterProvider) {
             abstract: true,
             views: {
                 'main@': {
-                    templateUrl: "static/template/newadmin/admin.html",
+                    templateUrl: "static/newadmin/template/admin.html",
                     controller: 'MainController'
                 }
             }
@@ -209,7 +209,7 @@ AdminApp.config(function ($stateProvider, $urlRouterProvider) {
         .state('index.load', {
             views: {
                 'main@': {
-                    templateUrl: "static/template/newadmin/load.html",
+                    templateUrl: "static/newadmin/template/load.html",
                     controller: function($scope, $q, $rootScope, $state, $timeout, mails, User, Application, Company) {
 
                         $scope.max = 100;
@@ -245,7 +245,7 @@ AdminApp.config(function ($stateProvider, $urlRouterProvider) {
             url: '/',
             views: {
                 'content': {
-                    templateUrl: 'static/template/newadmin/dash.html',
+                    templateUrl: 'static/newadmin/template/dash.html',
                     controller: function ($scope, $rootScope, Application) {
                         $scope.version = Application.version();
                     }

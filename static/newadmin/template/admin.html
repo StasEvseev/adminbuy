@@ -126,23 +126,6 @@
                 </a>
             </li>
 
-            <li class="treeview user-menu" ng-show="is_superuser">
-                <a href="#">
-                    <i class="fa fa-users"></i> <span>Пользовательские данные</span>
-                    <i class="fa fa-angle-left pull-right"></i>
-                </a>
-
-                <!--<ul class="treeview-menu">
-                    <li><a ui-sref="index.user.view({id: 1})"><i class="fa fa-circle-o"></i> Ваш профиль</a>
-                    </li>
-                </ul> -->
-
-                <ul class="treeview-menu">
-                    <li><a class="user-item" ui-sref="index.user.list"><i class="fa fa-circle-o"></i> Пользователи</a>
-                    </li>
-                </ul>
-            </li>
-
             <li class="treeview invoice-menu">
                 <a href="#">
                     <i class="fa fa-columns"></i> <span>Накладные</span>
@@ -179,6 +162,24 @@
                 <a class="provider-item" ui-sref="index.provider.list" ui-sref-opts="{inherit: false}">
                     <i class="fa fa-truck"></i> <span>Поставщики</span>
                 </a>
+            </li>
+            <li class="header">АДМИНИСТРИРОВАНИЕ</li>
+
+            <li class="treeview user-menu" ng-show="is_superuser">
+                <a href="#">
+                    <i class="fa fa-gears"></i> <span>Настройки</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+
+                <!--<ul class="treeview-menu">
+                    <li><a ui-sref="index.user.view({id: 1})"><i class="fa fa-circle-o"></i> Ваш профиль</a>
+                    </li>
+                </ul> -->
+
+                <ul class="treeview-menu">
+                    <li><a class="user-item" ui-sref="index.user.list"><i class="fa fa-user"></i> Пользователи</a>
+                    </li>
+                </ul>
             </li>
         </ul>
     </section>

@@ -12,7 +12,7 @@ angular.module('directive', []).directive('dictSelectField', function($compile, 
             lazy: "&",
             select: "="
         },
-        templateUrl: 'static/template/newadmin/directive/dsf.html',
+        templateUrl: 'static/newadmin/template/directive/dsf.html',
         controller: function($scope, $q) {
             $scope.modelsss = {};
 

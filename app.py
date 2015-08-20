@@ -107,7 +107,7 @@ app.wsgi_app = ProxyFix(app.wsgi_app)
 
 @app.route('/admin2')
 def newindex():
-    return render_template("newadmin/index.html")
+    return render_template("index.html")
 
 @app.route('/logout')
 def logout():
