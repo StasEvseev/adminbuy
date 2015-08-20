@@ -27,6 +27,9 @@ bundles = {
         'newadmin/js/app/pointsales/pointsales-service.js',
         'newadmin/js/app/pointsales/module.js',
 
+        'newadmin/app/provider/js/service.js',
+        'newadmin/app/provider/js/module.js',
+
         'newadmin/app/commodity/js/service.js',
         'newadmin/app/commodity/js/module.js',
 
