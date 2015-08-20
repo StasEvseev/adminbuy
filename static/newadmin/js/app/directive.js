@@ -6,11 +6,14 @@ angular.module('directive', []).directive('dictSelectField', function($compile, 
     return {
         restrict: 'E',
         transclude: true,
-        require: "^ngModel",
+        require: ["^ngModel"],
         scope: {
             service: "=",
             lazy: "&",
-            select: "="
+            select: "=",
+            name: "@",
+            required: "@",
+            ngRequired: "@"
         },
         templateUrl: 'static/newadmin/template/directive/dsf.html',
         controller: function($scope, $q) {
@@ -114,6 +117,23 @@ angular.module('directive', []).directive('dictSelectField', function($compile, 
                             element2.html(element1.html());
                         }
 
+                    }
+
+                    if(scope.name) {
+                        uiselect.attr("name", scope.name);
+                        tElement.removeAttr("name");
+                    }
+                    if (scope.required) {
+                        uiselect.attr("required", true);
+                    }
+
+//                    attr.$observe('required', function(value) {
+//                        debugger
+//                        scope.required = value;
+//                    });
+
+                    if (scope.ngRequired) {
+                        uiselect.attr("ng-required", scope.ngRequired);
                     }
 
                     copyAttr(uiselects, uiselect);

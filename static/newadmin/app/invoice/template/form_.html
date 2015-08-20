@@ -35,14 +35,6 @@
                                date-disabled="disabled(date, mode)"
                                ng-required="true"
                                close-text="Закрыть" />
-
-
-                        <!--<input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" name="date"
-                               ng-model="model.date" is-open="opened"
-                               min-date="minDate" max-date="'2018-09-30'"
-                               datepicker-options="dateOptions"
-                               date-disabled="disabled(date, mode)" ng-required="true"
-                               close-text="Закрыть"/>-->
                     </div>
                 </div>
             </div>
@@ -89,7 +81,7 @@
         <div class="row invoice-info">
 
             <div class="col-sm-5 invoice-col">
-                <div class="form-group">
+                <div class="form-group" ng-class="{'has-error': Form.isSubmitted() && myForm.item.pointsale_from.$error.required}">
                     <label for="exampleInputPassword1">Торговая точка отправитель</label>
 
 
@@ -98,8 +90,10 @@
                             service="PointService"
                             lazy="true"
                             select="model.pointsale_from_id"
-
-                            style="width: 100%">
+                            style="width: 100%"
+                            required="true"
+                            name="pointsale_from"
+                            >
                         <dict-select-field-match placeholder="Введите название...">[[$select.selected.name]]</dict-select-field-match>
                         <dict-select-field-choices repeat="item in $items | propsFilter: {name: $select.search}">
                             <div ng-bind-html="item.name | highlight: $select.search"></div>
@@ -113,7 +107,7 @@
             </div>
 
             <div ng-show="model.typeRec == 2" class="col-sm-5 invoice-col">
-                <div class="form-group">
+                <div class="form-group" ng-class="{'has-error': Form.isSubmitted() && myForm.item.receiver.$error.required}">
                     <label for="exampleInputPassword1">Оптовик</label>
 
                     <dict-select-field
@@ -121,7 +115,9 @@
                             service="ReceiverService"
                             lazy="true"
                             select="model.receiver_id"
-
+                            name="receiver"
+                            ng-required="model.typeRec === 2"
+                            required="false"
                             style="width: 100%">
                         <dict-select-field-match placeholder="Введите имя...">[[$select.selected.fullname]]</dict-select-field-match>
                         <dict-select-field-choices repeat="item in $items | propsFilter: {fullname: $select.search}">
@@ -135,7 +131,7 @@
             </div>
 
             <div ng-show="model.typeRec == 1" class="col-sm-5 invoice-col">
-                <div class="form-group">
+                <div class="form-group" ng-class="{'has-error': Form.isSubmitted() && myForm.item.pointsale.$error.required}">
                     <label for="exampleInputPassword1">Торговая точка получатель</label>
 
                     <dict-select-field
@@ -143,6 +139,8 @@
                             service="PointService"
                             lazy="true"
                             select="model.pointsale_id"
+                            name="pointsale"
+                            ng-required="model.typeRec === 1"
 
                             style="width: 100%">
                         <dict-select-field-match placeholder="Введите название...">[[$select.selected.name]]</dict-select-field-match>

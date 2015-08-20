@@ -119,7 +119,7 @@ angular.module("invoices.module", ['ui.router', 'core.controllers', 'invoices.se
     }
 })
 
-.controller('InvoiceCreateCntr', function ($scope, $state, invoices, pointsales, receivers, Company, $controller, $q, PointService, ReceiverService) {
+.controller('InvoiceCreateCntr', function ($scope, $state, Form, invoices, pointsales, receivers, Company, $controller, $q, PointService, ReceiverService) {
     $controller('BaseCreateController', {$scope: $scope});
 
     $scope.model.typeRec = 1;
@@ -170,9 +170,14 @@ angular.module("invoices.module", ['ui.router', 'core.controllers', 'invoices.se
         'starting-day': 1
     };
 
-    $scope.save = function() {
-        invoices.create($scope.model);
-    }
+//        $scope.save = function(){
+//            var form = Form.getForm();
+//        };
+
+    $scope.saveToServer = function() {
+//        Form.getForm()
+        return invoices.create($scope.model);
+    };
 })
 
 .controller('InvoiceEditCntr', function($scope, $controller, item, items, pointSource, pointReceiver, receiver) {

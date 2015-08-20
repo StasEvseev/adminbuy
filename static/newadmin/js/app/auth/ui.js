@@ -21,21 +21,21 @@ angular.module('auth.ui', ['ui.router'])
           delete $window.localStorage.token;
       },
 
-      registration: function(identity) {
-          var self = this;
-          var q = $q.defer();
-          $http.post("/api/registration", {
-              login: identity.login, email: identity.email,
-              password: identity.password, retypepassword: identity.retypepassword
-          }).then(function(resp) {
-              self.setToken(resp.data.token);
-              q.resolve();
-          }, function() {
-              q.reject(resp);
-          });
-
-          return q.promise;
-      },
+//      registration: function(identity) {
+//          var self = this;
+//          var q = $q.defer();
+//          $http.post("/api/registration", {
+//              login: identity.login, email: identity.email,
+//              password: identity.password, retypepassword: identity.retypepassword
+//          }).then(function(resp) {
+//              self.setToken(resp.data.token);
+//              q.resolve();
+//          }, function() {
+//              q.reject(resp);
+//          });
+//
+//          return q.promise;
+//      },
 
       authenticate: function(identity) {
           var self = this;
