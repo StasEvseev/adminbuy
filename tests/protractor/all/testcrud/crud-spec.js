@@ -109,8 +109,8 @@ describe('project home page', function() {
     it("CRUD good", function() {
         var name_commodity = "Название",
             thematic_commodity = "Тематика",
-            name_commodity2 = "Название2",
-            thematic_commodity2 = "Тематика2";
+            name_commodity2 = "Другое",
+            thematic_commodity2 = "Другая";
         hlp.createCommodity(name_commodity, thematic_commodity, true).then(function() {
             hlp.createCommodity(name_commodity2, thematic_commodity2, true)
         }).then(function() {
@@ -124,7 +124,7 @@ describe('project home page', function() {
                     element(by.model("model['price.price_gross']")).sendKeys("1.4");
                 });
             }, function() {
-                hlp.fillDictSelectField("model.commodity", name_commodity).then(function() {
+                hlp.fillDictSelectField("model.commodity", name_commodity2).then(function() {
                     element(by.model("model.number_local")).sendKeys("2");
                     element(by.model("model.number_global")).sendKeys("2");
                     element(by.model("model.price.price_retail")).sendKeys("2");

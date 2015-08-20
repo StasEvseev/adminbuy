@@ -7,6 +7,9 @@ from tests.protractor.test import BaseProtractorTestCase
 __author__ = 'user'
 
 
-# class TestProtractorInitial(BaseProtractorTestCase):
-#     def test(self):
-#         self.run_test(os.path.join("testInitial", "conf.js"))
+class TestProtractorInitial(BaseProtractorTestCase):
+    def set_up(self):
+        self.application.create_superuser()
+
+    def test(self):
+        self.run_test(os.path.join("testInitial", "conf.js"))
