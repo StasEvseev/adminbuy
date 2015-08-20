@@ -4,7 +4,7 @@
 
 angular.module("receivers.module", ['ui.router', 'core.service', 'core.controllers', 'receivers.service', 'form'])
 .run(function($templateCache, $http) {
-    $templateCache.put("ReceiverForm", $http.get("static/template/newadmin/receiver/form.html"));
+    $templateCache.put("ReceiverForm", $http.get("static/newadmin/app/receiver/template/form.html"));
 })
 
 .factory('ReceiverService', function(BaseDictService, receivers) {
@@ -26,13 +26,6 @@ angular.module("receivers.module", ['ui.router', 'core.service', 'core.controlle
         return "Редактирование оптовика";
     };
 
-//    child.controller = function() {
-//        return function($scope, $modalInstance) {
-//            var parent = BaseDictService.controller();
-//            $controller(parent, {$scope: $scope, $modalInstance: $modalInstance});
-//        }
-//    };
-
     child.resolveEdit = function(item) {
         return {
             item: function() {
@@ -53,7 +46,7 @@ angular.module("receivers.module", ['ui.router', 'core.service', 'core.controlle
             url: "?filter&page",
             views: {
                 'content@index': {
-                    templateUrl: "static/template/newadmin/receiver/list.html",
+                    templateUrl: "static/newadmin/app/receiver/template/list.html",
                     controller: "ReceiverListCntr"
                 }
             }
@@ -62,7 +55,7 @@ angular.module("receivers.module", ['ui.router', 'core.service', 'core.controlle
             url: '/create',
             views: {
                 'content@index': {
-                    templateUrl: "static/template/newadmin/receiver/create.html",
+                    templateUrl: "static/newadmin/app/receiver/template/create.html",
                     controller: "ReceiverCreateCntr"
                 }
             }
@@ -71,7 +64,7 @@ angular.module("receivers.module", ['ui.router', 'core.service', 'core.controlle
             url: "/:id",
             views: {
                 'content@index': {
-                    templateUrl: "static/template/newadmin/receiver/view.html",
+                    templateUrl: "static/newadmin/app/receiver/template/view.html",
                     controller: "ReceiverViewCntr"
                 }
             },
@@ -85,7 +78,7 @@ angular.module("receivers.module", ['ui.router', 'core.service', 'core.controlle
             url: "/edit",
             views: {
                 'content@index': {
-                    templateUrl: "static/template/newadmin/receiver/edit.html",
+                    templateUrl: "static/newadmin/app/receiver/template/edit.html",
                     controller: "ReceiverEditCntr"
                 }
             }

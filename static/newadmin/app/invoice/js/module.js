@@ -4,7 +4,7 @@
 
 angular.module("invoices.module", ['ui.router', 'core.controllers', 'invoices.service'])
 .run(function($templateCache, $http) {
-    $templateCache.put('InvoiceForm', $http.get("static/template/newadmin/invoice/form_.html"));
+    $templateCache.put('InvoiceForm', $http.get("static/newadmin/app/invoice/template/form_.html"));
 })
 .config(function($stateProvider) {
     $stateProvider.state('index.invoice_in', {
@@ -16,7 +16,7 @@ angular.module("invoices.module", ['ui.router', 'core.controllers', 'invoices.se
             views: {
 
                 'content@index': {
-                    templateUrl: "static/template/newadmin/invoice/list_.html",
+                    templateUrl: "static/newadmin/app/invoice/template/list_.html",
                     controller: "InvoiceListController"
                 }
             }
@@ -26,7 +26,7 @@ angular.module("invoices.module", ['ui.router', 'core.controllers', 'invoices.se
             url: '/create',
             views: {
                 'content@index': {
-                    templateUrl: "static/template/newadmin/invoice/create_.html",
+                    templateUrl: "static/newadmin/app/invoice/template/create_.html",
                     controller: "InvoiceCreateCntr"
                 }
             }
@@ -36,7 +36,7 @@ angular.module("invoices.module", ['ui.router', 'core.controllers', 'invoices.se
             url: '/:id',
             views: {
                 'content@index': {
-                    templateUrl: "static/template/newadmin/invoice/read_.html",
+                    templateUrl: "static/newadmin/app/invoice/template/read_.html",
                     controller: "InvoiceViewCntr"
                 }
             },
@@ -67,7 +67,7 @@ angular.module("invoices.module", ['ui.router', 'core.controllers', 'invoices.se
             url: '/edit',
             views: {
                 'content@index': {
-                    templateUrl: "static/template/newadmin/invoice/read_create.html",
+                    templateUrl: "static/newadmin/app/invoice/template/read_create.html",
                     controller: "InvoiceEditCntr"
                 }
             }

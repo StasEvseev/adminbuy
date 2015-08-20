@@ -8,45 +8,8 @@
 
 angular.module("users.module", ['ui.router', 'core.service', 'core.controllers', 'users.service', 'form'])
 .run(function($templateCache, $http) {
-    $templateCache.put("UserForm", $http.get("static/template/newadmin/user/form.html"));
+    $templateCache.put("UserForm", $http.get("static/newadmin/app/user/template/form.html"));
 })
-
-//.factory('UserService', function(BaseDictService, receivers) {
-//
-//    var child = Object.create(BaseDictService);
-//    child.records = function (text) {
-//        return receivers.filter(text);
-//    };
-//
-//    child.formInclude = function() {
-//        return "UserForm";
-//    };
-//
-//    child.title = function() {
-//        return "Создание оптовика";
-//    };
-//
-//    child.titleEdit = function() {
-//        return "Редактирование оптовика";
-//    };
-//
-////    child.controller = function() {
-////        return function($scope, $modalInstance) {
-////            var parent = BaseDictService.controller();
-////            $controller(parent, {$scope: $scope, $modalInstance: $modalInstance});
-////        }
-////    };
-//
-//    child.resolveEdit = function(item) {
-//        return {
-//            item: function() {
-//                return receivers.getById(item.id);
-//            }
-//        };
-//    };
-//
-//    return child;
-//})
 
 .config(function($stateProvider) {
     $stateProvider.state('index.user', {
@@ -57,7 +20,7 @@ angular.module("users.module", ['ui.router', 'core.service', 'core.controllers',
             url: "?filter&page",
             views: {
                 'content@index': {
-                    templateUrl: "static/template/newadmin/user/list.html",
+                    templateUrl: "static/newadmin/app/user/template/list.html",
                     controller: "UserListCntr"
                 }
             }
@@ -66,7 +29,7 @@ angular.module("users.module", ['ui.router', 'core.service', 'core.controllers',
             url: '/create',
             views: {
                 'content@index': {
-                    templateUrl: "static/template/newadmin/user/create.html",
+                    templateUrl: "static/newadmin/app/user/template/create.html",
                     controller: "UserCreateCntr"
                 }
             }
@@ -75,7 +38,7 @@ angular.module("users.module", ['ui.router', 'core.service', 'core.controllers',
             url: "/:id",
             views: {
                 'content@index': {
-                    templateUrl: "static/template/newadmin/user/view.html",
+                    templateUrl: "static/newadmin/app/user/template/view.html",
                     controller: "UserViewCntr"
                 }
             },
@@ -89,7 +52,7 @@ angular.module("users.module", ['ui.router', 'core.service', 'core.controllers',
             url: "/edit",
             views: {
                 'content@index': {
-                    templateUrl: "static/template/newadmin/user/edit.html",
+                    templateUrl: "static/newadmin/app/user/template/edit.html",
                     controller: "UserEditCntr"
                 }
             }

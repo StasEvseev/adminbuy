@@ -19,13 +19,15 @@ bundles = {
         'newadmin/js/app/core/helpers.js',
         'newadmin/js/app/core/controllers.js',
         'newadmin/js/app/core/service.js',
-        'newadmin/js/app/mails/mails-service.js',
 
-        'newadmin/js/app/invoices/invoices-service.js',
-        'newadmin/js/app/invoices/module.js',
+        'newadmin/app/mail/js/mails-service.js',
+        'newadmin/app/mail/js/module.js',
 
-        'newadmin/js/app/pointsales/pointsales-service.js',
-        'newadmin/js/app/pointsales/module.js',
+        'newadmin/app/invoice/js/invoices-service.js',
+        'newadmin/app/invoice/js/module.js',
+
+        'newadmin/app/pointsale/js/pointsales-service.js',
+        'newadmin/app/pointsale/js/module.js',
 
         'newadmin/app/provider/js/service.js',
         'newadmin/app/provider/js/module.js',
@@ -36,11 +38,11 @@ bundles = {
         'newadmin/app/good/js/service.js',
         'newadmin/app/good/js/module.js',
 
-        'newadmin/js/app/receivers/receivers-service.js',
-        'newadmin/js/app/receivers/module.js',
+        'newadmin/app/receiver/js/receivers-service.js',
+        'newadmin/app/receiver/js/module.js',
 
-        'newadmin/js/app/user/users-service.js',
-        'newadmin/js/app/user/module.js',
+        'newadmin/app/user/js/users-service.js',
+        'newadmin/app/user/js/module.js',
 
         'newadmin/js/app/application.js',
         'newadmin/js/app/user.js',
@@ -156,11 +158,11 @@ bundles = {
 
     # 'pointselect': Bundle('js/pointselect.js'),
 
-    'waybilllist': Bundle('waybill/js/waybilllist.js'),
+    # 'waybilllist': Bundle('waybill/js/waybilllist.js'),
 
-    'acceptance': Bundle('acceptance/js/acceptance.js'),
+    # 'acceptance': Bundle('acceptance/js/acceptance.js'),
 
-    'mail': Bundle('js/mail/mail.js'),
+    # 'mail': Bundle('js/mail/mail.js'),
 
     'good': Bundle('js/good/good.js')
 }
