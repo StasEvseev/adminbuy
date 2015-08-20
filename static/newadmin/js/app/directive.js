@@ -70,7 +70,7 @@ angular.module('directive', []).directive('dictSelectField', function($compile, 
         },
         compile: function(tElement, tAttrs, transclude) {
             var ngat = tElement.attr('ng-model');
-            tElement.removeAttr("ng-model");
+//            tElement.removeAttr("ng-model");
             return function (scope, element, attr, ngModel, transFn) {
 
                 scope.$watch("modelsss.item", function(newValue) {
@@ -122,8 +122,6 @@ angular.module('directive', []).directive('dictSelectField', function($compile, 
 
                     copyAttr(transcludedMatch, uimatch, true);
                     copyAttr(transcludedChoices, uichoices, true);
-
-//                    uiselect.attr('ng-model', ngat);
 
                     uiselect.append(uimatch);
                     uiselect.append(uichoices);

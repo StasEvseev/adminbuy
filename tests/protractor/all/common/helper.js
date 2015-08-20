@@ -45,7 +45,58 @@ var obj = {
         });
 
         return deferred.promise;
+    },
+
+    fillDictSelectField: function(model, value) {
+        var q = protractor.promise.defer();
+        var comm_field = element(by.model(model)),
+            comm_input = comm_field.element(by.css("div > div > input")),
+            comm_list = comm_field.element(by.css("div > div > ul > li"));
+        comm_field.element(by.css("div > div")).click().then(function() {
+            comm_input.sendKeys(value);
+            browser.driver.wait(function(){
+                return comm_list.all(by.css("div.ui-select-choices-row")).count().then(function(count){
+                    return 0 < count;
+                });
+            }, 2000);
+            comm_list.all(by.css("div.ui-select-choices-row")).first().click().then(function() {
+                q.fulfill();
+            });
+        });
+
+        return q.promise;
+    },
+
+    urlclassCommodity: function() {
+        return ["commodity-item", "/commodity"];
+    },
+    fillFormCommodity: function(name, thematic, is_num) {
+        element(by.model("model.name")).sendKeys(name);
+        element(by.model("model.thematic")).sendKeys(thematic);
+        if (is_num) {
+            element(by.model("model.numeric")).click();
+        } else {
+            element(by.model("model.numeric")).click();
+            element(by.model("model.numeric")).click();
+        }
     }
+};
+
+obj['createCommodity'] = function(name, thematic, is_num) {
+    var q = protractor.promise.defer();
+    var urlclass = obj.urlclassCommodity();
+    var anchor = $("ul.sidebar-menu > li > a." + urlclass[0]);
+    anchor.click().then(function() {
+        obj.buttonCreate().then(function() {
+            obj.fillFormCommodity(name, thematic, is_num);
+            obj.buttonSave().then(function() {
+                anchor.click().then(function() {
+                    q.fulfill();
+                });
+            });
+        })
+    });
+    return q.promise;
 };
 
 obj['CRUDSimple'] = function(aclass, url, function_create, function_edit) {
