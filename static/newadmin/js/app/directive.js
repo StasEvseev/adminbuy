@@ -11,9 +11,9 @@ angular.module('directive', []).directive('dictSelectField', function($compile, 
             service: "=",
             lazy: "&",
             select: "=",
-            name: "@",
-            required: "@",
-            ngRequired: "@"
+            dname: "@",
+            drequired: "@",
+            dngRequired: "@"
         },
         templateUrl: 'static/newadmin/template/directive/dsf.html',
         controller: function($scope, $q) {
@@ -73,12 +73,23 @@ angular.module('directive', []).directive('dictSelectField', function($compile, 
         },
         compile: function(tElement, tAttrs, transclude) {
             var ngat = tElement.attr('ng-model');
-//            tElement.removeAttr("ng-model");
             return function (scope, element, attr, ngModel, transFn) {
 
+                //HUCK
+                //прокидываем скоуп в директову... причина - необходмость писать выражения в директивах с
+                //model
+                scope.model = scope.$parent.model;
+
+                //Следим за изменением модели
+                scope.$watch(function () {
+                  return ngModel[0].$modelValue;
+               }, function(newValue) {
+                   scope.modelsss.item = newValue;
+               });
+
                 scope.$watch("modelsss.item", function(newValue) {
-                    if (ngModel.$viewValue !== newValue) {
-                        ngModel.$setViewValue(newValue);
+                    if (ngModel[0].$viewValue !== newValue) {
+                        ngModel[0].$setViewValue(newValue);
                     }
                 });
 
@@ -119,21 +130,18 @@ angular.module('directive', []).directive('dictSelectField', function($compile, 
 
                     }
 
-                    if(scope.name) {
-                        uiselect.attr("name", scope.name);
-                        tElement.removeAttr("name");
+                    if(scope.dname) {
+                        uiselect.attr("name", scope.dname);
+                        tElement.removeAttr("dname");
                     }
-                    if (scope.required) {
+                    if (scope.drequired) {
                         uiselect.attr("required", true);
+                        tElement.removeAttr('drequired');
                     }
 
-//                    attr.$observe('required', function(value) {
-//                        debugger
-//                        scope.required = value;
-//                    });
-
-                    if (scope.ngRequired) {
-                        uiselect.attr("ng-required", scope.ngRequired);
+                    if (scope.dngRequired) {
+                        uiselect.attr('ng-required', scope.dngRequired);
+                        tElement.removeAttr('dng-required');
                     }
 
                     copyAttr(uiselects, uiselect);

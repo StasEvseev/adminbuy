@@ -170,17 +170,16 @@ angular.module("invoices.module", ['ui.router', 'core.controllers', 'invoices.se
         'starting-day': 1
     };
 
-//        $scope.save = function(){
-//            var form = Form.getForm();
-//        };
-
     $scope.saveToServer = function() {
-//        Form.getForm()
         return invoices.create($scope.model);
+    };
+
+    $scope.goView = function() {
+        return "index.invoice_in.view";
     };
 })
 
-.controller('InvoiceEditCntr', function($scope, $controller, item, items, pointSource, pointReceiver, receiver) {
+.controller('InvoiceEditCntr', function($scope, $controller, $stateParams, invoices, item, items, pointSource, pointReceiver, receiver) {
     $controller('InvoiceCreateCntr', {$scope: $scope});
 
     $scope.item = angular.copy(item);
@@ -192,6 +191,10 @@ angular.module("invoices.module", ['ui.router', 'core.controllers', 'invoices.se
 
     $scope.goList = function() {
         return 'index.invoice_in.list';
+    };
+
+    $scope.saveToServer = function() {
+        return invoices.update(parseInt($stateParams.id), $scope.model);
     };
 
     $scope.openWindowSelect = function() {
