@@ -26,18 +26,19 @@
                                                                                                    style="cursor:pointer;">Отменить</a>
                 </span> -->
             </div>
-            <div class="btn-group ng-scope col-md-6 col-sm-6 col-xs-6" ng-hide="editMode">
-                <button type="button" class="dropdown-toggle btn btn-flat btn-default btn-sm" data-toggle="dropdown"
-                        aria-expanded="false">
-                    Больше <span class="caret"></span>
+
+            <div class="btn-group" dropdown>
+                <button type="button" class="btn btn-flat btn-default btn-sm" dropdown-toggle>
+                  Больше <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
 
                     <li><a class="btn-print" href="#" ng-click="print()">Печать</a></li>
 
-                    <li><a class="btn-del" href="#" ng-click="delete()">Удалить</a></li>
+                    <li role="menuitem"><a class="btn-del" ng-click="delete_()">Удалить</a></li>
                 </ul>
             </div>
+
         </div>
     </div>
 <header style="background-color: bisque; min-height: 40px; padding: 8px 8px 8px 0px;">

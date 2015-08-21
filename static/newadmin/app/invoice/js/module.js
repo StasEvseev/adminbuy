@@ -95,6 +95,7 @@ angular.module("invoices.module", ['ui.router', 'core.controllers', 'invoices.se
 
 .controller('InvoiceViewCntr', function ($scope, $state, $stateParams, invoices, item, items, pointSource, pointReceiver, receiver, Company) {
 
+    var id = $stateParams.id;
     $scope.model = {};
     $scope.item = item;
     $scope.items = items;
@@ -105,6 +106,14 @@ angular.module("invoices.module", ['ui.router', 'core.controllers', 'invoices.se
 
     $scope.edit = function() {
         $state.go('index.invoice_in.view.edit', {id: $stateParams.id});
+    };
+
+    $scope.delete_ = function() {
+        if (confirm("Вы действительно хотите удалить запись?")) {
+            invoices.delete_(id).then(function(){
+                $state.go("index.invoice_in.list");
+            });
+        }
     };
 
     $scope.nameInvoice = Company.nameInvoice();

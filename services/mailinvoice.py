@@ -324,7 +324,6 @@ class MailInvoiceService(object):
 
     @classmethod
     def handle(cls, mail):
-        print "BLIAAAAAA"
         if mail.is_handling is False:
             mail.is_handling = True
             print "PULISH"
