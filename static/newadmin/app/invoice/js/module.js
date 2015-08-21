@@ -188,7 +188,9 @@ angular.module("invoices.module", ['ui.router', 'core.controllers', 'invoices.se
     };
 })
 
-.controller('InvoiceEditCntr', function($scope, $controller, $stateParams, invoices, item, items, pointSource, pointReceiver, receiver) {
+.controller('InvoiceEditCntr', function($scope, $controller, $stateParams, $modal,
+                                        invoices, item, items, pointSource, pointReceiver,
+                                        receiver) {
     $controller('InvoiceCreateCntr', {$scope: $scope});
 
     $scope.item = angular.copy(item);
@@ -207,6 +209,99 @@ angular.module("invoices.module", ['ui.router', 'core.controllers', 'invoices.se
     };
 
     $scope.openWindowSelect = function() {
+        var modalInstance = $modal.open({
+            template: '<div class="modal-header">' +
+                          '<h3 class="modal-title">' + 'Товар из накладной' + '</h3>' +
+                      '</div>' +
+                      '<div class="modal-body">' +
+                          '<div class="form-group">' +
+                              '<label for="exampleInputPassword1">Торговая точка отправитель</label>' +
+                              '<dict-select-field ng-model="model.pointSource" service="PointService" lazy="true" select="model.pointsale_from_id" style="width: 100%" dng-required="true" dname="pointsale_from">'+
+                                  '<dict-select-field-match placeholder="Введите название...">[[$select.selected.name]]</dict-select-field-match>'+
+                                  '<dict-select-field-choices repeat="item in $items | propsFilter: {name: $select.search}">'+
+                                      '<div ng-bind-html="item.name | highlight: $select.search"></div>'+
+                                  '</dict-select-field-choices>'+
+                              '</dict-select-field>'+
+                          '</div>' +
+                          '<div class="row">'+
+                              '<div class="col-sm-12">'+
+                                  '<table ng-table="tableParams" class="table table-hover table-bordered table-striped dataTable"'+
+                                           'role="grid"'+
+                                           'aria-describedby="example1_info" template-pagination="custom/pager">'+
+                                      '<tr ng-repeat="item in $data">'+
+                                          '<td data-title="\'Наименование\'" sortable="\'name\'">'+
+                                                '[[ item.name ]]'+
+                                          '</td>'+
+                                          '<td data-title="\'Номер\'" sortable="\'number\'">'+
+                                                '[[ item.number ]]'+
+                                          '</td>'+
+
+                                          '<td data-title="\'Получатель\'" sortable="\'pointsale\'">'+
+                                                '[[ item.pointsale ]]'+
+                                          '</td>'+
+
+                                          '<td data-title="\'Отправитель\'" sortable="\'pointsale_from\'">'+
+                                                '[[ item.pointsale_from ]]'+
+                                          '</td>'+
+                                      '</tr>' +
+                                  '</table>' +
+                              '</div>' +
+                          '</div>'+
+                      '</div>' +
+                      '<div class="modal-footer">' +
+                      '<button class="btn btn-flat btn-primary" ng-click="ok()">Сохранить</button>' +
+                      '<button class="btn btn-flat btn-warning" ng-click="cancel()">Закрыть</button>' +
+                      '</div>',
+            controller: function($scope, items, ngTableParams) {
+
+                $scope.tableParams = new ngTableParams({
+                    page: $scope.page,            // show first page
+                    count: 100,          // count per page
+                    sorting: {
+                        name: 'asc'     // initial sorting
+                    }
+                },
+                {
+                    total: 0, // length of data
+                    counts: [], // hide page counts control
+                    getData: function ($defer, params) {
+                        // use build-in angular filter
+                        var orig_page_func = params.page;
+//                        params.page = function (arg) {
+//                            if (angular.isDefined(arg)) {
+//                                $state.go($scope.goList(), {filter: $scope.searchText, page: arg})
+//                            } else {
+//                                return orig_page_func();
+//                            }
+//                        };
+
+                        $scope.loadingFinish = false;
+
+
+                            $defer.resolve(items);
+
+
+//                        $scope.getService().filter($scope.searchText, $scope.page, params.count()).then(
+//                            function (data) {
+//                                $defer.resolve(data);
+//                                params.total($scope.getService().count());
+//                                $scope.loadingFinish = true;
+//                            });
+                    }
+                });
+            },
+            size: "lg",
+            resolve: {
+                items: function(invoice_canon_items) {
+                    return invoice_canon_items.all(2);
+                }
+            }
+        });
+        modalInstance.result.then(function (model) {
+
+        }, function () {
+
+        });
         console.log("OPEN")
     };
 });

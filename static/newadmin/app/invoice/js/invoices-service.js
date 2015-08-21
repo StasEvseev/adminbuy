@@ -21,6 +21,18 @@ angular.module('invoices.service', ['core.service'])
     return child;
 })
 
+.factory("invoice_canon_items", function($http) {
+    var path = "api/invoice_canon/:id/items";
+
+        return {
+            all: function(id) {
+                return $http.get('api/invoice_canon/' + id + '/items').then(function(resp) {
+                    return resp.data.items;
+                });
+            }
+        }
+})
+
 .factory('invoicesitems', function($http) {
         var path = 'api/waybill/:id/items';
 
