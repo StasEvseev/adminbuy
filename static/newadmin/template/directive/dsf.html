@@ -11,10 +11,10 @@
                 refresh-delay="0"></ui-select-choices-s>
     </ui-select-s>
     <div class="dsf-btns">
-        <div class="dsf-btns-item-wr">
+        <div class="dsf-btns-item-wr" ng-show="canCreate()">
             <i tooltip="Создать" class="fa fa-pencil dsf-btns-item" ng-click="create()"></i>
         </div>
-        <div class="dsf-btns-item-wr" ng-show="modelsss.item">
+        <div class="dsf-btns-item-wr" ng-show="modelsss.item && canEdit()">
             <i tooltip="Редактировать" class="fa fa-pencil-square-o dsf-btns-item" ng-click="edit()"></i>
         </div>
         <!--<div class="dsf-btns-item-wr" ng-show="$select.selected">

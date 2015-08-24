@@ -2,9 +2,9 @@
  * Created by user on 03.07.15.
  */
 
-angular.module('invoices.service', ['core.service'])
+angular.module('waybill.service', ['core.service'])
 
-.factory('invoices', function(BaseModelService) {
+.factory('waybills', function(BaseModelService) {
     var path = 'api/waybill';
 
     var child = Object.create(BaseModelService);
@@ -27,13 +27,13 @@ angular.module('invoices.service', ['core.service'])
         return {
             all: function(id) {
                 return $http.get('api/invoice_canon/' + id + '/items').then(function(resp) {
-                    return resp.data.items;
+                    return resp.data;
                 });
             }
         }
 })
 
-.factory('invoicesitems', function($http) {
+.factory('waybillitems', function($http) {
         var path = 'api/waybill/:id/items';
 
         return {

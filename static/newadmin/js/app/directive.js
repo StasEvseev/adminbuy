@@ -11,9 +11,12 @@ angular.module('directive', []).directive('dictSelectField', function($compile, 
             service: "=",
             lazy: "&",
             select: "=",
+            onSelect: "=",
             dname: "@",
             drequired: "@",
-            dngRequired: "@"
+            dngRequired: "@",
+            canCreate: "&",
+            canEdit: "&"
         },
         templateUrl: 'static/newadmin/template/directive/dsf.html',
         controller: function($scope, $q) {
@@ -27,6 +30,9 @@ angular.module('directive', []).directive('dictSelectField', function($compile, 
 
             $scope.select_item = function() {
                 $scope.select = $scope.modelsss.item.id;
+                if($scope.onSelect) {
+                    $scope.onSelect($scope.modelsss.item);
+                }
             };
 
             $scope.refresh = function(text) {

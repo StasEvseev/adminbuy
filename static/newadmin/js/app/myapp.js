@@ -13,8 +13,10 @@ AdminApp = angular.module('AdminApp', [
     'mails.module',
     'mails.service',
 
-    'invoices.module',
-    'invoices.service',
+    'invoice.service',
+
+    'waybill.module',
+    'waybill.service',
 
     'provider.module',
     'provider.service',
@@ -36,6 +38,8 @@ AdminApp = angular.module('AdminApp', [
 
     'user',
     'application',
+
+    'utils',
 
     'filters',
     'directive',

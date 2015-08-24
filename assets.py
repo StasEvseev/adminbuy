@@ -23,8 +23,10 @@ bundles = {
         'newadmin/app/mail/js/mails-service.js',
         'newadmin/app/mail/js/module.js',
 
-        'newadmin/app/invoice/js/invoices-service.js',
-        'newadmin/app/invoice/js/module.js',
+        'newadmin/app/invoice/js/service.js',
+
+        'newadmin/app/waybill/js/service.js',
+        'newadmin/app/waybill/js/module.js',
 
         'newadmin/app/pointsale/js/pointsales-service.js',
         'newadmin/app/pointsale/js/module.js',
@@ -44,6 +46,7 @@ bundles = {
         'newadmin/app/user/js/users-service.js',
         'newadmin/app/user/js/module.js',
 
+        'newadmin/js/app/utils.js',
         'newadmin/js/app/application.js',
         'newadmin/js/app/user.js',
         'newadmin/js/app/auth/http.js',
@@ -74,7 +77,7 @@ bundles = {
     'js_all': Bundle('main.js', output='gen/packed.js'),
     'css_all': Bundle('css/main.css', output='gen/css/main.css'),
 
-    'underscore': Bundle('js/lib/underscore-min.js'),
+    'underscore': Bundle('js/lib/underscore-min.1.8.3.js'),
 
     'font-awesome-css': Bundle('css/lib/font-awesome-4.1.0/css/font-awesome.min.css'),
 
