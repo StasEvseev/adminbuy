@@ -335,6 +335,7 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
         }, true);
 
             },
+            backdrop: "static",
             size: "lg",
             resolve: {
                 excl_id: function() {

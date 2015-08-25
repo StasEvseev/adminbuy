@@ -70,6 +70,7 @@ class InvoiceItemInnerCanon(BaseInnerCanon):
         query = super(InvoiceItemInnerCanon, self).query_initial(inner_id, **kwargs)
 
         if "exclude_good_id" in request.values:
+            #фильтруем товары для исключения дубляжей
             exc_good_id = request.values.get("exclude_good_id")
             exc_good_id = json.loads(exc_good_id)
             query = query.filter(

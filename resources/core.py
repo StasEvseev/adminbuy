@@ -264,6 +264,13 @@ class BaseCanoniseResource(object):
                                       default_sort=self.default_sort)
 
     def _get_attr_relation(self):
+        """
+        Формируем словарь из :attr_json для связанных моделей.
+
+        Ищем значения с указанными attribute через точку(означает либо аттрибут связанной модели, либо ChoiceType.
+
+        Убираем ChoiceType.
+        """
         def _f(item):
 
             name, value = item
@@ -274,9 +281,6 @@ class BaseCanoniseResource(object):
             if hasattr(getattr(self.model, attr_m), "type") and getattr(self.model, attr_m).type.__class__ == ChoiceType:
                 return False
             return True
-
-            # attr_m = value
-            # not getattr(self.model, getattr(value, "attribute").split('.')[0]).type.__class__ == ChoiceType
 
         return filter(_f, self.attr_json.iteritems())
 
@@ -340,10 +344,11 @@ class BaseCanoniseResource(object):
                             objnest = value
                     except AttributeError as exc:
                         break
+                    except Exception as exc:
+                        pass
                 else:
                     try:
                         setattr(objnest, at, data[full_p])
-                        x = 1
                     except (KeyError, AttributeError):
                         pass
                     else:
@@ -366,7 +371,7 @@ class BaseCanoniseResource(object):
             if key not in data:
                 continue
             value = data.get(key)
-            if value == -1:
+            if value in [-1, 0]:
                 value = None
             try:
                 setattr(obj, key, value)
