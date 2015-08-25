@@ -22,11 +22,13 @@ angular.module('waybill.service', ['core.service'])
 })
 
 .factory("invoice_canon_items", function($http) {
-    var path = "api/invoice_canon/:id/items";
-
         return {
-            all: function(id) {
-                return $http.get('api/invoice_canon/' + id + '/items').then(function(resp) {
+            all: function(id, excl_ids) {
+                var par = {};
+                if (excl_ids) {
+                    par['exclude_good_id'] = JSON.stringify(excl_ids);
+                }
+                return $http.get('api/invoice_canon/' + id + '/items', {params: par}).then(function(resp) {
                     return resp.data;
                 });
             }
@@ -34,8 +36,6 @@ angular.module('waybill.service', ['core.service'])
 })
 
 .factory('waybillitems', function($http) {
-        var path = 'api/waybill/:id/items';
-
         return {
             all: function(id) {
                 return $http.get('api/waybill/' + id + '/items').then(function(resp) {

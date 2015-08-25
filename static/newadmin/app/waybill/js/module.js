@@ -257,7 +257,7 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
                       '<button class="btn btn-flat btn-primary" ng-click="ok()">Добавить</button>' +
                       '<button class="btn btn-flat btn-warning" ng-click="cancel()">Закрыть</button>' +
                       '</div>',
-            controller: function($scope, ngTableParams, $modalInstance, arrayhelp, invoice_canon_items, InvoiceService) {
+            controller: function($scope, ngTableParams, $modalInstance, arrayhelp, invoice_canon_items, excl_id, InvoiceService) {
 
                 var items = [];
 
@@ -292,7 +292,7 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
                     counts: [], // hide page counts control
                     getData: function ($defer, params) {
                         if($scope.item_id) {
-                            invoice_canon_items.all($scope.item_id).then(function(invoice_items_data) {
+                            invoice_canon_items.all($scope.item_id, excl_id).then(function(invoice_items_data) {
                                 items = invoice_items_data.items;
                                 params.total(invoice_items_data.count);
                                 $scope.loadingFinish = true;
@@ -337,6 +337,9 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
             },
             size: "lg",
             resolve: {
+                excl_id: function() {
+                    return _.map($scope.items, function(item) { return item.good_id });
+                }
             }
         });
         modalInstance.result.then(function (items) {

@@ -1,4 +1,6 @@
 #coding: utf-8
+import json
+from flask import request
 from flask.ext.restful import fields
 import sqlalchemy
 from applications.acceptance.model import Acceptance
@@ -63,6 +65,18 @@ class InvoiceItemInnerCanon(BaseInnerCanon):
     model = InvoiceItem
 
     attr_json = ATTR_ITEMS
+
+    def query_initial(self, inner_id, **kwargs):
+        query = super(InvoiceItemInnerCanon, self).query_initial(inner_id, **kwargs)
+
+        if "exclude_good_id" in request.values:
+            exc_good_id = request.values.get("exclude_good_id")
+            exc_good_id = json.loads(exc_good_id)
+            query = query.filter(
+                ~InvoiceItem.good_id.in_(exc_good_id)
+            )
+
+        return query
 
 
 class InvoiceItemAcceptanceInnerCanon(BaseInnerCanon):
