@@ -156,21 +156,23 @@
         <!-- Table row -->
         <div class="row">
             <div class="col-xs-12 table-responsive">
-                <table class="table table-striped">
+                <table class="table table-striped table-local">
                     <thead>
                     <tr header-fixed-scroll style="background-color: brown">
                         <th>Наименование</th>
                         <th>Кол-во</th>
                         <th>Цена</th>
                         <th>Сумма</th>
+                        <th>Действия</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr ng-repeat="row in items">
                         <td>[[ row.good.full_name ]]</td>
-                        <td>[[ row.count ]]</td>
-                        <td>[[ row.good.price.price_retail ]] руб.</td>
-                        <td>[[ row.count * row.good.price.price_retail ]]</td>
+                        <td><input type="text" ng-model="row.count" ></td>
+                        <td ng-bind-html="row.good.price.price_retail | rub"></td>
+                        <td ng-bind-html="row.count * row.good.price.price_retail | rub"></td>
+                        <td><a style="cursor:pointer;" ng-click="removeRow(row)">Удалить</a></td>
                     </tr>
                     <tr>
                         <td colspan="4">

@@ -200,6 +200,12 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
     $scope.model.pointReceiver = pointReceiver;
     $scope.model.receiver = receiver;
 
+    $scope.removeRow = function(row) {
+        if (confirm("Вы действительно хотите удалить запись из накладной?")) {
+            $scope.items = _.without($scope.items, row);
+        }
+    };
+
     $scope.goList = function() {
         return 'index.invoice_in.list';
     };
@@ -233,19 +239,19 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
                                           '<td width="30" style="text-align: left" header="\'ng-table/headers/checkbox.html\'">' +
                                               '<input type="checkbox" ng-model="checkboxes.items[item.id]" />' +
                                           '</td>' +
-                                          '<td data-title="\'Наименование\'" sortable="\'name\'">'+
-                                                '[[ item.name ]]'+
+                                          '<td data-title="\'Наименование\'" sortable="\'full_name\'">'+
+                                                '[[ item.full_name ]]'+
                                           '</td>'+
-                                          '<td data-title="\'Номер\'" sortable="\'number\'">'+
-                                                '[[ item.number ]]'+
-                                          '</td>'+
-
-                                          '<td data-title="\'Получатель\'" sortable="\'pointsale\'">'+
-                                                '[[ item.pointsale ]]'+
+                                          '<td data-title="\'Кол-во\'" sortable="\'count\'">'+
+                                                '[[ item.count ]]'+
                                           '</td>'+
 
-                                          '<td data-title="\'Отправитель\'" sortable="\'pointsale_from\'">'+
-                                                '[[ item.pointsale_from ]]'+
+                                          '<td data-title="\'Цена розничная\'" sortable="\'good.price.price_retail\'"' +
+                                            ' ng-bind-html=\'item.good.price.price_retail | rub\'>'+
+                                          '</td>'+
+
+                                          '<td data-title="\'Цена оптовая\'" sortable="\'good.price.price_gross\'"' +
+                                            ' ng-bind-html=\'item.good.price.price_gross | rub\'>'+
                                           '</td>'+
                                       '</tr>' +
                                   '</table>' +

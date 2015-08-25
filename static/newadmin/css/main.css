@@ -83,3 +83,11 @@ table.dataTable th.sortable.sort-desc {
 table.dataTable th.sortable.sort-asc {
     background-color: bisque; !important;
 }
+
+table.table-local input {
+    width: 60px;
+}
+
+span.min-spn {
+    font-size: 10px;
+}
