@@ -195,14 +195,14 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
 
     $scope.item = angular.copy(item);
     $scope.model = $scope.item;
-    $scope.items = angular.copy(items);
+    $scope.model.items = angular.copy(items);
     $scope.model.pointSource = pointSource;
     $scope.model.pointReceiver = pointReceiver;
     $scope.model.receiver = receiver;
 
     $scope.removeRow = function(row) {
         if (confirm("Вы действительно хотите удалить запись из накладной?")) {
-            $scope.items = _.without($scope.items, row);
+            $scope.model.items = _.without($scope.model.items, row);
         }
     };
 
@@ -350,7 +350,11 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
             }
         });
         modalInstance.result.then(function (items) {
-            $scope.items = $scope.items.concat(items);
+            items = _.map(items, function(item) {
+                item.count = '';
+                return item;
+            });
+            $scope.model.items = $scope.model.items.concat(items);
         }, function () {
         });
     };

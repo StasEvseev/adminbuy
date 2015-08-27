@@ -28,6 +28,17 @@ angular.module('directive', []).directive('dictSelectField', function($compile, 
                 lazy.resolve();
             };
 
+            if(angular.isUndefined($scope.canCreate())) {
+                $scope.canCreate = function() {
+                    return true;
+                }
+            }
+            if(angular.isUndefined($scope.canEdit())) {
+                $scope.canEdit = function() {
+                    return true;
+                }
+            }
+
             $scope.select_item = function() {
                 $scope.select = $scope.modelsss.item.id;
                 if($scope.onSelect) {
@@ -172,6 +183,58 @@ angular.module('directive', []).directive('dictSelectField', function($compile, 
         }
     };
 })
+
+.directive('modelTable', function() {
+        return {
+            require: ['ngModel', '^form'],
+            compile: function ngModelCompile(element) {
+              return {
+                pre: function ngModelPreLink(scope, element, attr, ctrls) {
+                  var modelCtrl = ctrls[0],
+                      formCtrl = ctrls[1];
+
+                  var attrN = attr['ngModel'];
+
+                  scope.$watch(attrN, function(newValue, oldValue) {
+                      if (!angular.equals(newValue, oldValue)) {
+                          formCtrl.$setDirty();
+                      }
+
+                  });
+                  formCtrl.$addControl(modelCtrl);
+
+                  attr.$observe('name', function(newValue) {
+                    if (modelCtrl.$name !== newValue) {
+                      formCtrl.$$renameControl(modelCtrl, newValue);
+                    }
+                  });
+
+                  scope.$on('$destroy', function() {
+                    formCtrl.$removeControl(modelCtrl);
+                  });
+                },
+                post: function ngModelPostLink(scope, element, attr, ctrls) {
+                  var modelCtrl = ctrls[0];
+                  if (modelCtrl.$options && modelCtrl.$options.updateOn) {
+                    element.on(modelCtrl.$options.updateOn, function(ev) {
+                      modelCtrl.$$debounceViewValueCommit(ev && ev.type);
+                    });
+                  }
+
+//                  element.on('blur', function(ev) {
+//                    if (modelCtrl.$touched) return;
+//
+//                    if ($rootScope.$$phase) {
+//                      scope.$evalAsync(modelCtrl.$setTouched);
+//                    } else {
+//                      scope.$apply(modelCtrl.$setTouched);
+//                    }
+//                  });
+                }
+              };
+            }
+        }
+    })
 
 .directive('passport', function() {
     return {
