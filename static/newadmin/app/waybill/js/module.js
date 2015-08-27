@@ -188,7 +188,7 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
     };
 })
 
-.controller('InvoiceEditCntr', function($scope, $controller, $stateParams, $modal,
+.controller('InvoiceEditCntr', function($scope, $state, $controller, $stateParams, $modal,
                                         waybills, item, items, pointSource, pointReceiver,
                                         receiver) {
     $controller('InvoiceCreateCntr', {$scope: $scope});
@@ -208,6 +208,10 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
 
     $scope.goList = function() {
         return 'index.invoice_in.list';
+    };
+
+    $scope._goAfterSave = function(id) {
+        $state.go($scope.goView(), {id: id}, {reload: 'index.invoice_in.view'});
     };
 
     $scope.saveToServer = function() {
@@ -345,7 +349,7 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
             size: "lg",
             resolve: {
                 excl_id: function() {
-                    return _.map($scope.items, function(item) { return item.good_id });
+                    return _.map($scope.model.items, function(item) { return item.good_id });
                 }
             }
         });

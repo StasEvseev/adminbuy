@@ -21,13 +21,20 @@ angular.module("core.controllers", ['ui.router', 'form', 'ngTable'])
         }
     };
 
+    $scope._goAfterSave = undefined;
+
     $scope.save = function() {
         if($scope.validate()) {
             $scope.loadingFinish = false;
             $scope.saveToServer().then(function(resp) {
                 Form.updateView();
                 $scope.loadingFinish = true;
-                $state.go($scope.goView(), {id: resp.data.id});
+                if(angular.isUndefined($scope._goAfterSave)) {
+                    $state.go($scope.goView(), {id: resp.data.id});
+                } else {
+                    $scope._goAfterSave(resp.data.id);
+                }
+
             }, function(resp) {
                 $scope.loadingFinish = true;
             });
