@@ -14,6 +14,16 @@ angular.module('mails.service', ['core.utils'])
 
     var factory = {};
 
+    factory.handle_mail = function(id, index, action) {
+        return $http.post("/api/mail/" + id, {index: index, action: action});
+    };
+
+    factory.getRowInvoiceIn = function(id) {
+        return $http.get("/api/invoicepriceitems/" + id).then(function(resp) {
+            return resp.data.items;
+        });
+    };
+
     factory.fetch = function() {
         return $http.get("/api/mail", {params: {'_new': true}}).then(function(resp) {
             items_new = resp.data.items;

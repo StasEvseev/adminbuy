@@ -58,6 +58,17 @@ angular.module("mails.module", ['ui.router'])
                         $scope.hasNext = mails.hasNext;
                         $scope.hasPrev = mails.hasPrev;
 
+                        $scope.rashod = function(event, index) {
+                            var btn = $(event.target);
+//                            btn.button('loading');
+
+                            mails.handle_mail($scope.item.id, index, 'R').then(function(data) {
+                                $state.go('index.mailbox.invoice_in', {mailId: data.data.id});
+                            }, function() {
+                                debugger
+                            });
+                        };
+
                         $scope.prev = function() {
                             if (mails.hasPrev()) {
                                 $scope.loadingFinish = false;
@@ -71,11 +82,41 @@ angular.module("mails.module", ['ui.router'])
                                 $state.go('index.mailbox.list.read', {mailId: mails.getNext()});
                             }
                         };
+
+
                     }
                 }
             }
 
-        });
+        })
+             .state('index.mailbox.invoice_in', {
+                 url: "/invoice_in/{mailId:[0-9]{1,10}}",
+                 resolve: {
+                     item: function ($stateParams, mails) {
+                         return mails.getById(parseInt($stateParams.mailId));
+                     },
+                     items: function($stateParams, mails) {
+                         return mails.getRowInvoiceIn(parseInt($stateParams.mailId));
+                     }
+                 },
+                 views: {
+                     'head': {
+                         templateUrl: "static/newadmin/app/mail/template/mailinvoice.head.html",
+                         controller: function($scope, item) {
+                             $scope.item = item;
+
+                         }
+                     },
+                     'item': {
+                         templateUrl: "static/newadmin/app/mail/template/mailinvoice.html",
+                         controller: function($scope, items) {
+                             $scope.items = items;
+                         }
+                     }
+                 }
+
+             })
+     ;
 }).controller("MailListController", function ($scope, $state, mailitems, mails, $stateParams) {
 
         hideSpinner();
