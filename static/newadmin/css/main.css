@@ -91,3 +91,8 @@ table.table-local input {
 span.min-spn {
     font-size: 10px;
 }
+
+div.alert-top {
+    margin-left: 25px;
+    margin-right: 25px;
+}

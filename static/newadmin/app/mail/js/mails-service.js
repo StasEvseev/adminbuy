@@ -24,6 +24,12 @@ angular.module('mails.service', ['core.utils'])
         });
     };
 
+    factory.savePriceFromInvoice = function(id, items) {
+        return $http.post("/api/pricebulk", {data: {invoice_id: id, items: items}}).then(function(resp) {
+            return resp;
+        });
+    };
+
     factory.fetch = function() {
         return $http.get("/api/mail", {params: {'_new': true}}).then(function(resp) {
             items_new = resp.data.items;

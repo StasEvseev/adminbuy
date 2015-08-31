@@ -17,9 +17,15 @@ angular.module("core.controllers", ['ui.router', 'form', 'ngTable'])
         else if(!$rootScope.previousState.abstract && $rootScope.previousState.name != 'index.load') {
             $state.go($rootScope.previousState, $rootScope.previousStateParams);
         } else {
-            $state.go($scope.goList());
+            if (angular.isUndefined($scope._goCancel)) {
+                $state.go($scope.goList());
+            } else {
+                $scope._goCancel();
+            }
         }
     };
+
+    $scope._goCancel = undefined;
 
     $scope._goAfterSave = undefined;
 
