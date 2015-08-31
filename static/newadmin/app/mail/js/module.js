@@ -59,11 +59,14 @@ angular.module("mails.module", ['ui.router'])
                         $scope.hasPrev = mails.hasPrev;
 
                         $scope.rashod = function(event, index) {
+                            $scope.loadingFinish = false;
                             var btn = $(event.target);
 //                            btn.button('loading');
 
                             mails.handle_mail($scope.item.id, index, 'R').then(function(data) {
-                                $state.go('index.mailbox.invoice_in', {mailId: data.data.id});
+                                $state.go('index.mailbox.invoice_in', {mailId: data.data.id}).then(function() {
+                                    $scope.loadingFinish = true;
+                                });
                             }, function() {
                                 debugger
                             });
