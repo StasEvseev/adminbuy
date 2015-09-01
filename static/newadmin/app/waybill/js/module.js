@@ -11,6 +11,161 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
             abstract: true,
             url: '/invoice_in'
         })
+
+        .state('index.invoice_in.bulk', {
+            url: '/create_bulk',
+            views: {
+                'content@index': {
+                    templateUrl: "static/newadmin/app/waybill/template/page_bulk.html",
+                    controller: function($scope, $controller, $modal) {
+                        $controller('InvoiceCreateCntr', {$scope: $scope});
+
+                        $scope.model.items = [];
+
+                        $scope.openWindowSelect = function() {
+                            var modalInstance = $modal.open({
+                                template: '<div class="modal-header">' +
+                                              '<h3 class="modal-title">' + 'Товар из накладной' + '</h3>' +
+                                          '</div>' +
+                                          '<div class="modal-body">' +
+                                              '<span ng-cloak ng-hide="loadingFinish" class="spinner"><span us-spinner="{lines: 13, length: 5, width: 2, radius: 5}" class="ng-scope"><div class="spinner" role="progressbar" style="position: absolute; width: 0px; z-index: 2000000000; left: 50%; top: 50%;"><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-0-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-0-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(0deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-1-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-1-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(27deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-2-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-2-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(55deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-3-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-3-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(83deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-4-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-4-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(110deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-5-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-5-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(138deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-6-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-6-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(166deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-7-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-7-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(193deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-8-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-8-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(221deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-9-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-9-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(249deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-10-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-10-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(276deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-11-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-11-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(304deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-12-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-12-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(332deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div></div></span></span>' +
+                                              '<div class="form-group">' +
+                                                  '<label for="exampleInputPassword1">Накладная</label>' +
+                                                  '<dict-select-field on-select="invoiceSelect" ng-model="model.invoice" service="InvoiceService" lazy="true" can-create="false" can-edit="false" select="model.invoice_id" style="width: 100%" dng-required="true" dname="invoice">'+
+                                                      '<dict-select-field-match placeholder="Введите название накладной...">[[$select.selected.fullname]]</dict-select-field-match>'+
+                                                      '<dict-select-field-choices repeat="item in $items | propsFilter: {fullname: $select.search}">'+
+                                                          '<div ng-bind-html="item.fullname | highlight: $select.search"></div>'+
+                                                      '</dict-select-field-choices>'+
+                                                  '</dict-select-field>'+
+                                              '</div>' +
+                                              '<div class="row">'+
+                                                  '<div class="col-sm-12">'+
+                                                      '<table ng-table="tableParams" class="table table-hover table-bordered table-striped dataTable"'+
+                                                               'role="grid"'+
+                                                               'aria-describedby="example1_info" template-pagination="custom/pager">'+
+                                                          '<tr ng-repeat="item in $data">'+
+                                                              '<td width="30" style="text-align: left" header="\'ng-table/headers/checkbox.html\'">' +
+                                                                  '<input type="checkbox" ng-model="checkboxes.items[item.id]" />' +
+                                                              '</td>' +
+                                                              '<td data-title="\'Наименование\'" sortable="\'full_name\'">'+
+                                                                    '[[ item.full_name ]]'+
+                                                              '</td>'+
+
+                                                              '<td data-title="\'Цена розничная\'" sortable="\'good.price.price_retail\'"' +
+                                                                ' ng-bind-html=\'item.good.price.price_retail | rub\'>'+
+                                                              '</td>'+
+
+                                                              '<td data-title="\'Цена оптовая\'" sortable="\'good.price.price_gross\'"' +
+                                                                ' ng-bind-html=\'item.good.price.price_gross | rub\'>'+
+                                                              '</td>'+
+                                                          '</tr>' +
+                                                      '</table>' +
+                                                  '</div>' +
+                                              '</div>'+
+                                              '</span>' +
+                                          '</div>' +
+                                          '<div class="modal-footer">' +
+                                          '<button class="btn btn-flat btn-primary" ng-click="ok()">Добавить</button>' +
+                                          '<button class="btn btn-flat btn-warning" ng-click="cancel()">Закрыть</button>' +
+                                          '</div>',
+                                controller: function($scope, ngTableParams, $modalInstance, arrayhelp, invoice_canon_items, excl_id, InvoiceService) {
+
+                                    var items = [];
+
+                                    $scope.ok = function () {
+                                        $modalInstance.close(
+                                            arrayhelp.getElemsByIds(_.keys($scope.checkboxes.items), items));
+                                    };
+
+                                    $scope.cancel = function () {
+                                        $modalInstance.dismiss('cancel');
+                                    };
+
+                                    $scope.InvoiceService = InvoiceService;
+
+                                    $scope.invoiceSelect = function(item) {
+
+                                        $scope.item_id = item.id;
+
+                                        $scope.tableParams.reload();
+                                        $scope.loadingFinish = false;
+                                    };
+
+                                    $scope.tableParams = new ngTableParams({
+                                        page: 0,            // show first page
+                                        count: 200,          // count per page
+                                        sorting: {
+                                            name: 'asc'     // initial sorting
+                                        }
+                                    },
+                                    {
+                                        total: 0, // length of data
+                                        counts: [], // hide page counts control
+                                        getData: function ($defer, params) {
+                                            if($scope.item_id) {
+                                                invoice_canon_items.all($scope.item_id, excl_id).then(function(invoice_items_data) {
+                                                    items = invoice_items_data.items;
+                                                    params.total(invoice_items_data.count);
+                                                    $scope.loadingFinish = true;
+
+                                                    $defer.resolve(items);
+                                                })
+                                            } else {
+                                                $scope.loadingFinish = true;
+                                            }
+                                        }
+                                    });
+
+                                    $scope.checkboxes = { 'checked': false, items: {} };
+
+                                    // watch for check all checkbox
+                                    $scope.$watch('checkboxes.checked', function(value) {
+                                        angular.forEach(items, function(item) {
+                                            if (angular.isDefined(item.id)) {
+                                                $scope.checkboxes.items[item.id] = value;
+                                            }
+                                        });
+                                    });
+
+                                    // watch for data checkboxes
+                                    $scope.$watch('checkboxes.items', function(values) {
+                                        if (!items) {
+                                            return;
+                                        }
+                                        var checked = 0, unchecked = 0,
+                                                total = items.length;
+                                        angular.forEach(items, function(item) {
+                                            checked   +=  ($scope.checkboxes.items[item.id]) || 0;
+                                            unchecked += (!$scope.checkboxes.items[item.id]) || 0;
+                                        });
+                                        if ((unchecked == 0) || (checked == 0)) {
+                                            $scope.checkboxes.checked = (checked == total);
+                                        }
+                                        // grayed checkbox
+                                        angular.element(document.getElementById("select_all")).prop("indeterminate", (checked != 0 && unchecked != 0));
+                            }, true);
+
+                                },
+                                backdrop: "static",
+                                size: "lg",
+                                resolve: {
+                                    excl_id: function() {
+                                        return _.map($scope.model.items, function(item) { return item.good_id });
+                                    }
+                                }
+                            });
+                            modalInstance.result.then(function (items) {
+                                items = _.map(items, function(item) {
+                                    item.count = '';
+                                    return item;
+                                });
+                                $scope.model.items = $scope.model.items.concat(items);
+                            }, function () {
+                            });
+                    }
+                }
+            }
+        }})
         .state('index.invoice_in.list', {
             url: "?filter&page",
             views: {
@@ -90,6 +245,10 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
 
     $scope.getService = function() {
         return waybills;
+    };
+
+    $scope.createBulk = function() {
+        $state.go("index.invoice_in.bulk");
     };
 })
 

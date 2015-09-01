@@ -16,7 +16,8 @@ angular.module('directive', []).directive('dictSelectField', function($compile, 
             drequired: "@",
             dngRequired: "@",
             canCreate: "&",
-            canEdit: "&"
+            canEdit: "&",
+            multiple: "&"
         },
         templateUrl: 'static/newadmin/template/directive/dsf.html',
         controller: function($scope, $q) {
@@ -145,6 +146,11 @@ angular.module('directive', []).directive('dictSelectField', function($compile, 
                             element2.html(element1.html());
                         }
 
+                    }
+
+                    if(scope.multiple()) {
+                        uiselect.attr("multiple", "true");
+                        scope.$items = [];
                     }
 
                     if(scope.dname) {
