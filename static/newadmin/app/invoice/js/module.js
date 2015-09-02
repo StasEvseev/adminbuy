@@ -147,6 +147,10 @@ angular.module('invoice.module', ['core.controllers']).constant('InvoiceConfig',
         $state.go('index.invoice.view.edit', {id: id});
     };
 
+    $scope.createBulk = function() {
+        $state.go('index.invoice_in.bulk', {from_pointsale_id: '', to_pointsale_ids: '', invoice_from: id})
+    };
+
     $scope.delete_ = function() {
         if (confirm("Вы действительно хотите удалить запись?")) {
             invoices.delete_(id).then(function(){
