@@ -110,7 +110,7 @@ AdminApp.directive('contentWr', function() {
     }
 });
 
-AdminApp.directive("headerFixedScroll", function($document, $window) {
+AdminApp.directive("headerFixedScroll", function($document, $window, $timeout) {
     return {
         link: function(scope, element) {
             var f_el = $('*').filter(function() {return $(this).css("position") === 'fixed';}).last();
@@ -159,12 +159,19 @@ AdminApp.directive("headerFixedScroll", function($document, $window) {
                 }
             };
 
+            var unwatch = scope.$watch(function() {
+                return angular.element(element.parent().parent())[0].rows.length;
+            }, function() {
+                $timeout(func_resize, 0);
+            });
+
             angular.element($window).on('resize', func_resize);
             $document.on('scroll', func_scroll);
 
             scope.$on('$destroy', function() {
                 angular.element($window).off('resize', func_resize);
                 $document.off('scroll', func_scroll);
+                unwatch();
             });
 
             function resizeTh(res) {
