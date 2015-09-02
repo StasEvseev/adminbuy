@@ -27,6 +27,11 @@ angular.module('core.service', ['core.utils'])
         getById: function(id) {
             return remoteHelper.itemById(this._getPath(), id);
         },
+
+        getByIds: function(ids) {
+            return remoteHelper.itemsByIds(this._getPath(), ids);
+        },
+
         update: function(id, params) {
             var q = $q.defer();
             remoteHelper.update(this._getPath(), id, params).then(function(resp) {q.resolve(resp);}, function(resp) {

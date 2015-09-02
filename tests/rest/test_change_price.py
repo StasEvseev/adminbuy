@@ -1,12 +1,12 @@
 #coding: utf-8
 import datetime
 
-from all import BaseTestCase
-from all.helpers.suits.invoice import MailInvoiceTestSuite
-from all.helpers.suits.providersuit import ProviderTestSuite
 from models.invoice import Invoice
 from applications.price.model import PriceParish
 from applications.price.service import PriceService
+from tests import BaseTestCase
+from tests.helpers.suits.invoice import MailInvoiceTestSuite
+from tests.helpers.suits.providersuit import ProviderTestSuite
 
 
 class ChangePriceTestCase(BaseTestCase):

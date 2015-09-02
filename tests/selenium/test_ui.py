@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 import app
-from all import initializetest
+from tests import initializetest
 
 LOGIN = "I"
 PASS = "I"

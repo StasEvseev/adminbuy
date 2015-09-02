@@ -2,10 +2,9 @@
 from applications.commodity.models import Commodity
 from applications.good.model import Good
 from applications.price.model import Price
-
-from all import BaseTestCase
-from all.helpers.suits.commodity import CommodityTestSuite
-from all.helpers.suits.good import GoodTestSuite
+from tests import BaseTestCase
+from tests.helpers.suits.commodity import CommodityTestSuite
+from tests.helpers.suits.good import GoodTestSuite
 
 
 class GoodTest(BaseTestCase):
@@ -92,7 +91,7 @@ class GoodTest(BaseTestCase):
                     self.assertEqual(float(good.price.price_retail), float(price_ret))
                     self.assertEqual(float(good.price.price_gross), float(price_gr))
                 else:
-                    self.assertEqual(resp.status_code, 400)
+                    self.assertEqual(resp.status_code, 400, good)
 
                 self.assertEqual(Good.query.count(), good_count)
                 self.assertEqual(Price.query.count(), price_count)

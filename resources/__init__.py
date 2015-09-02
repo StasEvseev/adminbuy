@@ -52,7 +52,7 @@ api.add_resource(MailInvoiceItem, '/mail/<int:id>/items')
 api.add_resource(InvoiceItemResource, '/invoice/<int:invoice_id>/items')
 api.add_resource(InvoiceItemCountResource, '/invoice/<int:invoice_id>/count')
 
-api.add_resource(InvoicePriceItemsResource, '/invoicepriceitems/<int:invoice_id>')
+api.add_resource(InvoicePriceItemsResource, '/invoicepriceitems/<int:mail_id>')
 
 api.add_resource(SyncResourceCreate, '/sync/new')
 api.add_resource(SyncResource, '/sync/<int:invoice_id>/stop')

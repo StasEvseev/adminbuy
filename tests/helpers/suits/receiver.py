@@ -2,8 +2,8 @@
 from app import db
 from applications.receiver.model import Receiver
 
-from all.helpers.suits import BaseSuite
 # from models import db
+from tests.helpers.suits import BaseSuite
 
 
 class ReceiverSuite(BaseSuite):

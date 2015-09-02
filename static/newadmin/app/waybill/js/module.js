@@ -18,14 +18,31 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
         })
 
         .state('index.invoice_in.bulk', {
-            url: '/create_bulk',
+            url: '/create_bulk?from_pointsale_id&to_pointsale_ids&invoice_from',
             views: {
                 'content@index': {
                     templateUrl: "static/newadmin/app/waybill/template/page_bulk.html",
-                    controller: function($scope, $controller, $modal) {
+                    controller: function($scope, $controller, $modal, frompointsale, topointsale, invoice_items) {
                         $controller('InvoiceCreateCntr', {$scope: $scope});
 
-                        $scope.model.items = [];
+                        if(frompointsale) {
+                            $scope.model.pointSource = frompointsale;
+                            $scope.model.pointsale_from_id = frompointsale.id;
+                        }
+                        if(topointsale) {
+                            $scope.model.pointReceiver = topointsale;
+                        }
+                        if(invoice_items) {
+                            $scope.model.items = invoice_items;
+                        } else {
+                            $scope.model.items = [];
+                        }
+
+
+
+                        $scope.saveToServer = function() {
+                            debugger
+                        };
 
                         $scope.openWindowSelect = function() {
                             var modalInstance = $modal.open({
@@ -127,7 +144,25 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
                     }
                 }
             }
-        }})
+        }
+        ,
+            resolve: {
+                frompointsale: function(pointsales, $stateParams) {
+                    if($stateParams.from_pointsale_id) {
+                        return pointsales.getById(parseInt($stateParams.from_pointsale_id));
+                    }
+                },
+                topointsale: function(pointsales, $stateParams) {
+                    if($stateParams.to_pointsale_ids) {
+                        return pointsales.getByIds($stateParams.to_pointsale_ids).then(function(resp) {return resp.items});
+                    }
+                },
+                invoice_items: function(invoice_canon_items, $stateParams) {
+                    if($stateParams.invoice_from) {
+                        return invoice_canon_items.all($stateParams.invoice_from).then(function(resp) {return resp.items;});
+                    }
+                }
+            }})
         .state('index.invoice_in.list', {
             url: "?filter&page",
             views: {

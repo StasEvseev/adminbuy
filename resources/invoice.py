@@ -68,13 +68,13 @@ class InvoicePriceItemsResource(BaseTokeniseResource):
         'is_change': fields.Boolean,
         'id_good': fields.Integer
     }))})
-    def get(self, invoice_id):
+    def get(self, mail_id):
         from services import MailInvoiceService
         from applications.price.service import PriceService
 
         try:
 
-            mail = MailInvoiceService.get_mail(invoice_id)
+            mail = MailInvoiceService.get_mail(mail_id)
             invoice = mail.invoice
 
             items = PriceService.generate_price_stub(invoice.items.order_by(asc(InvoiceItem.id)))

@@ -1,10 +1,10 @@
 #coding: utf-8
 from app import db
 
-from all.helpers.suits import BaseSuite
 from applications.provider_app.models import Provider
 
 # import provider
+from tests.helpers.suits import BaseSuite
 
 
 class ProviderTestSuite(BaseSuite):

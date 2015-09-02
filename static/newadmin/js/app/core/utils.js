@@ -11,6 +11,11 @@ angular.module("core.utils", [])
                     return resp.data;
                 });
             },
+            itemsByIds: function(url, ids) {
+                return $http.get(url, {params: {'ids': ids}}).then(function(resp){
+                    return resp.data;
+                });
+            },
             filterItems: function(url, params) {
                 var prms = angular.copy(params);
 

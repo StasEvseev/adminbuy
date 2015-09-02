@@ -3,13 +3,12 @@ import os
 
 from mock import Mock
 
-from excel import InvoiceModel, get_name_number
-from all.helpers.suits import BaseSuite
+from excel import get_name_number
 from services import MailInvoiceService
 from applications.mails.action import MailHepls, MailObjectNew
-from applications.mails.action import MailObject
-from all.helpers.suits.providersuit import ProviderTestSuite
 from models.invoiceitem import InvoiceItem
+from tests.helpers.suits import BaseSuite
+from tests.helpers.suits.providersuit import ProviderTestSuite
 
 
 class MailInvoiceTestSuite(BaseSuite):

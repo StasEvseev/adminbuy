@@ -16,7 +16,7 @@
         <div class="row" style="margin: 10px 0 10px 0">
             <div class="col-md-6 col-sm-6 col-xs-6 ng-scope">
                 <span ng-hide="editMode" class="">
-                    <button class="btn-edt btn-flat btn btn-primary btn-sm" ng-click="save()">Сохранить</button>
+                    <button class="btn-edt btn-flat btn btn-primary btn-sm" ng-click="save()">Создать пачку</button>
                 </span>
                 <span ng-hide="editMode" class="">
                     <button class="btn-edt btn-flat btn btn-warning btn-sm" ng-click="cancel()">Отмена</button>
@@ -218,7 +218,6 @@
                         <tr header-fixed-scroll style="background-color: brown">
                             <th>Наименование</th>
                             <th>Цена</th>
-                            <th>Сумма</th>
                             <th>Действия</th>
                         </tr>
                         </thead>
@@ -226,7 +225,6 @@
                         <tr ng-repeat="row in model.items">
                             <td>[[ row.good.full_name ]]</td>
                             <td ng-bind-html="row.good.price.price_retail | rub"></td>
-                            <td ng-bind-html="row.count * row.good.price.price_retail | rub"></td>
                             <td><a style="cursor:pointer;" ng-click="removeRow(row)">Удалить</a></td>
                         </tr>
                         <tr>

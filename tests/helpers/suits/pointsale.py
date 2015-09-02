@@ -1,7 +1,7 @@
 #coding: utf-8
 from app import db
 from applications.point_sale.models import PointSale
-from all.helpers.suits import BaseSuite
+from tests.helpers.suits import BaseSuite
 
 
 class PointSaleSuite(BaseSuite):

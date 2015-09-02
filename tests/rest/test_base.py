@@ -1,6 +1,5 @@
 #coding: utf-8
-
-from all import BaseTestCase
+from tests import BaseTestCase
 
 
 class FlaskrTestCase(BaseTestCase):

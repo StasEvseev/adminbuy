@@ -1,4 +1,5 @@
 #coding: utf-8
+import json
 
 import uuid
 import os
@@ -28,6 +29,7 @@ parser.add_argument('sort_field', type=str)
 parser.add_argument('sort_course', type=str)
 parser.add_argument('count', type=int)
 parser.add_argument('page', type=int)
+parser.add_argument("ids", type=unicode, location='args')
 
 
 class BaseTokenMixinResource(object):
@@ -371,7 +373,7 @@ class BaseCanoniseResource(object):
             if key not in data:
                 continue
             value = data.get(key)
-            if value in [-1, 0]:
+            if value is not False and value in [-1, 0]:
                 value = None
             try:
                 setattr(obj, key, value)
@@ -382,7 +384,9 @@ class BaseCanoniseResource(object):
     #===================================================================================================================
     #REST
 
-    def query_initial(self, *args, **kwargs):
+    def query_initial(self, ids=None, *args, **kwargs):
+        if ids:
+            return self.model.query.filter(self.model.id.in_(ids))
         return self.model.query
 
     def get_items(self, *args, **kwargs):
@@ -390,7 +394,7 @@ class BaseCanoniseResource(object):
         Работа с большим количество записей по модели.
         """
         args_pars = parser.parse_args()
-
+        ids = args_pars['ids']
         filter_field = args_pars['filter_field']
         filter_text = args_pars['filter_text']
         sort_field = args_pars['sort_field']
@@ -398,7 +402,13 @@ class BaseCanoniseResource(object):
         page = args_pars['page']
         count = args_pars['count']
 
-        query = self.query_initial(*args, **kwargs)
+        if ids:
+            ids = json.loads(ids)
+            query = self.query_initial(ids, *args, **kwargs)
+        else:
+            query = self.query_initial(*args, **kwargs)
+
+
 
         records, max_, count_ = self.filter_query(
             query, filter_field, filter_text, sort_field, sort_course, page, count)
