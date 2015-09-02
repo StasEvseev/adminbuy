@@ -7,7 +7,7 @@ from db import db
 from log import debug, error
 from resources.core import BaseTokeniseResource
 
-from services import GoodService, MailInvoiceService
+from services import GoodService, MailInvoiceService, InvoiceService
 
 ATTR = {
     'id': fields.Integer,
@@ -133,7 +133,29 @@ class PriceHelperResource(BaseTokeniseResource):
             } for x in prices]}
 
 
-class PriceBulkResource(BaseTokeniseResource):
+class PriceBulkInvoiceResource(BaseTokeniseResource):
+    def post(self):
+        data = request.json['data']
+
+        prices = data['items']
+        invoice_id = data['invoice_id']
+        invoice = InvoiceService.get_by_id(invoice_id)
+        try:
+            # MailInvoiceService
+            PriceService.create_or_update_prices(invoice, prices)
+            # mail.is_handling = True
+            # db.session.add(mail)
+            db.session.commit()
+        except PriceServiceException as err:
+            debug(unicode(err))
+            abort(404, message=unicode(err))
+        except Exception as exc:
+            error(unicode(exc))
+            raise
+        return "ok"
+
+
+class PriceBulkMailResource(BaseTokeniseResource):
     """
     Массовое сохранение цен.
     """

@@ -17,7 +17,7 @@ class MailInvoiceTestSuite(BaseSuite):
         return self._get_records("/api/mail")
 
     def _invoice_items(self, id):
-        return self._get_record("/api/invoicepriceitems/", id)
+        return self._get_record("/api/invoiceprice2items/", id)
 
     def _price_invoice(self, id, list_items):
         return self.client.post("/api/pricebulk",

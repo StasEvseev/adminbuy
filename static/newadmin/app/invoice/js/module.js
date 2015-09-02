@@ -51,10 +51,8 @@ angular.module('invoice.module', ['core.controllers']).constant('InvoiceConfig',
                 item: function(invoices, $stateParams) {
                     return invoices.getById(parseInt($stateParams.id))
                 },
-                items: function(invoice_canon_items, $stateParams) {
-                    return invoice_canon_items.all(parseInt($stateParams.id)).then(function(resp) {
-                        return resp.items;
-                    });
+                items: function(invoices, $stateParams) {
+                    return invoices.getRowInvoiceIn(parseInt($stateParams.id));
                 }
             }
         })
@@ -105,28 +103,37 @@ angular.module('invoice.module', ['core.controllers']).constant('InvoiceConfig',
     };
 })
 
-.controller("InvoiceEditCntr", function($scope, $controller, item, invoices, InvoiceConfig) {
+.controller("InvoiceEditCntr", function($scope, $controller, $state, item, items, invoices, InvoiceConfig) {
     $controller('BaseCreateController', {$scope: $scope});
-        $scope.item = item;
-        $scope.items = items;
 
-        $scope.loadingFinish = true;
+    $scope.name_head = InvoiceConfig.name;
+    $scope.formname =  InvoiceConfig.formname;
 
-        $scope._goCancel = function() {
-            $state.go("index.mailbox.list.read", {mailId: $scope.item.id});
-        };
+    $scope.goView = function() {
+        return "index.invoice.view";
+    };
 
-        $scope.save = function() {
-            $scope.loadingFinish = false;
+    $scope.model = item;
+    $scope.model.items = items;
 
-            mails.savePriceFromInvoice($scope.item.id, $scope.items).then(function() {
-                toastr.success("Можно переходить к следующему действию.", "Цены сохранены!");
-                $scope.loadingFinish = true;
-            }, function(resp) {
-                toastr.error(resp.data.message, "Цены сохранены!");
-                $scope.loadingFinish = true;
-            });
-        };
+    $scope.loadingFinish = true;
+
+    $scope._goCancel = function() {
+        $state.go("index.invoice.view", {mailId: $scope.item.id});
+    };
+
+    $scope.save = function() {
+        $scope.loadingFinish = false;
+
+        invoices.savePriceFromInvoice($scope.model.id, $scope.model.items).then(function() {
+            toastr.success("Можно переходить к следующему действию " +
+                "<a href='/admin2#/invoice_in/create_bulk?from_pointsale_id=1&to_pointsale_ids=%5B8,7,6,5,2%5D&invoice_from="+ $scope.model.id +"'>плиии!!</a>.", "Цены сохранены!");
+            $scope.loadingFinish = true;
+        }, function(resp) {
+            toastr.error(resp.data.message, "Цены не сохранены!");
+            $scope.loadingFinish = true;
+        });
+    };
 })
 
 .controller("InvoiceViewCntr", function($scope, $stateParams, $state, InvoiceConfig, invoices, item, items) {

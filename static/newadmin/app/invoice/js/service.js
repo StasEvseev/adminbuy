@@ -11,31 +11,11 @@ angular.module('invoice.service', ['core.service'])
         return invoices.filter(text);
     };
 
-//    child.formInclude = function() {
-//        return "ReceiverForm";
-//    };
-
-//    child.title = function() {
-//        return "Создание оптовика";
-//    };
-//
-//    child.titleEdit = function() {
-//        return "Редактирование оптовика";
-//    };
-
-//    child.resolveEdit = function(item) {
-//        return {
-//            item: function() {
-//                return receivers.getById(item.id);
-//            }
-//        };
-//    };
-
     return child;
 })
 
 
-.factory('invoices', function(BaseModelService) {
+.factory('invoices', function(BaseModelService, $http) {
     var path = 'api/invoice_canon';
 
     var child = Object.create(BaseModelService);
@@ -46,6 +26,18 @@ angular.module('invoice.service', ['core.service'])
     child.filter = function(text, page, count) {
         return BaseModelService.filter.call(this, text, page, count).then(function(resp) {
             return resp.data.items;
+        });
+    };
+
+    child.getRowInvoiceIn = function(id) {
+        return $http.get("/api/invoiceprice2items/" + id).then(function(resp) {
+            return resp.data.items;
+        });
+    };
+
+    child.savePriceFromInvoice = function(id, items) {
+        return $http.post("/api/pricebulkinvoice", {data: {invoice_id: id, items: items}}).then(function(resp) {
+            return resp;
         });
     };
 

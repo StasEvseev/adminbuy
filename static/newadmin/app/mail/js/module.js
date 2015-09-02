@@ -64,7 +64,7 @@ angular.module("mails.module", ['ui.router'])
 //                            btn.button('loading');
 
                             mails.handle_mail($scope.item.id, index, 'R').then(function(data) {
-                                $state.go('index.mail_invoice_in', {mailId: data.data.id}).then(function() {
+                                $state.go('index.invoice.view', {id: data.data.invoice_id}).then(function() {
                                     $scope.loadingFinish = true;
                                 });
                             }, function() {
@@ -93,49 +93,27 @@ angular.module("mails.module", ['ui.router'])
 
         })
 
-        .state('index.mail_invoice_in', {
-            url: "/mailbox/invoice_in/{mailId:[0-9]{1,10}}",
-            resolve: {
-                item: function ($stateParams, mails) {
-                    return mails.getById(parseInt($stateParams.mailId));
-                },
-                items: function($stateParams, mails) {
-                    return mails.getRowInvoiceIn(parseInt($stateParams.mailId));
-                }
-            },
-            views: {
-                'content': {
-                    templateUrl: "static/newadmin/app/mail/template/mailinvoice.html",
-                    controller: "MailInvoiceCntrl"
-                }
-            }
-        })
+//        .state('index.mail_invoice_in', {
+//            url: "/mailbox/invoice_in/{mailId:[0-9]{1,10}}",
+//            resolve: {
+//                item: function ($stateParams, mails) {
+//                    return mails.getById(parseInt($stateParams.mailId));
+//                },
+//                items: function($stateParams, mails) {
+//                    return mails.getRowInvoiceIn(parseInt($stateParams.mailId));
+//                }
+//            },
+//            views: {
+//                'content': {
+//                    templateUrl: "static/newadmin/app/mail/template/mailinvoice.html",
+//                    controller: "MailInvoiceCntrl"
+//                }
+//            }
+//        })
      ;
-}).controller("MailInvoiceCntrl", function($scope, $controller, $state, mails, item, items) {
-        $controller('BaseCreateController', {$scope: $scope});
-        $scope.item = item;
-        $scope.items = items;
+})
 
-        $scope.loadingFinish = true;
-
-        $scope._goCancel = function() {
-            $state.go("index.mailbox.list.read", {mailId: $scope.item.id});
-        };
-
-        $scope.save = function() {
-            $scope.loadingFinish = false;
-
-            mails.savePriceFromInvoice($scope.item.id, $scope.items).then(function() {
-                toastr.success("Можно переходить к следующему действию.", "Цены сохранены!");
-                $scope.loadingFinish = true;
-            }, function(resp) {
-                toastr.error(resp.data.message, "Цены сохранены!");
-                $scope.loadingFinish = true;
-            });
-        };
-    })
-
-    .controller("MailListController", function ($scope, $state, mailitems, mails, $stateParams) {
+.controller("MailListController", function ($scope, $state, mailitems, mails, $stateParams) {
 
         hideSpinner();
 
