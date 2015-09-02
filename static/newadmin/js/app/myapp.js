@@ -14,6 +14,7 @@ AdminApp = angular.module('AdminApp', [
     'mails.service',
 
     'invoice.service',
+    'invoice.module',
 
     'waybill.module',
     'waybill.service',

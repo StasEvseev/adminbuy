@@ -23,6 +23,7 @@ bundles = {
         'newadmin/app/mail/js/mails-service.js',
         'newadmin/app/mail/js/module.js',
 
+        'newadmin/app/invoice/js/module.js',
         'newadmin/app/invoice/js/service.js',
 
         'newadmin/app/waybill/js/service.js',

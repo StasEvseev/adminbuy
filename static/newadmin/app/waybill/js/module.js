@@ -4,7 +4,7 @@
 
 angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.service'])
 .run(function($templateCache, $http) {
-    $templateCache.put('InvoiceForm', $http.get("static/newadmin/app/waybill/template/form_.html"));
+    $templateCache.put('InvoiceInForm', $http.get("static/newadmin/app/waybill/template/form_.html"));
 })
 
 .run(function($templateCache, $http) {
@@ -23,7 +23,7 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
                 'content@index': {
                     templateUrl: "static/newadmin/app/waybill/template/page_bulk.html",
                     controller: function($scope, $controller, $modal, frompointsale, topointsale, invoice_items) {
-                        $controller('InvoiceCreateCntr', {$scope: $scope});
+                        $controller('InvoiceInCreateCntr', {$scope: $scope});
 
                         if(frompointsale) {
                             $scope.model.pointSource = frompointsale;
@@ -169,7 +169,7 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
 
                 'content@index': {
                     templateUrl: "static/newadmin/app/waybill/template/list_.html",
-                    controller: "InvoiceListController"
+                    controller: "InvoiceInListController"
                 }
             }
         })
@@ -179,7 +179,7 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
             views: {
                 'content@index': {
                     templateUrl: "static/newadmin/app/waybill/template/create_.html",
-                    controller: "InvoiceCreateCntr"
+                    controller: "InvoiceInCreateCntr"
                 }
             }
         })
@@ -189,7 +189,7 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
             views: {
                 'content@index': {
                     templateUrl: "static/newadmin/app/waybill/template/read_.html",
-                    controller: "InvoiceViewCntr"
+                    controller: "InvoiceInViewCntr"
                 }
             },
             resolve: {
@@ -220,12 +220,12 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
             views: {
                 'content@index': {
                     templateUrl: "static/newadmin/app/waybill/template/read_create.html",
-                    controller: "InvoiceEditCntr"
+                    controller: "InvoiceInEditCntr"
                 }
             }
         })
 })
-.controller("InvoiceListController", function ($scope, $stateParams, $state, ngTableParams, waybills, $controller) {
+.controller("InvoiceInListController", function ($scope, $stateParams, $state, ngTableParams, waybills, $controller) {
     $controller('BaseListController', {$scope: $scope});
 
     $scope.goList = function() {
@@ -249,7 +249,7 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
     };
 })
 
-.controller('InvoiceViewCntr', function ($scope, $state, $stateParams, waybills, item, items, pointSource, pointReceiver, receiver, Company) {
+.controller('InvoiceInViewCntr', function ($scope, $state, $stateParams, waybills, item, items, pointSource, pointReceiver, receiver, Company) {
 
     var id = $stateParams.id;
     $scope.model = {};
@@ -284,7 +284,7 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
     }
 })
 
-.controller('InvoiceCreateCntr', function ($scope, $state, Form, waybills, pointsales, receivers, Company, $controller, $q, PointService, ReceiverService) {
+.controller('InvoiceInCreateCntr', function ($scope, $state, Form, waybills, pointsales, receivers, Company, $controller, $q, PointService, ReceiverService) {
     $controller('BaseCreateController', {$scope: $scope});
 
     $scope.model.typeRec = 1;
@@ -344,7 +344,7 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
     };
 })
 
-.controller('InvoiceEditCntr', function($scope, $state, $controller, $stateParams, $modal,
+.controller('InvoiceInEditCntr', function($scope, $state, $controller, $stateParams, $modal,
                                         waybills, item, items, pointSource, pointReceiver,
                                         receiver) {
     $controller('InvoiceCreateCntr', {$scope: $scope});
