@@ -137,9 +137,11 @@ angular.module('invoice.module', ['core.controllers']).constant('InvoiceConfig',
 })
 
 .controller("InvoiceViewCntr", function($scope, $stateParams, $state, InvoiceConfig, invoices, item, items) {
-   $scope.name_head = InvoiceConfig.name;
+    $scope.name_head = InvoiceConfig.name;
 
-   var id = $stateParams.id;
+    $scope.loadingFinish = true;
+
+    var id = $stateParams.id;
     $scope.model = item;
     $scope.model.items = items;
 
@@ -148,7 +150,10 @@ angular.module('invoice.module', ['core.controllers']).constant('InvoiceConfig',
     };
 
     $scope.createBulk = function() {
-        $state.go('index.invoice_in.bulk', {from_pointsale_id: '', to_pointsale_ids: '', invoice_from: id})
+        $scope.loadingFinish = false;
+        $state.go('index.invoice_in.bulk', {from_pointsale_id: '', to_pointsale_ids: '', invoice_from: id}).then(function() {
+            $scope.loadingFinish = true;
+        });
     };
 
     $scope.delete_ = function() {

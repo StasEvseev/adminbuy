@@ -21,6 +21,14 @@ angular.module('waybill.service', ['core.service'])
     return child;
 })
 
+.factory('waybillprint', function($http) {
+    return {
+        print: function(id) {
+            return $http.get("/api/waybill/print/" + id);
+        }
+    }
+})
+
 .factory("invoice_canon_items", function($http) {
         return {
             all: function(id, excl_ids) {

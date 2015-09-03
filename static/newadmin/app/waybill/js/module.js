@@ -38,10 +38,14 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
                             $scope.model.items = [];
                         }
 
-
-
                         $scope.saveToServer = function() {
                             debugger
+                        };
+
+                        $scope.removeRow = function(row) {
+                            if (confirm("Вы действительно хотите удалить запись из накладной?")) {
+                                $scope.model.items = _.without($scope.model.items, row);
+                            }
                         };
 
                         $scope.openWindowSelect = function() {
@@ -249,7 +253,8 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
     };
 })
 
-.controller('InvoiceInViewCntr', function ($scope, $state, $stateParams, waybills, item, items, pointSource, pointReceiver, receiver, Company) {
+.controller('InvoiceInViewCntr', function ($scope, $state, $stateParams, waybills, waybillprint, item, items,
+                                           pointSource, pointReceiver, receiver, Company) {
 
     var id = $stateParams.id;
     $scope.model = {};
@@ -259,6 +264,14 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
     $scope.model.pointSource = pointSource;
     $scope.model.pointReceiver = pointReceiver;
     $scope.model.receiver = receiver;
+
+    $scope.print = function() {
+        waybillprint.print(id).then(function(resp) {
+            var url = resp.data.link;
+            window.open(url, "_target");
+        })
+
+    };
 
     $scope.edit = function() {
         $state.go('index.invoice_in.view.edit', {id: $stateParams.id});

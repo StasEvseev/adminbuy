@@ -33,7 +33,7 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
 
-                    <li><a class="btn-print" href="#" ng-click="print()">Печать</a></li>
+                    <li><a class="btn btn-print" ng-click="print()">Печать</a></li>
 
                     <li role="menuitem"><a class="btn-del" ng-click="delete_()">Удалить</a></li>
                 </ul>
@@ -165,7 +165,7 @@
         <!-- this row will not appear when printing -->
         <div class="row no-print">
             <div class="col-xs-12">
-                <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Печать</a>
+                <a ng-click="print()" class="btn btn-default"><i class="fa fa-print"></i> Печать</a>
                 <button class="btn btn-flat btn-primary pull-right" style="margin-right: 5px;"><i class="fa fa-download"></i>
                     Генерация PDF
                 </button>
