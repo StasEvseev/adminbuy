@@ -138,6 +138,7 @@ bundles = {
                         'js/bl/goodbl.js'
                         ),
 
+    'angularjs-ui-bootstrap-old': Bundle('js/lib/ui-bootstrap-tpls-0.11.2.min.js'),
     'angularjs-ui-bootstrap': Bundle('js/lib/ui-bootstrap-tpls-0.13.3.js'),
 
     'bootbox': Bundle('js/lib/bootbox.min.js'),
