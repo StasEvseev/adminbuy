@@ -11,14 +11,21 @@ angular.module("core.controllers", ['ui.router', 'form', 'ngTable'])
     $scope.Form = Form;
 
     $scope.cancel = function () {
+        $scope.loadingFinish = false;
         if($state.$current.parent && !$state.$current.parent.self.abstract) {
-            $state.go($state.$current.parent.self.name, $state.toStateParams);
+            $state.go($state.$current.parent.self.name, $state.toStateParams).then(function() {
+                $scope.loadingFinish = true;
+            });
         }
         else if(!$rootScope.previousState.abstract && $rootScope.previousState.name != 'index.load') {
-            $state.go($rootScope.previousState, $rootScope.previousStateParams);
+            $state.go($rootScope.previousState, $rootScope.previousStateParams).then(function() {
+                $scope.loadingFinish = true;
+            });
         } else {
             if (angular.isUndefined($scope._goCancel)) {
-                $state.go($scope.goList());
+                $state.go($scope.goList()).then(function() {
+                    $scope.loadingFinish = true;
+                });
             } else {
                 $scope._goCancel();
             }

@@ -52,7 +52,7 @@ angular.module('invoice.module', ['core.controllers']).constant('InvoiceConfig',
                     return invoices.getById(parseInt($stateParams.id))
                 },
                 items: function(invoices, $stateParams) {
-                    return invoices.getRowInvoiceIn(parseInt($stateParams.id));
+                    return invoices.getItems(parseInt($stateParams.id));
                 }
             }
         })
@@ -62,6 +62,11 @@ angular.module('invoice.module', ['core.controllers']).constant('InvoiceConfig',
                 'content@index': {
                     templateUrl: "static/newadmin/app/invoice/template/edit.html",
                     controller: "InvoiceEditCntr"
+                }
+            },
+            resolve: {
+                items: function(invoices, $stateParams) {
+                    return invoices.getRowInvoiceIn(parseInt($stateParams.id));
                 }
             }
         })
@@ -126,9 +131,13 @@ angular.module('invoice.module', ['core.controllers']).constant('InvoiceConfig',
         $scope.loadingFinish = false;
 
         invoices.savePriceFromInvoice($scope.model.id, $scope.model.items).then(function() {
-            toastr.success("Можно переходить к следующему действию " +
-                "<a href='/admin2#/invoice_in/create_bulk?from_pointsale_id=1&to_pointsale_ids=%5B8,7,6,5,2%5D&invoice_from="+ $scope.model.id +"'>плиии!!</a>.", "Цены сохранены!");
-            $scope.loadingFinish = true;
+
+            $state.go("index.invoice.view", {mailId: $scope.model.id}).then(function() {
+                $scope.loadingFinish = true;
+            });
+//            toastr.success("Можно переходить к следующему действию " +
+//                "<a href='/admin2#/invoice_in/create_bulk?from_pointsale_id=1&to_pointsale_ids=%5B8,7,6,5,2%5D&invoice_from="+ $scope.model.id +"'>плиии!!</a>.", "Цены сохранены!");
+
         }, function(resp) {
             toastr.error(resp.data.message, "Цены не сохранены!");
             $scope.loadingFinish = true;
@@ -146,7 +155,11 @@ angular.module('invoice.module', ['core.controllers']).constant('InvoiceConfig',
     $scope.model.items = items;
 
     $scope.edit = function() {
-        $state.go('index.invoice.view.edit', {id: id});
+        $scope.loadingFinish = false;
+        $state.go('index.invoice.view.edit', {id: id}).then(function() {
+            $scope.loadingFinish = true;
+        });
+
     };
 
     $scope.createBulk = function() {

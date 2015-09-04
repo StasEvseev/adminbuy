@@ -29,6 +29,12 @@ angular.module('invoice.service', ['core.service'])
         });
     };
 
+    child.getItems = function(id) {
+        return $http.get("/api/invoice_canon/" + id + "/items").then(function(resp) {
+            return resp.data.items;
+        });
+    };
+
     child.getRowInvoiceIn = function(id) {
         return $http.get("/api/invoiceprice2items/" + id).then(function(resp) {
             return resp.data.items;
