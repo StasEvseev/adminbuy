@@ -141,7 +141,7 @@ AdminApp.directive("headerFixedScroll", function($document, $window, $timeout) {
                         flatElement.removeAttr("header-fixed-scroll");
                         flatElement.css('position', 'fixed');
                         flatElement.css('top', f_el_top);
-                        flatElement.css('z-index', 100);
+                        flatElement.css('z-index', 98);
 
                         resizeTh();
 

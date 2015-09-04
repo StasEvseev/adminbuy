@@ -151,6 +151,38 @@ class WayBillHelperResource(BaseTokeniseResource):
             return {'status': False}
 
 
+class WayBillBulk(BaseTokeniseResource):
+    def post(self):
+        try:
+            debug(u"Сохранение пачки накладных.")
+            pointSource = request.json['pointSource']
+            pointitems = request.json['pointReceiver']
+            items = request.json['items']
+            date = request.json['date']
+            date = HelperService.convert_to_pydate(date)
+            type = request.json['type']
+            typeRec = request.json['typeRec']
+            for item in pointitems:
+                waybill = WayBillService.create(
+                    pointSource['id'], None, date, None, item['id'], type,
+                    typeRec)
+                waybill.waybill_items = items
+                if waybill.waybill_items:
+                    debug(u"Сохранение позиций накладной %s." % waybill)
+                    try:
+                        waybill_items = WayBillService.build_retail_items(waybill.waybill_items)
+                    except Exception as exc:
+                        debug(u"Ошибка сохранения накладной %s. " + unicode(exc) % waybill)
+                        raise WayBillCanon.WayBillCanonException(unicode(exc))
+                    WayBillService.upgrade_items(waybill, waybill_items)
+        except Exception as exc:
+            db.session.rollback()
+            debug(u"Сохранение накладной %s не удалось." % unicode(exc))
+            abort(400, message=unicode(exc))
+        db.session.commit()
+        return "ok"
+
+
 class WayBillItemInnerCanon(BaseInnerCanon):
     inner_model = WayBill
     model = WayBillItems
@@ -287,8 +319,8 @@ class WayBillCanon(BaseCanoniseResource):
             raise BaseCanoniseResource.CanonException(
                 u"Нельзя удалить 'накладную' со статусом `Завершено`.")
         else:
+            obj.items.delete()
             super(WayBillCanon, self).pre_delete(obj)
-
 
 
 class WayBillStatusResource(BaseTokeniseResource):

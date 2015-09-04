@@ -22,7 +22,7 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
             views: {
                 'content@index': {
                     templateUrl: "static/newadmin/app/waybill/template/page_bulk.html",
-                    controller: function($scope, $controller, $modal, frompointsale, topointsale, invoice_items) {
+                    controller: function($scope, $controller, $state, $modal, frompointsale, topointsale, invoice_items, waybills) {
                         $controller('InvoiceInCreateCntr', {$scope: $scope});
 
                         if(frompointsale) {
@@ -39,7 +39,13 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
                         }
 
                         $scope.saveToServer = function() {
-                            debugger
+                            waybills.createBulk($scope.model).then(function() {
+                                $scope.loadingFinish = true;
+                                $state.go("index.invoice_in.list");
+                            }, function(resp) {
+                                $scope.loadingFinish = true;
+                                toastr.error(resp.data.message, "Ошибка!!!");
+                            });
                         };
 
                         $scope.removeRow = function(row) {

@@ -6,7 +6,7 @@ import sqlalchemy
 from applications.acceptance.model import Acceptance
 from models.invoice import Invoice
 from models.invoiceitem import InvoiceItem
-from resources.core import BaseCanoniseResource, BaseInnerCanon
+from resources.core import BaseCanoniseResource, BaseInnerCanon, BaseTokeniseResource
 
 
 ATTR = {

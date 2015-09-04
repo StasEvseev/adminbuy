@@ -4,7 +4,7 @@
 
 angular.module('waybill.service', ['core.service'])
 
-.factory('waybills', function(BaseModelService) {
+.factory('waybills', function($http, BaseModelService) {
     var path = 'api/waybill';
 
     var child = Object.create(BaseModelService);
@@ -16,6 +16,10 @@ angular.module('waybill.service', ['core.service'])
         return BaseModelService.filter.call(this, text, page, count).then(function(resp) {
             return resp.data.items;
         });
+    };
+
+    child.createBulk = function(data) {
+        return $http.post("/api/waybillbulk", data);
     };
 
     return child;
