@@ -6,7 +6,7 @@
  * Created by user on 14.08.15.
  */
 
-angular.module('invoice.module', ['core.controllers']).constant('InvoiceConfig', {
+angular.module('invoice.module', ['core.controllers', 'pointsales.service']).constant('InvoiceConfig', {
     name: "Расходные накладные",
     formname: "InvoiceForm"
 })
@@ -53,6 +53,12 @@ angular.module('invoice.module', ['core.controllers']).constant('InvoiceConfig',
                 },
                 items: function(invoices, $stateParams) {
                     return invoices.getItems(parseInt($stateParams.id));
+                },
+                pointcentral: function(pointsales) {
+                    return pointsales.getCentralPoint();
+                },
+                pointslave: function(pointsales) {
+                    return pointsales.getSlavePoint();
                 }
             }
         })
@@ -145,8 +151,10 @@ angular.module('invoice.module', ['core.controllers']).constant('InvoiceConfig',
     };
 })
 
-.controller("InvoiceViewCntr", function($scope, $stateParams, $state, InvoiceConfig, invoices, item, items) {
+.controller("InvoiceViewCntr", function($scope, $stateParams, $state, InvoiceConfig, invoices, item, items, pointcentral, pointslave) {
     $scope.name_head = InvoiceConfig.name;
+
+
 
     $scope.loadingFinish = true;
 
@@ -164,7 +172,18 @@ angular.module('invoice.module', ['core.controllers']).constant('InvoiceConfig',
 
     $scope.createBulk = function() {
         $scope.loadingFinish = false;
-        $state.go('index.invoice_in.bulk', {from_pointsale_id: '', to_pointsale_ids: '', invoice_from: id}).then(function() {
+        var from_pointsale_id = '', to_pointsale_ids = '';
+        if (pointcentral) {
+            from_pointsale_id = pointcentral.id;
+        }
+        if (pointslave) {
+            to_pointsale_ids = _.map(pointslave, function(item) {return item.id});
+            to_pointsale_ids = "[" + to_pointsale_ids.join(",") + "]";
+        }
+        $state.go('index.invoice_in.bulk', {
+            from_pointsale_id: from_pointsale_id,
+            to_pointsale_ids: to_pointsale_ids,
+            invoice_from: id}).then(function() {
             $scope.loadingFinish = true;
         });
     };

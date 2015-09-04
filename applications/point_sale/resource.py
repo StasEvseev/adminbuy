@@ -30,6 +30,15 @@ class PointSaleCanon(BaseCanoniseResource):
             query = query.filter(
                 self.model.id != exclude_points
             )
+        try:
+            is_cent = request.args['is_central']
+        except KeyError:
+            pass
+        else:
+            query = query.filter(
+                self.model.is_central == is_cent
+            )
+
         return super(PointSaleCanon, self).filter_query(
             query, filter_field, filter_text, sort_field, sort_course, page, count)
 

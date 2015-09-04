@@ -4,7 +4,7 @@
 
 angular.module('pointsales.service', ['core.service'])
 
-.factory('pointsales', function(BaseModelService) {
+.factory('pointsales', function($http, BaseModelService) {
     var path = 'api/pointsale';
 
     var child = Object.create(BaseModelService);
@@ -14,6 +14,22 @@ angular.module('pointsales.service', ['core.service'])
 
     child.filter = function(text, page, count) {
         return BaseModelService.filter.call(this, text, page, count).then(function(resp) {
+            return resp.data.items;
+        });
+    };
+
+    child.getCentralPoint = function() {
+        return $http.get("/api/pointsale", {params: {is_central: true}}).then(function(resp) {
+            var res = undefined;
+            if (resp.data.count) {
+                res = resp.data.items[0]
+            }
+            return res;
+        });
+    };
+
+    child.getSlavePoint = function() {
+        return $http.get("/api/pointsale", {params: {is_central: false}}).then(function(resp) {
             return resp.data.items;
         });
     };
