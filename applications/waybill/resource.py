@@ -162,6 +162,8 @@ class WayBillBulk(BaseTokeniseResource):
             date = HelperService.convert_to_pydate(date)
             type = request.json['type']
             typeRec = request.json['typeRec']
+            for it in items:
+                it['count'] = 0
             for item in pointitems:
                 waybill = WayBillService.create(
                     pointSource['id'], None, date, None, item['id'], type,

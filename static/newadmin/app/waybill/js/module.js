@@ -39,13 +39,15 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
                         }
 
                         $scope.saveToServer = function() {
-                            waybills.createBulk($scope.model).then(function() {
-                                $scope.loadingFinish = true;
-                                $state.go("index.invoice_in.list");
-                            }, function(resp) {
-                                $scope.loadingFinish = true;
-                                toastr.error(resp.data.message, "Ошибка!!!");
-                            });
+                            return waybills.createBulk($scope.model);
+                        };
+
+                        $scope._goAfterSave = function(id) {
+                            $state.go("index.invoice_in.list");
+                        };
+
+                        $scope._doFailSave = function() {
+                            toastr.error(resp.data.message, "Ошибка!!!");
                         };
 
                         $scope.removeRow = function(row) {

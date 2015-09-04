@@ -30,6 +30,9 @@ angular.module('form', ['ui.router'])
         setSubmitted: function() {
             form.item.$setSubmitted();
         },
+        setPristine: function() {
+            form.item.$setPristine();
+        },
 
         getForm: function() {
             return form;

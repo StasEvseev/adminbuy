@@ -36,6 +36,8 @@ angular.module("core.controllers", ['ui.router', 'form', 'ngTable'])
 
     $scope._goAfterSave = undefined;
 
+    $scope._doFailSave = undefined;
+
     $scope.save = function() {
         if($scope.validate()) {
             $scope.loadingFinish = false;
@@ -50,6 +52,9 @@ angular.module("core.controllers", ['ui.router', 'form', 'ngTable'])
 
             }, function(resp) {
                 $scope.loadingFinish = true;
+                if (!angular.isUndefined($scope._doFailSave)) {
+                    $scope._doFailSave(resp);
+                }
             });
         } else {
             Form.setSubmitted();

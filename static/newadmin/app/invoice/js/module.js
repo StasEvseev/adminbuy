@@ -154,8 +154,6 @@ angular.module('invoice.module', ['core.controllers', 'pointsales.service']).con
 .controller("InvoiceViewCntr", function($scope, $stateParams, $state, InvoiceConfig, invoices, item, items, pointcentral, pointslave) {
     $scope.name_head = InvoiceConfig.name;
 
-
-
     $scope.loadingFinish = true;
 
     var id = $stateParams.id;
