@@ -18,6 +18,8 @@ from config import PATH_TO_GENERATE_INVOICE, PATH_WEB
 from resources.core import BaseTokeniseResource, BaseCanoniseResource, BaseInnerCanon, GetResource
 
 from services import GoodService, HelperService
+from simple_report.converter.abstract import FileConverter
+from simple_report.report import SpreadsheetReport
 
 
 ITEM = {
@@ -201,55 +203,55 @@ class WayBillPrint(BaseTokeniseResource):
     })
     def get(self, id):
 
+        COUNT_ROW = 42
+        COUNT_ROW2 = 91
+
         waybill = WayBillService.get_by_id(id)
 
-        file_name = str(uuid.uuid4()) + ".xls"
+        file_name = str(uuid.uuid4()) + ".xlsx"
         path_to_target = os.path.join(PATH_TO_GENERATE_INVOICE, file_name)
         path = os.path.join(PATH_WEB, file_name)
 
-        pi = PrintInvoice(
-            path=os.path.join(PATH_TEMPLATE, 'print_invoice.xls'),
-            destination=path_to_target)
-        pi.set_cells(0, 0, [('number', 2)])
-        pi.set_cells(0, 3, ['a', 'date', 'c', 'c', 'c', 'receiver'])
-        pi.set_cells(0, 4, ['a', 'pointsale'])
-        pi.set_cells(0, 5, ['a', 'type'])
-        pi.set_cells(0, 7, [('name', 5), 'count', 'price_pay', 'mul'])
-        # pi.set_cells(0, 9, [('a', 6), 'b', 'sum'])
+        report = SpreadsheetReport(os.path.join(PATH_TEMPLATE, 'print_invoice2.xlsx'))
+        sec = report.get_section("sec1")
+        sec_items = report.get_section("secitem")
 
-        pi.write(0, 0, 0, [{'number': waybill.number}])
-        pi.write(0, 3, 2, [{'date': waybill.date.strftime('%d.%m.%Y').decode("utf-8"), 'receiver': waybill.rec}])
-        pi.write(0, 4, 0, [{'pointsale': waybill.pointsale_from.name}])
-        pi.write(0, 5, 0, [{'type': waybill.type}])
+        sec_data = {}
+        sec_data['number'] = waybill.number
+        sec_data['date'] = waybill.date.strftime('%d.%m.%Y').decode("utf-8")
+        sec_data['point'] = waybill.pointsale_from.name
+        sec_data['typeInv'] = waybill.rec
+        sec_data['rec'] = waybill.type
+        sec.flush(sec_data)
 
         if waybill.type == RETAIL:
-            items = [
-                {'name': it.good.full_name, 'count': it.count or "",
-                 'price_pay': GoodService.get_price(it.good_id).price_retail,
-                 'mul': it.count * GoodService.get_price(it.good_id).price_retail if it.count else 0} for it in waybill.items]
-            if len(items) <= 46:
-                for i in xrange(46 - len(items)):
-                    items.append({'name': '', 'count': '', 'price_pay': '', 'mul': ''})
-            elif len(items) <= 99:
-                for i in xrange(99 - len(items)):
-                    items.append({'name': '', 'count': '', 'price_pay': '', 'mul': ''})
-            pi.write(0, 7, 2, items)
+
+            for it in waybill.items:
+                sec_items_data = {
+                    'name': it.good.full_name, 'count': it.count or "",
+                    'price_pay': GoodService.get_price(it.good_id).price_retail,
+                    'mul': it.count * GoodService.get_price(it.good_id).price_retail if it.count else ''}
+                sec_items.flush(sec_items_data)
+            if waybill.items.count() <= COUNT_ROW:
+                for i in xrange(COUNT_ROW - waybill.items.count()):
+                    sec_items.flush({'name': '', 'count': '', 'price_pay': '', 'mul': ''})
+            elif waybill.items.count() <= COUNT_ROW2:
+                for i in xrange(COUNT_ROW2 - waybill.items.count()):
+                    sec_items.flush({'name': '', 'count': '', 'price_pay': '', 'mul': ''})
         else:
-            items = [
-                {'name': it.good.full_name, 'count': it.count or "",
+            for it in waybill.items:
+                sec_items_data = {'name': it.good.full_name, 'count': it.count or "",
                  'price_pay': GoodService.get_price(it.good_id).price_gross,
-                 'mul': it.count * GoodService.get_price(it.good_id).price_gross if it.count else 0} for it in waybill.items]
-            if len(items) <= 46:
-                for i in xrange(46 - len(items)):
-                    items.append({'name': '', 'count': '', 'price_pay': '', 'mul': ''})
-            elif len(items) <= 99:
-                for i in xrange(99 - len(items)):
-                    items.append({'name': '', 'count': '', 'price_pay': '', 'mul': ''})
-            pi.write(0, 7, 2, items)
-        # if len(items) <= 47:
-        #     for i in xrange(47 - len(items)):
-        #         pass
-        # pi.write(0, 9, 1, [{'a': '', 'b': u'Итог', 'sum': sum(map(lambda x: x['mul'], items))}])
+                 'mul': it.count * GoodService.get_price(it.good_id).price_gross if it.count else ''}
+                sec_items.flush(sec_items_data)
+            if waybill.items.count() <= COUNT_ROW:
+                for i in xrange(COUNT_ROW - waybill.items.count()):
+                    sec_items.flush({'name': '', 'count': '', 'price_pay': '', 'mul': ''})
+            elif waybill.items.count() <= COUNT_ROW2:
+                for i in xrange(COUNT_ROW2 - waybill.items.count()):
+                    sec_items.flush({'name': '', 'count': '', 'price_pay': '', 'mul': ''})
+
+        report.build(path_to_target)
 
         return {"link": path}
 

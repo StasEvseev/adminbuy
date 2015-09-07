@@ -10,6 +10,11 @@ path = os.path.dirname(__file__)
 PATH_TEMPLATE = os.path.join(path, 'template')
 
 
+class PrintInvoiceHelper(object):
+
+    pass
+
+
 class PrintInvoice(object):
     """
     Класс для генерации отчетов в excel.
