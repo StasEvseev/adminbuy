@@ -15,6 +15,7 @@ angular.module('directive', []).directive('dictSelectField', function($compile, 
             dname: "@",
             drequired: "@",
             dngRequired: "@",
+            dngDisabled: "@",
             canCreate: "&",
             canEdit: "&",
             multiple: "&"
@@ -94,7 +95,7 @@ angular.module('directive', []).directive('dictSelectField', function($compile, 
             return function (scope, element, attr, ngModel, transFn) {
 
                 //HUCK
-                //прокидываем скоуп в директову... причина - необходмость писать выражения в директивах с
+                //прокидываем скоуп в директиву... причина - необходмость писать выражения в директивах с
                 //model
                 scope.model = scope.$parent.model;
 
@@ -165,6 +166,12 @@ angular.module('directive', []).directive('dictSelectField', function($compile, 
                     if (scope.dngRequired) {
                         uiselect.attr('ng-required', scope.dngRequired);
                         tElement.removeAttr('dng-required');
+                    }
+
+                    if (scope.dngDisabled) {
+                        debugger
+                        uiselect.attr('ng-disabled', scope.dngDisabled);
+                        tElement.removeAttr('dng-disabled');
                     }
 
                     copyAttr(uiselects, uiselect);

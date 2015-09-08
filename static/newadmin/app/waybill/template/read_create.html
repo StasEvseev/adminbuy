@@ -26,28 +26,26 @@
         </div>
     </div>
 
-    <header style="background-color: bisque; min-height: 40px; padding: 8px 8px 8px 0px;">
+    <header style="background-color: bisque; min-height: 40px; padding: 5px 5px 5px 0px;">
         <div>
             <ul class="pull-right status-bar" style="float:right;">
-                <li class="status-item" ng-class="{'active': model.status == 1 || model.status == undefined}"
-                    style="  display: inline-block; border: 1px solid #c8c8d3; padding-left: 0px;">
-                    <span>Новая</span>
+                <li class="status-item" ng-class="{'active': model.status == 1 || model.status == undefined}">
+                    <span>Черновик</span>
                 </li>
                 <li class="status-item" ng-class="{'active': model.status == 2}"
-                    style="  display: inline-block; border: 1px solid #c8c8d3; padding-left: 0px;">
-                    <span>Формирование</span>
+                    >
+                    <span>Оформление</span>
                 </li>
                 <li class="status-item" ng-class="{'active': model.status == 3}"
-                    style="  display: inline-block; border: 1px solid #c8c8d3; padding-left: 0px;">
+                    >
                     <span>Доставка</span>
                 </li>
-                <li class="status-item active" ng-class="{'active': model.status == 4}"
-                    style="  display: inline-block; border: 1px solid #c8c8d3; padding-left: 0px;">
-                    <span>Завершено</span>
+                <li class="status-item" ng-class="{'active': model.status == 4}"
+                    >
+                    <span>Товар на точке</span>
                 </li>
             </ul>
         </div>
-
     </header>
 
 </div>

@@ -25,6 +25,14 @@ angular.module('waybill.service', ['core.service'])
     return child;
 })
 
+.factory('waybillstatus', function($http) {
+    return {
+        doStatus: function(id, number) {
+            return $http.post("/api/waybill/" + id + "/status", {data: {status: number}});
+        }
+    }
+})
+
 .factory('waybillprint', function($http) {
     return {
         print: function(id) {

@@ -96,3 +96,31 @@ div.alert-top {
     margin-left: 25px;
     margin-right: 25px;
 }
+
+ul.status-bar {
+    display: inline-block;
+    border: 1px solid #c8c8d3;
+    padding-left: 0px;
+}
+
+ul.status-bar > li.status-item {
+    display: inline-block;
+    height: 26px;
+    border: 0px solid #c8c8d3;
+}
+
+ul.status-bar > li.status-item > span {
+    display: inline-block;
+    padding-top: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+ul.status-bar > li.status-item.active {
+    background-color: lightseagreen;
+    color: white;
+}
+
+header>div>span{
+    margin-left: 5px;
+}

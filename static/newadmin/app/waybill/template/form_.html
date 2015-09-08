@@ -34,6 +34,7 @@
                                datepicker-options="dateOptions"
                                date-disabled="disabled(date, mode)"
                                ng-required="true"
+                               ng-disabled="editForm"
                                close-text="Закрыть" />
                     </div>
                 </div>
@@ -46,11 +47,11 @@
 
                     <div id="typeRec">
                         <label>
-                            <input type="radio" ng-model="model.typeRec" value="1" name="r3" />
+                            <input ng-disabled="editForm" type="radio" ng-model="model.typeRec" value="1" name="r3" />
                             Торговая точка
                         </label><br/>
                         <label>
-                            <input type="radio" ng-model="model.typeRec" value="2" name="r3" />
+                            <input ng-disabled="editForm" type="radio" ng-model="model.typeRec" value="2" name="r3" />
                             Оптовик
                         </label>
                     </div>
@@ -64,11 +65,11 @@
 
                     <div id="type">
                         <label>
-                            <input type="radio" ng-model="model.type" value="1" name="r2" />
+                            <input ng-disabled="editForm" type="radio" ng-model="model.type" value="1" name="r2" />
                             <span>Оптовая</span>
                         </label><br/>
                         <label>
-                            <input type="radio" ng-model="model.type" value="2" name="r2" />
+                            <input ng-disabled="editForm" type="radio" ng-model="model.type" value="2" name="r2" />
                             Розничная
                         </label>
                     </div>
@@ -92,6 +93,7 @@
                             style="width: 100%"
                             dng-required="true"
                             dname="pointsale_from"
+                            dng-disabled="editForm"
                             >
                         <dict-select-field-match placeholder="Введите название...">[[$select.selected.name]]</dict-select-field-match>
                         <dict-select-field-choices repeat="item in $items | propsFilter: {name: $select.search}">
@@ -116,6 +118,7 @@
                             select="model.receiver_id"
                             dname="receiver"
                             dng-required='model.typeRec == 2'
+                            dng-disabled="editForm"
                             style="width: 100%">
                         <dict-select-field-match placeholder="Введите имя...">[[$select.selected.fullname]]</dict-select-field-match>
                         <dict-select-field-choices repeat="item in $items | propsFilter: {fullname: $select.search}">
@@ -139,7 +142,7 @@
                             select='model.pointsale_id'
                             dname='pointsale'
                             dng-required="model.typeRec == 1"
-
+                            dng-disabled="editForm"
                             style="width: 100%">
                         <dict-select-field-match placeholder="Введите название...">[[$select.selected.name]]</dict-select-field-match>
                         <dict-select-field-choices repeat="item in $items | propsFilter: {name: $select.search}">
@@ -154,7 +157,7 @@
         </div>
 
         <!-- Table row -->
-        <div class="row">
+        <div class="row" ng-hide="!model.status || model.status == 1">
             <div class="col-xs-12 table-responsive">
                 <table class="table table-striped table-local" model-table ng-model="model.items">
                     <thead>
@@ -169,12 +172,14 @@
                     <tbody>
                     <tr ng-repeat="row in model.items">
                         <td>[[ row.good.full_name ]]</td>
-                        <td><input type="text" ng-model="row.count" ></td>
+                        <td>
+                            <input ng-disabled="!tableEdit" type="text" ng-model="row.count">
+                        </td>
                         <td ng-bind-html="row.good.price.price_retail | rub"></td>
                         <td ng-bind-html="row.count * row.good.price.price_retail | rub"></td>
-                        <td><a style="cursor:pointer;" ng-click="removeRow(row)">Удалить</a></td>
+                        <td><a ng-hide="!tableEdit" style="cursor:pointer;" ng-click="removeRow(row)">Удалить</a></td>
                     </tr>
-                    <tr>
+                    <tr ng-show="model.status==2">
                         <td colspan="4">
                             <a style="cursor: pointer" ng-click="openWindowSelect()">
                                 <span style="color: #00a65a; border-bottom: 1px dotted">

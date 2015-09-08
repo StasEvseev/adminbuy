@@ -261,17 +261,38 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
     };
 })
 
-.controller('InvoiceInViewCntr', function ($scope, $state, $stateParams, waybills, waybillprint, item, items,
+.controller('InvoiceInViewCntr', function ($scope, $state, $stateParams, waybillstatus, waybills, waybillprint, item, items,
                                            pointSource, pointReceiver, receiver, Company) {
 
     var id = $stateParams.id;
-    $scope.model = {};
+    $scope.model = item;
     $scope.item = item;
     $scope.items = items;
+    $scope.loadingFinish = true;
 
     $scope.model.pointSource = pointSource;
     $scope.model.pointReceiver = pointReceiver;
     $scope.model.receiver = receiver;
+
+    $scope.toStatus = function(number) {
+        function doIt(){
+            $scope.loadingFinish = false;
+            waybillstatus.doStatus($scope.model.id, number).then(function() {
+                $state.go('index.invoice_in.view', {id: $scope.model.id}, {reload: 'index.invoice_in.view'}).then(function() {
+                    $scope.loadingFinish = true;
+                });
+            });
+        }
+        if(number == 4) {
+            if(confirm("Вы переводите накладную в финальный статус (когда товар уже должен быть доставлен). " +
+                "Внимание! Операция необратимая.")){
+                doIt();
+            }
+        } else {
+            doIt();
+        }
+
+    };
 
     $scope.print = function() {
         waybillprint.print(id).then(function(resp) {
@@ -368,7 +389,7 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
 .controller('InvoiceInEditCntr', function($scope, $state, $controller, $stateParams, $modal,
                                         waybills, item, items, pointSource, pointReceiver,
                                         receiver) {
-    $controller('InvoiceCreateCntr', {$scope: $scope});
+    $controller('InvoiceInCreateCntr', {$scope: $scope});
 
     $scope.item = angular.copy(item);
     $scope.model = $scope.item;
@@ -376,6 +397,9 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
     $scope.model.pointSource = pointSource;
     $scope.model.pointReceiver = pointReceiver;
     $scope.model.receiver = receiver;
+
+    $scope.tableEdit = $scope.model.status == 2;
+    $scope.editForm = !(!$scope.model.status || $scope.model.status == 1);
 
     $scope.removeRow = function(row) {
         if (confirm("Вы действительно хотите удалить запись из накладной?")) {
