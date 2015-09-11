@@ -336,6 +336,7 @@ class MailInvoiceService(object):
         Метод обрабатывает почтовый ящик
         """
         from services import ProviderService
+        res = []
         debug(u"Начало проверки почты")
         emails = ProviderService.get_all_emails()
         debug(u"Найдено %d почтовых ящиков отправителей", len(emails))
@@ -359,6 +360,7 @@ class MailInvoiceService(object):
                         ml.provider = provider
                         db.session.add(ml)
                         db.session.commit()
+                        res.append(ml)
             except GoodArgumentExc as exc:
                 mark_as_unseen(ids)
                 raise MailInvoiceException(exc)
@@ -371,6 +373,7 @@ class MailInvoiceService(object):
                 error(u"Произошла ошибка при обработке почты. %s", unicode(err))
                 raise MailInvoiceException(err)
         debug(u"Конец проверки почты")
+        return res
 
     @classmethod
     def get_new_mails(cls, emails=None):

@@ -111,11 +111,12 @@ class MailCheck(BaseTokenMixinResource, BaseModelPackResource):
         """
         from services import MailInvoiceService, MailInvoiceException
         try:
-            MailInvoiceService.handle_mail()
+            res = MailInvoiceService.handle_mail()
         except MailInvoiceException as err:
             error(unicode(err))
             abort(404, message=unicode(err))
-        return 'ok'
+        res = 'ok' if len(res) else 'nothing'
+        return res
 
     def filter_query(self, query, filter_field, filter_text, sort_field, sort_course, page, count):
         """

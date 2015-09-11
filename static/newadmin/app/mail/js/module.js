@@ -91,37 +91,31 @@ angular.module("mails.module", ['ui.router'])
                 }
             }
 
-        })
-
-//        .state('index.mail_invoice_in', {
-//            url: "/mailbox/invoice_in/{mailId:[0-9]{1,10}}",
-//            resolve: {
-//                item: function ($stateParams, mails) {
-//                    return mails.getById(parseInt($stateParams.mailId));
-//                },
-//                items: function($stateParams, mails) {
-//                    return mails.getRowInvoiceIn(parseInt($stateParams.mailId));
-//                }
-//            },
-//            views: {
-//                'content': {
-//                    templateUrl: "static/newadmin/app/mail/template/mailinvoice.html",
-//                    controller: "MailInvoiceCntrl"
-//                }
-//            }
-//        })
-     ;
+        });
 })
+.value("mailLoading", {
+    listLoading: true
+})
+.controller("MailListController", function ($scope, $state, mailitems, mailLoading, mails, $stateParams) {
 
-.controller("MailListController", function ($scope, $state, mailitems, mails, $stateParams) {
-
+        $scope.loading = mailLoading;
         hideSpinner();
 
         $scope.page = 1;
         $scope.countPerPage = 10;
         $scope.items = mailitems;
-        $scope.checkMail = function () {
-            console.log("CHECK MAIL");
+        $scope.checkMail = function ($event) {
+            $($event.target).prop('disabled', true);
+            showSpinner();
+            mails.checkMail().then(function(res) {
+                $($event.target).prop('disabled', false);
+                hideSpinner();
+                if(res == "ok") {
+                    toastr.info("Есть новые письма. Для просмотра перейдите по <a href='/admin2#/mailbox?_new=true&page=1'>ссылке</a>", "Оповещения");
+                } else if (res == "nothing") {
+                    toastr.info("Нету новых писем", "Оповещения");
+                }
+            });
         };
 
         if ($stateParams.filter) {
@@ -173,11 +167,11 @@ angular.module("mails.module", ['ui.router'])
         };
 
         function showSpinner() {
-            $scope.loadingFinish = false;
+            $scope.loading.listLoading = false;
         }
 
         function hideSpinner() {
-            $scope.loadingFinish = true;
+            $scope.loading.listLoading = true;
         }
     }
 );

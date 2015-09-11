@@ -24,6 +24,12 @@ angular.module('mails.service', ['core.utils'])
 //        });
 //    };
 
+    factory.checkMail = function() {
+        return $http.post('/api/mail').then(function(resp) {
+            return resp.data;
+        });
+    };
+
     factory.fetch = function() {
         return $http.get("/api/mail", {params: {'_new': true}}).then(function(resp) {
             items_new = resp.data.items;
