@@ -4,12 +4,13 @@ import json
 import uuid
 import os
 
-from flask import g, jsonify, request
+from flask import g, jsonify, request, Response
 from flask.ext import restful
 from flask.ext.restful import reqparse, marshal_with, fields, abort
 
 from sqlalchemy import desc, asc, or_, and_
 from sqlalchemy_utils import ChoiceType
+from werkzeug.wrappers import BaseResponse
 
 from excel.output import PrintInvoice, PATH_TEMPLATE
 from helper import get_relation_model
@@ -423,6 +424,10 @@ class BaseCanoniseResource(object):
             data = request.json['data']
             good_stub = self.fill_obj(data)
             obj = self.pre_save(good_stub, data)
+
+            if issubclass(obj.__class__, BaseResponse):
+                return obj
+
             obj = self.save_model(obj)
             db.session.flush()
             self.post_save(obj, data, create_new=True)
@@ -579,18 +584,21 @@ class ProfileResource(BaseTokeniseResource):
         token = request.authorization['username']
 
         user = UserService.user_to_token(token)
-        fname = user.first_name or ""
-        lname = user.last_name or ""
-        position = u"Администратор" if user.is_superuser else u"Пользователь"
+        if user:
+            fname = user.first_name or ""
+            lname = user.last_name or ""
+            position = u"Администратор" if user.is_superuser else u"Пользователь"
 
-        name = " ".join([fname, lname]) if fname or lname else "Без имени"
+            name = " ".join([fname, lname]) if fname or lname else "Без имени"
 
-        return jsonify({
-            'name': name,
-            'position': position,
-            'iconUrl': "static/images/users/2.jpg",
-            'is_superuser': user.is_superuser
-        })
+            return jsonify({
+                'name': name,
+                'position': position,
+                'iconUrl': "static/images/users/2.jpg",
+                'is_superuser': user.is_superuser
+            })
+        else:
+            abort(401)
 
 
 class RegistrationResource(restful.Resource):

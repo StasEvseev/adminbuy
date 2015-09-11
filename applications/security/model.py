@@ -1,5 +1,7 @@
 #coding: utf-8
 from flask.ext.security import RoleMixin, UserMixin
+from flask.ext.security.core import _token_loader
+from flask.ext.security.passwordless import generate_login_token, login_token_status
 from db import db
 
 from config import SECRET_KEY
@@ -47,20 +49,18 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password, password)
 
     def generate_auth_token(self):
-        s = Serializer(SECRET_KEY)
-        return s.dumps({'id': self.id})
+        # s = Serializer(SECRET_KEY)
+        return self.get_auth_token()
+        # return s.dumps({'id': self.id})
 
     @staticmethod
     def verify_auth_token(token):
-        s = Serializer(SECRET_KEY)
-        try:
-            data = s.loads(token)
-        except SignatureExpired:
-            return None # valid token, but expired
-        except BadSignature:
-            return None # invalid token
-        user = User.query.get(data['id'])
-        return user
+        res = _token_loader(token)
+        if res.is_anonymous():
+            res = None
+        return res
+        # expired, invalid, user = login_token_status(token)
+        # return user
 
     # Required for administrative interface
     def __unicode__(self):

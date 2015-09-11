@@ -32,11 +32,5 @@ class UserService(BaseSQLAlchemyModelService):
 
     @classmethod
     def user_to_token(cls, token):
-        id = cls._get_id_from_token(token)
-        return cls.get_by_id(id)
-
-    @classmethod
-    def _get_id_from_token(cls, token):
-        s = Serializer(SECRET_KEY)
-        d = s.loads(token)
-        return d['id']
+        user = User.verify_auth_token(token)
+        return user
