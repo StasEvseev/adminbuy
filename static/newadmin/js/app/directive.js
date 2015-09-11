@@ -15,7 +15,7 @@ angular.module('directive', []).directive('dictSelectField', function($compile, 
             dname: "@",
             drequired: "@",
             dngRequired: "@",
-            dngDisabled: "@",
+            dngDisabled: "&",
             canCreate: "&",
             canEdit: "&",
             multiple: "&"
@@ -63,31 +63,35 @@ angular.module('directive', []).directive('dictSelectField', function($compile, 
             };
 
             $scope.create = function() {
-                var modalInstance = $modal.open({
-                    template: $scope.service.template(),
-                    controller: $scope.service.controller(),
-                    size: $scope.service.size(),
-                    resolve: $scope.service.resolve()
-                });
-                modalInstance.result.then(function (model) {
-                    $scope.modelsss.item = model;
-                }, function () {
+                if (!$scope.disabled) {
+                    var modalInstance = $modal.open({
+                        template: $scope.service.template(),
+                        controller: $scope.service.controller(),
+                        size: $scope.service.size(),
+                        resolve: $scope.service.resolve()
+                    });
+                    modalInstance.result.then(function (model) {
+                        $scope.modelsss.item = model;
+                    }, function () {
 
-                });
+                    });
+                }
             };
 
             $scope.edit = function() {
-                var modalInstance = $modal.open({
-                    template: $scope.service.templateEdit(),
-                    controller: $scope.service.controllerEdit(),
-                    size: $scope.service.size(),
-                    resolve: $scope.service.resolveEdit($scope.modelsss.item)
-                });
-                modalInstance.result.then(function (model) {
-                    $scope.modelsss.item = model;
-                }, function () {
+                if (!$scope.disabled) {
+                    var modalInstance = $modal.open({
+                        template: $scope.service.templateEdit(),
+                        controller: $scope.service.controllerEdit(),
+                        size: $scope.service.size(),
+                        resolve: $scope.service.resolveEdit($scope.modelsss.item)
+                    });
+                    modalInstance.result.then(function (model) {
+                        $scope.modelsss.item = model;
+                    }, function () {
 
-                });
+                    });
+                }
             }
         },
         compile: function(tElement, tAttrs, transclude) {
@@ -169,9 +173,7 @@ angular.module('directive', []).directive('dictSelectField', function($compile, 
                     }
 
                     if (scope.dngDisabled) {
-                        debugger
-                        uiselect.attr('ng-disabled', scope.dngDisabled);
-                        tElement.removeAttr('dng-disabled');
+                        scope.disabled = scope.dngDisabled();
                     }
 
                     copyAttr(uiselects, uiselect);

@@ -365,7 +365,9 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
     $scope.toggleMin();
 
     $scope.open = function($event) {
-        $scope.status.opened = true;
+        if(!$scope.editForm) {
+            $scope.status.opened = true;
+        }
     };
 
     $scope.status = {

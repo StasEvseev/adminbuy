@@ -61,8 +61,17 @@ AdminApp.run(function($rootScope) {
     });
 });
 
-AdminApp.run(function ($rootScope) {
+AdminApp.run(function ($rootScope, $timeout, $window) {
     $rootScope._ = _;
+
+    $($window).on("message", function(e){
+        console.log(e);
+    });
+
+    $timeout(function() {
+        console.log("BLA!");
+    }, 1000);
+
 });
 
 var MainController = function ($scope, $rootScope, User, Company, Application, mails, $state, principal) {
