@@ -16,7 +16,7 @@ from applications.commodity.models import Commodity
 from applications.inventory.models import Inventory, InventoryItems
 from applications.point_sale.models import PointSale, PointSaleItem
 from applications.provider_app.models import Provider
-from applications.security.model import User
+from applications.security.model import User, Role
 from applications.waybill.models import WayBillItems, WayBill
 from applications.acceptance.model import Acceptance
 from applications.price.model import Price, PriceParish

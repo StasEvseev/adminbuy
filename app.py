@@ -5,8 +5,10 @@ import os
 import time
 
 from flask import Flask, redirect, request, render_template, url_for
+from flask.ext.security import SQLAlchemyUserDatastore, Security
 from flask.ext.triangle import Triangle
 from flask.ext.babel import Babel
+
 from werkzeug.contrib.fixers import ProxyFix
 
 from config import admin_imap, admin_pass, DATABASE_URI, SECRET_KEY
@@ -64,6 +66,9 @@ def create_app(application):
     return application
 
 app = create_app(app)
+from applications.security.model import User, Role
+user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+security = Security(app, user_datastore)
 
 from applications.commodity import blueprint as ComBl
 from applications.point_sale import blueprint as PSBl

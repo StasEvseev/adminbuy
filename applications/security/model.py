@@ -1,4 +1,5 @@
 #coding: utf-8
+from flask.ext.security import RoleMixin, UserMixin
 from db import db
 
 from config import SECRET_KEY
@@ -8,7 +9,18 @@ from itsdangerous import JSONWebSignatureSerializer as Serializer, SignatureExpi
 from werkzeug.security import check_password_hash
 
 
-class User(db.Model):
+roles_users = db.Table('roles_users',
+        db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
+        db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
+
+
+class Role(db.Model, RoleMixin):
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(80), unique=True)
+    description = db.Column(db.String(255))
+
+
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(100))
     last_name = db.Column(db.String(100))
@@ -16,6 +28,7 @@ class User(db.Model):
     email = db.Column(db.String(120))
     password = db.Column(db.String)
     is_superuser = db.Column(db.Boolean, default=False)
+    roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
 
     # Flask-Login integration
     def is_authenticated(self):
