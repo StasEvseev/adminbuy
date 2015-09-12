@@ -18,6 +18,7 @@
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
                 <!-- Messages: style can be found in dropdown.less-->
+
                 <li dropdown class="messages-menu">
                     <a href="#" dropdown-toggle>
                         <i class="fa fa-envelope-o"></i>
@@ -80,6 +81,10 @@
                             </div>
                         </li>
                     </ul>
+                </li>
+
+                <li style="font-size: 0.7em; color: #ffffff; margin-right: 10px; margin-left: 10px; margin-top: 7px">
+                    <ds-widget-clock data-show-digital></ds-widget-clock>
                 </li>
                 <!-- Control Sidebar Toggle Button -->
                 <!--<li>
@@ -161,6 +166,11 @@
             <li>
                 <a class="provider-item" ui-sref="index.provider.list" ui-sref-opts="{inherit: false}">
                     <i class="fa fa-truck"></i> <span>Поставщики</span>
+                </a>
+            </li>
+            <li>
+                <a class="session-item" ui-sref="index.session.view" ui-sref-opts="{inherit: false}">
+                    <i class="fa fa-truck"></i> <span>Торговая сессия</span>
                 </a>
             </li>
             <li class="header">АДМИНИСТРИРОВАНИЕ</li>

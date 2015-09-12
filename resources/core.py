@@ -424,10 +424,6 @@ class BaseCanoniseResource(object):
             data = request.json['data']
             good_stub = self.fill_obj(data)
             obj = self.pre_save(good_stub, data)
-
-            if issubclass(obj.__class__, BaseResponse):
-                return obj
-
             obj = self.save_model(obj)
             db.session.flush()
             self.post_save(obj, data, create_new=True)

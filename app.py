@@ -5,16 +5,17 @@ import os
 import time
 
 from flask import Flask, redirect, request, render_template, url_for
-from flask.ext.security import SQLAlchemyUserDatastore, Security
+from flask.ext.principal import identity_loaded, UserNeed
 from flask.ext.triangle import Triangle
 from flask.ext.babel import Babel
+from sqlalchemy.sql.functions import current_user
 
 from werkzeug.contrib.fixers import ProxyFix
 
 from config import admin_imap, admin_pass, DATABASE_URI, SECRET_KEY
 
 os.environ['TZ'] = 'Europe/Moscow'
-time.tzset()
+# time.tzset()
 
 app = Flask(__name__)
 app.config.update(
@@ -37,6 +38,7 @@ def create_app(application):
     from resources import api
     from assets import assets
     from applications.security.auth import login_manager
+    from security import security
     from admin import admin
 
     application.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
@@ -54,6 +56,9 @@ def create_app(application):
     mail.init_app(application)
     admin.init_app(application)
     login_manager.init_app(application)
+
+    security.init_app(application)
+
     application.db = db
     application.api = api
 
@@ -68,9 +73,6 @@ def create_app(application):
     return application
 
 app = create_app(app)
-from applications.security.model import User, Role
-user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-security = Security(app, user_datastore)
 
 from applications.commodity import blueprint as ComBl
 from applications.point_sale import blueprint as PSBl
@@ -152,7 +154,7 @@ def index():
 def create_superuser():
     from services.userservice import UserService
     with app.app_context():
-        if UserService.check_duplicate('admin', None, 0):
+        if UserService.check_duplicate('admin'):
             user = UserService.registration('admin', 'a@a.ru', 'admin', is_superuser=True,
                                             first_name='Админов', last_name='Админ')
             db.session.add(user)

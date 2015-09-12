@@ -31,6 +31,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String)
     is_superuser = db.Column(db.Boolean, default=False)
     roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
+    active = db.Column(db.Boolean, default=True)
 
     # Flask-Login integration
     def is_authenticated(self):

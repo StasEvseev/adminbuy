@@ -37,6 +37,8 @@ AdminApp = angular.module('AdminApp', [
     'users.module',
     'users.service',
 
+    'session.module',
+
     'user',
     'application',
 
@@ -47,7 +49,9 @@ AdminApp = angular.module('AdminApp', [
 
     'ngTable',
     'angularSpinner',
-    'ngSanitize'
+    'ngSanitize',
+    'ds.clock',
+    'luegg.directives'
 ]);
 
 AdminApp.config(function ($interpolateProvider) {

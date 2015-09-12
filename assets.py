@@ -47,6 +47,8 @@ bundles = {
         'newadmin/app/user/js/users-service.js',
         'newadmin/app/user/js/module.js',
 
+        'newadmin/app/session/js/module.js',
+
         'newadmin/js/app/utils.js',
         'newadmin/js/app/application.js',
         'newadmin/js/app/user.js',
@@ -103,6 +105,8 @@ bundles = {
     'toastrcss': Bundle('css/lib/toastr.min.css'),
     'toastrjs': Bundle('js/lib/toastr.min.js'),
 
+    'angularjs-utils-css': Bundle('css/lib/angular-clock.css'),
+
     'angularjs-lib': Bundle('js/lib/angular1.4.js'),
     'angularjs-utils': Bundle(
         'js/lib/angular-ui-router.js',
@@ -110,6 +114,13 @@ bundles = {
         'js/lib/angular-animate.min.js',
         'js/lib/angular-route.min.js',
         'js/lib/angular-sanitize.js',
+        Bundle(
+            'js/lib/angular-clock.js',
+            'js/lib/rainbow.min.js',
+        ),
+        Bundle(
+            'js/lib/scrollglue.js'
+        ),
         'js/lib/angular-locale_ru-ru.js', output='gen/angularjs-utils.min.js'),
 
     'angularjs-spin': Bundle(
