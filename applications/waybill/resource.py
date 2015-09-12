@@ -220,8 +220,8 @@ class WayBillPrint(BaseTokeniseResource):
         sec_data['number'] = waybill.number
         sec_data['date'] = waybill.date.strftime('%d.%m.%Y').decode("utf-8")
         sec_data['point'] = waybill.pointsale_from.name
-        sec_data['typeInv'] = waybill.rec
-        sec_data['rec'] = waybill.type
+        sec_data['typeInv'] = waybill.type
+        sec_data['rec'] = waybill.rec
         sec.flush(sec_data)
 
         if waybill.type == RETAIL:
