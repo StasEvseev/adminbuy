@@ -121,6 +121,12 @@ bundles = {
         Bundle(
             'js/lib/scrollglue.js'
         ),
+        Bundle(
+            'js/lib/angu-fixed-header-table.js'
+        ),
+        Bundle(
+            'js/lib/angular-hidScanner.js'
+        ),
         'js/lib/angular-locale_ru-ru.js', output='gen/angularjs-utils.min.js'),
 
     'angularjs-spin': Bundle(

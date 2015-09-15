@@ -1,11 +1,6 @@
 <div class="main-content">
 
     <section class="content">
-        <div>ТОРГОВАЯ СЕССИЯ</div>
-
-        <div>Статус подключеных устройств:</div>
-        <div>Скан считыватель - работает!</div>
-
         <div class="row">
             <div class="col-md-7">
                 <div class="box" style="height: 100%;">
@@ -13,7 +8,7 @@
                     <h3 class="box-title">Поиск товара</h3>
                   </div><!-- /.box-header -->
                   <div class="box-body">
-                      <input type="text" ng-model="asyncSelected"
+                      <!--<input type="text" ng-model="asyncSelected"
                              typeahead="good as good.full_name_with_price for good in getLocation($viewValue)" typeahead-loading="loadingLocations"
                              typeahead-no-results="noResults" class="form-control input-lg">
                       <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
@@ -24,7 +19,7 @@
                       <br/>
 
                       <button class="btn btn-default btn-flat pull-left" ng-click="add()">Добавить</button>
-                      <button class="btn btn-default btn-flat pull-right">Очистить</button>
+                      <button class="btn btn-default btn-flat pull-right">Очистить</button>-->
                   </div><!-- /.box-body -->
                 </div><!-- /.box -->
             </div>
@@ -47,8 +42,8 @@
             <div class="col-md-12">
 
                 <div class="btn-group">
-                    <label class="btn btn-primary" style="font-size: 35px" ng-model="checkModel"  btn-radio="'Left'">ПРОДАЖА</label>
-                    <label class="btn btn-danger" style="font-size: 35px" ng-model="checkModel"  btn-radio="'Right'">ВОЗВРАТ</label>
+                    <label class="btn btn-primary" style="font-size: 35px" ng-model="checkModel"  btn-radio="'Продажа'">ПРОДАЖА</label>
+                    <label class="btn btn-danger" style="font-size: 35px" ng-model="checkModel"  btn-radio="'Возврат'">ВОЗВРАТ</label>
                 </div>
             </div>
 
@@ -67,22 +62,26 @@
                       <span class="label label-primary">Label</span>
                     </div><!-- /.box-tools -->
                   </div><!-- /.box-header -->
-                  <div class="box-body" style="max-height: 350px; overflow: auto" scroll-glue>
-                    <table class="table table-bordered">
+                  <div class="box-body">
+                    <table class="table table-bordered" fixed-header table-height="250px">
                         <thead>
                         <tr>
-                            <td>№</td>
-                            <td>Артикул</td>
-                            <td>Товар</td>
-                            <td>Цена</td>
+                            <th>№</th>
+                            <th>Артикул</th>
+                            <th>Операция</th>
+                            <th>Товар</th>
+                            <th>Кол-во</th>
+                            <th>Цена</th>
                         </tr>
                         </thead>
 
-                        <tbody>
+                        <tbody scroll-glue>
                             <tr ng-repeat="item in items">
                                 <td>1</td>
+                                <td>[[item.barcode]]</td>
+                                <td>[[item.checkModel]]</td>
                                 <td></td>
-                                <td></td>
+                                <td>[[item.count]]</td>
                                 <td></td>
                             </tr>
 

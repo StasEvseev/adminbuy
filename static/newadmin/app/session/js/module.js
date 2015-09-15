@@ -14,7 +14,12 @@ angular.module("session.module", ['ui.router', 'core.service', 'core.controllers
         views: {
             'content@index': {
                 templateUrl: "static/newadmin/app/session/template/view.html",
-                controller: function($scope, goods) {
+                controller: function($scope, $rootScope, $window, $timeout, goods, hIDScanner) {
+                    hIDScanner.initialize();
+
+                    $rootScope.$on("hidScanner::scanned", function(event, barcode) {
+                        $scope.items.push({'barcode': barcode.barcode, checkModel: $scope.checkModel});
+                    });
                     $scope.getLocation = function(value) {
                         return goods.filter(value).then(function(resp) {
                             return resp;
@@ -25,9 +30,9 @@ angular.module("session.module", ['ui.router', 'core.service', 'core.controllers
                         $scope.items.push({});
                     };
 
-                    $scope.checkModel = 'Left';
+                    $scope.checkModel = 'Продажа';
 
-                    $scope.items = [{}, {}, {}, {}, {}, {}, {}, {}, {}];
+                    $scope.items = [];
                 }
             }
         }

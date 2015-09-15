@@ -51,8 +51,35 @@ AdminApp = angular.module('AdminApp', [
     'angularSpinner',
     'ngSanitize',
     'ds.clock',
-    'luegg.directives'
+    'luegg.directives',
+    'anguFixedHeaderTable'
 ]);
+
+AdminApp.factory('hIDScanner', function($rootScope, $window, $timeout) {
+        return {
+            initialize : function() {
+                var chars = [];
+                var pressed = false;
+                angular.element($window).on('keypress', function(e) {
+                    if (e.which >= 48 && e.which <= 57) {
+                        chars.push(String.fromCharCode(e.which));
+                    }
+                    // console.log(e.which + ":" + chars.join("|"));
+                    if (pressed == false) {
+                        $timeout(function(){
+                            if (chars.length >= 10) {
+                                var barcode = chars.join("");
+                                $rootScope.$broadcast("hidScanner::scanned", {barcode: barcode});
+                            }
+                            chars = [];
+                            pressed = false;
+                        },250);
+                    }
+                    pressed = true;
+                });
+            }
+        };
+    });
 
 AdminApp.config(function ($interpolateProvider) {
     $interpolateProvider.startSymbol('[[').endSymbol(']]');
