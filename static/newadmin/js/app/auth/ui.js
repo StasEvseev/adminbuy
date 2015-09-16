@@ -41,7 +41,9 @@ angular.module('auth.ui', ['ui.router'])
       },
 
       getIdentity: function() {
-          return JSON.parse($window.localStorage.identity);
+          if ($window.localStorage.identity) {
+              return JSON.parse($window.localStorage.identity);
+          }
       },
 
       setIdentity: function(identity) {
@@ -82,13 +84,16 @@ angular.module('auth.ui', ['ui.router'])
               return q.promise;
           } else {
               self.deleteToken();
+              self.deleteIdentity();
           }
       },
       identity: function(force) {
           var self = this;
         var deferred = $q.defer();
+        var _identity = this.getIdentity();
 
         if (force === true) _identity = undefined;
+
 
         // check and see if we have retrieved the identity data from the server. if we have, reuse it by immediately resolving
         if (angular.isDefined(_identity)) {

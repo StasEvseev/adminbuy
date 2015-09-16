@@ -4,9 +4,10 @@
 
 angular.module('users.service', ['core.service'])
 
-.factory('RoleService', function(BaseDictService, roles) {
+.factory('RoleService', function(BaseDictService, $q, roles) {
 
     var child = Object.create(BaseDictService);
+        var items;
     child.records = function (text) {
         return roles.filter(text);
     };

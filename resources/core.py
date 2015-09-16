@@ -10,6 +10,7 @@ from flask.ext.restful import reqparse, marshal_with, fields, abort
 
 from sqlalchemy import desc, asc, or_, and_
 from sqlalchemy_utils import ChoiceType
+from sqlalchemy.orm.collections import InstrumentedList
 from werkzeug.wrappers import BaseResponse
 
 from excel.output import PrintInvoice, PATH_TEMPLATE
@@ -377,8 +378,9 @@ class BaseCanoniseResource(object):
             if value is not False and value in [-1, 0]:
                 value = None
             try:
-                setattr(obj, key, value)
-            except AttributeError as exc:
+                if not isinstance(getattr(obj, key), InstrumentedList):
+                    setattr(obj, key, value)
+            except (AttributeError, TypeError) as exc:
                 pass
         return obj
 

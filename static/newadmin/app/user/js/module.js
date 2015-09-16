@@ -99,8 +99,10 @@ AdminApp.controller('UserListCntr', function($scope, users, $controller) {
     };
 })
 
-.controller("UserCreateCntr", function($scope, $controller, users) {
+.controller("UserCreateCntr", function($scope, $controller, users, RoleService) {
     $controller('BaseCreateController', {$scope: $scope});
+
+    $scope.RoleService = RoleService;
 
     $scope.goList = function() {
         return "index.user.list";
@@ -114,8 +116,10 @@ AdminApp.controller('UserListCntr', function($scope, users, $controller) {
         return users.create($scope.model);
     };
 })
-.controller("UserEditCntr", function($scope, $controller, $stateParams, item, users) {
+.controller("UserEditCntr", function($scope, $controller, $stateParams, RoleService, item, users) {
     $controller('BaseCreateController', {$scope: $scope});
+
+    $scope.RoleService = RoleService;
 
     $scope.model = item;
 

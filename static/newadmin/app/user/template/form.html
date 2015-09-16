@@ -46,9 +46,9 @@
                     style="width: 100%"
                     can-edit="false"
                     can-create="false">
-                    <dict-select-field-match placeholder="Введите имя...">[[$item.fullname]]</dict-select-field-match>
-                    <dict-select-field-choices repeat="item in $items | propsFilter: {fullname: $select.search}">
-                        <div ng-bind-html="item.fullname | highlight: $select.search"></div>
+                    <dict-select-field-match placeholder="Введите имя...">[[$item.name]]</dict-select-field-match>
+                    <dict-select-field-choices repeat="item in $items">
+                        <div ng-bind-html="item.name | highlight: $select.search"></div>
                     </dict-select-field-choices>
                 </dict-select-field>
             </div>
