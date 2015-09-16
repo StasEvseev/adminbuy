@@ -624,6 +624,17 @@ class RegistrationResource(restful.Resource):
         })
 
 
+class IdentityResource(BaseTokeniseResource):
+    def get(self):
+        from services.userservice import UserService
+        token = request.authorization['username']
+
+        user = UserService.user_to_token(token)
+        if user:
+            return jsonify({'identity': [x.name for x in user.roles]})
+        abort(401)
+
+
 class AuthResource(restful.Resource):
     def post(self):
         from applications.security.model import User

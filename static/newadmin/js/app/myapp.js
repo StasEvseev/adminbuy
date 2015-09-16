@@ -152,12 +152,18 @@ AdminApp.controller('HeaderController', function ($scope, mails, User) {
     };
 });
 
-AdminApp.controller('SidebarController', function ($scope, mails, User) {
+AdminApp.controller('SidebarController', function ($scope, $state, principal, mails, User) {
 //    $scope.messages = function() {return mails.all_new()};
     $scope.iconUrl = User.iconUrl();
 
     $scope.countNew = function () {
         return mails.countNew();
+    };
+
+    $scope.show = function(path) {
+        var state = $state.get(path);
+        var roles = state.data.roles || [];
+        return principal.permissionRoles(roles);
     };
 });
 
@@ -189,6 +195,9 @@ AdminApp.config(function ($stateProvider, $urlRouterProvider) {
 
     $stateProvider.state('site', {
         'abstract': true,
+        data: {
+            roles: ['user']
+        },
         resolve: {
             authorize: ['authorization', function (authorization) {
                 return authorization.authorize();
@@ -230,6 +239,7 @@ AdminApp.config(function ($stateProvider, $urlRouterProvider) {
         })
 
         .state('index.accessdenied', {
+            url: '/403',
             views: {
                 'content': {
                     templateUrl: "static/newadmin/template/403.html",
@@ -272,7 +282,15 @@ AdminApp.config(function ($stateProvider, $urlRouterProvider) {
                                 $scope.dynamic += 50;
                             }, 300);
 
+                        }, function(isOnline) {
+                            $timeout(function() {
+                                $scope.dynamic += 50;
+                            }, 300);
                         }), User.fetch().then(function() {
+                            $timeout(function() {
+                                $scope.dynamic += 50;
+                            }, 700);
+                        }, function() {
                             $timeout(function() {
                                 $scope.dynamic += 50;
                             }, 700);
@@ -287,6 +305,9 @@ AdminApp.config(function ($stateProvider, $urlRouterProvider) {
         })
 
         .state('index.dash', {
+            data: {
+              roles: ['user']
+            },
             url: '/',
             views: {
                 'content': {

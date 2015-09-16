@@ -16,6 +16,9 @@ angular.module("mails.module", ['ui.router'])
 
         .state('index.mailbox.list', {
             url: "?_new&filter&page",
+             data: {
+                 roles: ['usera']
+             },
             views: {
                 'head': {
                     templateUrl: "static/newadmin/app/mail/template/list.head.html",

@@ -33,6 +33,10 @@ angular.module('mails.service', ['core.utils'])
     factory.fetch = function() {
         return $http.get("/api/mail", {params: {'_new': true}}).then(function(resp) {
             items_new = resp.data.items;
+        }, function(resp) {
+            var isOnline = true;
+            if (resp.status == 0) {isOnline = false; items_new = [];}
+            return isOnline;
         });
     };
 

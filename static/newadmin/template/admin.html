@@ -125,7 +125,7 @@
             <li class="header">ПАНЕЛЬ НАВИГАЦИИ</li>
 
             <li>
-                <a class="mailbox-item" ui-sref="index.mailbox.list" ui-sref-opts="{inherit: false}">
+                <a class="mailbox-item" ng-show="show('index.mailbox.list')" ui-sref="index.mailbox.list" ui-sref-opts="{inherit: false}">
                     <i class="fa fa-envelope-o"></i> <span>Почтовый ящик</span>
                     <small ng-if="countNew()" class="label pull-right bg-yellow">[[countNew()]]</small>
                 </a>
@@ -173,7 +173,7 @@
                     <i class="fa fa-truck"></i> <span>Торговая сессия</span>
                 </a>
             </li>
-            <li class="header">АДМИНИСТРИРОВАНИЕ</li>
+            <li ng-show="show('index.user')" class="header">АДМИНИСТРИРОВАНИЕ</li>
 
             <li class="treeview user-menu" ng-show="is_superuser">
                 <a href="#">

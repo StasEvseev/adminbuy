@@ -18,7 +18,7 @@ angular.module("session.module", ['ui.router', 'core.service', 'core.controllers
                     hIDScanner.initialize();
 
                     $rootScope.$on("hidScanner::scanned", function(event, barcode) {
-                        $scope.items.push({'barcode': barcode.barcode, checkModel: $scope.checkModel});
+                        $scope. items.push({'barcode': barcode.barcode, checkModel: $scope.checkModel});
                     });
                     $scope.getLocation = function(value) {
                         return goods.filter(value).then(function(resp) {

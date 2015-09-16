@@ -22,6 +22,11 @@ angular.module('user', [])
                 iconUrl = resp.data.iconUrl;
                 position = resp.data.position;
                 is_superuser = resp.data.is_superuser;
+            }, function(resp) {
+                name = '';
+                iconUrl = '';
+                position = '';
+                is_superuser = '';
             });
         }
     }

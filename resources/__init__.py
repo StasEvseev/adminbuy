@@ -32,7 +32,7 @@ class MyApi(restful.Api):
 api = MyApi(prefix='/api')
 
 
-from resources.core import TokenResource, AuthResource, RegistrationResource, ProfileResource
+from resources.core import TokenResource, AuthResource, RegistrationResource, ProfileResource, IdentityResource
 from resources.invoice import (
     InvoicePriceItemsResource, InvoiceItemResource, InvoiceItemCountResource, InvoicePrice2ItemsResource)
 from resources.sync import SyncResource, SyncResourceError, SyncResourceCreate
@@ -43,6 +43,7 @@ from applications.mails.resource import MailCheck, MailInvoiceItem, MailItem
 api.add_resource(RegistrationResource, '/registration')
 api.add_resource(TokenResource, '/token')
 api.add_resource(AuthResource, '/auth')
+api.add_resource(IdentityResource, '/identity')
 api.add_resource(ProfileResource, '/profile')
 
 api.add_resource(MailCheck, '/mail')
