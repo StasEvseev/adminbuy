@@ -30,7 +30,28 @@
 
         <div class="form-group">
             <label>Суперпользователь</label>
-            <input type="checkbox" ng-model="model.is_superuser" id="is_central">
+            <input type="checkbox" ng-model="model.is_superuser" id="is_superuser">
+        </div>
+
+        <div class="form-group">
+            <div class="form-group" ng-class="{'has-error': Form.isSubmitted() && myForm.item.receiver.$error.required}">
+                        <label>Роли</label>
+                <dict-select-field
+                    multiple="true"
+                    ng-model="model.roles"
+                    service="RoleService"
+                    lazy="true"
+                    select="model.role_id"
+                    dname="roles"
+                    style="width: 100%"
+                    can-edit="false"
+                    can-create="false">
+                    <dict-select-field-match placeholder="Введите имя...">[[$item.fullname]]</dict-select-field-match>
+                    <dict-select-field-choices repeat="item in $items | propsFilter: {fullname: $select.search}">
+                        <div ng-bind-html="item.fullname | highlight: $select.search"></div>
+                    </dict-select-field-choices>
+                </dict-select-field>
+            </div>
         </div>
 
         <div class="form-group has-feedback" ng-hide="model.id">

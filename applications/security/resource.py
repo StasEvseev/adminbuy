@@ -4,9 +4,21 @@ from flask.ext.restful import fields
 from werkzeug.security import generate_password_hash
 from applications.security.decorators import roles_accepted2
 
-from applications.security.model import User
+from applications.security.model import User, Role
 from resources.core import BaseCanoniseResource, BaseTokeniseAdminResource
 from services.userservice import UserService
+
+
+class RoleCanon(BaseCanoniseResource):
+    model = Role
+
+    base_class = BaseTokeniseAdminResource
+
+    attr_json = {
+        'id': fields.Integer,
+        'name': fields.String,
+        'description': fields.String,
+    }
 
 
 class UserCanon(BaseCanoniseResource):
