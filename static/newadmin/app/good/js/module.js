@@ -14,6 +14,9 @@ angular.module('good.module', ['core.controllers']).constant('config', {
 
 .config(function($stateProvider) {
     $stateProvider.state('index.good', {
+            data: {
+                 roles: ['user']
+            },
             abstract: true,
             url: '/good'
         })

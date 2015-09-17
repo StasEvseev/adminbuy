@@ -141,6 +141,19 @@ var MainController = function ($scope, $rootScope, User, Company, Application, m
     };
 };
 
+AdminApp.factory("ShowHideRoles", function($state, principal) {
+    return {
+        showState: function(path) {
+            var state = $state.get(path);
+            var roles = state.data.roles || [];
+            return principal.permissionRoles(roles);
+        },
+        showRole: function(roles) {
+            return principal.permissionRoles(roles);
+        }
+    }
+});
+
 AdminApp.controller("MainController", MainController);
 
 AdminApp.controller('HeaderController', function ($scope, mails, User) {
@@ -152,7 +165,7 @@ AdminApp.controller('HeaderController', function ($scope, mails, User) {
     };
 });
 
-AdminApp.controller('SidebarController', function ($scope, $state, principal, mails, User) {
+AdminApp.controller('SidebarController', function ($scope, ShowHideRoles, mails, User) {
 //    $scope.messages = function() {return mails.all_new()};
     $scope.iconUrl = User.iconUrl();
 
@@ -160,11 +173,7 @@ AdminApp.controller('SidebarController', function ($scope, $state, principal, ma
         return mails.countNew();
     };
 
-    $scope.show = function(path) {
-        var state = $state.get(path);
-        var roles = state.data.roles || [];
-        return principal.permissionRoles(roles);
-    };
+    $scope.show = ShowHideRoles.showState;
 });
 
 //Сервис загрузки данных
@@ -195,9 +204,6 @@ AdminApp.config(function ($stateProvider, $urlRouterProvider) {
 
     $stateProvider.state('site', {
         'abstract': true,
-        data: {
-            roles: ['user']
-        },
         resolve: {
             authorize: ['authorization', function (authorization) {
                 return authorization.authorize();
@@ -305,15 +311,13 @@ AdminApp.config(function ($stateProvider, $urlRouterProvider) {
         })
 
         .state('index.dash', {
-            data: {
-              roles: ['user']
-            },
             url: '/',
             views: {
                 'content': {
                     templateUrl: 'static/newadmin/template/dash.html',
-                    controller: function ($scope, $rootScope, Application) {
+                    controller: function ($scope, $rootScope, Application, ShowHideRoles) {
                         $scope.version = Application.version();
+                        $scope.showRole = ShowHideRoles.showRole;
                     }
                 }
             }

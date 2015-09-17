@@ -18,6 +18,9 @@ angular.module('invoice.module', ['core.controllers', 'pointsales.service']).con
 
 .config(function($stateProvider) {
     $stateProvider.state('index.invoice', {
+            data: {
+                 roles: ['user']
+            },
             abstract: true,
             url: '/invoice'
         })

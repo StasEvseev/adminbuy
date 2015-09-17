@@ -52,6 +52,9 @@ angular.module('provider.module', ['core.controllers']).constant('ProviderConfig
 
 .config(function($stateProvider) {
     $stateProvider.state('index.provider', {
+            data: {
+                 roles: ['user']
+            },
             abstract: true,
             url: '/provider'
         })

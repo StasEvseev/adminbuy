@@ -52,6 +52,9 @@ angular.module('commodity.module', ['core.controllers']).constant('CommodityConf
 
 .config(function($stateProvider) {
     $stateProvider.state('index.commodity', {
+            data: {
+                 roles: ['user']
+            },
             abstract: true,
             url: '/commodity'
         })

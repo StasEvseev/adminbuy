@@ -13,6 +13,9 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
 
 .config(function($stateProvider) {
     $stateProvider.state('index.invoice_in', {
+            data: {
+                 roles: ['user']
+            },
             abstract: true,
             url: '/invoice_in'
         })

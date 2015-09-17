@@ -6,6 +6,9 @@ angular.module("session.module", ['ui.router', 'core.service', 'core.controllers
 
 .config(function($stateProvider) {
     $stateProvider.state('index.session', {
+        data: {
+             roles: ['vendor']
+        },
         abstract: true,
         url: '/session'
     })

@@ -47,6 +47,9 @@ angular.module('pointsales.module', ['ui.router', 'ui.bootstrap', 'core.service'
 
 .config(function($stateProvider) {
     $stateProvider.state('index.pointsale', {
+            data: {
+                 roles: ['user']
+            },
             abstract: true,
             url: '/pointsale'
         })

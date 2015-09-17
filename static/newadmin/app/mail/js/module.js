@@ -5,6 +5,9 @@
 angular.module("mails.module", ['ui.router'])
 .config(function($stateProvider) {
      $stateProvider.state('index.mailbox', {
+            data: {
+                 roles: ['user']
+            },
             abstract: true,
             url: "/mailbox",
             views: {
@@ -16,9 +19,6 @@ angular.module("mails.module", ['ui.router'])
 
         .state('index.mailbox.list', {
             url: "?_new&filter&page",
-             data: {
-                 roles: ['usera']
-             },
             views: {
                 'head': {
                     templateUrl: "static/newadmin/app/mail/template/list.head.html",

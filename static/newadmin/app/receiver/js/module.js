@@ -39,6 +39,9 @@ angular.module("receivers.module", ['ui.router', 'core.service', 'core.controlle
 
 .config(function($stateProvider) {
     $stateProvider.state('index.receiver', {
+            data: {
+                 roles: ['user']
+            },
             abstract: true,
             url: '/receiver'
         })
