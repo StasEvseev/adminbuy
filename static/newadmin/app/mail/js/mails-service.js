@@ -100,6 +100,8 @@ angular.module('mails.service', ['core.utils'])
             items = resp.data.items;
             items_id = _.map(items, function(item) {return item.id});
             return items;
+        }, function() {
+            return [];
         });
     };
 

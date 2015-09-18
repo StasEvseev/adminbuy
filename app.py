@@ -4,7 +4,7 @@ from datetime import timedelta
 import os
 import time
 
-from flask import Flask, redirect, request, render_template, url_for
+from flask import Flask, redirect, request, render_template, url_for, make_response
 from flask.ext.principal import identity_loaded, UserNeed
 from flask.ext.triangle import Triangle
 from flask.ext.babel import Babel
@@ -150,6 +150,12 @@ def login():
 @app.route('/')
 def index():
     return redirect("/admin2?%s" % request.query_string)
+
+@app.route('/sw.js')
+def manifest():
+    res = make_response(render_template('sw.js'), 200)
+    res.headers["Content-Type"] = "text/javascript"
+    return res
 
 def create_superuser():
     from services.userservice import UserService

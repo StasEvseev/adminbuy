@@ -66,6 +66,8 @@ bundles = {
         'js/lib/jquery.js'
     ),
 
+    'sw': Bundle('newadmin/js/serviceworkerinit.js'),
+
     'icheck': Bundle('js/lib/icheck.min.js'),
     'login_css': Bundle('newadmin/css/all.css'),
 

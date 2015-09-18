@@ -95,6 +95,10 @@ AdminApp.run(function($rootScope) {
 AdminApp.run(function ($rootScope, $timeout, $window) {
     $rootScope._ = _;
 
+    $window.addEventListener('online', function() {
+        $rootScope.$broadcast('online', {status: navigator.onLine});
+    });
+
     $($window).on("message", function(e){
         console.log(e);
     });
@@ -156,21 +160,38 @@ AdminApp.factory("ShowHideRoles", function($state, principal) {
 
 AdminApp.controller("MainController", MainController);
 
-AdminApp.controller('HeaderController', function ($scope, mails, User) {
+AdminApp.controller('HeaderController', function ($scope, mails, User, ShowHideRoles) {
     $scope.messages = function() {return mails.all_new()};
     $scope.iconUrl = User.iconUrl();
 
     $scope.countNew = function () {
         return mails.countNew();
     };
+
+    $scope.show = ShowHideRoles.showState;
 });
 
-AdminApp.controller('SidebarController', function ($scope, ShowHideRoles, mails, User) {
+AdminApp.controller('SidebarController', function ($scope, $rootScope, ShowHideRoles, mails, User) {
 //    $scope.messages = function() {return mails.all_new()};
     $scope.iconUrl = User.iconUrl();
 
+    var status = $("#status-line");
+    var icon = $("#status-line > i");
+
     $scope.countNew = function () {
         return mails.countNew();
+    };
+
+//    $scope.$on('online', function(arg) {
+//       debugger
+//    });
+
+    $scope.onLine = function() {
+        status.text("Online");
+    };
+
+    $scope.offLine = function() {
+        status.text("Offline");
     };
 
     $scope.show = ShowHideRoles.showState;
