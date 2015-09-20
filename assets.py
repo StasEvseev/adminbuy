@@ -53,7 +53,8 @@ bundles = {
         'newadmin/js/app/application.js',
         'newadmin/js/app/user.js',
         'newadmin/js/app/auth/http.js',
-        'newadmin/js/app/auth/ui.js'
+        'newadmin/js/app/auth/ui.js',
+        'newadmin/js/angular-indexed-db.js'
 
     , output='gen/myapp.min.js'),
     'NAcss': Bundle(

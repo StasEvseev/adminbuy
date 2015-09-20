@@ -52,14 +52,25 @@ AdminApp = angular.module('AdminApp', [
     'ngSanitize',
     'ds.clock',
     'luegg.directives',
-    'anguFixedHeaderTable'
+    'anguFixedHeaderTable',
+    'indexedDB'
 ]);
 
+AdminApp.config(function ($indexedDBProvider) {
+
+    $indexedDBProvider.connection('myDB__test4').upgradeDatabase(1, function(event, db, tx) {
+        var objStore = db.createObjectStore('session_items', { autoIncrement : true });
+        objStore.createIndex('is_sync_idx', 'is_sync', {unique: false});
+    });
+});
+
 AdminApp.factory('hIDScanner', function($rootScope, $window, $timeout) {
+    var sub = false;
         return {
             initialize : function() {
                 var chars = [];
                 var pressed = false;
+                sub = true;
                 angular.element($window).on('keypress', function(e) {
                     if (e.which >= 48 && e.which <= 57) {
                         chars.push(String.fromCharCode(e.which));
@@ -77,6 +88,12 @@ AdminApp.factory('hIDScanner', function($rootScope, $window, $timeout) {
                     }
                     pressed = true;
                 });
+            },
+            uninitialize: function() {
+                if (sub) {
+                    debugger
+                    angular.element($window).unbind("keypress");
+                }
             }
         };
     });

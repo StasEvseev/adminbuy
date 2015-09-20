@@ -1,10 +1,18 @@
 #coding: utf-8
 import datetime
+from flask import request
 from db import db
 
 from models.sync import Sync, IN_PROGRESS, COMPLETE
 
 from resources.core import BaseTokeniseResource
+
+
+class SyncSession(BaseTokeniseResource):
+    def post(self):
+        request
+        x = 1
+        pass
 
 
 class SyncResourceCreate(BaseTokeniseResource):

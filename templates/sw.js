@@ -5,10 +5,8 @@ importScripts('/static/js/lib/index.js');
 
 var CACHE_MAIN = 'admin-main-v1';
 var CACHE_STATIC = 'admin-static-v5';
-var CACHE_APP = 'admin-app-v4';
+var CACHE_APP = 'admin-app-v5';
 
-
-debugger
 var expectedCaches = [
   CACHE_MAIN,
   CACHE_STATIC,
@@ -130,7 +128,7 @@ MAP_CACHE[CACHE_APP] = urlCacheApp;
 // Set the callback for the install step
 self.addEventListener('install', function(event) {
     // Perform install steps
-    debugger
+    console.log("Install222", x);
     event.waitUntil(
         Promise.all([
             caches.open(CACHE_STATIC).then(function(cache) {
@@ -162,7 +160,7 @@ self.addEventListener('fetch', function(event) {
 });
 
 self.addEventListener('activate', function(event) {
-    debugger
+    console.log("active222", x);
     event.waitUntil(
         caches.keys().then(function(cacheNames) {
           return Promise.all(
@@ -179,17 +177,3 @@ self.addEventListener('activate', function(event) {
         })
       );
 });
-
-
-//self.addEventListener('install', function(event) {
-//  console.log("SW installed");
-//});
-//
-//self.addEventListener('activate', function(event) {
-//  console.log("SW activated");
-//});
-//
-//self.addEventListener('fetch', function(event) {
-//  console.log("Caught a fetch!");
-//  event.respondWith(new Response("Hello world!"));
-//});

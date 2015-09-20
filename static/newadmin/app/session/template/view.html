@@ -8,6 +8,7 @@
                     <h3 class="box-title">Поиск товара</h3>
                   </div><!-- /.box-header -->
                   <div class="box-body">
+                      <button ng-click="sync()">Синхронизация</button>
                       <!--<input type="text" ng-model="asyncSelected"
                              typeahead="good as good.full_name_with_price for good in getLocation($viewValue)" typeahead-loading="loadingLocations"
                              typeahead-no-results="noResults" class="form-control input-lg">
@@ -77,7 +78,7 @@
 
                         <tbody scroll-glue>
                             <tr ng-repeat="item in items">
-                                <td>1</td>
+                                <td>[[$index]]</td>
                                 <td>[[item.barcode]]</td>
                                 <td>[[item.checkModel]]</td>
                                 <td></td>

@@ -4,7 +4,7 @@
 
 function register_____________________() {
     navigator.serviceWorker.register('sw.js', {scope: './'}).then(function(registration) {
-        debugger
+        //debugger
         // Registration was successful
         console.log('ServiceWorker registration successful with scope: ',    registration.scope);
     }).catch(function(err) {
