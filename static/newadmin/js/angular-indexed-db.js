@@ -163,7 +163,7 @@
           });
         };
         keyRangeForOptions = function(options) {
-          if (options.beginKey && options.endKey) {
+          if (!angular.isUndefined(options.beginKey) && !angular.isUndefined(options.endKey)) {
             return IDBKeyRange.bound(options.beginKey, options.endKey);
           }
         };

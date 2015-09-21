@@ -30,7 +30,7 @@ from models.invoiceitem import InvoiceItem
 from models.retailinvoice import RetailInvoice
 from models.retailinvoiceitem import RetailInvoiceItem
 from models.revision import Revision, RevisionItem
-from models.sync import Sync
+from models.sync import Sync, SyncSession, SyncItemSession
 from models.warehouse import WareHouse
 from applications.settings.model import Profile
 from applications.mails.model import Mail

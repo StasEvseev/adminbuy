@@ -56,10 +56,30 @@ AdminApp = angular.module('AdminApp', [
     'indexedDB'
 ]);
 
+AdminApp.factory('Device', function($window) {
+    return {
+        getIfDefined: function() {
+            if (angular.isUndefined($window.localStorage.deviceId)) {
+                this.gen();
+            }
+            return this.getId();
+        },
+        getId: function() {
+            return $window.localStorage.deviceId;
+        },
+        gen: function() {
+            $window.localStorage.deviceId = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+                return v.toString(16);
+            });
+        }
+    }
+});
+
 AdminApp.config(function ($indexedDBProvider) {
 
-    $indexedDBProvider.connection('myDB__test4').upgradeDatabase(1, function(event, db, tx) {
-        var objStore = db.createObjectStore('session_items', { autoIncrement : true });
+    $indexedDBProvider.connection('myDB__test6').upgradeDatabase(1, function(event, db, tx) {
+        var objStore = db.createObjectStore('session_items', { autoIncrement : true, keyPath: 'id'});
         objStore.createIndex('is_sync_idx', 'is_sync', {unique: false});
     });
 });

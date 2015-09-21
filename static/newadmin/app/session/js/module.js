@@ -17,16 +17,13 @@ angular.module("session.module", ['ui.router', 'core.service', 'core.controllers
         views: {
             'content@index': {
                 templateUrl: "static/newadmin/app/session/template/view.html",
-                controller: function($scope, $rootScope, $http, $window, $timeout, goods, hIDScanner, $indexedDB) {
+                controller: function($scope, $rootScope, $http, $window, $timeout, goods, hIDScanner, $indexedDB, Device) {
                     $scope.items = [];
                     hIDScanner.initialize();
 
                     var OBJECT_STORE_NAME = 'session_items';
-                    var myObjectStore;
                     $indexedDB.openStore(OBJECT_STORE_NAME, function(store) {
-                        myObjectStore = store;
-
-                        myObjectStore.getAll().then(function(results) {
+                        store.getAll().then(function(results) {
                           // Update scope
                             $scope.items = results;
                         });
@@ -41,36 +38,48 @@ angular.module("session.module", ['ui.router', 'core.service', 'core.controllers
                         $indexedDB.openStore(OBJECT_STORE_NAME, function(store) {
 
                             store.eachBy('is_sync_idx', {beginKey: 0, endKey: 0}).then(function(res) {
-                                $http.post('/api/syncSession', {data: {items: res}});
+                                console.log("Row to sync", res);
+                                $http.post('/api/syncSession', {data: {items: res}}).then(function(resp) {
+
+                                    $indexedDB.openStore(OBJECT_STORE_NAME, function(store) {
+                                        var items = _.map(res, function(item) {
+                                            item.is_sync = 1;
+                                            return item;
+                                        });
+                                        store.upsert(items);
+                                    });
+                                }).catch(function(resp) {
+                                    debugger
+                                });
                             })});
+                    };
 
-                        //var myQuery = $indexedDB.queryBuilder().$index('is_sync_idx').compile();
-                        //myObjectStore.each(myQuery).then(function(cursor){
-                        //    debugger
-                        //    cursor.key;
-                        //    cursor.value;
-                        //});
-
-
-
+                    var checkMap = {
+                        1: "Продажа",
+                        2: "Возврат"
                     };
 
                     $rootScope.$on("hidScanner::scanned", function(event, barcode) {
                         var item = {
                             barcode: barcode.barcode,
-                            checkModel: $scope.checkModel,
+                            operation: $scope.checkModel,
+                            checkModel: checkMap[$scope.checkModel],
                             datetime: new Date(),
-                            is_sync: 0
+                            is_sync: 0,
+                            count: 1
                         };
 
-                        myObjectStore.insert(item).then(function() {
-                           $scope. items.push(item);
-                        }).catch(function(er) {
-                            console.error(er);
+                        $indexedDB.openStore(OBJECT_STORE_NAME, function(store) {
+                            store.insert(item).then(function(res) {
+                                item['id'] = res[0];
+                               $scope.items.push(item);
+                            }).catch(function(er) {
+                                console.error(er);
+                            });
                         });
                     });
 
-                    $scope.checkModel = 'Продажа';
+                    $scope.checkModel = 1;
                 }
             }
         }

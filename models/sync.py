@@ -2,6 +2,23 @@
 from db import db
 
 
+class SyncSession(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    #Дата
+    datetime = db.Column(db.DateTime)
+    deviceId = db.Column(db.String)
+
+
+class SyncItemSession(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    sync_id = db.Column(db.Integer, db.ForeignKey('sync_session.id'))
+    sync = db.relationship('SyncSession', backref=db.backref('items', lazy='dynamic'))
+    barcode = db.Column(db.String)
+    datetime = db.Column(db.DateTime)
+    operation = db.Column(db.Integer)
+    count = db.Column(db.Integer)
+
+
 class Sync(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)

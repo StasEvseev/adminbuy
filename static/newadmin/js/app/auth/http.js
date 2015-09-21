@@ -8,7 +8,7 @@ angular.module("auth.http", ["core.helpers"])
     $httpProvider.interceptors.push('authInterceptor');
 })
 
-.factory('authInterceptor', function($q, $injector, $window, Base64) {
+.factory('authInterceptor', function($q, $injector, $window, Base64, Device) {
     return {
         // Add authorization token to headers
         request: function (config) {
@@ -17,6 +17,7 @@ angular.module("auth.http", ["core.helpers"])
             if (principal.isAuthenticated()) {
                 config.headers.Authorization = 'Basic ' + Base64.encode(principal.getToken() + ':' + 'unused');
             }
+            config.headers.DeviceId = Device.getIfDefined();
             return config;
         },
 

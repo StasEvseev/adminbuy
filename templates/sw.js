@@ -128,7 +128,7 @@ MAP_CACHE[CACHE_APP] = urlCacheApp;
 // Set the callback for the install step
 self.addEventListener('install', function(event) {
     // Perform install steps
-    console.log("Install222", x);
+    console.log("Install222");
     event.waitUntil(
         Promise.all([
             caches.open(CACHE_STATIC).then(function(cache) {
@@ -160,7 +160,7 @@ self.addEventListener('fetch', function(event) {
 });
 
 self.addEventListener('activate', function(event) {
-    console.log("active222", x);
+    console.log("active222");
     event.waitUntil(
         caches.keys().then(function(cacheNames) {
           return Promise.all(
