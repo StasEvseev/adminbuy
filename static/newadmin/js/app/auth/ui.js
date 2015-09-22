@@ -1,10 +1,10 @@
 /**
  * Created by user on 27.07.15.
  */
-angular.module('auth.ui', ['ui.router'])
+angular.module('auth.ui', ['ui.router', 'indexedDB'])
 
-.factory('principal', ['$q', '$http', '$timeout', '$window',
-  function($q, $http, $timeout, $window) {
+.factory('principal', ['$q', '$http', '$timeout', '$window', '$indexedDB',
+  function($q, $http, $timeout, $window, $indexedDB) {
     var _identity = undefined, _authenticated = false;
 
     return {
@@ -60,6 +60,15 @@ angular.module('auth.ui', ['ui.router'])
       setToken: function(token) {
           $window.localStorage.token = token;
       },
+      setUser: function(name) {
+          $window.localStorage.username = name;
+      },
+      getUser: function() {
+          return $window.localStorage.username;
+      },
+      deleteUser: function() {
+          delete $window.localStorage.username;
+      },
       deleteToken: function() {
           delete $window.localStorage.token;
       },
@@ -70,15 +79,62 @@ angular.module('auth.ui', ['ui.router'])
           var q;
 
           if (identity) {
+              var user = {
+                  name: identity.login,
+                  password: identity.password
+              };
               q = $q.defer();
 
-              $http.post("/api/auth", {user: identity.login, password: identity.password}).then(function(resp) {
-                  self.setToken(resp.data.token);
-                  q.resolve();
+              $http.post("/api/auth", {user: user.name, password: user.password}).then(function(resp) {
+
+                  var user = {
+                      name: identity.login,
+                      password: identity.password,
+                      token: resp.data.token
+                  };
+                  var q2 = $q.defer();
+
+                  $indexedDB.openStore('users', function(store) {
+
+                      store.findBy('name_idx', user.name).then(function(usr) {
+                          if (angular.isUndefined(usr)) {
+                              store.insert(user);
+                          } else {
+                              usr.token = resp.data.token;
+                              usr.password = user.password;
+                              store.upsert(usr);
+                          }
+                          q2.resolve();
+                      });
+                  });
+
+                  q2.promise.then(function() {
+                      self.setUser(user.name);
+                      self.setToken(resp.data.token);
+                      q.resolve();
+                  });
+
               }, function(resp) {
-                  self.deleteToken();
-                  _identity = undefined;
-                  q.reject();
+
+                  if (resp.status == 0) {
+                      $indexedDB.openStore('users', function(store) {
+                          store.findBy('name_idx', user.name).then(function(usr) {
+                              if (angular.isUndefined(usr) || usr.password != user.password) {
+                                  self.deleteToken();
+                                  self.deleteUser();
+                                  q.reject();
+                              } else {
+                                  self.setToken(usr.token);
+                                  self.setUser(user.name);
+                                  q.resolve();
+                              }
+                          });
+                      });
+                  } else {
+                      self.deleteToken();
+                      self.deleteUser();
+                      q.reject();
+                  }
               });
 
               return q.promise;
@@ -102,17 +158,44 @@ angular.module('auth.ui', ['ui.router'])
           return deferred.promise;
         }
 
-          $http.get("/api/identity")
-                                  .success(function(data){
-                                    self.setIdentity(data.identity);
-//                                    _identity = data.identity;
-//                                    _authenticated = true;
-                                    deferred.resolve(_identity);
-                                }).error(function(data) {
-                  self.deleteIdentity();
-                  self.deleteToken();
-                  deferred.resolve(_identity);
-              });
+        $http.get("/api/identity").success(function(data){
+
+            var q = $q.defer();
+
+            $indexedDB.openStore('users', function(store) {
+                store.findBy('name_idx', self.getUser()).then(function(usr) {
+                    usr.identity = data.identity;
+                    store.upsert(usr);
+                    q.resolve(data.identity);
+                });
+            });
+
+            q.promise.then(function(identity) {
+                self.setIdentity(identity);
+                deferred.resolve(self.getIdentity());
+            });
+
+        }).error(function(resp) {
+
+            if (resp == null && self.getUser()) {
+
+                $indexedDB.openStore('users', function(store) {
+                    store.findBy('name_idx', self.getUser()).then(function(usr) {
+                        if (!angular.isUndefined(usr)) {
+                            self.setIdentity(usr.identity);
+                            deferred.reject(self.getIdentity());
+                        } else {
+                            deferred.resolve();
+                        }
+                    });
+                });
+
+            } else {
+                self.deleteIdentity();
+                self.deleteToken();
+                deferred.resolve(undefined);
+            }
+        });
 
         // for the sake of the demo, fake the lookup by using a timeout to create a valid
         // fake identity. in reality,  you'll want something more like the $http request
@@ -200,6 +283,7 @@ angular.module('auth.ui', ['ui.router'])
 
             }
               if (principal.isIdentityResolved()) {
+                  console.info("Unauthorize with empty identity.");
                   authorization.authorize();
               }
           }

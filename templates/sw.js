@@ -5,7 +5,7 @@ importScripts('/static/js/lib/index.js');
 
 var CACHE_MAIN = 'admin-main-v1';
 var CACHE_STATIC = 'admin-static-v5';
-var CACHE_APP = 'admin-app-v5';
+var CACHE_APP = 'admin-app-v11';
 
 var expectedCaches = [
   CACHE_MAIN,
@@ -21,6 +21,9 @@ var urlCacheStatic = [
     'https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css',
     "/static/css/lib/font-awesome-4.1.0/fonts/fontawesome-webfont.woff?v=4.1.0",
     "https://fonts.gstatic.com/s/sourcesanspro/v9/toadOcfmlt9b38dHJxOBGCOFnW3Jk0f09zW_Yln67Ac.woff2",
+    '/static/css/fonts/glyphicons-halflings-regular.woff2',
+    '/static/css/fonts/glyphicons-halflings-regular.woff',
+    '/static/css/fonts/glyphicons-halflings-regular.ttf',
     '/static/css/lib/bootstrap.min.css',
     '/static/css/lib/font-awesome-4.1.0/css/font-awesome.min.css',
     '/static/newadmin/css/minimal/_all.css',
@@ -51,7 +54,11 @@ var urlCacheStatic = [
 
 var urlCacheApp = [
 
-    '/static/gen/myapp.min.js?4505d037',
+    {% assets 'NAjs' %}
+        '{{ ASSET_URL }}',
+    {% endassets %}
+
+//    '/static/gen/myapp.min.js?4886340b',
 
     '/static/newadmin/template/admin.html',
     '/static/newadmin/template/dash.html',

@@ -10,6 +10,7 @@ bundles = {
         'newadmin/js/app.js',
         'newadmin/js/demo.js',
 
+        'newadmin/js/app/db.js',
         'newadmin/js/app/filters.js',
         'newadmin/js/app/form.js',
         'newadmin/js/app/myapp.js',
@@ -48,6 +49,7 @@ bundles = {
         'newadmin/app/user/js/module.js',
 
         'newadmin/app/session/js/module.js',
+        'newadmin/app/session/js/service.js',
 
         'newadmin/js/app/utils.js',
         'newadmin/js/app/application.js',

@@ -38,6 +38,7 @@ AdminApp = angular.module('AdminApp', [
     'users.service',
 
     'session.module',
+    'session.service',
 
     'user',
     'application',
@@ -53,7 +54,7 @@ AdminApp = angular.module('AdminApp', [
     'ds.clock',
     'luegg.directives',
     'anguFixedHeaderTable',
-    'indexedDB'
+    'dbApp'
 ]);
 
 AdminApp.factory('Device', function($window) {
@@ -74,14 +75,6 @@ AdminApp.factory('Device', function($window) {
             });
         }
     }
-});
-
-AdminApp.config(function ($indexedDBProvider) {
-
-    $indexedDBProvider.connection('myDB__test6').upgradeDatabase(1, function(event, db, tx) {
-        var objStore = db.createObjectStore('session_items', { autoIncrement : true, keyPath: 'id'});
-        objStore.createIndex('is_sync_idx', 'is_sync', {unique: false});
-    });
 });
 
 AdminApp.factory('hIDScanner', function($rootScope, $window, $timeout) {
@@ -111,7 +104,6 @@ AdminApp.factory('hIDScanner', function($rootScope, $window, $timeout) {
             },
             uninitialize: function() {
                 if (sub) {
-                    debugger
                     angular.element($window).unbind("keypress");
                 }
             }
