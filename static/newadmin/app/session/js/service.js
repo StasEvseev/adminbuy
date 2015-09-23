@@ -69,6 +69,10 @@ angular.module("session.service", ['indexedDB'])
             return q.promise;
         },
 
+        getWork: function() {
+            return parseInt($window.localStorage[TOKEN_DAY]);
+        },
+
         setWork: function(id) {
             $window.localStorage[TOKEN_DAY] = id;
         },
@@ -78,6 +82,7 @@ angular.module("session.service", ['indexedDB'])
         },
 
         isWork: function(){
+
             if ($window.localStorage[TOKEN_DAY]) {
                 return true;
             }
@@ -115,11 +120,11 @@ angular.module("session.service", ['indexedDB'])
             });
             return q.promise;
         },
-        getAllItem: function() {
+        getAllItem: function(work_id) {
             var q = $q.defer();
             var OBJECT_STORE_NAME = 'session_items';
             $indexedDB.openStore(OBJECT_STORE_NAME, function(store) {
-                store.getAll().then(function(results) {
+                store.eachBy('work_id_idx', {beginKey: work_id, endKey: work_id}).then(function(results) {
                     q.resolve(results);
                 });
             });

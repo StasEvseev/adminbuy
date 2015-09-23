@@ -87,7 +87,7 @@ angular.module("session.module", ['ui.router', 'core.service', 'core.controllers
                         $scope.date = day.date_start;
                     });
 
-                    SessionService.getAllItem().then(function(results) {
+                    SessionService.getAllItem(SessionService.getWork()).then(function(results) {
                         // Update scope
                         $scope.items = results;
                     });
@@ -118,7 +118,8 @@ angular.module("session.module", ['ui.router', 'core.service', 'core.controllers
                             checkModel: checkMap[$scope.checkModel],
                             datetime: new Date(),
                             is_sync: 0,
-                            count: 1
+                            count: 1,
+                            work_id: SessionService.getWork()
                         };
 
                         SessionService.insertItem(item).then(function(item) {

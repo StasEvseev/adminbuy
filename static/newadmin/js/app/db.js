@@ -4,7 +4,7 @@
 
 angular.module('dbApp', ['indexedDB'])
 .constant('DBSettings', {
-    DBNAME: "myDB__test7"
+    DBNAME: "myDB__test9"
 })
 
 .config(function ($indexedDBProvider, DBSettings) {
@@ -20,6 +20,7 @@ angular.module('dbApp', ['indexedDB'])
     $indexedDBProvider.connection(DBSettings.DBNAME).upgradeDatabase(1, function(event, db, tx) {
         var objStore = db.createObjectStore('session_items', { autoIncrement : true, keyPath: 'id'});
         objStore.createIndex('is_sync_idx', 'is_sync', {unique: false});
+        objStore.createIndex('work_id_idx', 'work_id', {unique: false});
     });
 })
 
