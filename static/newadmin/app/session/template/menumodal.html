@@ -1,0 +1,22 @@
+<div class="modal-header">
+    <h3 class="modal-title">Начало работы <span class="pull-right">Дата: [[date | date]] </span></h3>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-12">
+            <button ng-click="openWorkday()" class="btn btn-flat btn-default btn-lg center-block">Открытие нового рабочего дня</button>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-12" ng-show="hasOpenWorkDay">
+            <button class="btn btn-flat btn-default btn-lg center-block">Продолжение открытого рабочего дня</button>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-2">
+            <button ng-click="logout()" class="btn btn-flat btn-default pull-right">Выход</button>
+        </div>
+    </div>
+</div>

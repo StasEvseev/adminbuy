@@ -10,16 +10,82 @@ angular.module("session.module", ['ui.router', 'core.service', 'core.controllers
              roles: ['vendor']
         },
         abstract: true,
-        url: '/session'
+        url: '/session',
+        resolve: {
+            isWork: function($state, $rootScope, SessionService) {
+                if ($rootScope.toState.name != 'index.session.menu' && !SessionService.isWork()) {
+                    $state.go('index.session.menu');
+                }
+            }
+        }
     })
+
+    .state('index.session.menu', {
+        url: '/menu',
+        views: {
+            'content@index': {
+                templateUrl: "static/newadmin/app/session/template/menu.html",
+                controller: function($scope, $modal, SessionService) {
+
+                    $modal.open({
+                        templateUrl: "static/newadmin/app/session/template/menumodal.html",
+                        controller: function($scope, $state, $modalInstance, principal) {
+                            $scope.logout = function() {
+                                principal.authenticate();
+                                $state.go("signin").then(function() {
+                                    $modalInstance.dismiss('cancel');
+                                });
+                            };
+
+                            $scope.openWorkday = function() {
+                                SessionService.hasOpenWorkDay().then(function(result) {
+                                    if (result === true) {
+                                        if(confirm("Для того, чтобы открыть новый рабочий день, следует закрыть старый.", "Закрытие старого дня.")) {
+                                            SessionService.endWorkDay().then(function() {
+                                                $scope.$digest();
+                                            });
+                                        }
+                                    } else {
+                                        SessionService.beginWorkDay($scope.date, principal.getUser()).then(function() {
+
+                                            $state.go('index.session.view').then(function() {
+                                                $modalInstance.dismiss('cancel');
+                                            });
+                                        });
+                                    }
+                                });
+
+                            };
+                            $scope.hasOpenWorkDay = false;
+                            SessionService.hasOpenWorkDay().then(function(result) {
+                                $scope.hasOpenWorkDay = result;
+                            });
+
+                            $scope.date = new Date();
+                        },
+                        backdrop: "static",
+                        size: "lg"
+
+                    });
+
+                }
+            }
+        }
+    })
+
     .state('index.session.view', {
         url: "?filter&page",
         views: {
             'content@index': {
                 templateUrl: "static/newadmin/app/session/template/view.html",
-                controller: function($scope, $rootScope, $http, $window, $timeout, goods, hIDScanner, SessionService) {
+                controller: function($scope, $state, $rootScope, $http, $window, $timeout, goods, hIDScanner, SessionService) {
                     $scope.items = [];
                     hIDScanner.initialize();
+
+                    SessionService.getOpenWorkDay().then(function(resp) {
+                        var day = resp['res'];
+                        $scope.date = day.date_start;
+                    });
 
                     SessionService.getAllItem().then(function(results) {
                         // Update scope
@@ -30,8 +96,14 @@ angular.module("session.module", ['ui.router', 'core.service', 'core.controllers
                         hIDScanner.uninitialize();
                     });
 
+                    $scope.closeWorkDay = function() {
+                        SessionService.endWorkDay().then(function() {
+                            $state.go('index.session.menu');
+                        });
+                    };
+
                     $scope.sync = function() {
-                        SessionService.sync();
+                        SessionService.syncSessionItems();
                     };
 
                     var checkMap = {

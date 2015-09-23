@@ -3,9 +3,9 @@
  */
 importScripts('/static/js/lib/index.js');
 
-var CACHE_MAIN = 'admin-main-v1';
+var CACHE_MAIN = 'admin-main-v2';
 var CACHE_STATIC = 'admin-static-v5';
-var CACHE_APP = 'admin-app-v11';
+var CACHE_APP = 'admin-app-v12';
 
 var expectedCaches = [
   CACHE_MAIN,
@@ -135,7 +135,7 @@ MAP_CACHE[CACHE_APP] = urlCacheApp;
 // Set the callback for the install step
 self.addEventListener('install', function(event) {
     // Perform install steps
-    console.log("Install222");
+    console.log("Install " + CACHE_STATIC + " " + CACHE_MAIN + " " + CACHE_APP);
     event.waitUntil(
         Promise.all([
             caches.open(CACHE_STATIC).then(function(cache) {
@@ -167,7 +167,7 @@ self.addEventListener('fetch', function(event) {
 });
 
 self.addEventListener('activate', function(event) {
-    console.log("active222");
+    console.log("Active " + CACHE_STATIC + " " + CACHE_MAIN + " " + CACHE_APP);
     event.waitUntil(
         caches.keys().then(function(cacheNames) {
           return Promise.all(
@@ -177,7 +177,6 @@ self.addEventListener('activate', function(event) {
               // but remember that caches are shared across
               // the whole origin
             }).map(function(cacheName) {
-                debugger
               return caches.delete(cacheName);
             })
           );

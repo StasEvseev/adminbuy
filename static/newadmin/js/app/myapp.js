@@ -169,6 +169,7 @@ var MainController = function ($scope, $rootScope, User, Company, Application, m
     });
 
     $scope.logout = function () {
+        console.info("Unauthenticate.");
         principal.authenticate();
         $state.go("signin");
     };
@@ -282,7 +283,15 @@ AdminApp.config(function ($stateProvider, $urlRouterProvider) {
                                         $state.go($scope.returnToState.name, $scope.returnToStateParams);
                                     }
                                     else {
-                                        $state.go('index.dash');
+                                        //Если права выданы только как на продавца - то делаем переход на выбор рабочего дня
+                                        var id = principal.getIdentity();
+                                        if (id.length == 1 && id.indexOf("vendor") != -1) {
+                                            console.info("You are only vendor. Go to menu.");
+                                            $state.go('index.session.menu');
+                                        } else {
+                                            console.info("Don't you are not only vendor. Go to dash.");
+                                            $state.go('index.dash');
+                                        }
                                     }
                                 },
                                 function () {

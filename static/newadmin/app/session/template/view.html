@@ -1,26 +1,28 @@
 <div class="main-content">
 
     <section class="content">
+
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Открыт рабочий день с: [[date | date:'dd-MM-yyyy HH:mm:ss']] <span class="pull-right"><button class="btn btn-danger btn-flat" ng-click="closeWorkDay()">Закрыть рабочий день</button></span></h3>
+
+                <button class="btn btn-default btn-flat" ng-click="sync()">Синхронизация</button>
+            </div>
+        </div>
+
+        <br/>
+
         <div class="row">
             <div class="col-md-7">
                 <div class="box" style="height: 100%;">
                   <div class="box-header with-border">
-                    <h3 class="box-title">Поиск товара</h3>
+                    <h3 class="box-title">Операции</h3>
                   </div><!-- /.box-header -->
                   <div class="box-body">
-                      <button ng-click="sync()">Синхронизация</button>
-                      <!--<input type="text" ng-model="asyncSelected"
-                             typeahead="good as good.full_name_with_price for good in getLocation($viewValue)" typeahead-loading="loadingLocations"
-                             typeahead-no-results="noResults" class="form-control input-lg">
-                      <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-                      <div ng-show="noResults">
-                          <i class="glyphicon glyphicon-remove"></i> Товар не найден
-                      </div>
 
-                      <br/>
+                      <label class="btn btn-primary" style="font-size: 35px" ng-model="checkModel"  btn-radio="1">ПРОДАЖА</label>
+                      <label class="btn btn-danger" style="font-size: 35px" ng-model="checkModel"  btn-radio="2">ВОЗВРАТ</label>
 
-                      <button class="btn btn-default btn-flat pull-left" ng-click="add()">Добавить</button>
-                      <button class="btn btn-default btn-flat pull-right">Очистить</button>-->
                   </div><!-- /.box-body -->
                 </div><!-- /.box -->
             </div>
@@ -43,8 +45,7 @@
             <div class="col-md-12">
 
                 <div class="btn-group">
-                    <label class="btn btn-primary" style="font-size: 35px" ng-model="checkModel"  btn-radio="1">ПРОДАЖА</label>
-                    <label class="btn btn-danger" style="font-size: 35px" ng-model="checkModel"  btn-radio="2">ВОЗВРАТ</label>
+
                 </div>
             </div>
 
