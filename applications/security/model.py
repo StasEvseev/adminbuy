@@ -57,7 +57,7 @@ class User(db.Model, UserMixin):
     @staticmethod
     def verify_auth_token(token):
         res = _token_loader(token)
-        if res.is_anonymous:
+        if res.is_anonymous():
             res = None
         return res
 
