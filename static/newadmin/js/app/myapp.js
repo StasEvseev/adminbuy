@@ -150,7 +150,7 @@ var MainController = function ($scope, $rootScope, User, Company, Application, m
     $scope.authorLink = Application.authorLink();
 
     var socket;
-    socket = io.connect('http://' + document.domain + ':' + location.port); //, {resource: 'chat'});
+    socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port); //, {resource: 'chat'});
 
     socket.on('connect', function () {
         socket.emit('connect', {data: 'I\'m connected!'});
