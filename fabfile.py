@@ -45,8 +45,8 @@ def localhost():
 @task
 def remote():
     env.run = run
-    env.hosts = ['127.0.0.1']
-    env.port = '2222'
+    env.hosts = ['46.101.216.62']
+    env.port = '22'
 
 
 @task
@@ -70,11 +70,12 @@ def deploy():
 
 @task
 def update():
-    with cd(proj_dir + root_folder):
-        run('git pull origin master')
-    migration()
-    reload_super()
-    reload_nginx()
+    with settings(user='user'):
+        with cd(proj_dir + root_folder):
+            run('git pull origin master')
+        migration()
+        reload_super()
+        reload_nginx()
 
 
 @task
@@ -132,8 +133,9 @@ def install_dependency():
 
 @task
 def create_superuser():
-    with cd(proj_dir + root_folder):
-        run('python manage.py create_superuser')
+    with settings(user='user'):
+        with cd(proj_dir + root_folder):
+            run('python manage.py create_superuser')
 
 @task
 def install_rabbitmq():
