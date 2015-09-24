@@ -162,7 +162,7 @@ def create_superuser():
     with app.app_context():
         if UserService.check_duplicate('admin'):
             user = UserService.registration('admin', 'a@a.ru', 'admin', is_superuser=True,
-                                            first_name='Админов', last_name='Админ')
+                                            first_name='Админов', last_name='Админ', role=['admin'])
             db.session.add(user)
             db.session.commit()
         else:
