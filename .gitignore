@@ -14,3 +14,4 @@ celerybeat.pid
 .vagrant
 *.key
 *.csr
+*.crt

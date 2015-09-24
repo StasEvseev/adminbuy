@@ -190,17 +190,18 @@ def reload_super():
 def configure_nginx():
     """
     """
-    sudo('/etc/init.d/nginx start')
-    if exists('/etc/nginx/sites-enabled/default'):
-        sudo('rm /etc/nginx/sites-enabled/default')
-    sudo('cp ' + local_config_dir + "/buyapi " + remote_nginx_dir + "/buyapi")
+    with settings(user='user'):
+        sudo('/etc/init.d/nginx start')
+        if exists('/etc/nginx/sites-enabled/default'):
+            sudo('rm /etc/nginx/sites-enabled/default')
+        put("./config/buyapi", remote_nginx_dir, use_sudo=True)
 
-    put("private.key", '/etc/nginx/')
-    put("request.csr", '/etc/nginx/')
+        put("private.key", '/etc/nginx/', use_sudo=True)
+        put("ssl.crt", '/etc/nginx/', use_sudo=True)
 
-    if exists("/etc/nginx/sites-enabled/buyapi") is False:
-        sudo('ln -s /etc/nginx/sites-available/buyapi' +
-             ' /etc/nginx/sites-enabled/buyapi')
+        if exists("/etc/nginx/sites-enabled/buyapi") is False:
+            sudo('ln -s /etc/nginx/sites-available/buyapi' +
+                 ' /etc/nginx/sites-enabled/buyapi')
 
 
 @task
