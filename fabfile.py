@@ -11,12 +11,14 @@ from fabric.state import env
 
 import os
 
-env.user = 'vagrant'
+env.user = 'adminbuy'
 
 proj_dir = '/home/user/www'
 root_folder = '/adminbuy'
 
-local_config_dir = proj_dir + root_folder + '/config'
+proj_fullpath = proj_dir + root_folder
+
+local_config_dir = proj_fullpath + '/config'
 local_config_dir_super = local_config_dir + "/supervisor"
 
 remote_nginx_dir = '/etc/nginx/sites-enabled'
@@ -99,6 +101,7 @@ def clone_proj():
     run('mkdir ' + proj_dir + ' -p')
     with cd(proj_dir):
         run('git clone https://github.com/StasEvseev/adminbuy.git')
+    put("config_local.py", proj_fullpath)
 
 @task
 def create_user():
@@ -116,8 +119,9 @@ def install_env():
     sudo('apt-get install -y nginx')
     sudo('apt-get install -y supervisor')
     sudo('apt-get install -y git')
+    sudo('apt-get install build-essential gcc libxml2-dev libxslt1-dev -y')
     sudo('apt-get install libpq-dev python-dev -y')
-    sudo('apt-get install postgresql-9.1 -y')
+    sudo('apt-get install postgresql-9.3 -y')
 
 
 @task

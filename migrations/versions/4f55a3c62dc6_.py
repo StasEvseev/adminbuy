@@ -62,13 +62,15 @@ def upgrade():
 
     session.add(role)
 
-    admin = session.query(User).filter(User.is_superuser==True).one()
-
-    ru = RU()
-    ru.user = admin
-    ru.role = role
-    admin.roles.append(ru)
-    session.add(admin)
+    try:
+        admin = session.query(User).filter(User.is_superuser==True).one()
+        ru = RU()
+        ru.user = admin
+        ru.role = role
+        admin.roles.append(ru)
+        session.add(admin)
+    except Exception:
+        pass
 
     session.commit()
     ### end Alembic commands ###
