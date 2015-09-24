@@ -195,6 +195,9 @@ def configure_nginx():
         sudo('rm /etc/nginx/sites-enabled/default')
     sudo('cp ' + local_config_dir + "/buyapi " + remote_nginx_dir + "/buyapi")
 
+    put("private.key", '/etc/nginx/')
+    put("request.csr", '/etc/nginx/')
+
     if exists("/etc/nginx/sites-enabled/buyapi") is False:
         sudo('ln -s /etc/nginx/sites-available/buyapi' +
              ' /etc/nginx/sites-enabled/buyapi')

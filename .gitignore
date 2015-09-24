@@ -12,3 +12,5 @@ attachments
 celerybeat-schedule
 celerybeat.pid
 .vagrant
+*.key
+*.csr
