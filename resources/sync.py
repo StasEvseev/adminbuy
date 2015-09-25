@@ -30,16 +30,13 @@ class SyncSessionRes(BaseTokeniseResource):
 
                 workday = SyncService.get_or_create(user.id, datetime_start)
 
-                # workday = WorkDay()
+                if not workday.id:
+                    workday.sync_start = sync
 
-                # workday.datetime_start = parser.parse(workday_item['date_start'])
-                workday.sync_start = sync
                 if workday_item['date_end']:
                     workday.datetime_end = parser.parse(workday_item['date_end'])
                     workday.sync_end = sync
                 workday.username = workday_item['username']
-                # user = UserService.get_by_name(workday_item['username'])
-                # workday.user = user
                 db.session.add(workday)
 
                 for item in workday_item['items']:

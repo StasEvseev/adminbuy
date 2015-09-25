@@ -90,10 +90,6 @@ angular.module("session.service", ['indexedDB'])
             return false;
         },
 
-//        syncSession: function() {
-//
-//        },
-
         getDataToSync: function() {
             //Выбираем те workday у которых is_sync равен 0.
             //Далее выбираем связанные session_items у которых work_id равен выбранным workdays.
@@ -153,7 +149,6 @@ angular.module("session.service", ['indexedDB'])
 
                         storeItems.upsert(items).then(function () {
                             if(itm.date_end) {
-                                debugger
                                 itm.is_sync = 1;
                                 storeWD.upsert(itm);
                             }
@@ -184,16 +179,10 @@ angular.module("session.service", ['indexedDB'])
                     self.saveSyncData(result).then(function() {
                         q.resolve();
                     });
-//                    $indexedDB.openStore(OBJECT_STORE_NAME, function(store) {
-//                        var items = _.map(res, function(item) {
-//                            item.is_sync = 1;
-//                            return item;
-//                        });
-//                        store.upsert(items);
-//                    });
-                    }).catch(function(resp) {
-                        q.reject();
-                    });
+
+                }).catch(function(resp) {
+                    q.reject();
+                });
             });
 
             return q.promise;

@@ -96,6 +96,7 @@ angular.module('auth.ui', ['ui.router', 'indexedDB'])
                         $indexedDB.openStore('users', function(store) {
 
                             store.findBy('name_idx', user.name).then(function(usr) {
+
                                 if (angular.isUndefined(usr)) {
                                     store.insert(user);
                                 } else {
