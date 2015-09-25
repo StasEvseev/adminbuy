@@ -37,6 +37,16 @@ angular.module("session.module", ['ui.router', 'core.service', 'core.controllers
                                 });
                             };
 
+                            $scope.continueWorkday = function() {
+                                SessionService.getOpenWorkDay().then(function(resp) {
+                                    var workday = resp['res'];
+                                    SessionService.setWork(workday.id);
+                                    $state.go('index.session.view').then(function() {
+                                        $modalInstance.dismiss('cancel');
+                                    });
+                                });
+                            };
+
                             $scope.openWorkday = function() {
                                 SessionService.hasOpenWorkDay().then(function(result) {
                                     if (result === true) {
