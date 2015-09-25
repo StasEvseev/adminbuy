@@ -15,6 +15,17 @@ class UserService(BaseSQLAlchemyModelService):
     model = User
 
     @classmethod
+    def has_by_name(cls, username):
+        query = cls.model.query.filter_by(login=username)
+        return query.count() > 0
+
+    @classmethod
+    def get_by_name(cls, username):
+        if cls.has_by_name(username):
+            return cls.model.query.filter_by(login=username)[0]
+        return None
+
+    @classmethod
     def check_duplicate(cls, login, email=None, id=None):
         query = cls.model.query.filter_by(login=login)
         if id:

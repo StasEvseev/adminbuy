@@ -18,9 +18,9 @@ class WorkDay(db.Model):
     username = db.Column(db.String)
 
     sync_start_id = db.Column(db.Integer, db.ForeignKey('sync_session.id'))
-    sync_start = db.relationship('SyncSession', backref=db.backref('workday_start', lazy='dynamic'))
+    sync_start = db.relationship('SyncSession', backref=db.backref('workday_start', lazy='dynamic'), foreign_keys='WorkDay.sync_start_id')
     sync_end_id = db.Column(db.Integer, db.ForeignKey('sync_session.id'))
-    sync_end = db.relationship('SyncSession', backref=db.backref('workday_end', lazy='dynamic'))
+    sync_end = db.relationship('SyncSession', backref=db.backref('workday_end', lazy='dynamic'), foreign_keys='WorkDay.sync_end_id')
 
 
 class SyncItemSession(db.Model):

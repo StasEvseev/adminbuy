@@ -5,42 +5,58 @@ from flask import request
 from flask.ext.restful import abort
 from db import db
 
-from models.sync import Sync, IN_PROGRESS, COMPLETE, SyncSession, SyncItemSession
+from models.sync import Sync, IN_PROGRESS, COMPLETE, SyncSession, SyncItemSession, WorkDay
 
 from resources.core import BaseTokeniseResource
+from services.syncservice import SyncService
+from services.userservice import UserService
 
 
 class SyncSessionRes(BaseTokeniseResource):
     def post(self):
         try:
+            deviceId = request.headers.environ.get("HTTP_DEVICEID")
 
-            x = 1
-            # deviceId = request.headers.environ.get("HTTP_DEVICEID")
-            #
-            # items = request.json['data']['items']
-            #
-            # sync = SyncSession()
-            # sync.datetime = datetime.datetime.now()
-            # sync.deviceId = deviceId
-            # db.session.add(sync)
-            #
-            # for item in items:
-            #
-            #     s_item = SyncItemSession()
-            #
-            #     dt = parser.parse(item['datetime'])
-            #     bc = item['barcode']
-            #     op = item['operation']
-            #     cnt = item['count']
-            #
-            #     s_item.sync = sync
-            #     s_item.barcode = bc
-            #     s_item.datetime = dt
-            #     s_item.operation = op
-            #     s_item.count = cnt
-            #     db.session.add(s_item)
-            #
-            # db.session.commit()
+            workday_items = request.json['data']['items']
+
+            sync = SyncSession()
+            sync.datetime = datetime.datetime.now()
+            sync.deviceId = deviceId
+            db.session.add(sync)
+
+            for workday_item in workday_items:
+                user = UserService.get_by_name(workday_item['username'])
+                datetime_start = parser.parse(workday_item['date_start'])
+
+                workday = SyncService.get_or_create(user.id, datetime_start)
+
+                # workday = WorkDay()
+
+                # workday.datetime_start = parser.parse(workday_item['date_start'])
+                workday.sync_start = sync
+                if workday_item['date_end']:
+                    workday.datetime_end = parser.parse(workday_item['date_end'])
+                    workday.sync_end = sync
+                workday.username = workday_item['username']
+                # user = UserService.get_by_name(workday_item['username'])
+                # workday.user = user
+                db.session.add(workday)
+
+                for item in workday_item['items']:
+                    dt = parser.parse(item['datetime'])
+                    bc = item['barcode']
+                    op = item['operation']
+                    cnt = item['count']
+
+                    s_item = SyncItemSession()
+                    s_item.sync = sync
+                    s_item.workday = workday
+                    s_item.barcode = bc
+                    s_item.datetime = dt
+                    s_item.operation = op
+                    s_item.count = cnt
+                    db.session.add(s_item)
+            db.session.commit()
             return "ok"
         except Exception as exc:
             abort(400, message="BLA")
