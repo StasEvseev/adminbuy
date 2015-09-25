@@ -9,10 +9,26 @@ class SyncSession(db.Model):
     deviceId = db.Column(db.String)
 
 
+class WorkDay(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    datetime_start = db.Column(db.DateTime)
+    datetime_end = db.Column(db.DateTime)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User', backref=db.backref('workdays', lazy='dynamic'))
+    username = db.Column(db.String)
+
+    sync_start_id = db.Column(db.Integer, db.ForeignKey('sync_session.id'))
+    sync_start = db.relationship('SyncSession', backref=db.backref('workday_start', lazy='dynamic'))
+    sync_end_id = db.Column(db.Integer, db.ForeignKey('sync_session.id'))
+    sync_end = db.relationship('SyncSession', backref=db.backref('workday_end', lazy='dynamic'))
+
+
 class SyncItemSession(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     sync_id = db.Column(db.Integer, db.ForeignKey('sync_session.id'))
     sync = db.relationship('SyncSession', backref=db.backref('items', lazy='dynamic'))
+    workday_id = db.Column(db.Integer, db.ForeignKey('work_day.id'))
+    workday = db.relationship('WorkDay', backref=db.backref('workdayitems', lazy='dynamic'))
     barcode = db.Column(db.String)
     datetime = db.Column(db.DateTime)
     operation = db.Column(db.Integer)

@@ -1,4 +1,5 @@
 #coding: utf-8
+from dateutil import parser
 import datetime
 from flask import request
 from flask.ext.restful import abort
@@ -11,35 +12,35 @@ from resources.core import BaseTokeniseResource
 
 class SyncSessionRes(BaseTokeniseResource):
     def post(self):
-        from dateutil import parser
-
         try:
-            deviceId = request.headers.environ.get("HTTP_DEVICEID")
 
-            items = request.json['data']['items']
-
-            sync = SyncSession()
-            sync.datetime = datetime.datetime.now()
-            sync.deviceId = deviceId
-            db.session.add(sync)
-
-            for item in items:
-
-                s_item = SyncItemSession()
-
-                dt = parser.parse(item['datetime'])
-                bc = item['barcode']
-                op = item['operation']
-                cnt = item['count']
-
-                s_item.sync = sync
-                s_item.barcode = bc
-                s_item.datetime = dt
-                s_item.operation = op
-                s_item.count = cnt
-                db.session.add(s_item)
-
-            db.session.commit()
+            x = 1
+            # deviceId = request.headers.environ.get("HTTP_DEVICEID")
+            #
+            # items = request.json['data']['items']
+            #
+            # sync = SyncSession()
+            # sync.datetime = datetime.datetime.now()
+            # sync.deviceId = deviceId
+            # db.session.add(sync)
+            #
+            # for item in items:
+            #
+            #     s_item = SyncItemSession()
+            #
+            #     dt = parser.parse(item['datetime'])
+            #     bc = item['barcode']
+            #     op = item['operation']
+            #     cnt = item['count']
+            #
+            #     s_item.sync = sync
+            #     s_item.barcode = bc
+            #     s_item.datetime = dt
+            #     s_item.operation = op
+            #     s_item.count = cnt
+            #     db.session.add(s_item)
+            #
+            # db.session.commit()
             return "ok"
         except Exception as exc:
             abort(400, message="BLA")

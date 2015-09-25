@@ -17,6 +17,7 @@ angular.module("session.service", ['indexedDB'])
                 var wd = {
                     date_start: date,
                     date_end: '',
+                    is_sync: 0,
                     username: username
                 };
                 store.insert(wd).then(function(id) {
@@ -89,25 +90,113 @@ angular.module("session.service", ['indexedDB'])
             return false;
         },
 
-        syncSessionItems: function() {
-            $indexedDB.openStore(OBJECT_STORE_NAME, function(store) {
+//        syncSession: function() {
+//
+//        },
 
-                store.eachBy('is_sync_idx', {beginKey: 0, endKey: 0}).then(function(res) {
-                    console.log("Row to sync", res);
-                    $http.post('/api/syncSession', {data: {items: res}}).then(function(resp) {
+        getDataToSync: function() {
+            //Выбираем те workday у которых is_sync равен 0.
+            //Далее выбираем связанные session_items у которых work_id равен выбранным workdays.
+            var result = [];
+            var queue_q = [];
+            var q = $q.defer();
+            $indexedDB.openStore(OBJECT_WD_NAME, function(store) {
+                store.eachBy('is_sync_idx', {beginKey: 0, endKey: 0}).then(function(workday_items) {
 
-                        $indexedDB.openStore(OBJECT_STORE_NAME, function(store) {
-                            var items = _.map(res, function(item) {
-                                item.is_sync = 1;
-                                return item;
+                    for (var j = 0; j < workday_items.length; j++) {
+                        var work = workday_items[j];
+
+                        (function(w) {
+                            var q_sub = $q.defer();
+                            queue_q.push(q_sub.promise);
+                            $indexedDB.openStore(OBJECT_STORE_NAME, function(store) {
+                                w['items'] = [];
+                                result.push(w);
+                                var query = store.query().$index('my_cool_idx').$eq([0, w.id]);
+                                (function(defer, query_in, work) {
+                                    store.eachWhere(query_in).then(function(items) {
+                                        work['items'] = items;
+                                        defer.resolve();
+                                    });
+                                })(q_sub, query, w);
+
                             });
-                            store.upsert(items);
-                        });
-                    }).catch(function(resp) {
-                        debugger
+
+                        })(work);
+                    }
+
+                    $q.all(queue_q).then(function() {
+                        q.resolve(result);
                     });
-                })
+                });
             });
+
+            return q.promise;
+        },
+
+        saveSyncData: function(result) {
+            var q = $q.defer();
+            var queue_q = [];
+            for (var i = 0; i < result.length; i++) {
+                item = result[i];
+
+                var q_s = $q.defer();
+                queue_q.push(q_s.promise);
+
+                (function(q, itm) {
+                    $indexedDB.openStores([OBJECT_WD_NAME, OBJECT_STORE_NAME], function(storeWD, storeItems) {
+
+                        var items = _.map(itm['items'], function(item) {
+                            item.is_sync = 1;
+                            return item;
+                        });
+
+                        storeItems.upsert(items).then(function () {
+                            if(itm.date_end) {
+                                debugger
+                                itm.is_sync = 1;
+                                storeWD.upsert(itm);
+                            }
+                            q.resolve();
+                        });
+                    });
+                })(q_s, item);
+            }
+
+            $q.all(queue_q).then(function() {
+                q.resolve();
+            });
+
+            return q.promise;
+        },
+
+        syncSession: function() {
+            var self = this;
+            var q = $q.defer();
+            //Синхронизируем записи workday и session_items
+            //Выбираем данные для синхронизации
+            //После успешной синхронизации, выставляем флаг is_sync у тех workdays у которых date_end не пустой.
+            this.getDataToSync().then(function(result) {
+                console.log("Data to sync", result);
+
+                $http.post('/api/syncSession', {data: {items: result}}).then(function(resp) {
+
+                    self.saveSyncData(result).then(function() {
+                        q.resolve();
+                    });
+//                    $indexedDB.openStore(OBJECT_STORE_NAME, function(store) {
+//                        var items = _.map(res, function(item) {
+//                            item.is_sync = 1;
+//                            return item;
+//                        });
+//                        store.upsert(items);
+//                    });
+                    }).catch(function(resp) {
+                        q.reject();
+                    });
+            });
+
+            return q.promise;
         },
         insertItem: function(item) {
             var q = $q.defer();

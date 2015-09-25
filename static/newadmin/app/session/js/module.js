@@ -113,7 +113,7 @@ angular.module("session.module", ['ui.router', 'core.service', 'core.controllers
                     };
 
                     $scope.sync = function() {
-                        SessionService.syncSessionItems();
+                        SessionService.syncSession();
                     };
 
                     var checkMap = {
