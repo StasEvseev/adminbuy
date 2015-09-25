@@ -62,12 +62,14 @@ class BaseTestCase(unittest.TestCase):
         """
         Инициализация БД. Нужен как минимум один пользователь.
         """
-        data = self.application.test_client().post("/admin/register/", data={
-            'login': 'I',
-            'email': 'a@a2.ru',
-            'password': 'I'
-        }, follow_redirects=True)
-        assert data.status_code, 200
+
+        from services.userservice import UserService
+        from db import db
+
+        with self.application.app_context():
+            user = UserService.registration('I', 'a@a2.ru', 'I')
+            db.session.add(user)
+            db.session.commit()
 
     def tearDown(self):
         self.tear_down()

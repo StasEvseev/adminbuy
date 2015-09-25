@@ -4,11 +4,11 @@ from tests import BaseTestCase
 
 class FlaskrTestCase(BaseTestCase):
 
-    def testLoginNotAuthorizationElseReg(self):
-        """
-        Проверяем систему авторизации
-        """
-        self.start_page()
+    # def testLoginNotAuthorizationElseReg(self):
+    #     """
+    #     Проверяем систему авторизации
+    #     """
+    #     self.start_page()
 
     def testCallRestNotAuthorization(self):
         """
