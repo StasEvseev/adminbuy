@@ -9,7 +9,7 @@ describe('project home page', function() {
     expect(browser.getLocationAbsUrl()).toEqual("/signin");
 
     ["mailbox", "invoice_in", "pointsale", "receiver", "user", "commodity", "good"].forEach(function(item) {
-        browser.get("http://localhost:5674/admin2#/" + item);
+        browser.get("http://localhost:5674/admin#/" + item);
         expect(browser.getLocationAbsUrl()).toEqual("/signin");
     });
   });

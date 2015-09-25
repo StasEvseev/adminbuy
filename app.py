@@ -39,7 +39,7 @@ def create_app(application):
     from assets import assets
     from applications.security.auth import login_manager
     from security import security
-    from admin import admin
+    # from admin import admin
 
     application.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
     application.config['SECURITY_TOKEN_AUTHENTICATION_HEADER'] = "AUTHORIZATION"
@@ -54,7 +54,7 @@ def create_app(application):
     api.application = application
     db.init_app(application)
     mail.init_app(application)
-    admin.init_app(application)
+    # admin.init_app(application)
     login_manager.init_app(application)
 
     security.init_app(application)
@@ -114,7 +114,7 @@ app.register_blueprint(UsBl)
 app.wsgi_app = ProxyFix(app.wsgi_app)
 
 
-@app.route('/admin2')
+@app.route('/admin')
 def newindex():
     return render_template("index.html")
 
@@ -149,7 +149,7 @@ def login():
 
 @app.route('/')
 def index():
-    return redirect("/admin2?%s" % request.query_string)
+    return redirect("/admin?%s" % request.query_string)
 
 @app.route('/sw.js')
 def manifest():

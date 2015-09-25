@@ -3,9 +3,9 @@
  */
 importScripts('/static/js/lib/index.js');
 
-var CACHE_MAIN = 'admin-main-v2';
+var CACHE_MAIN = 'admin-main-v3';
 var CACHE_STATIC = 'admin-static-v5';
-var CACHE_APP = 'admin-app-v12';
+var CACHE_APP = 'admin-app-v14';
 
 var expectedCaches = [
   CACHE_MAIN,
@@ -14,7 +14,7 @@ var expectedCaches = [
 ];
 
 var urlCacheMain = [
-    '/admin2'
+    '/admin'
 ];
 
 var urlCacheStatic = [
@@ -57,8 +57,6 @@ var urlCacheApp = [
     {% assets 'NAjs' %}
         '{{ ASSET_URL }}',
     {% endassets %}
-
-//    '/static/gen/myapp.min.js?4886340b',
 
     '/static/newadmin/template/admin.html',
     '/static/newadmin/template/dash.html',
@@ -109,6 +107,8 @@ var urlCacheApp = [
     "/static/newadmin/app/receiver/template/edit.html",
 
     "/static/newadmin/app/session/template/view.html",
+    "/static/newadmin/app/session/template/menu.html",
+    "/static/newadmin/app/session/template/menumodal.html",
 
     "/static/newadmin/app/user/template/form.html",
     "/static/newadmin/app/user/template/list.html",

@@ -48,20 +48,23 @@ angular.module("session.module", ['ui.router', 'core.service', 'core.controllers
                             };
 
                             $scope.openWorkday = function() {
+                                function open() {
+                                    SessionService.beginWorkDay($scope.date, principal.getUser()).then(function() {
+
+                                        $state.go('index.session.view').then(function() {
+                                            $modalInstance.dismiss('cancel');
+                                        });
+                                    });
+                                }
                                 SessionService.hasOpenWorkDay().then(function(result) {
                                     if (result === true) {
                                         if(confirm("Для того, чтобы открыть новый рабочий день, следует закрыть старый.", "Закрытие старого дня.")) {
                                             SessionService.endWorkDay().then(function() {
-                                                $scope.$digest();
+                                                open();
                                             });
                                         }
                                     } else {
-                                        SessionService.beginWorkDay($scope.date, principal.getUser()).then(function() {
-
-                                            $state.go('index.session.view').then(function() {
-                                                $modalInstance.dismiss('cancel');
-                                            });
-                                        });
+                                        open();
                                     }
                                 });
 
