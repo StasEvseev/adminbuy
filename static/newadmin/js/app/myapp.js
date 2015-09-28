@@ -198,6 +198,25 @@ AdminApp.controller('HeaderController', function ($scope, mails, User, ShowHideR
         return mails.countNew();
     };
 
+    $scope.toggle = function(e) {
+        e.preventDefault();
+        var screenSizes = $.AdminLTE.options.screenSizes;
+
+        //Enable sidebar push menu
+        if ($(window).width() > (screenSizes.sm - 1)) {
+          $("body").toggleClass('sidebar-collapse');
+        }
+        //Handle sidebar push menu for small screens
+        else {
+          if ($("body").hasClass('sidebar-open')) {
+            $("body").removeClass('sidebar-open');
+            $("body").removeClass('sidebar-collapse')
+          } else {
+            $("body").addClass('sidebar-open');
+          }
+        }
+    };
+
     $scope.show = ShowHideRoles.showState;
 });
 
