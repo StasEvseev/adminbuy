@@ -14,6 +14,13 @@ from services.userservice import UserService
 
 class SyncSessionRes(BaseTokeniseResource):
     def post(self):
+        """
+        Синхронизация Рабочего Места с сервером.
+
+        Для синхронизации требуется помещать в заголовки DeviceId.
+
+
+        """
         try:
             deviceId = request.headers.environ.get("HTTP_DEVICEID")
 
