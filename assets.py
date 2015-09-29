@@ -111,7 +111,10 @@ bundles = {
     'toastrcss': Bundle('css/lib/toastr.min.css'),
     'toastrjs': Bundle('js/lib/toastr.min.js'),
 
-    'angularjs-utils-css': Bundle('css/lib/angular-clock.css'),
+    'angularjs-utils-css': Bundle(
+        'css/lib/angular-clock.css',
+        Bundle('css/lib/fixed-header.css')
+    ),
 
     'angularjs-lib': Bundle('js/lib/angular1.4.js'),
     'angularjs-utils': Bundle(
@@ -128,7 +131,8 @@ bundles = {
             'js/lib/scrollglue.js'
         ),
         Bundle(
-            'js/lib/angu-fixed-header-table.js'
+            'js/lib/angu-fixed-header-table.js',
+            'js/lib/fixed-header.js'
         ),
         Bundle(
             'js/lib/angular-hidScanner.js'
@@ -166,12 +170,6 @@ bundles = {
 
     'bootbox': Bundle('js/lib/bootbox.min.js'),
 
-    # 'invoice_retail': Bundle('js/invoice.js'),
-
-
-
-    # 'acceptance': Bundle('js/acceptance.js'),
-
     'chart_js': Bundle('js/lib/Chart.js'),
 
     'metisMenu_css': Bundle('css/lib/metisMenu.css'),
@@ -180,19 +178,7 @@ bundles = {
 
     'custom_dash': Bundle('css/custom/sb-admin.css'),
 
-    # 'invoicemail': Bundle('js/invoice_mail.js'),
-
-    # 'acceptance_invoice': Bundle('js/acceptance_invoice.js'),
-
-    # 'pointselect': Bundle('js/pointselect.js'),
-
-    # 'waybilllist': Bundle('waybill/js/waybilllist.js'),
-
-    # 'acceptance': Bundle('acceptance/js/acceptance.js'),
-
-    # 'mail': Bundle('js/mail/mail.js'),
-
-    'good': Bundle('js/good/good.js')
+    # 'good': Bundle('js/good/good.js')
 }
 
 assets.register(bundles)

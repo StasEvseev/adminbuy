@@ -175,3 +175,11 @@ table.table-hor-middle > tbody > tr > td {
     text-align: center;
     vertical-align: middle;
 }
+
+div.fixed-table-container {
+    padding-top: 30px;
+}
+
+div.fixed-table-container-inner {
+    max-height: 250px;
+}

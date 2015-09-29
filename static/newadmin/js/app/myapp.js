@@ -53,7 +53,11 @@ AdminApp = angular.module('AdminApp', [
     'ngSanitize',
     'ds.clock',
     'luegg.directives',
+
+
     'anguFixedHeaderTable',
+
+    'fixedHeader',
     'Firestitch.angular-counter',
     'dbApp'
 ]);
