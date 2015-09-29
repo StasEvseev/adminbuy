@@ -100,6 +100,8 @@ angular.module("session.module", ['ui.router', 'core.service', 'core.controllers
                         $scope.date = day.date_start;
                     });
 
+                    $scope.someValue = 0;
+
                     SessionService.getAllItem(SessionService.getWork()).then(function(results) {
                         // Update scope
                         $scope.items = results;

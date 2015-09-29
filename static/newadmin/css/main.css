@@ -124,3 +124,54 @@ ul.status-bar > li.status-item.active {
 header>div>span{
     margin-left: 5px;
 }
+
+div.TEST {
+
+}
+
+div.TEST > span:first-child > button {
+    background-image: url('/static/images/navigation-bar-icon.jpg');
+    background-position: 133px 143px;
+    /*font-size: 23px;*/
+    height: 46px;
+    width: 48px;
+    /*border: hidden;*/
+    border: none;
+}
+
+div.TEST > span:first-child > button > span {
+    display: none;
+}
+
+div.TEST > span:last-child > button {
+    background-image: url('/static/images/navigation-bar-icon.jpg');
+    background-position: 74px 143px;
+    height: 46px;
+    width: 48px;
+    border: none;
+}
+
+div.TEST > span:last-child > button > span {
+    display: none;
+}
+
+div.TEST > input {
+    height: 46px;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.3333333;
+    border: hidden;
+}
+
+div.TEST > input[readonly] {
+   background-color: #fff;
+}
+
+table.table-hor-middle > thead > tr > th {
+    text-align: center;
+}
+
+table.table-hor-middle > tbody > tr > td {
+    text-align: center;
+    vertical-align: middle;
+}

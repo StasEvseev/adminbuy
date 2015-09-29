@@ -54,6 +54,7 @@ AdminApp = angular.module('AdminApp', [
     'ds.clock',
     'luegg.directives',
     'anguFixedHeaderTable',
+    'Firestitch.angular-counter',
     'dbApp'
 ]);
 
