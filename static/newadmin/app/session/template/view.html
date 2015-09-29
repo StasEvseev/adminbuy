@@ -58,42 +58,41 @@
                     <div class="box-body">
 
                         <div>
+                            <table class="table table-bordered table-hor-middle" fixed-header scroll-glue>
+                                <thead>
+                                    <tr>
+                                        <th style="max-width: 200px">Товар</th>
+                                        <th>Артикул</th>
+                                        <th>Цена</th>
+                                        <th style="max-width: 150px">Кол-во</th>
+                                        <th>Итог</th>
+                                        <th>Операция</th>
+                                    </tr>
+                                </thead>
 
-                                <table class="table table-bordered table-hor-middle" fixed-header>
-                                    <thead>
-                                        <tr>
-                                            <th style="max-width: 200px">Товар</th>
-                                            <th>Артикул</th>
-                                            <th>Цена</th>
-                                            <th style="max-width: 150px">Кол-во</th>
-                                            <th>Итог</th>
-                                            <th>Операция</th>
-                                        </tr>
-                                    </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in items">
+                                        <td style="max-width: 200px">Товар такой то л фывф  фывфыв фывфыв № 15</td>
+                                        <td>[[item.barcode]]</td>
 
-                                    <tbody scroll-glue>
-                                        <tr ng-repeat="item in items">
-                                            <td style="max-width: 200px">Товар такой то л фывф  фывфыв фывфыв № 15</td>
-                                            <td>[[item.barcode]]</td>
+                                        <td>15 рублей</td>
 
-                                            <td>15 рублей</td>
+                                        <td style="max-width: 150px">
+                                            <div fs-counter value="someValue"
+                                                data-min="1"
+                                                data-max="1000"
+                                                data-step="1"
+                                                data-addclass="TEST"
+                                                data-width="150px"
+                                                ></div>
+                                        </td>
 
-                                            <td style="max-width: 150px">
-                                                <div fs-counter value="someValue"
-                                                    data-min="1"
-                                                    data-max="1000"
-                                                    data-step="1"
-                                                    data-addclass="TEST"
-                                                    data-width="150px"
-                                                    ></div>
-                                            </td>
+                                        <td>150 килорублей</td>
 
-                                            <td>150 килорублей</td>
-
-                                            <td>[[item.checkModel]]</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                        <td>[[item.checkModel]]</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
 
                         <button class="btn btn-flat btn-success">Принять</button>
