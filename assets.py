@@ -67,7 +67,8 @@ bundles = {
         'newadmin/css/skins/_all-skins.min.css'),
 
     'jquery': Bundle(
-        'js/lib/jquery.js'
+        'js/lib/jquery.js',
+        'js/lib/jquery.ba-resize.min.js'
     ),
 
     'sw': Bundle('newadmin/js/serviceworkerinit.js'),

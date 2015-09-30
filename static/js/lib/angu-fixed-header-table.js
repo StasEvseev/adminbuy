@@ -26,6 +26,10 @@
                 }
             });
 
+            $(elem).on('resize', function() {
+                transformTable();
+            });
+
             function tableDataLoaded() {
                 // first cell in the tbody exists when data is loaded but doesn't have a width
                 // until after the table is transformed
@@ -39,6 +43,7 @@
 
                 // wrap in $timeout to give table a chance to finish rendering
                 $timeout(function () {
+                    console.log("CALL");
                     // set widths of columns
                     angular.forEach(elem.querySelectorAll('tr:first-child th'), function (thElem, i) {
 
@@ -46,13 +51,13 @@
                         var tfElems = elem.querySelector('tfoot tr:first-child td:nth-child(' + (i + 1) + ')');
 
                         var columnWidth = tdElems ? tdElems.offsetWidth : thElem.offsetWidth;
-                        if (tdElems) {
+                        if (tdElems && !tdElems.style.maxWidth) {
                             tdElems.style.width = columnWidth + 'px';
                         }
-                        if (thElem) {
+                        if (thElem && !thElem.style.maxWidth) {
                             thElem.style.width = columnWidth + 'px';
                         }
-                        if (tfElems) {
+                        if (tfElems && !tfElems.style.maxWidth) {
                             tfElems.style.width = columnWidth + 'px';
                         }
                     });

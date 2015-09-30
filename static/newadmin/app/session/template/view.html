@@ -58,27 +58,40 @@
                     <div class="box-body">
 
                         <div>
-                            <table class="table table-bordered table-hor-middle" fixed-header scroll-glue>
+                            <table class="table table-bordered table-hor-middle" fixed-header table-height="250px">
                                 <thead>
                                     <tr>
-                                        <th style="max-width: 200px">Товар</th>
+                                        <th>Товар</th>
                                         <th>Артикул</th>
                                         <th>Цена</th>
-                                        <th style="max-width: 150px">Кол-во</th>
+                                        <th style="width: 167px; max-width: 167px; min-width: 167px">Кол-во</th>
                                         <th>Итог</th>
                                         <th>Операция</th>
                                     </tr>
                                 </thead>
 
-                                <tbody>
-                                    <tr ng-repeat="item in items">
-                                        <td style="max-width: 200px">Товар такой то л фывф  фывфыв фывфыв № 15</td>
+                                <tbody scroll-glue>
+                                    <tr ng-repeat="item in itemsFixed | limitTo:-15">
+                                        <td >Товар такой то л фывф  фывфыв фывфыв № 15</td>
                                         <td>[[item.barcode]]</td>
 
                                         <td>15 рублей</td>
 
-                                        <td style="max-width: 150px">
-                                            <div fs-counter value="someValue"
+                                        <td style="width: 167px; max-width: 167px; min-width: 167px">
+                                            [[item.count]]
+                                        </td>
+
+                                        <td>150 килорублей</td>
+
+                                        <td>[[item.checkModel]]</td>
+                                    </tr>
+                                    <tr ng-show="unfixedItem">
+                                       <td >Товар такой то л фывф  фывфыв фывфыв № 15</td>
+                                        <td>[[unfixedItem.barcode]]</td>
+
+                                        <td>15 рублей</td>
+                                        <td style="width: 167px; max-width: 167px; min-width: 167px">
+                                            <div fs-counter value="count"
                                                 data-min="1"
                                                 data-max="1000"
                                                 data-step="1"
@@ -86,17 +99,21 @@
                                                 data-width="150px"
                                                 ></div>
                                         </td>
-
-                                        <td>150 килорублей</td>
-
-                                        <td>[[item.checkModel]]</td>
+                                        <td>
+                                            150 килорублей
+                                        </td>
+                                        <td>
+                                            [[unfixedItem.checkModel]]
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
 
-                        <button class="btn btn-flat btn-success">Принять</button>
-                        <button class="btn btn-flat btn-danger">Отменить</button>
+                        <div class="pull-right">
+                            <button ng-disabled="!unfixedItem" ng-click="addToFixed()" class="btn btn-lg btn-flat btn-success">Принять</button>
+                            <button ng-disabled="!unfixedItem" ng-click="clearUnfixed()" class="btn btn-lg btn-flat btn-danger">Отменить</button>
+                        </div>
                   </div><!-- /.box-body -->
                 </div><!-- /.box -->
             </div>

@@ -57,7 +57,6 @@ AdminApp = angular.module('AdminApp', [
 
     'anguFixedHeaderTable',
 
-    'fixedHeader',
     'Firestitch.angular-counter',
     'dbApp'
 ]);

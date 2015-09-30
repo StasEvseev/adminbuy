@@ -92,19 +92,21 @@ angular.module("session.module", ['ui.router', 'core.service', 'core.controllers
             'content@index': {
                 templateUrl: "static/newadmin/app/session/template/view.html",
                 controller: function($scope, $state, $rootScope, $http, $window, $timeout, goods, hIDScanner, SessionService) {
-                    $scope.items = [];
+                    $scope.itemsFixed = [];
                     hIDScanner.initialize();
+
+                    $scope.unfixedItem = undefined;
 
                     SessionService.getOpenWorkDay().then(function(resp) {
                         var day = resp['res'];
                         $scope.date = day.date_start;
                     });
 
-                    $scope.someValue = 0;
+                    $scope.count = 1;
 
                     SessionService.getAllItem(SessionService.getWork()).then(function(results) {
                         // Update scope
-                        $scope.items = results;
+                        $scope.itemsFixed = results;
                     });
 
                     $scope.$on('$destroy', function() {
@@ -137,15 +139,41 @@ angular.module("session.module", ['ui.router', 'core.service', 'core.controllers
                             work_id: SessionService.getWork()
                         };
 
-                        SessionService.insertItem(item).then(function(item) {
-                            $scope.items.push(item);
+                        setUnfixed(item);
+                    });
+
+                    $scope.clearUnfixed = clearUnfixed;
+                    $scope.addToFixed = addToFixed;
+
+                    $scope.checkModel = 1;
+
+                    function addToFixed() {
+                        if ($scope.unfixedItem) {
+                            $scope.unfixedItem.count = $scope.count;
+                            fixedItem($scope.unfixedItem).then(function() {
+                                clearUnfixed();
+                            });
+                        }
+                    }
+
+                    function setUnfixed(item) {
+                        $scope.unfixedItem = item;
+                    }
+
+                    function clearUnfixed() {
+                        $scope.unfixedItem = undefined;
+                    }
+
+                    function fixedItem(item) {
+                        return SessionService.insertItem(item).then(function(item) {
+                            $scope.itemsFixed.push(item);
                         }).catch(function(err) {
                             console.error(err);
                         });
-                    });
-
-                    $scope.checkModel = 1;
+                    }
                 }
+
+
             }
         }
     })}

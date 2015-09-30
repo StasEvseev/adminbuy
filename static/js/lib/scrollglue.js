@@ -66,7 +66,6 @@
                         activationState = createActivationState($parse, attrs[attrName], scope);
 
                     function scrollIfGlued() {
-//                        debugger
                         if(activationState.getValue() && !direction.isAttached(el)){
                             direction.scroll(el);
                         }
