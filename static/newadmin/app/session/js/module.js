@@ -128,6 +128,18 @@ angular.module("session.module", ['ui.router', 'core.service', 'core.controllers
                         2: "Возврат"
                     };
 
+                    $scope.addFix = function() {
+                        setUnfixed({
+                            barcode: '111111111111',
+                            operation: $scope.checkModel,
+                            checkModel: checkMap[$scope.checkModel],
+                            datetime: new Date(),
+                            is_sync: 0,
+                            count: 1,
+                            work_id: SessionService.getWork()
+                        })
+                    };
+
                     $rootScope.$on("hidScanner::scanned", function(event, barcode) {
                         var item = {
                             barcode: barcode.barcode,

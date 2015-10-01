@@ -62,7 +62,9 @@
                     </div><!-- /.box-header -->
                     <div class="box-body">
 
-                        <div>
+                        <button ng-click="addFix()">Добавить</button>
+
+                        <div >
                             <table class="table table-bordered table-hor-middle" fixed-header table-height="250px">
                                 <thead>
                                     <tr>
@@ -90,7 +92,7 @@
 
                                         <td>[[item.checkModel]]</td>
                                     </tr>
-                                    <tr ng-show="unfixedItem">
+                                    <tr ng-if="unfixedItem">
                                        <td >Товар такой то л фывф  фывфыв фывфыв № 15</td>
                                         <td>[[unfixedItem.barcode]]</td>
 
