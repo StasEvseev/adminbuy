@@ -54,42 +54,59 @@ angular.module("mails.module", ['ui.router'])
                 },
                 '': {
                     templateUrl: "static/newadmin/app/mail/template/read.html",
-                    controller: function ($scope, $stateParams, $state, item, mails) {
+                    controller: function ($scope, $stateParams, $state, item, mails, mailLoading) {
                         mails.setCurrent(item);
                         $scope.item = item;
+
+                        $scope.loading = mailLoading;
 
                         $scope.hasNext = mails.hasNext;
                         $scope.hasPrev = mails.hasPrev;
 
                         $scope.rashod = function(event, index) {
-                            $scope.loadingFinish = false;
-                            var btn = $(event.target);
+                            showSpinner();
+//                            var btn = $(event.target);
 //                            btn.button('loading');
 
                             mails.handle_mail($scope.item.id, index, 'R').then(function(data) {
                                 $state.go('index.invoice.view', {id: data.data.invoice_id}).then(function() {
-                                    $scope.loadingFinish = true;
+                                    hideSpinner();
                                 });
-                            }, function() {
-                                debugger
+                            }).catch(function() {
+                                showError("Не удалось обработать накладную как расход. Обратитесь к администратору.");
                             });
                         };
 
                         $scope.prev = function() {
                             if (mails.hasPrev()) {
-                                $scope.loadingFinish = false;
-                                $state.go('index.mailbox.list.read', {mailId: mails.getPrev()});
+                                showSpinner();
+                                $state.go('index.mailbox.list.read', {mailId: mails.getPrev()}).then(function() {
+                                    hideSpinner();
+                                });
                             }
                         };
 
                         $scope.next = function() {
                             if (mails.hasNext()) {
-                                $scope.loadingFinish = false;
-                                $state.go('index.mailbox.list.read', {mailId: mails.getNext()});
+                                showSpinner();
+                                $state.go('index.mailbox.list.read', {mailId: mails.getNext()}).then(function() {
+                                    hideSpinner();
+                                });
                             }
                         };
 
+                        function showError(message) {
+                            toastr.error(message, "Ошибка!");
+                            $scope.loading.listLoading = false;
+                        }
 
+                        function showSpinner() {
+                            $scope.loading.listLoading = false;
+                        }
+
+                        function hideSpinner() {
+                            $scope.loading.listLoading = true;
+                        }
                     }
                 }
             }
@@ -138,7 +155,9 @@ angular.module("mails.module", ['ui.router'])
                     } else if (res == "nothing") {
                         toastr.info("Нету новых писем", "Оповещения");
                     }
-                }).catch(showError("Не удалось загрузить письма. Обратитесь к администратору."));
+                }).catch(function() {
+                    showError("Не удалось загрузить письма. Обратитесь к администратору.")
+                });
             }).catch(function() {
                 showError("Не удалось проверить почту. Обратитесь к администратору.");
                 disableButton(button, false);
