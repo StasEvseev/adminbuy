@@ -89,6 +89,10 @@ angular.module('mails.service', ['core.utils'])
         }
     };
 
+    factory.filterToStateParams = function(stateParams) {
+        return factory.filter(stateParams.filter, stateParams.page, stateParams.count, stateParams._new)
+    };
+
     factory.filter = function(text, page, count, _new) {
         var params = remoteHelper.createParams(text, 'title', page, count);
         if (_new) {

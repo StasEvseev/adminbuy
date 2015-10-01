@@ -32,7 +32,7 @@ angular.module("mails.module", ['ui.router'])
             resolve: {
                 mailitems: ['mails', '$stateParams',
                     function (mails, $stateParams) {
-                        return mails.filter($stateParams.filter, $stateParams.page, $stateParams.count, $stateParams._new);
+                        return mails.filterToStateParams($stateParams);
                     }]
             }
         })
@@ -99,25 +99,44 @@ angular.module("mails.module", ['ui.router'])
 .value("mailLoading", {
     listLoading: true
 })
-.controller("MailListController", function ($scope, $state, mailitems, mailLoading, mails, $stateParams) {
+.factory('MailItems', function() {
+    var items = [];
+    return {
+        setItems: function(itms) {
+            items = itms;
+        },
+        getItems: function() {
+            return items;
+        }
+    }
+})
+.controller("MailListController", function ($scope, $state, $timeout, mailitems, mailLoading, MailItems, mails, $stateParams) {
 
         $scope.loading = mailLoading;
+        $scope.mailitems = MailItems;
         hideSpinner();
 
         $scope.page = 1;
         $scope.countPerPage = 10;
-        $scope.items = mailitems;
+
+        setItems(mailitems);
+
         $scope.checkMail = function ($event) {
             $($event.target).prop('disabled', true);
             showSpinner();
             mails.checkMail().then(function(res) {
-                $($event.target).prop('disabled', false);
-                hideSpinner();
-                if(res == "ok") {
-                    toastr.info("Есть новые письма. Для просмотра перейдите по <a href='/admin2#/mailbox?_new=true&page=1'>ссылке</a>", "Оповещения");
-                } else if (res == "nothing") {
-                    toastr.info("Нету новых писем", "Оповещения");
-                }
+                mails.filterToStateParams($stateParams).then(function(items) {
+
+                    setItems(items);
+
+                    $($event.target).prop('disabled', false);
+                    hideSpinner();
+                    if(res == "ok") {
+                        toastr.info("Есть новые письма. Для просмотра перейдите по <a href='/admin#/mailbox?_new=true&page=1'>ссылке</a>", "Оповещения");
+                    } else if (res == "nothing") {
+                        toastr.info("Нету новых писем", "Оповещения");
+                    }
+                });
             });
         };
 
@@ -168,6 +187,10 @@ angular.module("mails.module", ['ui.router'])
         $scope.countNewM = function () {
             return mails.countNew();
         };
+
+        function setItems(items) {
+            $scope.mailitems.setItems(items);
+        }
 
         function showSpinner() {
             $scope.loading.listLoading = false;
