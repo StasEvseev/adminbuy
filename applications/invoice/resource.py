@@ -3,6 +3,7 @@ import json
 from flask import request
 from flask.ext.restful import fields
 import sqlalchemy
+from sqlalchemy import asc
 from applications.acceptance.model import Acceptance
 from models.invoice import Invoice
 from models.invoiceitem import InvoiceItem
@@ -77,7 +78,7 @@ class InvoiceItemInnerCanon(BaseInnerCanon):
                 ~InvoiceItem.good_id.in_(exc_good_id)
             )
 
-        return query
+        return query.order_by(asc(InvoiceItem.id))
 
 
 class InvoiceItemAcceptanceInnerCanon(BaseInnerCanon):
