@@ -122,21 +122,26 @@ angular.module("mails.module", ['ui.router'])
         setItems(mailitems);
 
         $scope.checkMail = function ($event) {
-            $($event.target).prop('disabled', true);
+            var button = $event.target;
+            disableButton(button, true);
             showSpinner();
             mails.checkMail().then(function(res) {
+                disableButton(button, false);
                 mails.filterToStateParams($stateParams).then(function(items) {
 
                     setItems(items);
 
-                    $($event.target).prop('disabled', false);
+                    disableButton(button, false);
                     hideSpinner();
                     if(res == "ok") {
                         toastr.info("Есть новые письма. Для просмотра перейдите по <a href='/admin#/mailbox?_new=true&page=1'>ссылке</a>", "Оповещения");
                     } else if (res == "nothing") {
                         toastr.info("Нету новых писем", "Оповещения");
                     }
-                });
+                }).catch(showError("Не удалось загрузить письма. Обратитесь к администратору."));
+            }).catch(function() {
+                showError("Не удалось проверить почту. Обратитесь к администратору.");
+                disableButton(button, false);
             });
         };
 
@@ -187,6 +192,15 @@ angular.module("mails.module", ['ui.router'])
         $scope.countNewM = function () {
             return mails.countNew();
         };
+
+        function disableButton(element, comp) {
+            $(element).prop('disabled', comp);
+        }
+
+        function showError(message) {
+            toastr.error(message, "Ошибка!");
+            hideSpinner();
+        }
 
         function setItems(items) {
             $scope.mailitems.setItems(items);

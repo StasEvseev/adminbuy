@@ -16,7 +16,7 @@
                     <ul class="nav nav-pills nav-stacked">
                         <li><a ui-sref="index.mailbox.list" ui-sref-opts="{inherit: false}"><i class="fa fa-inbox"></i>
                             Inbox </a></li>
-                        <li><a ui-sref="index.mailbox.list({_new: true})"><i class="fa fa-envelope-o"></i> Новые <span
+                        <li><a ui-sref="index.mailbox.list({_new: true})" ui-sref-opts="{inherit: false}"><i class="fa fa-envelope-o"></i> Новые <span
                                 class="label label-primary pull-right" ng-show="countNewM()">[[countNewM()]]</span></a></li>
                         <!--<li><a href="#"><i class="fa fa-file-text-o"></i> Drafts</a></li>
                         <li><a href="#"><i class="fa fa-filter"></i> Junk <span class="label label-waring pull-right">65</span></a></li>
@@ -128,7 +128,7 @@
                                     <span style="text-align: right; white-space: nowrap">[[item.date | date:'d MMM y, HH:mm:ss']]</span>
                                 </td>
                             </tr>
-                            <tr ng-repeat="item in [] | range: 1 - items.length">
+                            <tr ng-repeat="item in [] | range: 1 - mailitems.getItems().length">
                                 <td colspan="4"  style="text-align: center"><span>Нет писем выбранной категории</span></td>
                             </tr>
                             </tbody>
