@@ -117,10 +117,11 @@ angular.module('good.module', ['core.controllers']).constant('config', {
 })
 
 .controller("GoodViewCntr", function($scope, $stateParams, $state, goods, config, item) {
-   $scope.name_head = config.name;
+    $scope.name_head = config.name;
 
-   var id = $stateParams.id;
+    var id = $stateParams.id;
     $scope.model = item;
+    $scope.printBarCode = printBarCode;
 
     $scope.edit = function() {
         $state.go('index.good.view.edit', {id: id});
@@ -133,4 +134,12 @@ angular.module('good.module', ['core.controllers']).constant('config', {
             });
         }
     };
+
+    function printBarCode() {
+        goods.printBarCode(id).then(function(resp) {
+            var url = resp.data.link;
+            window.open(url, "_target");
+        });
+    }
+
 });

@@ -3,7 +3,7 @@
  */
 
 angular.module('good.service', ['core.service'])
-.factory('goods', function(BaseModelService) {
+.factory('goods', function(BaseModelService, $http) {
 
     var url = 'api/good',
         items;
@@ -17,6 +17,10 @@ angular.module('good.service', ['core.service'])
             items = resp.data.items;
             return items;
         });
+    };
+
+    child.printBarCode = function(good_id) {
+        return $http.get("/api/good/" + good_id + "/printbarcode");
     };
     return child;
 });

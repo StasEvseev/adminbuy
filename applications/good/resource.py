@@ -1,10 +1,13 @@
 #coding: utf-8
+import os
+import uuid
 from flask.ext.restful import fields, abort
 
 from applications.good.model import Good
 from applications.good.service import GoodService, GoodServiceException
+from config import PATH_TO_GENERATE_INVOICE, PATH_WEB
 
-from resources.core import BaseCanoniseResource
+from resources.core import BaseCanoniseResource, BaseTokeniseResource
 
 
 class GoodResourceCanon(BaseCanoniseResource):
@@ -72,6 +75,40 @@ class GoodResourceCanon(BaseCanoniseResource):
         except GoodServiceException as err:
             abort(404, message=unicode(err))
         return good
+
+
+def createBarCodes(path, barcode_value):
+    from reportlab.graphics.barcode import eanbc
+    from reportlab.graphics.shapes import Drawing
+    from reportlab.lib.pagesizes import letter
+    from reportlab.pdfgen import canvas
+    from reportlab.graphics import renderPDF
+
+    # draw the eanbc13 code
+    barcode_eanbc13 = eanbc.Ean13BarcodeWidget(barcode_value)
+    bounds = barcode_eanbc13.getBounds()
+    width = bounds[2] - bounds[0]
+    height = bounds[3] - bounds[1]
+    d = Drawing(50, 10)
+    d.add(barcode_eanbc13)
+
+    c = canvas.Canvas(path, pagesize=(width, height))
+    renderPDF.draw(d, c, 0, 0)
+    c.save()
+
+
+class GoodPrintBarcode(BaseTokeniseResource):
+
+    def get(self, id):
+        good = GoodService.get_good(id)
+
+        file_name = str(uuid.uuid4()) + ".pdf"
+        path_to_target = os.path.join(PATH_TO_GENERATE_INVOICE, file_name)
+        path = os.path.join(PATH_WEB, file_name)
+
+        createBarCodes(path_to_target, str(good.barcode))
+
+        return {"link": path}
 
 
 ATTR_ITEM = {

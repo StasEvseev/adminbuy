@@ -26,3 +26,4 @@ StasFliKISS==0.1.2
 python-dateutil
 Flask-SocketIO
 redis
+reportlab

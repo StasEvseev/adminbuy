@@ -123,6 +123,7 @@ def install_env():
     sudo('apt-get install build-essential gcc libxml2-dev libxslt1-dev -y')
     sudo('apt-get install libpq-dev python-dev -y')
     sudo('apt-get install postgresql-9.3 -y')
+    sudo('apt-get install libjpeg-dev')
 
 
 @task
