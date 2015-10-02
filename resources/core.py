@@ -9,6 +9,7 @@ from flask.ext import restful
 from flask.ext.restful import reqparse, marshal_with, fields, abort
 
 from sqlalchemy import desc, asc, or_, and_
+from sqlalchemy.sql.sqltypes import BigInteger, BIGINT
 from sqlalchemy_utils import ChoiceType
 from sqlalchemy.orm.collections import InstrumentedList
 from werkzeug.wrappers import BaseResponse
@@ -306,6 +307,10 @@ class BaseCanoniseResource(object):
     def pre_save(self, obj, data):
         return obj
 
+    def _type_column(self, model, name):
+        if name in model._sa_class_manager and hasattr(model._sa_class_manager[name].property, 'columns') and model._sa_class_manager[name].property.columns:
+            return model._sa_class_manager[name].property.columns[0].type
+
     def post_save(self, obj, data, create_new=False):
         """
         Сохранение связанных моделей, если вдруг приходит в параметрах.
@@ -379,7 +384,7 @@ class BaseCanoniseResource(object):
                 value = None
             try:
                 #В случаях, когда у модели поле типа int, long, а пришла пустая строка - нужно далеть поле None
-                if type(getattr(obj, key)) in (long, int) and value in ['']:
+                if type(self._type_column(obj, key)) in [BIGINT, BigInteger] and value in ['']:
                     setattr(obj, key, None)
                 else:
                     if not isinstance(getattr(obj, key), InstrumentedList):
