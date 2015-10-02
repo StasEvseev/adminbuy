@@ -7,14 +7,12 @@ beforeEach(function() {
 describe('project home page', function() {
     it("should be create user", function() {
         hlp.authAdmin().then(function() {
-              expect(browser.getLocationAbsUrl()).toEqual("/");
+            expect(browser.getLocationAbsUrl()).toEqual("/");
         });
 
-        var liitem = $("ul.sidebar-menu > li.user-menu");
-        var anchor = liitem.element(by.css("ul > li > a.user-item"));
-        liitem.element(by.tagName("a")).click().then(function() {
-            anchor.click().then(function() {
-                expect(browser.getLocationAbsUrl()).toEqual("/user");
+        //Открываем юзеров.
+        hlp.addRoleToRow(0, 'user').then(function() {
+            hlp.openUserItem().then(function() {
                 hlp.buttonCreate().then(function() {
                     expect(browser.getLocationAbsUrl()).toEqual("/user/create");
                     element(by.model("model.login")).sendKeys("Логин");
@@ -23,35 +21,38 @@ describe('project home page', function() {
                     element(by.model("model.email")).sendKeys("a@a.ru");
                     element(by.model("model.password")).sendKeys("123");
                     element(by.model("model.retypepassword")).sendKeys("123");
+                    element(by.model("model.roles")).click().then(function() {
+                        element(by.css("div#ui-select-choices-row-0-3")).click().then(function() {
+                            hlp.buttonSave().then(function() {
+                                anchor.click().then(function() {
+                                    hlp.countRows().then(function(count) {
+                                        expect(count).toEqual(2);
 
-                    hlp.buttonSave().then(function() {
-                        anchor.click().then(function() {
-                            hlp.countRows().then(function(count) {
-                                expect(count).toEqual(2);
-
-                                hlp.getRow(0).click().then(function() {
-                                    expect(browser.getLocationAbsUrl()).toEqual("/user/2");
-
-                                    hlp.buttonEdit().then(function() {
-                                        expect(browser.getLocationAbsUrl()).toEqual("/user/2/edit");
-
-                                        element(by.model("model.login")).sendKeys("Логин2");
-                                        element(by.model("model.first_name")).sendKeys("Фамилия2");
-                                        element(by.model("model.last_name")).sendKeys("Имя2");
-                                        element(by.model("model.email")).sendKeys("a@a2.ru");
-
-                                        hlp.buttonSave().then(function() {
+                                        hlp.getRow(0).click().then(function() {
                                             expect(browser.getLocationAbsUrl()).toEqual("/user/2");
 
-                                            anchor.click().then(function() {
-                                                hlp.countRows().then(function (count) {
-                                                    expect(count).toEqual(2);
-                                                });
+                                            hlp.buttonEdit().then(function() {
+                                                expect(browser.getLocationAbsUrl()).toEqual("/user/2/edit");
 
-                                                hlp.getRow(0).click().then(function() {
-                                                    hlp.removeRow().then(function() {
-                                                        hlp.countRows().then(function(count) {
-                                                            expect(count).toEqual(1);
+                                                element(by.model("model.login")).sendKeys("Логин2");
+                                                element(by.model("model.first_name")).sendKeys("Фамилия2");
+                                                element(by.model("model.last_name")).sendKeys("Имя2");
+                                                element(by.model("model.email")).sendKeys("a@a2.ru");
+
+                                                hlp.buttonSave().then(function() {
+                                                    expect(browser.getLocationAbsUrl()).toEqual("/user/2");
+
+                                                    anchor.click().then(function() {
+                                                        hlp.countRows().then(function (count) {
+                                                            expect(count).toEqual(2);
+                                                        });
+
+                                                        hlp.getRow(0).click().then(function() {
+                                                            hlp.removeRow().then(function() {
+                                                                hlp.countRows().then(function(count) {
+                                                                    expect(count).toEqual(1);
+                                                                });
+                                                            });
                                                         });
                                                     });
                                                 });
@@ -65,6 +66,65 @@ describe('project home page', function() {
                 });
             });
         });
+
+//        var liitem = $("ul.sidebar-menu > li.user-menu");
+//        var anchor = liitem.element(by.css("ul > li > a.user-item"));
+//        liitem.element(by.tagName("a")).click().then(function() {
+//            anchor.click().then(function() {
+//                expect(browser.getLocationAbsUrl()).toEqual("/user");
+//                hlp.buttonCreate().then(function() {
+//                    expect(browser.getLocationAbsUrl()).toEqual("/user/create");
+//                    element(by.model("model.login")).sendKeys("Логин");
+//                    element(by.model("model.first_name")).sendKeys("Фамилия");
+//                    element(by.model("model.last_name")).sendKeys("Имя");
+//                    element(by.model("model.email")).sendKeys("a@a.ru");
+//                    element(by.model("model.password")).sendKeys("123");
+//                    element(by.model("model.retypepassword")).sendKeys("123");
+//                    element(by.model("model.roles")).click().then(function() {
+//                        element(by.css("div#ui-select-choices-row-0-3")).click().then(function() {
+//                            hlp.buttonSave().then(function() {
+//                                anchor.click().then(function() {
+//                                    hlp.countRows().then(function(count) {
+//                                        expect(count).toEqual(2);
+//
+//                                        hlp.getRow(0).click().then(function() {
+//                                            expect(browser.getLocationAbsUrl()).toEqual("/user/2");
+//
+//                                            hlp.buttonEdit().then(function() {
+//                                                expect(browser.getLocationAbsUrl()).toEqual("/user/2/edit");
+//
+//                                                element(by.model("model.login")).sendKeys("Логин2");
+//                                                element(by.model("model.first_name")).sendKeys("Фамилия2");
+//                                                element(by.model("model.last_name")).sendKeys("Имя2");
+//                                                element(by.model("model.email")).sendKeys("a@a2.ru");
+//
+//                                                hlp.buttonSave().then(function() {
+//                                                    expect(browser.getLocationAbsUrl()).toEqual("/user/2");
+//
+//                                                    anchor.click().then(function() {
+//                                                        hlp.countRows().then(function (count) {
+//                                                            expect(count).toEqual(2);
+//                                                        });
+//
+//                                                        hlp.getRow(0).click().then(function() {
+//                                                            hlp.removeRow().then(function() {
+//                                                                hlp.countRows().then(function(count) {
+//                                                                    expect(count).toEqual(1);
+//                                                                });
+//                                                            });
+//                                                        });
+//                                                    });
+//                                                });
+//                                            });
+//                                        });
+//                                    });
+//                                });
+//                            });
+//                        });
+//                    });
+//                });
+//            });
+//        });
     });
 
     it("CRUD receiver", function() {

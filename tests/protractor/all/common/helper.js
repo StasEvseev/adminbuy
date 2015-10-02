@@ -7,6 +7,61 @@ var obj = {
         password.sendKeys("admin");
         return btn_submit.click();
     },
+
+    logout: function() {
+        var deferred = protractor.promise.defer();
+        element(by.css("li.user")).click().then(function() {
+            element.css("a.logout-btn").click().then(function() {
+                deferred.fulfill();
+            });
+        });
+
+        return deferred.promise;
+    },
+
+    mapRole: function() {
+        return {
+            'admin': 'div#ui-select-choices-row-0-0',
+            'driver': 'div#ui-select-choices-row-0-1',
+            'vendor': 'div#ui-select-choices-row-0-2',
+            'user': 'div#ui-select-choices-row-0-3'
+        }
+    },
+
+    addRoleToRow: function(row, role) {
+        var deferred = protractor.promise.defer();
+        var self = this;
+        self.openUserItem().then(function() {
+            self.getRow(row).click().then(function() {
+                self.buttonEdit().then(function() {
+                    element(by.model("model.roles")).click().then(function() {
+                        element(by.css(self.mapRole()[role])).click().then(function() {
+                            self.buttonSave().then(function() {
+                                deferred.fulfill();
+                            })
+                        });
+                    });
+                });
+            });
+        });
+        return deferred.promise;
+    },
+
+    openUserItem: function() {
+        var deferred = protractor.promise.defer();
+        var liitem = $("ul.sidebar-menu > li.user-menu");
+        var anchor = liitem.element(by.css("ul > li > a.user-item"));
+        liitem.element(by.tagName("a")).click().then(function() {
+            anchor.click().then(function () {
+                expect(browser.getLocationAbsUrl()).toEqual("/user");
+
+                deferred.fulfill();
+            })
+        });
+
+        return deferred.promise;
+    },
+
     buttonCreate: function() {
         return $('button.btn-crt').click();
     },
