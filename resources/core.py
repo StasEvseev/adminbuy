@@ -378,8 +378,12 @@ class BaseCanoniseResource(object):
             if value is not False and value in [-1, 0]:
                 value = None
             try:
-                if not isinstance(getattr(obj, key), InstrumentedList):
-                    setattr(obj, key, value)
+                #В случаях, когда у модели поле типа int, long, а пришла пустая строка - нужно далеть поле None
+                if type(getattr(obj, key)) in (long, int) and value in ['']:
+                    setattr(obj, key, None)
+                else:
+                    if not isinstance(getattr(obj, key), InstrumentedList):
+                        setattr(obj, key, value)
             except (AttributeError, TypeError) as exc:
                 pass
         return obj

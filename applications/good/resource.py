@@ -59,7 +59,7 @@ class GoodResourceCanon(BaseCanoniseResource):
             else:
                 full_name = obj.full_name
             good.full_name = full_name
-            good.barcode = data.get('barcode')
+            # good.barcode = data.get('barcode')
         if res is True:
             if commodity.numeric:
                 message = u"В системе уже есть товар с наименованием %s и №%s(%s)" % (commodity.name, obj.number_local, obj.number_global)

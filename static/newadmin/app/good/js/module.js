@@ -108,7 +108,7 @@ angular.module('good.module', ['core.controllers']).constant('config', {
     $scope.CommodityService = CommodityService;
 
     $scope.saveToServer = function() {
-        return goods.create($scope.model);
+        return goods.update($scope.model.id, $scope.model);
     };
 
     $scope.goView = function() {
