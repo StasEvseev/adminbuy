@@ -23,32 +23,32 @@
 
         <div class="form-group" ng-class="{'has-error': Form.isSubmitted() && myForm.item.barcode.$error.required}">
             <label>Номер штрих кода</label>
-            <input type="text" ng-model="model.barcode" required name="barcode" class="form-control" id="exampleInputPassword1"
+            <input type="text" ng-model="model.barcode" name="barcode" class="form-control" id="exampleInputPassword1"
                    placeholder="Введите номер штрих кода">
         </div>
 
-        <div class="form-group" ng-class="{'has-error': Form.isSubmitted() && myForm.item.number_local.$error.required}">
+        <div ng-if="model.commodity.numeric" class="form-group" ng-class="{'has-error': Form.isSubmitted() && myForm.item.number_local.$error.required}">
             <label>Номер годовой</label>
-            <input type="text" ng-model="model.number_local" required name="number_local" class="form-control" id="exampleInputPassword1"
-                   placeholder="Введите номер">
+            <input type="text" ng-model="model.number_local" ng-required="model.commodity.numeric" name="number_local" class="form-control" id="exampleInputPassword1"
+                   placeholder="Введите номер годовой">
         </div>
 
-        <div class="form-group" ng-class="{'has-error': Form.isSubmitted() && myForm.item.number_global.$error.required}">
+        <div ng-if="model.commodity.numeric" class="form-group" ng-class="{'has-error': Form.isSubmitted() && myForm.item.number_global.$error.required}">
             <label>Номер общий</label>
-            <input type="text" ng-model="model.number_global" required name="number_global" class="form-control" id="exampleInputPassword1"
-                   placeholder="Введите номер">
+            <input type="text" ng-model="model.number_global" ng-required="model.commodity.numeric" name="number_global" class="form-control" id="exampleInputPassword1"
+                   placeholder="Введите номер общий">
         </div>
 
         <div class="form-group" ng-class="{'has-error': Form.isSubmitted() && myForm.item['price.price_retail'].$error.required}">
             <label>Цена розницы</label>
             <input type="text" ng-model="model['price.price_retail']" required name="price.price_retail" class="form-control" id="exampleInputPassword1"
-                   placeholder="Введите номер">
+                   placeholder="Введите цену розницы">
         </div>
 
         <div class="form-group" ng-class="{'has-error': Form.isSubmitted() && myForm.item['price.price_gross'].$error.required}">
             <label>Цена опта</label>
-            <input type="text" ng-model="model['price.price_gross']" required name="price.price_gross" class="form-control" id="exampleInputPassword1"
-                   placeholder="Введите номер">
+            <input type="text" ng-model="model['price.price_gross']" name="price.price_gross" class="form-control" id="exampleInputPassword1"
+                   placeholder="Введите цену опта">
         </div>
 
     </div>
