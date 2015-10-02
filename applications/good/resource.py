@@ -83,17 +83,27 @@ def createBarCodes(path, barcode_value):
     from reportlab.lib.pagesizes import letter
     from reportlab.pdfgen import canvas
     from reportlab.graphics import renderPDF
+    from reportlab.lib.units import cm, mm
+    from reportlab.lib.styles import getSampleStyleSheet
+    from reportlab.platypus.para import Paragraph
 
     # draw the eanbc13 code
+    eanbc.Ean13BarcodeWidget.barHeight = 19*mm
     barcode_eanbc13 = eanbc.Ean13BarcodeWidget(barcode_value)
     bounds = barcode_eanbc13.getBounds()
     width = bounds[2] - bounds[0]
     height = bounds[3] - bounds[1]
-    d = Drawing(50, 10)
+    d = Drawing()
     d.add(barcode_eanbc13)
 
-    c = canvas.Canvas(path, pagesize=(width, height))
-    renderPDF.draw(d, c, 0, 0)
+    c = canvas.Canvas(path, pagesize=(43*mm, 25*mm))
+
+    # print width, height
+    text = "Price: %s rub. %s cop." % (150, '00')
+    p = Paragraph(text, getSampleStyleSheet()["Normal"])
+    p.wrapOn(c, 43*mm, 5*mm)
+    p.drawOn(c, 10, 60)
+    renderPDF.draw(d, c, 3*mm, 1*mm)
     c.save()
 
 
