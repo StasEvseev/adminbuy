@@ -70,6 +70,7 @@ def deploy():
 
 @task
 def update():
+    install_dependency()
     with settings(user='user'):
         with cd(proj_dir + root_folder):
             run('git pull origin master')
