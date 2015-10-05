@@ -1,17 +1,27 @@
 var obj = {
     authAdmin: function() {
+        var deferred = protractor.promise.defer();
+        var self = this;
         var login = element(by.model('login')),
             password = element(by.model('password')),
             btn_submit = element(by.css("button.btn"));
         login.sendKeys("admin");
         password.sendKeys("admin");
-        return btn_submit.click();
+
+        btn_submit.click().then(function() {
+            self.waitUntilReady(element(by.css("div.content-wrapper")));
+            deferred.fulfill();
+        });
+
+        return deferred.promise;
     },
 
     logout: function() {
         var deferred = protractor.promise.defer();
+        var self = this;
         element(by.css("li.user")).click().then(function() {
-            element.css("a.logout-btn").click().then(function() {
+            element(by.css("a.logout-btn")).click().then(function() {
+                self.waitUntilReady(element(by.css("div.login-page")));
                 deferred.fulfill();
             });
         });
@@ -28,18 +38,26 @@ var obj = {
         }
     },
 
+    mapRoleIndex: function() {
+        return {
+            'admin': 0,
+            'driver': 1,
+            'vendor': 2,
+            'user': 3
+        }
+    },
+
     addRoleToRow: function(row, role) {
         var deferred = protractor.promise.defer();
         var self = this;
         self.openUserItem().then(function() {
             self.getRow(row).click().then(function() {
                 self.buttonEdit().then(function() {
-                    element(by.model("model.roles")).click().then(function() {
-                        element(by.css(self.mapRole()[role])).click().then(function() {
-                            self.buttonSave().then(function() {
-                                deferred.fulfill();
-                            })
-                        });
+
+                    self.selectItemToMultiselectField(element(by.model("model.roles")), self.mapRoleIndex()[role]).then(function() {
+                        self.buttonSave().then(function() {
+                            deferred.fulfill();
+                        })
                     });
                 });
             });
@@ -60,6 +78,29 @@ var obj = {
         });
 
         return deferred.promise;
+    },
+
+    selectItemToMultiselectField: function(el, item) {
+        item += 3;
+        var deferred = protractor.promise.defer();
+        var self = this;
+        el.click().then(function() {
+            self.waitUntilReady(el.element(by.css("div > div > ul > li")));
+            el.element(by.css("li.ui-select-choices-group > div.ui-select-choices-row:nth-child("+item+")")).click().then(function () {
+                deferred.fulfill();
+            })
+        });
+
+        return deferred.promise;
+    },
+
+    waitUntilReady: function (elm) {
+        browser.wait(function () {
+            return elm.isPresent();
+        },10000);
+        browser.wait(function () {
+            return elm.isDisplayed();
+        },10000);
     },
 
     buttonCreate: function() {
