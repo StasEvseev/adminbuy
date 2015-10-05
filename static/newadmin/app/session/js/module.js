@@ -161,7 +161,6 @@ angular.module("session.module", ['ui.router', 'core.service', 'core.controllers
                     $scope.checkModel = 1;
 
                     function addToFixed() {
-                        debugger
                         if ($scope.unfixedItem) {
                             $scope.unfixedItem.count = $scope.model.count;
                             fixedItem($scope.unfixedItem).then(function() {
