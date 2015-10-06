@@ -13,23 +13,28 @@
             <li class="active">[[ model.number ]]</li>
         </ol>
 
-        <div class="row" style="margin: 10px 0 10px 0">
-            <div class="col-md-6 col-sm-6 col-xs-6 ng-scope">
-                <span ng-hide="editMode" class="">
-                    <button class="btn-edt btn-flat btn btn-default btn-sm" ng-click="edit()">Редактировать</button>
-                    <button class="btn-edt btn-flat btn btn-default btn-sm" ng-click="createBulk()">Создать пачку накладных из расхода</button>
-                </span>
-            </div>
+        <div class="btn-custom-group">
+            <div class="row">
+                <div class="col-md-8 col-sm-8 col-xs-8 ng-scope">
+                    <span>
+                        <button class="btn-edt btn-flat btn btn-default btn-sm" ng-click="edit()">Редактировать</button>
+                        <button class="btn-edt btn-flat btn btn-default btn-sm" ng-click="createBulk()">Создать пачку накладных из расхода</button>
+                    </span>
+                </div>
 
-            <div class="btn-group" dropdown>
-                <button type="button" class="btn btn-default btn-flat btn-sm" dropdown-toggle>
-                  Больше <span class="caret"></span>
-                </button>
-                <!--<ul class="dropdown-menu" role="menu">
-                    <li role="menuitem"><a class="btn-del" ng-click="delete_()">Удалить</a></li>
-                </ul> -->
+                <div class="col-md-4 col-sm-4 col-xs-4">
+                    <div class="btn-group" dropdown>
+                        <button type="button" class="btn btn-default btn-flat btn-sm" dropdown-toggle>
+                          Больше <span class="caret"></span>
+                        </button>
+                        <!--<ul class="dropdown-menu" role="menu">
+                            <li role="menuitem"><a class="btn-del" ng-click="delete_()">Удалить</a></li>
+                        </ul> -->
+                    </div>
+                </div>
             </div>
         </div>
+
     </div>
 
 </div>
@@ -53,8 +58,7 @@
             </div>
 
             <!-- Table row -->
-            <div class="row">
-                <div class="col-xs-12 table-responsive">
+                <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
                         <tr>
@@ -75,7 +79,6 @@
                     </table>
                 </div>
                 <!-- /.col -->
-            </div>
             <!-- /.row -->
 
             <div class="row">

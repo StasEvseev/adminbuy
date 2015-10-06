@@ -207,6 +207,10 @@ header.status-bar {
         margin: 5px 0 0 0;
     }
 
+    /*div.btn-custom-group div.btn-group {*/
+        /*float: right;*/
+    /*}*/
+
     div.content-header {
         padding: 15px 15px 5px 15px;
     }
@@ -242,5 +246,9 @@ header.status-bar {
         padding-top: 5px;
         padding-right: 5px;
         padding-bottom: 5px;
+    }
+
+    div.table-responsive {
+        font-size: 12px;
     }
 }
