@@ -5,7 +5,7 @@ importScripts('/static/js/lib/index.js');
 
 var CACHE_MAIN = 'admin-main-v4';
 var CACHE_STATIC = 'admin-static-v5';
-var CACHE_APP = 'admin-app-v14';
+var CACHE_APP = 'admin-app-v16';
 
 var expectedCaches = [
   CACHE_MAIN,

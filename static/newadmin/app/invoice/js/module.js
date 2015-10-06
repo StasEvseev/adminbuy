@@ -141,7 +141,7 @@ angular.module('invoice.module', ['core.controllers', 'pointsales.service']).con
 
         invoices.savePriceFromInvoice($scope.model.id, $scope.model.items).then(function() {
 
-            $state.go("index.invoice.view", {mailId: $scope.model.id}).then(function() {
+            $state.go("index.invoice.view", {mailId: $scope.model.id}, {reload: 'index.invoice.view'}).then(function() {
                 $scope.loadingFinish = true;
             });
 //            toastr.success("Можно переходить к следующему действию " +

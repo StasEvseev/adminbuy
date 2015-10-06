@@ -5,8 +5,6 @@
         <div class="row">
             <div class="col-md-12">
                 <h3>Открыт рабочий день с: [[date | date:'dd-MM-yyyy HH:mm:ss']] <span class="pull-right"><button class="btn btn-danger btn-flat" ng-click="closeWorkDay()">Закрыть рабочий день</button></span></h3>
-
-                <button class="btn btn-default btn-flat" ng-click="sync()">Синхронизация</button>
             </div>
         </div>
 
@@ -117,6 +115,10 @@
                             </table>
                         </div>
 
+                        <div class="pull-left">
+                            <button class="btn btn-default btn-flat" ng-click="sync()">Синхронизация</button>
+                        </div>
+
                         <div class="pull-right">
                             <button ng-disabled="!unfixedItem" ng-click="addToFixed()" class="btn btn-lg btn-flat btn-success">Принять</button>
                             <button ng-disabled="!unfixedItem" ng-click="clearUnfixed()" class="btn btn-lg btn-flat btn-danger">Отменить</button>
@@ -125,11 +127,5 @@
                 </div><!-- /.box -->
             </div>
         </div>
-
-
-
-
     </section>
-
-
 </div>
