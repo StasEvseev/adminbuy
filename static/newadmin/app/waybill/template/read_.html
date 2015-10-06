@@ -14,34 +14,32 @@
             <li class="active">[[ item.number ]]</li>
         </ol>
 
-        <div class="row" style="margin: 10px 0 10px 0">
-            <div class="col-md-6 col-sm-6 col-xs-6 ng-scope">
-                <span ng-hide="editMode" class="">
-                    <button class="btn-edt btn-flat btn btn-default btn-sm" ng-click="edit()">Редактировать</button>
+        <div class="btn-custom-group">
+            <div class="row">
+                <div class="col-md-6 col-xs-6">
+                    <span ng-hide="editMode" class="">
+                        <button class="btn-edt btn-flat btn btn-default btn-sm" ng-click="edit()">Редактировать</button>
 
-                </span>
-                <!--<span ng-hide="!editMode" class="ng-hide">
-                    <a class="btn btn-danger btn-sm btn-sv" ng-click="save()">Сохранить</a> или <a class="btn-cl"
-                                                                                                   ng-click="discard()"
-                                                                                                   style="cursor:pointer;">Отменить</a>
-                </span> -->
+                    </span>
+                </div>
+
+                <div class="col-md-6 col-xs-6">
+                    <div class="btn-group" dropdown>
+                        <button type="button" class="btn btn-flat btn-default btn-sm" dropdown-toggle>
+                          Больше <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+
+                            <li><a class="btn btn-print" ng-click="print()">Печать</a></li>
+
+                            <li role="menuitem"><a class="btn-del" ng-click="delete_()">Удалить</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-
-            <div class="btn-group" dropdown>
-                <button type="button" class="btn btn-flat btn-default btn-sm" dropdown-toggle>
-                  Больше <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-
-                    <li><a class="btn btn-print" ng-click="print()">Печать</a></li>
-
-                    <li role="menuitem"><a class="btn-del" ng-click="delete_()">Удалить</a></li>
-                </ul>
-            </div>
-
         </div>
     </div>
-<header style="background-color: bisque; min-height: 40px; padding: 5px 5px 5px 0px;">
+<header class="status-bar">
     <div>
         <span>
             <button class="btn btn-danger btn-flat btn-sm" ng-click="toStatus(2)"
