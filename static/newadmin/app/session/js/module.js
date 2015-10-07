@@ -125,9 +125,11 @@ angular.module("session.module", ['ui.router', 'core.service', 'core.controllers
                     };
 
                     var checkMap = {
-                        1: "Продажа",
-                        2: "Возврат"
+                        1: "<span class='span-success'>Продажа</span>",
+                        2: "<span class='span-danger'>Возврат</span>"
                     };
+
+                    $scope.checkMap = checkMap;
 
                     $scope.addFix = function() {
                         setUnfixed({

@@ -202,6 +202,31 @@ header.status-bar {
     padding-right: 15px;
 }
 
+div.title-content {
+
+}
+
+div.title-content h3 {
+    margin-top: 5px;
+}
+
+span.span-success {
+    font-weight: bold;
+    color: green;
+}
+
+span.span-danger {
+    font-weight: bold;
+    color: red;
+}
+
+div.btn-change-action {
+    padding-top: 0px;
+    padding-left: 0px;
+    padding-bottom: 5px;
+    padding-right: 0px;
+}
+
 @media (max-width: 991px) {
     div.btn-custom-group {
         margin: 5px 0 0 0;

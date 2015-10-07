@@ -172,4 +172,4 @@ app.create_superuser = create_superuser
 
 if __name__ == "__main__":
     debug(u"Запуск системы.")
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)
