@@ -13,20 +13,24 @@
             <li class="active">[[ model.name ]]</li>
         </ol>
 
-        <div class="row" style="margin: 10px 0 10px 0">
-            <div class="col-md-6 col-sm-6 col-xs-6 ng-scope">
-                <span ng-hide="editMode" class="">
-                    <button class="btn-edt btn-flat btn btn-default btn-sm" ng-click="edit()">Редактировать</button>
-                </span>
-            </div>
+        <div class="btn-custom-group">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <span>
+                        <button class="btn-edt btn-flat btn btn-default btn-sm" ng-click="edit()">Редактировать</button>
+                    </span>
+                </div>
 
-            <div class="btn-group" dropdown>
-                <button type="button" class="btn btn-default btn-flat btn-sm" dropdown-toggle>
-                  Больше <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li role="menuitem"><a class="btn-del" ng-click="delete_()">Удалить</a></li>
-                </ul>
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div class="btn-group" dropdown>
+                        <button type="button" class="btn btn-default btn-flat btn-sm" dropdown-toggle>
+                          Больше <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li role="menuitem"><a class="btn-del" ng-click="delete_()">Удалить</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
