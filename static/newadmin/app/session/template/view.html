@@ -27,8 +27,8 @@
                             <button ng-click="addFix()">Добавить</button>
                         </div>
 
-                        <div >
-                            <table class="table table-bordered table-hor-middle" fixed-header table-height="250px">
+                        <div>
+                            <table class="table table-bordered table-hor-middle">
                                 <thead>
                                     <tr>
                                         <th>Товар</th>
@@ -40,15 +40,14 @@
                                     </tr>
                                 </thead>
 
-                                <tbody scroll-glue>
-                                    <tr ng-repeat="item in itemsFixed | limitTo:-15">
+                                <tbody style="max-height: 250px; min-height: 250px" class="ng-cloak">
+                                    <tr ng-repeat="item in itemsFixed | limitTo:cnt">
                                         <td >Товар такой то л фывф  фывфыв фывфыв № 15</td>
-                                        <td>[[item.barcode]]</td>
+                                        <td ng-bind="item.barcode"></td>
 
                                         <td>15 рублей</td>
 
-                                        <td style="width: 167px; max-width: 167px; min-width: 167px">
-                                            [[item.count]]
+                                        <td style="width: 167px; max-width: 167px; min-width: 167px" ng-bind="item.count">
                                         </td>
 
                                         <td>150 килорублей</td>
@@ -58,7 +57,7 @@
                                     </tr>
                                     <tr ng-if="unfixedItem">
                                        <td >Товар такой то л фывф  фывфыв фывфыв № 15</td>
-                                        <td>[[unfixedItem.barcode]]</td>
+                                        <td ng-bind="unfixedItem.barcode"></td>
 
                                         <td>15 рублей</td>
                                         <td style="width: 167px; max-width: 167px; min-width: 167px">

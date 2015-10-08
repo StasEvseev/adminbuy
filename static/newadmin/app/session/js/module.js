@@ -93,6 +93,9 @@ angular.module("session.module", ['ui.router', 'core.service', 'core.controllers
                 templateUrl: "static/newadmin/app/session/template/view.html",
                 controller: function($scope, $state, $rootScope, $http, $window, $timeout, goods, hIDScanner, SessionService) {
                     $scope.itemsFixed = [];
+
+                    $scope.cnt = -5;
+
                     $scope.model = {
                         count: 1
                     };
@@ -106,7 +109,6 @@ angular.module("session.module", ['ui.router', 'core.service', 'core.controllers
                     });
 
                     SessionService.getAllItem(SessionService.getWork()).then(function(results) {
-                        // Update scope
                         $scope.itemsFixed = results;
                     });
 
@@ -173,11 +175,13 @@ angular.module("session.module", ['ui.router', 'core.service', 'core.controllers
 
                     function setUnfixed(item) {
                         $scope.unfixedItem = item;
+                        $scope.cnt = -4;
                     }
 
                     function clearUnfixed() {
                         $scope.unfixedItem = undefined;
                         $scope.model.count = 1;
+                        $scope.cnt = -5;
                     }
 
                     function fixedItem(item) {

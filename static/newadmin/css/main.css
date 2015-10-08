@@ -7,6 +7,11 @@
 
 /*body > div > div > div > div.top-bar.ng-scope*/
 
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
 .top-bar {
     background-color: cornsilk;
 }
@@ -101,7 +106,7 @@ ul.status-bar {
     display: inline-block;
     border: 1px solid #c8c8d3;
     padding-left: 0px;
-    margin-bottom: 0px; */
+    margin-bottom: 0px;
 }
 
 ul.status-bar > li.status-item {
