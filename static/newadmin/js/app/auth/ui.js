@@ -84,70 +84,74 @@ angular.module('auth.ui', ['ui.router', 'indexedDB'])
                     };
                     q = $q.defer();
 
-                    $http.post("/api/auth", {user: user.name, password: user.password}).then(function(resp) {
-
-                        var user = {
-                            name: identity.login,
-                            password: identity.password,
-                            token: resp.data.token
-                        };
-                        var q2 = $q.defer();
-
-                        $indexedDB.openStore('users', function(store) {
-
-                            store.findBy('name_idx', user.name).then(function(usr) {
-
-                                if (angular.isUndefined(usr)) {
-                                    store.insert(user);
-                                } else {
-                                    usr.token = resp.data.token;
-                                    usr.password = user.password;
-                                    store.upsert(usr);
-                                }
-
-                                q2.resolve();
-
-                            });
-                        });
-
-                        q2.promise.then(function() {
-                            self.setUser(user.name);
-                            self.setToken(resp.data.token);
-                            self.identity().then(function() {
-                                q.resolve();
-                            });
-                        });
-
-                    }, function(resp) {
-
-                        if (resp.status == 0) {
-                            $indexedDB.openStore('users', function(store) {
-                                store.findBy('name_idx', user.name).then(function(usr) {
-                                    if (angular.isUndefined(usr) || usr.password != user.password) {
-                                        self.deleteToken();
-                                        self.deleteUser();
-                                        q.reject();
-                                    } else {
-                                        self.setToken(usr.token);
-                                        self.setUser(user.name);
-                                        self.identity().then(function() {
-                                            q.resolve();
-                                        });
-
-                                    }
-                                });
-                            });
-                        } else {
-                            self.deleteToken();
-                            self.deleteUser();
-                            q.reject();
-                        }
-                    });
+                    $http.post("/api/auth", {user: user.name, password: user.password}).then(successAuth, failureAuth);
 
                     return q.promise;
                 } else {
                     self.deleteToken();
                     self.deleteIdentity();
+                }
+
+                function successAuth(resp) {
+                    console.info("Success Auth.");
+                    var user = {
+                        name: identity.login,
+                        password: identity.password,
+                        token: resp.data.token
+                    };
+                    var q2 = $q.defer();
+
+                    $indexedDB.openStore('users', function(store) {
+
+                        store.findBy('name_idx', user.name).then(function(usr) {
+                            console.info("Get user after success auth. " + usr);
+
+                            if (angular.isUndefined(usr)) {
+                                store.insert(user);
+                            } else {
+                                usr.token = resp.data.token;
+                                usr.password = user.password;
+                                store.upsert(usr);
+                            }
+
+                            q2.resolve();
+
+                        });
+                    });
+
+                    q2.promise.then(function() {
+                        self.setUser(user.name);
+                        self.setToken(resp.data.token);
+                        self.identity().then(function() {
+                            q.resolve();
+                        });
+                    });
+                }
+
+                function failureAuth(resp) {
+                    console.info("Failure Auth.");
+                    if (resp.status == 0) {
+                        $indexedDB.openStore('users', function(store) {
+                            store.findBy('name_idx', user.name).then(function(usr) {
+                                if (angular.isUndefined(usr) || usr.password != user.password) {
+                                    self.deleteToken();
+                                    self.deleteUser();
+                                    q.reject("В локальной базе не найден пользователь " + user.name);
+                                } else {
+                                    self.setToken(usr.token);
+                                    self.setUser(user.name);
+                                    self.identity().then(function() {
+                                        q.resolve();
+                                    });
+
+                                }
+                            });
+                        });
+                    } else {
+                        self.deleteToken();
+                        self.deleteUser();
+                        q.reject(resp.data.message);
+                    }
                 }
             },
             identity: function(force) {

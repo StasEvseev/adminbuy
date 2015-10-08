@@ -294,14 +294,22 @@ AdminApp.config(function ($stateProvider, $urlRouterProvider) {
                 'main@': {
                     templateUrl: 'static/newadmin/template/login.html',
                     controller: function ($scope, $state, principal) {
+                        $scope.loadingFinish = true;
                         $scope.signin = function () {
 
-                            // here, we fake authenticating and give a fake user
+                            var btn_sub = $("button[type='submit']");
+                            btn_sub.prop('disabled', true);
+
+                            $scope.loadingFinish = false;
+
                             principal.authenticate({
                                 login: $scope.login,
                                 password: $scope.password
                             }).then(
                                 function () {
+                                    btn_sub.prop('disabled', false);
+                                    $scope.loadingFinish = true;
+                                    $scope.is_error = false;
                                     if ($scope.returnToState) {
                                         $state.go($scope.returnToState.name, $scope.returnToStateParams);
                                     }
@@ -317,7 +325,10 @@ AdminApp.config(function ($stateProvider, $urlRouterProvider) {
                                         }
                                     }
                                 },
-                                function () {
+                                function (message) {
+                                    $scope.error = message;
+                                    btn_sub.prop('disabled', false);
+                                    $scope.loadingFinish = true;
                                     $scope.is_error = true;
                                 });
                         };

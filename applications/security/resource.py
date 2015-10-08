@@ -43,7 +43,8 @@ class UserCanon(BaseCanoniseResource):
             'id': fields.Integer,
             'name': fields.String,
             'description': fields.String
-        })
+        }),
+        'active': fields.Boolean
     }
 
     def pre_save(self, obj, data):

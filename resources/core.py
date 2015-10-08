@@ -649,13 +649,21 @@ class IdentityResource(BaseTokeniseResource):
 class AuthResource(restful.Resource):
     def post(self):
         from applications.security.model import User
+
+        def is_empty(at):
+            return at in [None, ""]
+
         username = request.json.get('user')
         password = request.json.get('password')
-        if username is None or password is None:
-            abort(400) # missing arguments
+        if is_empty(username) or is_empty(password):
+            abort(400, message=u"Имя и пароль не должны быть пустыми.") # missing arguments
         user = User.query.filter(User.login==username).first()
         if not user or not user.verify_password(password):
-            abort(400)
+            abort(400, message=u"Пользователя с указаными именем и паролем не найдены в системе.")
+
+        if user.active is False:
+            abort(400, message=u"Пользователь не активен. Обратитесь с администратору.")
+
         return jsonify({
             'token': user.generate_auth_token().decode('ascii')
         })

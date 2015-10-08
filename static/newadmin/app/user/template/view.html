@@ -81,6 +81,10 @@
                                 <div>[[model.is_superuser | yesNo]]</div>
                             </div>
                             <div class="form-group">
+                                <label>Активен</label>
+                                <div>[[model.active | yesNo]]</div>
+                            </div>
+                            <div class="form-group">
                                 <label>Роли</label>
                                 <div></div><span ng-repeat="role in model.roles">[[role.name]] </span></div>
                             </div>
