@@ -114,7 +114,15 @@ class InvoiceModel(MailFile):
         row_ += 2
         self.responsible = get_value(sheet, row_, 0, u" /", u"/ ")
 
-        assert self.number and self.date and self.sum_without_NDS and self.sum_with_NDS and self.sum_NDS and self.weight and self.responsible
+        assert self.number is not None
+        assert self.date is not None
+        assert self.sum_without_NDS is not None
+        assert self.sum_with_NDS is not None
+        assert self.sum_NDS is not None
+        assert self.weight is not None
+        assert self.responsible is not None
+
+        # assert self.number and self.date and self.sum_without_NDS and self.sum_with_NDS and self.sum_NDS and self.weight and self.responsible
 
     def get_products(self):
         """

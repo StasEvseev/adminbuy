@@ -65,8 +65,6 @@ angular.module("mails.module", ['ui.router'])
 
                         $scope.rashod = function(event, index) {
                             showSpinner();
-//                            var btn = $(event.target);
-//                            btn.button('loading');
 
                             mails.handle_mail($scope.item.id, index, 'R').then(function(data) {
                                 $state.go('index.invoice.view', {id: data.data.invoice_id}).then(function() {
@@ -74,6 +72,7 @@ angular.module("mails.module", ['ui.router'])
                                 });
                             }).catch(function() {
                                 showError("Не удалось обработать накладную как расход. Обратитесь к администратору.");
+                                hideSpinner();
                             });
                         };
 
@@ -138,29 +137,41 @@ angular.module("mails.module", ['ui.router'])
 
         setItems(mailitems);
 
-        $scope.checkMail = function ($event) {
-            var button = $event.target;
+        function freezeInterface(button) {
             disableButton(button, true);
             showSpinner();
+        }
+
+        function unfreezeInterface(button) {
+            disableButton(button, false);
+            hideSpinner();
+        }
+
+        $scope.checkMail = function ($event) {
+            var button = $event.target;
+
+            freezeInterface(button);
+
             mails.checkMail().then(function(res) {
                 disableButton(button, false);
                 mails.filterToStateParams($stateParams).then(function(items) {
 
                     setItems(items);
 
-                    disableButton(button, false);
-                    hideSpinner();
+                    unfreezeInterface(button);
+
                     if(res == "ok") {
                         toastr.info("Есть новые письма. Для просмотра перейдите по <a href='/admin#/mailbox?_new=true&page=1'>ссылке</a>", "Оповещения");
                     } else if (res == "nothing") {
                         toastr.info("Нету новых писем", "Оповещения");
                     }
                 }).catch(function() {
-                    showError("Не удалось загрузить письма. Обратитесь к администратору.")
+                    showError("Не удалось загрузить письма. Обратитесь к администратору.");
+                    unfreezeInterface(button);
                 });
             }).catch(function() {
                 showError("Не удалось проверить почту. Обратитесь к администратору.");
-                disableButton(button, false);
+                unfreezeInterface(button);
             });
         };
 
