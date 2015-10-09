@@ -3,9 +3,9 @@
  */
 importScripts('/static/js/lib/index.js');
 
-var CACHE_MAIN = 'admin-main-v4';
-var CACHE_STATIC = 'admin-static-v5';
-var CACHE_APP = 'admin-app-v16';
+var CACHE_MAIN = 'admin-main-v5';
+var CACHE_STATIC = 'admin-static-v6';
+var CACHE_APP = 'admin-app-v17';
 
 var expectedCaches = [
   CACHE_MAIN,
@@ -75,6 +75,12 @@ var urlCacheApp = [
     "/static/newadmin/app/invoice/template/create.html",
     "/static/newadmin/app/invoice/template/view.html",
     "/static/newadmin/app/invoice/template/edit.html",
+
+    "/static/newadmin/app/collect/template/form.html",
+    "/static/newadmin/app/collect/template/list.html",
+    "/static/newadmin/app/collect/template/create.html",
+    "/static/newadmin/app/collect/template/view.html",
+    "/static/newadmin/app/collect/template/edit.html",
 
     "/static/newadmin/app/good/template/form.html",
     "/static/newadmin/app/good/template/list.html",
