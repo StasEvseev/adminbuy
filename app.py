@@ -157,6 +157,12 @@ def manifest():
     res.headers["Content-Type"] = "text/javascript"
     return res
 
+@app.route('/update_cache.js')
+def update_cache():
+    res = make_response(render_template('update_cache.js'), 200)
+    res.headers["Content-Type"] = "text/javascript"
+    return res
+
 def create_superuser():
     from services.userservice import UserService
     with app.app_context():

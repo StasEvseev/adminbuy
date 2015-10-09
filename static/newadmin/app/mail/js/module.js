@@ -163,7 +163,7 @@ angular.module("mails.module", ['ui.router'])
                     if(res == "ok") {
                         toastr.info("Есть новые письма. Для просмотра перейдите по <a href='/admin#/mailbox?_new=true&page=1'>ссылке</a>", "Оповещения");
                     } else if (res == "nothing") {
-                        toastr.info("Нету новых писем", "Оповещения");
+                        toastr.info("Нету новых писем", "Оповещения", {"closeButton": true, "progressBar": true});
                     }
                 }).catch(function() {
                     showError("Не удалось загрузить письма. Обратитесь к администратору.");

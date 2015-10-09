@@ -112,7 +112,7 @@ body {
   position: fixed;
 }
 .fixed .main-header {
-  top: 0;
+  /*top: 0;*/
   right: 0;
   left: 0;
 }
@@ -409,7 +409,7 @@ a:focus {
 .main-sidebar,
 .left-side {
   position: absolute;
-  top: 0;
+  /*top: 0;*/
   left: 0;
   padding-top: 50px;
   min-height: 100%;

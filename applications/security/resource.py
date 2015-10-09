@@ -39,6 +39,7 @@ class UserCanon(BaseCanoniseResource):
         'login': fields.String,
         'email': fields.String,
         'is_superuser': fields.Boolean,
+        'full_name': fields.String,
         'roles': fields.Nested({
             'id': fields.Integer,
             'name': fields.String,

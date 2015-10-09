@@ -11,6 +11,44 @@ angular.module("users.module", ['ui.router', 'core.service', 'core.controllers',
     $templateCache.put("UserForm", $http.get("static/newadmin/app/user/template/form.html"));
 })
 
+.factory('UserService', function(BaseDictService, users, $controller) {
+
+    var child = Object.create(BaseDictService);
+    child.records = function (text) {
+        return users.filter(text);
+    };
+
+    child.formInclude = function() {
+        return "UserForm";
+    };
+
+    child.title = function() {
+        return "Создание пользователя";
+    };
+
+    child.titleEdit = function() {
+        return "Редактирование пользователя";
+    };
+
+    child.controller = function() {
+        return function($scope, $modalInstance) {
+            var parent = BaseDictService.controller();
+            $controller(parent, {$scope: $scope, $modalInstance: $modalInstance});
+        }
+    };
+
+    child.resolveEdit = function(item) {
+        return {
+            item: function() {
+                return users.getById(item.id);
+            }
+        };
+    };
+
+    return child;
+})
+
+
 .config(function($stateProvider) {
     $stateProvider.state('index.user', {
             abstract: true,

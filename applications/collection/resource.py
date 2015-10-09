@@ -18,9 +18,9 @@ class CollectCanonResource(BaseCanoniseResource):
         'location': fields.Nested({
             'name': fields.String
         }),
-        'seller_id': fields.Integer,
-        'seller': fields.Nested({
-            'fullname': fields.String
+        'user_id': fields.Integer,
+        'user': fields.Nested({
+            'full_name': fields.String
         }),
         'sum': fields.Price,
         'name': fields.String

@@ -28,6 +28,13 @@ class User(db.Model, UserMixin):
     roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
     active = db.Column(db.Boolean, default=True)
 
+    @property
+    def full_name(self):
+        return " ".join([
+            self.first_name or "",
+            self.last_name or ""
+        ])
+
     # Flask-Login integration
     def is_authenticated(self):
         return True

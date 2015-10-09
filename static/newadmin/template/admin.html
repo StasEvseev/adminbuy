@@ -168,6 +168,13 @@
                     <i class="fa fa-truck"></i> <span>Поставщики</span>
                 </a>
             </li>
+
+            <li ng-show="show('index.collect.list')">
+                <a class="collect-item" ui-sref="index.collect.list" ui-sref-opts="{inherit: false}">
+                    <i class="fa fa-rub"></i> <span>Инкассация</span>
+                </a>
+            </li>
+
             <li ng-show="show('index.session.view')">
                 <a class="session-item" ui-sref="index.session.view" ui-sref-opts="{inherit: false}">
                     <i class="fa fa-truck"></i> <span>Торговая сессия</span>

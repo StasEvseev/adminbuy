@@ -42,6 +42,9 @@ bundles = {
         'newadmin/app/good/js/service.js',
         'newadmin/app/good/js/module.js',
 
+        'newadmin/app/collect/js/service.js',
+        'newadmin/app/collect/js/module.js',
+
         'newadmin/app/receiver/js/receivers-service.js',
         'newadmin/app/receiver/js/module.js',
 

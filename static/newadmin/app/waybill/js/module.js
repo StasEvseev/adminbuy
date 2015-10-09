@@ -278,14 +278,6 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
     $scope.model.receiver = receiver;
 
     $scope.toStatus = function(number) {
-        function doIt(){
-            $scope.loadingFinish = false;
-            waybillstatus.doStatus($scope.model.id, number).then(function() {
-                $state.go('index.invoice_in.view', {id: $scope.model.id}, {reload: 'index.invoice_in.view'}).then(function() {
-                    $scope.loadingFinish = true;
-                });
-            });
-        }
         if(number == 4) {
             if(confirm("Вы переводите накладную в финальный статус (когда товар уже должен быть доставлен). " +
                 "Внимание! Операция необратимая.")){
@@ -295,6 +287,14 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
             doIt();
         }
 
+        function doIt(){
+            $scope.loadingFinish = false;
+            waybillstatus.doStatus($scope.model.id, number).then(function() {
+                $state.go('index.invoice_in.view', {id: $scope.model.id}, {reload: 'index.invoice_in.view'}).then(function() {
+                    $scope.loadingFinish = true;
+                });
+            });
+        }
     };
 
     $scope.print = function() {
@@ -350,33 +350,26 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
     $scope.today = function() {
         $scope.model.date = new Date();
     };
-
     $scope.today();
-
     $scope.showWeeks = true;
     $scope.toggleWeeks = function () {
         $scope.showWeeks = ! $scope.showWeeks;
     };
-
     $scope.clear = function () {
         $scope.model.date = null;
     };
-
     $scope.toggleMin = function() {
         $scope.minDate = ( $scope.minDate ) ? null : new Date();
     };
     $scope.toggleMin();
-
     $scope.open = function($event) {
         if(!$scope.editForm) {
             $scope.status.opened = true;
         }
     };
-
     $scope.status = {
         opened: false
     };
-
     $scope.dateOptions = {
         'year-format': "'yy'",
         'starting-day': 1
