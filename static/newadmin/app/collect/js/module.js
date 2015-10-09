@@ -132,12 +132,44 @@ angular.module('collects.module', ['core.controllers']).constant('config', {
     };
 })
 
-.controller("CollectEditCntr", function($scope, $controller, collects, item, config, CommodityService) {
+.controller("CollectEditCntr", function($scope, $controller, collects, item, config, PointService, UserService) {
     $controller('BaseCreateController', {$scope: $scope});
     $scope.model = item;
     $scope.name_head = config.name;
     $scope.formname =  config.formname;
-    $scope.CommodityService = CommodityService;
+    $scope.PointService = PointService;
+    $scope.UserService = UserService;
+
+    $scope.datepickers = {
+        dt: false
+    };
+    $scope.today = function() {
+        $scope.model.date = new Date();
+    };
+//    $scope.today();
+    $scope.showWeeks = true;
+    $scope.toggleWeeks = function () {
+        $scope.showWeeks = ! $scope.showWeeks;
+    };
+    $scope.clear = function () {
+        $scope.model.date = null;
+    };
+    $scope.toggleMin = function() {
+        $scope.minDate = ( $scope.minDate ) ? null : new Date();
+    };
+    $scope.toggleMin();
+    $scope.open = function($event) {
+        if(!$scope.editForm) {
+            $scope.status.opened = true;
+        }
+    };
+    $scope.status = {
+        opened: false
+    };
+    $scope.dateOptions = {
+        'year-format': "'yy'",
+        'starting-day': 1
+    };
 
     $scope.saveToServer = function() {
         return collects.update($scope.model.id, $scope.model);
