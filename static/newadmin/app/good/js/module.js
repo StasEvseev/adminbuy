@@ -2,7 +2,7 @@
  * Created by user on 17.08.15.
  */
 
-angular.module('good.module', ['core.controllers']).constant('config', {
+angular.module('good.module', ['core.controllers']).constant('configGood', {
     name: "Товар",
     formname: "GoodForm"
 })
@@ -63,9 +63,9 @@ angular.module('good.module', ['core.controllers']).constant('config', {
         })
 })
 
-.controller("GoodListCntr", function($scope, $controller, config, goods) {
+.controller("GoodListCntr", function($scope, $controller, configGood, goods) {
     $controller('BaseListController', {$scope: $scope});
-    $scope.name_head = config.name;
+    $scope.name_head = configGood.name;
 
     $scope.goCreate = function() {
         return "index.good.create";
@@ -84,11 +84,11 @@ angular.module('good.module', ['core.controllers']).constant('config', {
     };
 })
 
-.controller("GoodCreateCntr", function($scope, $controller, goods, config, CommodityService) {
+.controller("GoodCreateCntr", function($scope, $controller, goods, configGood, CommodityService) {
     $controller('BaseCreateController', {$scope: $scope});
-    $scope.name_head = config.name;
+    $scope.name_head = configGood.name;
 
-    $scope.formname =  config.formname;
+    $scope.formname =  configGood.formname;
     $scope.CommodityService = CommodityService;
 
     $scope.saveToServer = function() {
@@ -100,11 +100,11 @@ angular.module('good.module', ['core.controllers']).constant('config', {
     };
 })
 
-.controller("GoodEditCntr", function($scope, $controller, goods, item, config, CommodityService) {
+.controller("GoodEditCntr", function($scope, $controller, goods, item, configGood, CommodityService) {
     $controller('BaseCreateController', {$scope: $scope});
     $scope.model = item;
-    $scope.name_head = config.name;
-    $scope.formname =  config.formname;
+    $scope.name_head = configGood.name;
+    $scope.formname =  configGood.formname;
     $scope.CommodityService = CommodityService;
 
     $scope.saveToServer = function() {
@@ -116,8 +116,8 @@ angular.module('good.module', ['core.controllers']).constant('config', {
     };
 })
 
-.controller("GoodViewCntr", function($scope, $stateParams, $state, goods, config, item) {
-    $scope.name_head = config.name;
+.controller("GoodViewCntr", function($scope, $stateParams, $state, goods, configGood, item) {
+    $scope.name_head = configGood.name;
 
     var id = $stateParams.id;
     $scope.model = item;
