@@ -190,16 +190,21 @@ class GetResource(BaseTokeniseResource):
 class BaseStatusResource(BaseTokeniseResource):
     service = None
 
+    @classmethod
+    def getService(cls):
+        return None
+
     def _action(self, id):
+        service = BaseStatusResource.getService()
         try:
-            object = self.service.get_by_id(id)
+            object = service.get_by_id(id)
             status = request.json['data']['status']
-            self.service.status(object, status)
+            service.status(object, status)
             db.session.add(object)
             db.session.commit()
             return object
         except Exception as exc:
-            message = u" Не удалось сменить статус `%s` %s." % (self.service.model, id)
+            message = u" Не удалось сменить статус `%s` %s." % (service.model, id)
             error(message + unicode(exc))
             abort(400, message=message)
 

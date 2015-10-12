@@ -5,10 +5,9 @@ import os
 import time
 
 from flask import Flask, redirect, request, render_template, url_for, make_response
-from flask.ext.principal import identity_loaded, UserNeed
+from flask.ext.injector import FlaskInjector
 from flask.ext.triangle import Triangle
 from flask.ext.babel import Babel
-from sqlalchemy.sql.functions import current_user
 
 from werkzeug.contrib.fixers import ProxyFix
 
@@ -30,6 +29,7 @@ app.config['MAIL_PASSWORD'] = admin_pass
 app.config['MAIL_DEFAULT_SENDER'] = 'server-error@example.com'
 
 from db import db
+from inject import register_injectors
 from mailmodule import mail
 from log import init_logging, debug
 
@@ -54,9 +54,7 @@ def create_app(application):
     api.application = application
     db.init_app(application)
     mail.init_app(application)
-    # admin.init_app(application)
     login_manager.init_app(application)
-
     security.init_app(application)
 
     application.db = db
@@ -113,44 +111,20 @@ app.register_blueprint(UsBl)
 
 app.wsgi_app = ProxyFix(app.wsgi_app)
 
+register_injectors(app)
+
 
 @app.route('/admin')
 def newindex():
     return render_template("index.html")
 
-@app.route('/logout')
-def logout():
-    from flask.ext import login
-    login.logout_user()
-    return redirect(url_for('.login'))
-
-
-@app.route('/login', methods=('GET', 'POST'))
-def login():
-    from flask.ext import login
-    from applications.security.form import LoginForm
-    from flask.ext.admin import helpers
-    form = LoginForm(request.form)
-    if helpers.validate_form_on_submit(form):
-        user = form.get_user()
-        login.login_user(user)
-        from flask import session
-        session.permanent = True
-
-    if login.current_user.is_authenticated():
-        if 'target' in request.args:
-            return redirect(request.args['target'])
-        return redirect(url_for('newindex'))
-    # link = u'<p>Не имеете аккаунта? <a id="a_reg" href="' + url_for('.register_view') + u'">Нажмите для регистрации.</a></p>'
-    # self._template_args['form'] = form
-    # self._template_args['link'] = link
-    return render_template("newadmin/login.html")
-
-
 @app.route('/')
 def index():
     return redirect("/admin?%s" % request.query_string)
 
+"""
+Сервис воркер(для кеширования страниц и ресурсов в Chrome.
+"""
 @app.route('/sw.js')
 def manifest():
     res = make_response(render_template('sw.js'), 200)
@@ -162,6 +136,7 @@ def update_cache():
     res = make_response(render_template('update_cache.js'), 200)
     res.headers["Content-Type"] = "text/javascript"
     return res
+
 
 def create_superuser():
     from services.userservice import UserService
@@ -179,3 +154,32 @@ app.create_superuser = create_superuser
 if __name__ == "__main__":
     debug(u"Запуск системы.")
     app.run(debug=True)
+
+
+# @app.route('/logout')
+# def logout():
+#     from flask.ext import login
+#     login.logout_user()
+#     return redirect(url_for('.login'))
+#
+#
+# @app.route('/login', methods=('GET', 'POST'))
+# def login():
+#     from flask.ext import login
+#     from applications.security.form import LoginForm
+#     from flask.ext.admin import helpers
+#     form = LoginForm(request.form)
+#     if helpers.validate_form_on_submit(form):
+#         user = form.get_user()
+#         login.login_user(user)
+#         from flask import session
+#         session.permanent = True
+#
+#     if login.current_user.is_authenticated():
+#         if 'target' in request.args:
+#             return redirect(request.args['target'])
+#         return redirect(url_for('newindex'))
+#     # link = u'<p>Не имеете аккаунта? <a id="a_reg" href="' + url_for('.register_view') + u'">Нажмите для регистрации.</a></p>'
+#     # self._template_args['form'] = form
+#     # self._template_args['link'] = link
+#     return render_template("newadmin/login.html")

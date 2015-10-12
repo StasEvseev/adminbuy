@@ -10,6 +10,9 @@ class SyncSession(db.Model):
 
 
 class WorkDay(db.Model):
+    """
+    Рабочий день на торговой точке.
+    """
     id = db.Column(db.Integer, primary_key=True)
     datetime_start = db.Column(db.DateTime)
     datetime_end = db.Column(db.DateTime)

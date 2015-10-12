@@ -45,53 +45,44 @@
     <section class="content">
         <div class="row">
             <!-- left column -->
-            <div class="col-md-6">
-                <!-- general form elements -->
+
+            <div class="col-md-4">
                 <div class="box box-danger">
-                    <div class="box-header">
-                        <!--<h3 class="box-title">Создание накладной</h3>-->
-                    </div>
-                    <!-- /.box-header -->
-                    <!-- form start -->
-                    <form name="myForm.item">
-                        <div class="box-body">
+                    <div class="box-body box-profile">
+                        <img class="profile-user-img img-responsive img-circle" src="../../dist/img/user4-128x128.jpg" alt="User profile picture">
+                        <h3 class="profile-username text-center">[[model.first_name]] [[model.last_name]]</h3>
 
-                            <div class="form-group">
-                                <label>Логин</label>
-                                <div>[[model.login]]</div>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Фамилия</label>
-                                <div>[[model.first_name]]</div>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Имя</label>
-                                <div>[[model.last_name]]</div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Почтовый ящик</label>
-                                <div>[[model.email]]</div>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Суперпользователь</label>
-                                <div>[[model.is_superuser | yesNo]]</div>
-                            </div>
-                            <div class="form-group">
-                                <label>Активен</label>
-                                <div>[[model.active | yesNo]]</div>
-                            </div>
-                            <div class="form-group">
-                                <label>Роли</label>
-                                <div></div><span ng-repeat="role in model.roles">[[role.name]] </span></div>
-                            </div>
+                        <div class="form-group">
+                            <strong>Логин</strong>
+                            <p class="text-muted">[[model.login]]</p>
                         </div>
-                    </form>
+
+                        <div class="form-group">
+                                <strong>Почтовый ящик</strong>
+                                <p class="text-muted">[[model.email]]</p>
+                            </div>
+
+                            <div class="form-group">
+                                <strong>Суперпользователь</strong>
+                                <p class="text-muted">[[model.is_superuser | yesNo]]</p>
+                            </div>
+                            <div class="form-group">
+                                <strong>Активен</strong>
+                                <p class="text-muted">[[model.active | yesNo]]</p>
+                            </div>
+                            <div class="form-group">
+                                <strong>Роли</strong>
+                                <p class="text-muted"><span ng-repeat="role in model.roles">[[role.name]] </span></p>
+                            </div>
+                    </div>
                 </div>
-                <!-- /.box -->
+            </div>
+
+            <div class="col-md-8">
+                <tabset class="nav-tabs-custom">
+                    <tab heading="Timeline">
+                    </tab>
+                </tabset>
             </div>
         </div>
     </section>
