@@ -1,5 +1,7 @@
 #coding: utf-8
 
+__author__ = 'StasEvseev'
+
 
 class ModelService(object):
     """

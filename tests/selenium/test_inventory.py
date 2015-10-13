@@ -1,4 +1,4 @@
-#coding: utf-8
+#coding: utf-8\n__author__ = 'StasEvseev'
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait

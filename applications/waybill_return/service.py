@@ -1,10 +1,12 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from sqlalchemy import desc
 from applications.waybill_return.model import WayBillReturn, TYPE, RecType, POINTSALE, RECEIVER, WayBillReturnItems, \
     RETAIL, StatusType, FINISH, IN_PROG, DRAFT
 from db import db
 from log import error, debug
-# from services import ModelService
 from services.core import BaseSQLAlchemyModelService
 from services.modelhelper import ModelService
 

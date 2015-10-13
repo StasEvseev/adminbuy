@@ -1,11 +1,10 @@
-#coding: utf-8
+#coding: utf-8\n__author__ = 'StasEvseev'
 from flask import render_template, request, g
 from flask.ext.admin.base import AdminViewMeta, expose, BaseView
 from werkzeug.utils import redirect
 from flask.ext import login
 
-from angular.fieldview.table import Table
-
+from old.angular.fieldview.table import Table
 from log import error, debug
 from tools import pathrend_to_cache
 from tools.cache import save_page_to_cache
@@ -197,7 +196,7 @@ class ModelProjectAngularView(ProjectAngularView):
     _cache = None
 
     def get_form(self):
-        from form import Form
+        from old.angular.form import Form
         try:
             debug(u"Создание формы для %s." % self.model)
             form = Form(self.model).create_form(self.form_columns, self.main_attrs, self.grouping)
@@ -280,7 +279,7 @@ class ModelProjectAngularView(ProjectAngularView):
 
     #TODO Start. Поведение для dictSelectField'а вынести в миксин хотя бы.
     def _get_extra(self):
-        from .fieldview import FieldWidget
+        from .old.angular.fieldview import FieldWidget
         return [x for x in self.form_columns.values() if isinstance(x, FieldWidget)]
 
     def modal_id(self):

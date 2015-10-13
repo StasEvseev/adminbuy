@@ -1,4 +1,7 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from db import db
 from applications.order.model import Order, OrderItem
 from services.core import BaseSQLAlchemyModelService

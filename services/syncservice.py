@@ -2,7 +2,7 @@
 from models.sync import WorkDay
 from services.core import BaseSQLAlchemyModelService
 
-__author__ = 'user'
+__author__ = 'StasEvseev'
 
 
 class SyncService(BaseSQLAlchemyModelService):

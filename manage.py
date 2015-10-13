@@ -1,5 +1,7 @@
 #coding: utf-8
 
+__author__ = 'StasEvseev'
+
 import sys
 
 from flask import json
@@ -25,6 +27,7 @@ from applications.return_app.model import Return, ReturnItem
 from applications.waybill_return.model import WayBillReturn, WayBillReturnItems
 from applications.seller.model import Seller
 from applications.collection.model import Collect
+from applications.events.model import Event
 from models.invoice import Invoice
 from models.invoiceitem import InvoiceItem
 from models.retailinvoice import RetailInvoice

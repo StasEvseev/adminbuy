@@ -1,6 +1,6 @@
 #coding: utf-8
 
-# from models import db
+__author__ = 'StasEvseev'
 
 #Склад
 from db import db

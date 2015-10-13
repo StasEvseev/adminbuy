@@ -1,4 +1,7 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from applications.inventory.constant import COUNT_AFTER_ATTR, GOOD_ATTR, GOOD_ID_ATTR, COUNT_BEFORE_ATTR
 from applications.inventory.models import Inventory, InventoryItems, VALIDATED, DRAFT, StatusType
 from db import db

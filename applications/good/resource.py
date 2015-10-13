@@ -1,4 +1,7 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 import os
 import uuid
 from flask.ext.restful import fields, abort

@@ -1,8 +1,8 @@
-#coding: utf-8
+#coding: utf-8\n__author__ = 'StasEvseev'
 from flask import render_template
 
 from angular.field import DictSelectField
-from angular.fieldview.table import NumberColumn, CalculateColumn, Column, NumberColumnStatus
+from old.angular.fieldview.table import NumberColumn, CalculateColumn, Column, NumberColumnStatus
 
 
 class Widget(object):

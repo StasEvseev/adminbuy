@@ -1,4 +1,7 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from werkzeug.security import generate_password_hash
 
 from applications.security.model import User

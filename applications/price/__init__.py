@@ -1,4 +1,5 @@
 #coding: utf-8
+__author__ = 'StasEvseev'
 
 from flask import Blueprint
 from applications.price.resource import PriceParishByGood, PriceResource, PriceHelperResource, PriceBulkMailResource, \

@@ -1,19 +1,18 @@
 #coding: utf-8
 
-import os
+__author__ = 'StasEvseev'
+
+
 from collections import namedtuple
 
 from sqlalchemy import desc, func
 from applications.waybill.constant import COUNT_ATTR, GOOD_ATTR
-
-from excel.output import PrintInvoice, PATH_TEMPLATE
 
 from db import db
 
 from applications.waybill.models import FROM_MAIL, WayBillItems, WayBill, TYPE, RETAIL, POINTSALE, RECEIVER, RecType, \
     StatusType, FINISH
 from log import debug, error
-# from services import ModelService
 from services.modelhelper import ModelService
 
 

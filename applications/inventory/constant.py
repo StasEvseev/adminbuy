@@ -1,5 +1,7 @@
 #coding: utf-8
 
+__author__ = 'StasEvseev'
+
 
 GOOD_ATTR = "good"
 GOOD_ID_ATTR = "id"

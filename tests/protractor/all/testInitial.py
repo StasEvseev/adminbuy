@@ -4,7 +4,7 @@ import os
 from tests.protractor.test import BaseProtractorTestCase
 
 
-__author__ = 'user'
+__author__ = 'StasEvseev'
 
 
 class TestProtractorInitial(BaseProtractorTestCase):

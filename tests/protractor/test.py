@@ -1,5 +1,5 @@
 # coding: utf-8
-
+__author__ = 'StasEvseev'
 
 import os
 import multiprocessing
@@ -14,8 +14,6 @@ import signal
 sys.path.append(os.path.dirname(__file__))
 
 from tests import initializetest, BaseLiveTestCase
-
-__author__ = 'user'
 
 
 class BaseProtractorTestCase(BaseLiveTestCase):

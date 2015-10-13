@@ -1,4 +1,7 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from flask.ext.mail import Mail, Message
 
 mail = Mail()

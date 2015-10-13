@@ -1,17 +1,16 @@
-#coding: utf-8
+#coding: utf-8\n__author__ = 'StasEvseev'
 from decimal import Decimal
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
-from angular.field import TextFieldBootstrap, DictSelectField, DecimalFieldBootstrap, BehaviorHiddenPredicate
-
+from old.angular.field import TextFieldBootstrap, DictSelectField, DecimalFieldBootstrap, BehaviorHiddenPredicate
 from tests.helpers import Generator
 from tests.selenium.test_ui import (
     UiTest, get_input, get_view_input, get_main_input, get_confirm_btns, get_dict_select_field, get_modal_btns,
     get_view_dict_select_field, get_mainview_dict_select_field)
-from admin import InventoryView, ProviderAngularView, PointSaleAngularView, CommodityAngularView
+from old.admin import InventoryView, ProviderAngularView, PointSaleAngularView, CommodityAngularView
 
 
 def data_form(form, form_columns):

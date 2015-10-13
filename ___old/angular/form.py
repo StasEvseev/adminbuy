@@ -1,13 +1,13 @@
-#coding: utf-8
+#coding: utf-8\n__author__ = 'StasEvseev'
 from flask.ext.admin.contrib.sqla import ModelView
 from wtforms import TextField, StringField, BooleanField, DecimalField, IntegerField, DateField
 
 from angular.field import TextFieldBootstrap, BooleanBootstrap, DecimalFieldBootstrap, DateFieldBootstrap, \
     CheckBox
 from angular.field.form import FormBootstrap
-from angular.fieldview import FieldWidget
+from old.angular.fieldview import FieldWidget
 from helper import get_relation_model
-from log import error, debug, warning
+from log import error, warning
 from db import db
 
 

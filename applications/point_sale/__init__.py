@@ -1,5 +1,7 @@
 #coding: utf-8
 
+__author__ = 'StasEvseev'
+
 from flask import Blueprint
 
 from applications.point_sale.resource import PointSaleItemInnerCanon, PointSaleCanon#, PointSaleItemResource
@@ -11,4 +13,3 @@ api = MyApi(blueprint, prefix='/api')
 
 api.register_canon(PointSaleCanon, '/pointsale')
 api.register_canon(PointSaleItemInnerCanon, '/pointsale')
-# api.add_resource(PointSaleItemResource, '/pointsale/<int:point_id>/items')

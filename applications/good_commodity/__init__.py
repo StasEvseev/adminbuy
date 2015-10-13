@@ -1,4 +1,7 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from flask import Blueprint
 from applications.good_commodity.resource import GoodCommodityResource
 

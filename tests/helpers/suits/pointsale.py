@@ -1,4 +1,7 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from app import db
 from applications.point_sale.models import PointSale
 from tests.helpers.suits import BaseSuite

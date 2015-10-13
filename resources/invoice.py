@@ -1,11 +1,10 @@
 #coding: utf-8
 
+__author__ = 'StasEvseev'
+
 from flask.ext.restful import marshal_with, fields
-from sqlalchemy import asc
 from applications.invoice.helpers import _stub
 from log import error
-
-from models.invoiceitem import InvoiceItem
 
 from resources.core import BaseTokeniseResource
 

@@ -1,8 +1,8 @@
 #coding: utf-8
-from flask.ext.restful import fields
 
-from werkzeug.security import generate_password_hash
-from applications.security.decorators import roles_accepted2
+__author__ = 'StasEvseev'
+
+from flask.ext.restful import fields
 
 from applications.security.model import User, Role
 from db import db

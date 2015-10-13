@@ -1,8 +1,10 @@
-#coding: utf-8
+#coding: utf-8\n__author__ = 'StasEvseev'
 import itertools
 import collections
+
 from selenium.common.exceptions import TimeoutException
-from angular.field.validator import RequiredValidator, RequiredPredicate
+
+from old.angular.field.validator import RequiredValidator, RequiredPredicate
 from db import db
 from all.helpers import Generator
 from all.selenium.test_common_ui import _gen_data, fill_form

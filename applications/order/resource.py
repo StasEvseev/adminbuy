@@ -1,10 +1,12 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from datetime import datetime
 from flask.ext.restful import fields
 from applications.order.model import Order, OrderItem
 from applications.order.service import OrderService
 from resources.core import BaseCanoniseResource, BaseInnerCanon
-# from services import HelperService
 from services.helperserv import HelperService
 
 

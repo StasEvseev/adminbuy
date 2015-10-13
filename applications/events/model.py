@@ -2,7 +2,7 @@
 from sqlalchemy_utils import ChoiceType
 from db import db
 
-__author__ = 'user'
+__author__ = 'StasEvseev'
 
 
 class Event(db.Model):

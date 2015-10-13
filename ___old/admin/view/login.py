@@ -1,5 +1,6 @@
 #coding: utf-8
 
+__author__ = 'StasEvseev'
 
 from flask import url_for, redirect, request
 from flask.ext import admin, login

@@ -4,7 +4,7 @@ from applications.events.service import EventService
 from tests import BaseTestCase
 from tests.helpers import Generator
 
-__author__ = 'user'
+__author__ = 'StasEvseev'
 
 
 class Mock(object):
@@ -17,9 +17,6 @@ class Mock(object):
 
 
 class TestEvents(BaseTestCase):
-
-    def set_up(self):
-        pass
 
     def test_to_json(self):
 

@@ -1,4 +1,7 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from sqlalchemy import asc
 from sqlalchemy.orm.exc import NoResultFound
 from applications.acceptance.constant import ITEM_ID_ATTR, COUNT_ATTR, GOOD_ATTR, PRICE_POST_ATTR, PRICE_RETAIL_ATTR, \

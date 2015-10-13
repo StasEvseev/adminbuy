@@ -1,4 +1,7 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from flask.ext import restful
 from flask.ext.restful.fields import Raw
 from log import error
@@ -53,7 +56,6 @@ api.add_resource(MailInvoiceItem, '/mail/<int:id>/items')
 api.add_resource(InvoiceItemResource, '/invoice/<int:invoice_id>/items')
 api.add_resource(InvoiceItemCountResource, '/invoice/<int:invoice_id>/count')
 
-# api.add_resource(InvoicePriceItemsResource, '/invoicepriceitems/<int:mail_id>')
 api.add_resource(InvoicePrice2ItemsResource, '/invoiceprice2items/<int:id>')
 
 api.add_resource(SyncSessionRes, '/syncSession')

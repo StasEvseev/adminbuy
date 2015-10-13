@@ -1,6 +1,8 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from db import db
-# from models.good import Good
 
 
 class InvoiceItem(db.Model):

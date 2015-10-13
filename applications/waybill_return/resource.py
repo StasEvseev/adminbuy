@@ -1,4 +1,7 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 import os
 import uuid
 
@@ -15,8 +18,6 @@ from excel.output import PrintInvoice, PATH_TEMPLATE
 from log import error, debug, warning
 
 from resources.core import BaseTokeniseResource, BaseCanoniseResource, BaseInnerCanon
-
-# from services import HelperService
 from services.helperserv import HelperService
 
 

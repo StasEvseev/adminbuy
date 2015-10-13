@@ -1,4 +1,7 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from flask import request, g
 from flask.ext.restful import fields, marshal_with
 from applications.settings.model import Profile
@@ -38,17 +41,6 @@ class ProfileCanon(BaseCanonWithoutId):
     def get(self):
         user = g.user
         return SettingsService.setting_to_user(user)
-        # profile = Profile.query.filter(
-        #     Profile.user_id == user.id
-        # )
-        # if profile.count() == 0:
-        #     profile = Profile()
-        #     profile.user = user
-        #     db.session.add(profile)
-        #     db.session.commit()
-        # else:
-        #     profile = profile.one()
-        # return profile
 
     def post(self):
         data = request.json['data']
@@ -56,18 +48,6 @@ class ProfileCanon(BaseCanonWithoutId):
 
         profile = SettingsService.setting_to_user(user)
 
-        # profile = Profile.query.filter(
-        #     Profile.user_id == user.id
-        # )
-        # if profile.count() == 0:
-        #     profile = Profile()
-        #     profile.user = user
-        #     profile.rate_gross = data['rate_gross']
-        #     profile.rate_retail = data['rate_retail']
-        #     db.session.add(profile)
-        #     db.session.commit()
-        # else:
-        #     profile = profile.one()
         profile.rate_gross = data['rate_gross']
         profile.rate_retail = data['rate_retail']
         db.session.add(profile)

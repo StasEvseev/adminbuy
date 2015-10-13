@@ -1,5 +1,7 @@
 #coding: utf-8
 
+__author__ = 'StasEvseev'
+
 from fabric.api import local, sudo, lcd, put, cd
 from fabric.context_managers import settings
 from fabric.contrib.files import exists

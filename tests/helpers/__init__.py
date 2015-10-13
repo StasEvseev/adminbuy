@@ -1,4 +1,7 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 import random
 import string
 from datetime import datetime, date, timedelta

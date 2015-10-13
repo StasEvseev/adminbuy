@@ -1,4 +1,7 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from dateutil import parser
 import datetime
 from flask import request

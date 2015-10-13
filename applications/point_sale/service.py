@@ -1,5 +1,7 @@
 #coding: utf-8
 
+__author__ = 'StasEvseev'
+
 from sqlalchemy import and_
 from sqlalchemy.orm.exc import NoResultFound
 

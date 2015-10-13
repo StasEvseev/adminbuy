@@ -1,4 +1,7 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from tests import BaseTestCase
 from tests.helpers.suits.pointsale import PointSaleSuite
 

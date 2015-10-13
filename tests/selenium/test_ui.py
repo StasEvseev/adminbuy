@@ -1,4 +1,4 @@
-#coding: utf-8
+#coding: utf-8\n__author__ = 'StasEvseev'
 from flask.ext.testing import LiveServerTestCase
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException

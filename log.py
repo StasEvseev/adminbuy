@@ -1,10 +1,13 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 import logging
-from logging.handlers import SMTPHandler, RotatingFileHandler
+from logging.handlers import RotatingFileHandler
 from kombu.exceptions import EncodeError
 import traceback
 
-from config import ADMINS, admin_imap, admin_pass
+from config import admin_imap, admin_pass
 
 MAX_BYTES = 1048576
 BACKUP_COUNT = 50

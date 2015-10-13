@@ -1,4 +1,7 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from applications.settings.model import Profile
 from db import db
 from services.core import BaseSQLAlchemyModelService

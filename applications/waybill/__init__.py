@@ -1,4 +1,7 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from flask import Blueprint
 from applications.waybill.resource import WayBillCanon, WayBillHelperResource, WayBillItemItemsResource, \
     WayBillStatusResource, WayBillItemInnerCanon, WayBillPrint, WayBillBulk
@@ -12,6 +15,5 @@ api.add_resource(WayBillBulk, '/waybillbulk')
 api.register_canon(WayBillCanon, "/waybill")
 api.register_canon(WayBillItemInnerCanon, '/waybill')
 api.add_resource(WayBillHelperResource, '/waybill/check_exists')
-# api.add_resource(WayBillItemItemsResource, '/waybill/<int:id>/items')
 api.add_resource(WayBillStatusResource, '/waybill/<int:id>/status')
 api.add_resource(WayBillPrint, '/waybill/print/<int:id>')

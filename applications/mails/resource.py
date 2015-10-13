@@ -1,4 +1,7 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from flask import request
 
 from flask.ext.restful import abort, marshal_with, fields

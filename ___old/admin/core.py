@@ -1,4 +1,7 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from flask.ext.admin import Admin
 from flask.ext.admin.menu import MenuView
 

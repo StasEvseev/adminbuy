@@ -1,10 +1,11 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from flask import Blueprint
 from applications.order.resource import OrderCanon, OrderItemInnerCanon
 
 from resources import MyApi
-
-# from applications.invoice.resource import InvoiceCanon, InvoiceItemInnerCanon, InvoiceItemAcceptanceInnerCanon
 
 
 blueprint = Blueprint('order_blueprint', __name__)
@@ -12,6 +13,3 @@ blueprint = Blueprint('order_blueprint', __name__)
 api = MyApi(blueprint, prefix='/api')
 api.register_canon(OrderCanon, '/order')
 api.register_canon(OrderItemInnerCanon, '/order')
-# api.register_canon(InvoiceCanon, '/invoice_canon')
-# api.register_canon(InvoiceItemInnerCanon, '/invoice_canon')
-# api.register_canon(InvoiceItemAcceptanceInnerCanon, '/from_acceptance')

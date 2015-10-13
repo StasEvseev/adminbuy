@@ -1,5 +1,7 @@
 #coding: utf-8
-from all.helpers.suits import BaseSuite
+from tests.helpers.suits import BaseSuite
+
+__author__ = 'StasEvseev'
 
 
 class RevisionSuite(BaseSuite):

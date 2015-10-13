@@ -1,8 +1,10 @@
 #coding: utf-8
-# from models import db
+
+__author__ = 'StasEvseev'
+
 from app import db
 from applications.seller.model import Seller
-from all.helpers.suits import BaseSuite
+from tests.helpers.suits import BaseSuite
 
 
 class SellerSuite(BaseSuite):

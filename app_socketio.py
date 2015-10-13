@@ -1,4 +1,7 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from flask import Flask
 from flask.ext.socketio import SocketIO, emit, send, join_room
 

@@ -1,12 +1,12 @@
 #coding: utf-8
 
+__author__ = 'StasEvseev'
 
-#coding: utf-8
+
 from flask import url_for
 from sqlalchemy_utils import ChoiceType
 from db import db
-# from models.invoice import Invoice
-# from models.receiver import Receiver
+
 
 FROM_MAIL = 1
 FROM_ACCEPTANCE = 2

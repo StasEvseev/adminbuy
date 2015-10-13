@@ -1,9 +1,9 @@
-#coding: utf-8
+#coding: utf-8\n__author__ = 'StasEvseev'
 from flask import render_template
-from log import error
 
-from angular.field.behavior import BehaviorHiddenPredicate
-from angular.field.validator import RequiredValidator
+from log import error
+from old.angular.field.behavior import BehaviorHiddenPredicate
+from old.angular.field.validator import RequiredValidator
 
 
 class FieldBootstrap(object):

@@ -1,5 +1,7 @@
 #coding: utf-8
 
+__author__ = 'StasEvseev'
+
 import os
 import uuid
 
@@ -16,11 +18,9 @@ from applications.waybill.service import WayBillService, WayBillServiceException
 
 from config import PATH_TO_GENERATE_INVOICE, PATH_WEB
 
-from resources.core import BaseTokeniseResource, BaseCanoniseResource, BaseInnerCanon, GetResource
+from resources.core import BaseTokeniseResource, BaseCanoniseResource, BaseInnerCanon
 
-# from services import GoodService, HelperService
 from services.helperserv import HelperService
-from simple_report.converter.abstract import FileConverter
 from simple_report.report import SpreadsheetReport
 
 

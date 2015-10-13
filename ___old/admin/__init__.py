@@ -1,15 +1,16 @@
 #coding: utf-8
 
-from admin.core import MyAdmin
-from admin.view.mail import MailView
-from admin.view.login import MyAdminIndexView
+__author__ = 'StasEvseev'
+
+from old.admin.core import MyAdmin
+from old.admin.view.mail import MailView
+from old.admin.view.login import MyAdminIndexView
 
 from applications.acceptance.view import AcceptanceNewView
 from applications.collection.view import CollectAngularView
 from applications.commodity.views import CommodityAngularView
 from applications.good.views import GoodViewAngular
 from applications.inventory.views import InventoryView
-from applications.order.view import OrderView
 from applications.point_sale.views import PointSaleAngularView
 from applications.provider_app.views import ProviderAngularView
 from applications.receiver.view import ReceiverAngularView

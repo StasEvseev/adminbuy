@@ -1,4 +1,7 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 import redis
 from sqlalchemy import desc
 from applications.good.service import GoodService, GoodArgumentExc

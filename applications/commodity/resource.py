@@ -1,4 +1,7 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from flask.ext.restful import fields
 
 from applications.commodity.models import Commodity

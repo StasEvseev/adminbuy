@@ -1,6 +1,10 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from flask.ext import login
-from angular.view import ProjectAngularView
+
+from old.angular.view import ProjectAngularView
 
 
 class MailView(ProjectAngularView):

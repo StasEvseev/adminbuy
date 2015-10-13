@@ -1,4 +1,7 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from flask.ext.restful import fields
 from applications.collection.model import Collect
 
@@ -8,8 +11,6 @@ from resources.core import BaseCanoniseResource
 
 class CollectCanonResource(BaseCanoniseResource):
     model = Collect
-
-    # multif = {'filter_field': ('name', 'thematic')}
 
     attr_json = {
         'id': fields.Integer,

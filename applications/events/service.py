@@ -5,7 +5,7 @@ from sqlalchemy import desc
 from applications.events.model import Event
 from services.core import BaseSQLAlchemyModelService
 
-__author__ = 'user'
+__author__ = 'StasEvseev'
 
 
 class EventService(BaseSQLAlchemyModelService):

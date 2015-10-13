@@ -1,11 +1,11 @@
 #coding: utf-8
-# from models import db
-# from invoice import Invoice
 
-#TODO deprecated
+__author__ = 'StasEvseev'
+
 from db import db
 
 
+#TODO: deprecated
 class RetailInvoice(db.Model):
     """
     Розничная накладная.

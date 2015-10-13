@@ -1,4 +1,7 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from datetime import datetime, date
 from applications.acceptance.constant import GOOD_ATTR, COUNT_ATTR, ITEM_ID_ATTR, PRICE_GROSS_ATTR, PRICE_POST_ATTR, \
     PRICE_RETAIL_ATTR, GOOD_ID_ATTR, GOOD_OBJ_ATTR

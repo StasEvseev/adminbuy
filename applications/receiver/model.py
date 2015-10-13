@@ -1,5 +1,6 @@
 #coding: utf-8
-# from invoice import Invoice
+
+__author__ = 'StasEvseev'
 from db import db
 
 
@@ -20,15 +21,3 @@ class Receiver(db.Model):
     @property
     def fullname(self):
         return " ".join([self.lname or "", self.fname or "", self.pname or ""])
-
-
-
-    #Основание
-    # invoice_id = db.Column(db.Integer, db.ForeignKey('invoice.id'))
-    # invoice = db.relationship(Invoice, backref=db.backref('retailinvoices', lazy='dynamic'))
-
-    #Файл накладной
-    # file = db.Column(db.String)
-
-    # def __repr__(self):
-    #     return '<RetailInvoice %r>' % self.number

@@ -1,10 +1,12 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 import os
 
 from mock import Mock
 
 from excel import get_name_number
-# from services import MailInvoiceService
 from applications.mails.action import MailHepls, MailObjectNew
 from models.invoiceitem import InvoiceItem
 from services.mailinvoice import MailInvoiceService

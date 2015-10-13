@@ -1,4 +1,4 @@
-#coding: utf-8
+#coding: utf-8\n__author__ = 'StasEvseev'
 from flask import render_template
 
 

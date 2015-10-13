@@ -1,5 +1,7 @@
 #coding: utf-8
 
+__author__ = 'StasEvseev'
+
 from sqlalchemy_utils import ChoiceType
 from db import db
 

@@ -1,4 +1,7 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from applications.good.service import GoodArgumentExc
 from db import db
 from applications.return_app.model import Return, ReturnItem, StatusType

@@ -1,4 +1,7 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 import json
 from flask import request
 from flask.ext.restful import fields

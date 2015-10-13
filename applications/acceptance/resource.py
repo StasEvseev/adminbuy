@@ -1,14 +1,12 @@
 #coding: utf-8
 
-from flask import request
+__author__ = 'StasEvseev'
 
 from flask.ext.restful import marshal_with, fields, abort
 
 from resources import Date
 from resources.core import BaseTokeniseResource, BaseCanoniseResource, BaseInnerCanon, BaseStatusResource
-from log import error, warning, debug
-
-# from services import HelperService, InvoiceService, ModelService
+from log import warning, debug
 
 from applications.acceptance.model import Acceptance, AcceptanceItems, MAIL, NEW, IN_PROG, VALIDATED
 from applications.acceptance.service import AcceptanceService

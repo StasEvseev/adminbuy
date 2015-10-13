@@ -1,11 +1,13 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from functools import wraps
 from flask import g
 from flask.ext.principal import RoleNeed, Permission, Identity, UserNeed
 from flask.ext.restful import abort
 from flask.ext.security import roles_accepted, auth_token_required, http_auth_required
 from flask.ext.security.decorators import _get_unauthorized_response
-__author__ = 'Stanislav'
 
 
 def roles_accepted2(*roles):

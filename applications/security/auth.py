@@ -1,5 +1,7 @@
 #coding: utf-8
 
+__author__ = 'StasEvseev'
+
 from flask import make_response, jsonify, g
 from flask.ext import login
 from flask.ext.httpauth import HTTPBasicAuth

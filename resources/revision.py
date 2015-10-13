@@ -1,5 +1,7 @@
 #coding: utf-8
 
+__author__ = 'StasEvseev'
+
 from flask.ext.restful import fields, abort
 from log import error
 
@@ -9,33 +11,6 @@ from db import db
 from resources import Date
 from resources.core import BaseCanoniseResource, BaseTokeniseResource
 
-
-# class BaseItemCanoniseResource(BaseCanoniseResource):
-#     model = Revision
-#     model_item = RevisionItem
-#
-#     attr_json = {
-#
-#     }
-#
-#     attr_json_item = {
-#
-#     }
-#
-#     def get_item_items(self, id):
-#         pass
-#
-#     def put_item(self, id):
-#         pass
-#
-#     def post_item(self, id, item_id):
-#         pass
-#
-#     def get_item(self, id, item_id):
-#         pass
-#
-#     def delete_item(self, id, item_id):
-#         pass
 from services.helperserv import HelperService
 from services.revisionservice import RevisionService
 

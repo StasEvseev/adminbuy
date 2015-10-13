@@ -1,4 +1,4 @@
-#coding: utf-8
+#coding: utf-8\n__author__ = 'StasEvseev'
 from applications.good.views import GoodViewAngular
 from tests.selenium.test_common_ui import CommonTestUi
 

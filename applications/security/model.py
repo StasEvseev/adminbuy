@@ -1,4 +1,7 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from flask.ext.security import RoleMixin, UserMixin
 from flask.ext.security.core import _token_loader
 from db import db

@@ -1,5 +1,7 @@
 #coding: utf-8
 
+__author__ = 'StasEvseev'
+
 from flask.ext.assets import Environment, Bundle
 
 assets = Environment()

@@ -1,5 +1,7 @@
 #coding: utf-8
 
+__author__ = 'StasEvseev'
+
 from flask.ext.restful import fields
 
 from applications.provider_app.models import Provider
