@@ -156,6 +156,9 @@ var MainController = function ($scope, $rootScope, User, Company, Application, m
     $scope.version = Application.version();
     $scope.authorLink = Application.authorLink();
 
+    $scope.aboutMe = aboutMe;
+    $scope.logout = logout;
+
     var socket;
     socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port); //, {resource: 'chat'});
 
@@ -175,11 +178,16 @@ var MainController = function ($scope, $rootScope, User, Company, Application, m
         });
     });
 
-    $scope.logout = function () {
+    function logout() {
         console.info("Unauthenticate.");
         principal.authenticate();
         $state.go("signin");
-    };
+    }
+
+    function aboutMe() {
+        console.info("aboutMe");
+        $state.go("index.user.view", {id: User.id()});
+    }
 };
 
 AdminApp.factory("ShowHideRoles", function($state, principal) {
@@ -308,32 +316,34 @@ AdminApp.config(function ($stateProvider, $urlRouterProvider) {
                             principal.authenticate({
                                 login: $scope.login,
                                 password: $scope.password
-                            }).then(
-                                function () {
-                                    btn_sub.prop('disabled', false);
-                                    $scope.loadingFinish = true;
-                                    $scope.is_error = false;
-                                    if ($scope.returnToState) {
-                                        $state.go($scope.returnToState.name, $scope.returnToStateParams);
+                            }).then(successAuthenticate, failureAuthenticate);
+
+                            function successAuthenticate() {
+                                btn_sub.prop('disabled', false);
+                                $scope.loadingFinish = true;
+                                $scope.is_error = false;
+                                if ($scope.returnToState) {
+                                    $state.go($scope.returnToState.name, $scope.returnToStateParams);
+                                }
+                                else {
+                                    //Если права выданы только как на продавца - то делаем переход на выбор рабочего дня
+                                    var id = principal.getIdentity();
+                                    if (id.length == 1 && id.indexOf("vendor") != -1) {
+                                        console.info("You are only vendor. Go to menu.");
+                                        $state.go('index.session.menu');
+                                    } else {
+                                        console.info("Don't you are not only vendor. Go to dash.");
+                                        $state.go('index.dash');
                                     }
-                                    else {
-                                        //Если права выданы только как на продавца - то делаем переход на выбор рабочего дня
-                                        var id = principal.getIdentity();
-                                        if (id.length == 1 && id.indexOf("vendor") != -1) {
-                                            console.info("You are only vendor. Go to menu.");
-                                            $state.go('index.session.menu');
-                                        } else {
-                                            console.info("Don't you are not only vendor. Go to dash.");
-                                            $state.go('index.dash');
-                                        }
-                                    }
-                                },
-                                function (message) {
-                                    $scope.error = message;
-                                    btn_sub.prop('disabled', false);
-                                    $scope.loadingFinish = true;
-                                    $scope.is_error = true;
-                                });
+                                }
+                            }
+
+                            function failureAuthenticate(message) {
+                                $scope.error = message;
+                                btn_sub.prop('disabled', false);
+                                $scope.loadingFinish = true;
+                                $scope.is_error = true;
+                            }
                         };
                     }
                 }

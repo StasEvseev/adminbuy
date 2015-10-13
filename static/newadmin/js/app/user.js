@@ -1,9 +1,12 @@
 angular.module('user', [])
 
 .service("User", function($q, $http) {
-    var name = "", iconUrl = "", position = "", is_superuser = false;
+    var name = "", iconUrl = "", position = "", is_superuser = false, id = '';
 
     return {
+        id: function() {
+            return id;
+        },
         name: function() {
             return name;
         },
@@ -22,7 +25,9 @@ angular.module('user', [])
                 iconUrl = resp.data.iconUrl;
                 position = resp.data.position;
                 is_superuser = resp.data.is_superuser;
+                id = resp.data.id;
             }, function(resp) {
+                id: '';
                 name = '';
                 iconUrl = '';
                 position = '';

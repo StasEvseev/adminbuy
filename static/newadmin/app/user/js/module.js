@@ -51,12 +51,12 @@ angular.module("users.module", ['ui.router', 'core.service', 'core.controllers',
 
 .config(function($stateProvider) {
     $stateProvider.state('index.user', {
-            abstract: true,
-            url: '/user',
+        abstract: true,
+        url: '/user',
         data: {
             roles: ['admin']
         }
-        })
+    })
         .state('index.user.list', {
             url: "?filter&page",
             views: {

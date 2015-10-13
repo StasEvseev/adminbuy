@@ -603,6 +603,7 @@ class ProfileResource(BaseTokeniseResource):
             name = " ".join([fname, lname]) if fname or lname else "Без имени"
 
             return jsonify({
+                'id': user.id,
                 'name': name,
                 'position': position,
                 'iconUrl': "static/images/users/2.jpg",
