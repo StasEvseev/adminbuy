@@ -6,8 +6,8 @@ from flask.ext import login
 
 from old.angular.fieldview.table import Table
 from log import error, debug
-from tools import pathrend_to_cache
-from tools.cache import save_page_to_cache
+from utils.tools import pathrend_to_cache
+from utils.tools.cache import save_page_to_cache
 
 
 class AngularMeta(AdminViewMeta):
