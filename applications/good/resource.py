@@ -2,9 +2,6 @@
 import os
 import uuid
 from flask.ext.restful import fields, abort
-from injector import inject, Key
-from inject import getInject
-import injector
 
 from applications.good.model import Good
 from applications.good.service import GoodService, GoodServiceException
@@ -46,14 +43,7 @@ class GoodResourceCanon(BaseCanoniseResource):
         if obj.commodity_id is None:
             raise GoodResourceCanon.GoodResourceException(u"Нельзя сохранить товар без номенклатуры.")
 
-        @inject(comservice=Key('CommodityService'))
-        def get_commodity(comservice=None):
-            return comservice.get_by_id(obj.commodity_id)
-
-        res = getInject().get(Key("CommodityService"))
-        commodity = get_commodity()
-
-        # commodity = CommodityService.get_by_id(obj.commodity_id)
+        commodity = CommodityService.get_by_id(obj.commodity_id)
         try:
             res, good = GoodService.get_or_create_commodity_numbers(
                 obj.commodity_id, obj.number_local, obj.number_global, obj.id)

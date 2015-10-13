@@ -4,8 +4,7 @@ from datetime import timedelta
 import os
 import time
 
-from flask import Flask, redirect, request, render_template, url_for, make_response
-from flask.ext.injector import FlaskInjector
+from flask import Flask, redirect, request, render_template, make_response
 from flask.ext.triangle import Triangle
 from flask.ext.babel import Babel
 
@@ -29,7 +28,6 @@ app.config['MAIL_PASSWORD'] = admin_pass
 app.config['MAIL_DEFAULT_SENDER'] = 'server-error@example.com'
 
 from db import db
-from inject import register_injectors
 from mailmodule import mail
 from log import init_logging, debug
 
@@ -110,8 +108,6 @@ app.register_blueprint(ColBl)
 app.register_blueprint(UsBl)
 
 app.wsgi_app = ProxyFix(app.wsgi_app)
-
-register_injectors(app)
 
 
 @app.route('/admin')
