@@ -16,7 +16,8 @@ from log import error, debug, warning
 
 from resources.core import BaseTokeniseResource, BaseCanoniseResource, BaseInnerCanon
 
-from services import HelperService
+# from services import HelperService
+from services.helperserv import HelperService
 
 
 ITEM = {

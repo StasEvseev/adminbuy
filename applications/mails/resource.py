@@ -49,7 +49,7 @@ class MailItem(BaseTokeniseResource):
 
     @marshal_with(ITEM)
     def post(self, id):
-        from services import MailInvoiceService
+        from services.mailinvoice import MailInvoiceService
         action = request.json['action']
         index = request.json['index']
 

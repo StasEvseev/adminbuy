@@ -8,12 +8,15 @@ from resources import Date
 from resources.core import BaseTokeniseResource, BaseCanoniseResource, BaseInnerCanon, BaseStatusResource
 from log import error, warning, debug
 
-from services import HelperService, InvoiceService, ModelService
+# from services import HelperService, InvoiceService, ModelService
 
 from applications.acceptance.model import Acceptance, AcceptanceItems, MAIL, NEW, IN_PROG, VALIDATED
 from applications.acceptance.service import AcceptanceService
 
 from db import db
+from services.helperserv import HelperService
+from services.mailinvoice import InvoiceService
+from services.modelhelper import ModelService
 
 
 ITEM = {

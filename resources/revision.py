@@ -36,6 +36,7 @@ from resources.core import BaseCanoniseResource, BaseTokeniseResource
 #
 #     def delete_item(self, id, item_id):
 #         pass
+from services.helperserv import HelperService
 from services.revisionservice import RevisionService
 
 
@@ -82,7 +83,6 @@ class RevisionResource(BaseCanoniseResource):
     }
 
     def pre_save(self, obj, data):
-        from services import HelperService
         obj = super(RevisionResource, self).pre_save(obj, data)
 
         obj.date = HelperService.convert_to_pydate(data['date'])

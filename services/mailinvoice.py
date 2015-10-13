@@ -335,7 +335,7 @@ class MailInvoiceService(object):
         """
         Метод обрабатывает почтовый ящик
         """
-        from services import ProviderService
+        from applications.provider_app.service import ProviderService
         res = []
         debug(u"Начало проверки почты")
         emails = ProviderService.get_all_emails()

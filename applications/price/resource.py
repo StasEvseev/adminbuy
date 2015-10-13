@@ -2,12 +2,14 @@
 
 from flask import request
 from flask.ext.restful import abort, marshal_with, fields
+from applications.good.service import GoodService
 from applications.price.service import PriceService, NotFindPriceParishExc, PriceServiceException
 from db import db
 from log import debug, error
 from resources.core import BaseTokeniseResource
 
-from services import GoodService, MailInvoiceService, InvoiceService
+# from services import GoodService, MailInvoiceService, InvoiceService
+from services.mailinvoice import InvoiceService, MailInvoiceService
 
 ATTR = {
     'id': fields.Integer,

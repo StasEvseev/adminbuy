@@ -4,8 +4,9 @@ from applications.waybill_return.model import WayBillReturn, TYPE, RecType, POIN
     RETAIL, StatusType, FINISH, IN_PROG, DRAFT
 from db import db
 from log import error, debug
-from services import ModelService
+# from services import ModelService
 from services.core import BaseSQLAlchemyModelService
+from services.modelhelper import ModelService
 
 
 class WayBillReturnService(BaseSQLAlchemyModelService):
@@ -87,7 +88,7 @@ class WayBillReturnService(BaseSQLAlchemyModelService):
     @classmethod
     def upgrade_items(cls, waybillreturn, items):
         from applications.price.service import PriceService
-        from services import GoodService
+        from applications.good.service import GoodService
 
         waybillreturn.items.delete()
         db.session.add(waybillreturn)

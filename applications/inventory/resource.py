@@ -106,19 +106,6 @@ class InventoryStatusResource(BaseStatusResource):
     @marshal_with(attr)
     def post(self, id):
         return self._action(id)
-    # @marshal_with(attr)
-    # def post(self, id):
-    #     try:
-    #         inventory = InventoryService.get_by_id(id)
-    #         status = request.json['data']['status']
-    #         InventoryService.status(inventory, status)
-    #         db.session.add(inventory)
-    #         db.session.commit()
-    #         return inventory
-    #     except Exception as exc:
-    #         message = u" Не удалось сменить статус `инвентаризации` %s." % id
-    #         error(unicode(exc) + message)
-    #         abort(400, message=message)
 
 
 class InventoryPrint(BasePrintResource):

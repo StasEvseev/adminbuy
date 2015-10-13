@@ -10,7 +10,7 @@ from flask.ext.babel import Babel
 
 from werkzeug.contrib.fixers import ProxyFix
 
-from config import admin_imap, admin_pass, DATABASE_URI, SECRET_KEY
+from config import admin_imap, admin_pass, DATABASE_URI, SECRET_KEY, IS_PROD
 
 os.environ['TZ'] = 'Europe/Moscow'
 # time.tzset()
@@ -64,7 +64,8 @@ def create_app(application):
     def get_locale():
         return request.accept_languages.best_match(["ru"])
 
-    init_logging(application)
+    if IS_PROD:
+        init_logging(application)
 
     return application
 

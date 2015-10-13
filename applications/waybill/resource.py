@@ -5,6 +5,7 @@ import uuid
 
 from flask import url_for, request
 from flask.ext.restful import marshal_with, fields, reqparse, abort
+from applications.good.service import GoodService
 from applications.waybill.constant import GOOD_ATTR, COUNT_ATTR
 from db import db
 from excel.output import PrintInvoice, PATH_TEMPLATE
@@ -17,7 +18,8 @@ from config import PATH_TO_GENERATE_INVOICE, PATH_WEB
 
 from resources.core import BaseTokeniseResource, BaseCanoniseResource, BaseInnerCanon, GetResource
 
-from services import GoodService, HelperService
+# from services import GoodService, HelperService
+from services.helperserv import HelperService
 from simple_report.converter.abstract import FileConverter
 from simple_report.report import SpreadsheetReport
 

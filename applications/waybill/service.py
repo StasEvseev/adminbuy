@@ -13,7 +13,8 @@ from db import db
 from applications.waybill.models import FROM_MAIL, WayBillItems, WayBill, TYPE, RETAIL, POINTSALE, RECEIVER, RecType, \
     StatusType, FINISH
 from log import debug, error
-from services import ModelService
+# from services import ModelService
+from services.modelhelper import ModelService
 
 
 WayBillItem = namedtuple('WayBillItem', [GOOD_ATTR, COUNT_ATTR, 'fullname'])
@@ -208,7 +209,7 @@ class WayBillService(object):
     @classmethod
     def upgrade_items(cls, waybill, items, path_target=None, path=None):
         from applications.price.service import PriceService
-        from services import GoodService
+        from applications.good.service import GoodService
 
         waybill.items.delete()
         db.session.add(waybill)

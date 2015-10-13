@@ -54,14 +54,14 @@ class InvoiceItemResource(BaseTokeniseResource):
         'fact_count': fields.Integer(default='')
     }))})
     def get(self, invoice_id):
-        from services import InvoiceService
+        from services.mailinvoice import InvoiceService
         return {'items': InvoiceService.get_items(invoice_id)}
 
 
 class InvoiceItemCountResource(BaseTokeniseResource):
     @marshal_with({'result': fields.Nested({'count': fields.Integer})})
     def get(self, invoice_id):
-        from services import InvoiceService
+        from services.mailinvoice import InvoiceService
         count = InvoiceService.get_count_items(invoice_id)
         return {'result': {'count': count}}
 
@@ -69,7 +69,7 @@ class InvoiceItemCountResource(BaseTokeniseResource):
 class InvoicePrice2ItemsResource(BaseTokeniseResource):
     @marshal_with(ATTR_STUB)
     def get(self, id):
-        from services import InvoiceService
+        from services.mailinvoice import InvoiceService
         try:
             invoice = InvoiceService.get_by_id(id)
             return _stub(invoice)
@@ -85,7 +85,7 @@ class InvoicePriceItemsResource(BaseTokeniseResource):
 
     @marshal_with(ATTR_STUB)
     def get(self, mail_id):
-        from services import MailInvoiceService
+        from services.mailinvoice import MailInvoiceService
 
         try:
 

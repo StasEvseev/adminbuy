@@ -140,7 +140,7 @@ class AcceptanceService(object):
     @classmethod
     def initial_acceptance_from_custom(cls, acceptance):
         debug(u"Инициализация по новой `прихода` id = '%s' начата." % acceptance.id)
-        from services import InvoiceService
+        from services.mailinvoice import InvoiceService
         invoice = InvoiceService.create_invoice(
             number=InvoiceService.generate_number(acceptance.date),
             date=acceptance.date, provider=acceptance.provider

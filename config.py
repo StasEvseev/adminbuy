@@ -11,6 +11,13 @@ except ImportError:
 
 DB = "buyapi"
 
+IS_PROD = True
+
+try:
+    from config_local import IS_PROD
+except ImportError:
+    pass
+
 COMMON_URL = 'postgresql://%s:%s@localhost:5432/%s'
 
 DATABASE_URI = COMMON_URL % (USER, PASSWORD, DB)

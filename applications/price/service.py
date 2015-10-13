@@ -140,8 +140,8 @@ class PriceService(object):
         """
         invoice_id = invoice_model.id
         debug(u"Начало сохранения цен в позициях накладной %d", invoice_id)
-        from services import GoodService
-        from services import InvoiceService
+        from applications.good.service import GoodService
+        from services.mailinvoice import InvoiceService
         try:
             for data in data_items:
                 good_id = data['id_good']

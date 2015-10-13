@@ -190,12 +190,8 @@ class GetResource(BaseTokeniseResource):
 class BaseStatusResource(BaseTokeniseResource):
     service = None
 
-    @classmethod
-    def getService(cls):
-        return None
-
     def _action(self, id):
-        service = BaseStatusResource.getService()
+        service = self.service
         try:
             object = service.get_by_id(id)
             status = request.json['data']['status']
