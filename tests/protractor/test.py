@@ -99,4 +99,4 @@ class BaseProtractorTestCase(BaseLiveTestCase):
                         output_string += outs[index]
             except IndexError:
                 pass
-        self.assertEqual(failures, 0, output_string)
+        self.assertEqual(failures, 0)

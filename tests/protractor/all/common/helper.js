@@ -1,34 +1,8 @@
+//var helper = require('../common/helper');
+var form_view = require('./form-view');
+var crud_view = require('./crud-view');
+
 var obj = {
-    authAdmin: function() {
-        var deferred = protractor.promise.defer();
-        var self = this;
-        var login = element(by.model('login')),
-            password = element(by.model('password')),
-            btn_submit = element(by.css("button.btn"));
-        login.sendKeys("admin");
-        password.sendKeys("admin");
-
-        btn_submit.click().then(function() {
-            self.waitUntilReady(element(by.css("div.content-wrapper")));
-            deferred.fulfill();
-        });
-
-        return deferred.promise;
-    },
-
-    logout: function() {
-        var deferred = protractor.promise.defer();
-        var self = this;
-        element(by.css("li.user")).click().then(function() {
-            element(by.css("a.logout-btn")).click().then(function() {
-                self.waitUntilReady(element(by.css("div.login-page")));
-                deferred.fulfill();
-            });
-        });
-
-        return deferred.promise;
-    },
-
     mapRole: function() {
         return {
             'admin': 'div#ui-select-choices-row-0-0',
@@ -51,11 +25,14 @@ var obj = {
         var deferred = protractor.promise.defer();
         var self = this;
         self.openUserItem().then(function() {
-            self.getRow(row).click().then(function() {
-                self.buttonEdit().then(function() {
+            crud_view.getRow(row).click().then(function() {
+                crud_view.buttonEdit().then(function() {
 
-                    self.selectItemToMultiselectField(element(by.model("model.roles")), self.mapRoleIndex()[role]).then(function() {
-                        self.buttonSave().then(function() {
+                    form_view.selectItemToMultiselectField(
+                        element(by.model("model.roles")),
+                        self.mapRoleIndex()[role]
+                    ).then(function() {
+                        crud_view.buttonSave().then(function() {
                             deferred.fulfill();
                         })
                     });
@@ -66,6 +43,9 @@ var obj = {
     },
 
     openUserItem: function() {
+        /*
+        * Открываем пункт `Пользователи`
+        * */
         var deferred = protractor.promise.defer();
         var liitem = $("ul.sidebar-menu > li.user-menu");
         var anchor = liitem.element(by.css("ul > li > a.user-item"));
@@ -80,87 +60,16 @@ var obj = {
         return deferred.promise;
     },
 
-    selectItemToMultiselectField: function(el, item) {
-        item += 3;
+    openUserItemAndCreate: function() {
         var deferred = protractor.promise.defer();
-        var self = this;
-        el.click().then(function() {
-            self.waitUntilReady(el.element(by.css("div > div > ul > li")));
-            el.element(by.css("li.ui-select-choices-group > div.ui-select-choices-row:nth-child("+item+")")).click().then(function () {
+
+        this.openUserItem().then(function() {
+            crud_view.buttonCreate().then(function() {
                 deferred.fulfill();
             })
         });
 
         return deferred.promise;
-    },
-
-    waitUntilReady: function (elm) {
-        browser.wait(function () {
-            return elm.isPresent();
-        },10000);
-        browser.wait(function () {
-            return elm.isDisplayed();
-        },10000);
-    },
-
-    buttonCreate: function() {
-        return $('button.btn-crt').click();
-    },
-    buttonSave: function() {
-        return $("button.btn-sv").click();
-    },
-    buttonEdit: function() {
-        return $("button.btn-edt").click();
-    },
-    countRows: function() {
-        return $("table.dataTable").all(by.css('tbody > tr')).count();
-    },
-    getRow: function(index) {
-        return $("table.dataTable").all(by.css('tbody > tr')).get(index);
-    },
-    removeRowFalse: function() {
-        var deferred = protractor.promise.defer();
-        $("div.btn-group").click().then(function() {
-            $("a.btn-del").click().then(function() {
-                var alertDialog = browser.switchTo().alert();
-                alertDialog.dismiss();
-                deferred.fulfill();
-            });
-        });
-
-        return deferred.promise;
-    },
-    removeRow: function() {
-        var deferred = protractor.promise.defer();
-        $("div.btn-group").click().then(function() {
-            $("a.btn-del").click().then(function() {
-                var alertDialog = browser.switchTo().alert();
-                alertDialog.accept();
-                deferred.fulfill();
-            });
-        });
-
-        return deferred.promise;
-    },
-
-    fillDictSelectField: function(model, value) {
-        var q = protractor.promise.defer();
-        var comm_field = element(by.model(model)),
-            comm_input = comm_field.element(by.css("div > div > input")),
-            comm_list = comm_field.element(by.css("div > div > ul > li"));
-        comm_field.element(by.css("div > div")).click().then(function() {
-            comm_input.sendKeys(value);
-            browser.driver.wait(function(){
-                return comm_list.all(by.css("div.ui-select-choices-row")).count().then(function(count){
-                    return 0 < count;
-                });
-            }, 2000);
-            comm_list.all(by.css("div.ui-select-choices-row")).first().click().then(function() {
-                q.fulfill();
-            });
-        });
-
-        return q.promise;
     },
 
     urlclassPointsale: function() {
