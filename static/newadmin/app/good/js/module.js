@@ -139,6 +139,8 @@ angular.module('good.module', ['core.controllers']).constant('configGood', {
         goods.printBarCode(id).then(function(resp) {
             var url = resp.data.link;
             window.open(url, "_target");
+        }).catch(function(resp) {
+            toastr.error(resp.data.message, "Ошибка!", {"closeButton": true, "progressBar": true})
         });
     }
 

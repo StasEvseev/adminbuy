@@ -120,6 +120,9 @@ class GoodPrintBarcode(BaseTokeniseResource):
         path_to_target = os.path.join(PATH_TO_GENERATE_INVOICE, file_name)
         path = os.path.join(PATH_WEB, file_name)
 
+        if good.barcode is None or good.barcode == '':
+            abort(400, message=u"Для печати штрих кода, необходимо указать его!")
+
         createBarCodes(path_to_target, str(good.barcode))
 
         return {"link": path}
