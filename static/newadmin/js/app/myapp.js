@@ -131,10 +131,6 @@ AdminApp.run(function($rootScope) {
 AdminApp.run(function ($rootScope, $timeout, $window) {
     $rootScope._ = _;
 
-    $window.addEventListener('online', function() {
-        $rootScope.$broadcast('online', {status: navigator.onLine});
-    });
-
     $($window).on("message", function(e){
         console.log(e);
     });
@@ -239,22 +235,30 @@ AdminApp.controller('SidebarController', function ($scope, $rootScope, ShowHideR
 //    $scope.messages = function() {return mails.all_new()};
     $scope.iconUrl = User.iconUrl();
 
-    var status = $("#status-line");
+    var status = $("#status-line > span");
     var icon = $("#status-line > i");
 
     $scope.countNew = function () {
         return mails.countNew();
     };
 
-//    $scope.$on('online', function(arg) {
-//       debugger
-//    });
+    $rootScope.$on('online', function(arg, status) {
+       if(status.status == true) {
+           $scope.onLine();
+       } else {
+           $scope.offLine();
+       }
+    });
 
     $scope.onLine = function() {
+        icon.removeClass("text-warning");
+        icon.addClass("text-success");
         status.text("Online");
     };
 
     $scope.offLine = function() {
+        icon.removeClass("text-success");
+        icon.addClass("text-warning");
         status.text("Offline");
     };
 
