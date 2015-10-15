@@ -4,6 +4,27 @@
 
 angular.module('pointsales.service', ['core.service'])
 
+.factory('pointsalesgoods', function($http, BaseModelService){
+//    var path = '';
+    var child = Object.create(BaseModelService);
+    var pointId;
+    child.setPointId = function(id) {
+        pointId = id;
+    };
+
+    child.filter = function(text, page, count) {
+        return BaseModelService.filter.call(this, text, page, count).then(function(resp) {
+            return resp.data.items;
+        });
+    };
+
+    child._getPath = function() {
+        debugger
+        return "api/pointsale/" + pointId + "/items";
+    };
+    return child;
+})
+
 .factory('pointsales', function($http, BaseModelService) {
     var path = 'api/pointsale';
 

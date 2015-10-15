@@ -43,7 +43,7 @@
     <section class="content">
         <div class="row">
             <!-- left column -->
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <!-- general form elements -->
                 <div class="box box-danger">
                     <div class="box-header">
@@ -53,24 +53,72 @@
                     <form name="myForm.item">
                         <div class="box-body">
 
-                            <div class="form-group">
-                                <label>Наименование</label>
+                            <h3 class="text-center">
                                 <div>[[model.name]]</div>
+                            </h3>
+
+                            <div class="form-group">
+                                <strong>Адрес</strong>
+                                <p class="text-muted">[[model.address]]</p>
                             </div>
 
                             <div class="form-group">
-                                <label>Адрес</label>
-                                <div>[[model.address]]</div>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Центральная</label>
-                                <div>[[model.is_central | yesNo]]</div>
+                                <strong>Центральная</strong>
+                                <p class="text-muted">[[model.is_central | yesNo]]</p>
                             </div>
                         </div>
                     </form>
                 </div>
                 <!-- /.box -->
+            </div>
+
+            <div class="col-md-9">
+                <tabset class="nav-tabs-custom">
+                    <tab heading="Товар">
+                        <!--Таблица с товаром-->
+                        <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                            <div class="row">
+                                <div class="col-sm-6">
+
+                                </div>
+                                <div class="col-sm-6">
+                                    <div id="example1_filter" class="dataTables_filter">
+                                        <form ng-submit="filter(searchText)"><label>Поиск:<input type="search"
+                                                                                                 ng-model="searchText"
+                                                                                                            class="form-control input-sm"
+                                                                                                            placeholder=""
+                                                                                                            aria-controls="example1"></label></form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table ng-table="$scopeGood.tableParams" class="table table-hover table-bordered table-striped dataTable"
+                                           role="grid"
+                                           aria-describedby="example1_info" template-pagination="custom/pager">
+                                        <!-- TODO!!! style into css -->
+                                        <tr style="cursor:pointer;" ng-click="detail(item.id)" ng-repeat="item in $data">
+                                            <td data-title="'Наименование'" sortable="'full_name'">
+                                                [[ item.full_name ]]
+                                            </td>
+                                            <td data-title="'Номер годовой'" sortable="'number_local'">
+                                                [[ item.number_local ]]
+                                            </td>
+
+                                            <td data-title="'Номер общий'" sortable="'number_global'">
+                                                [[ item.number_global ]]
+                                            </td>
+                                            <td data-title="'Штрих код'" sortable="'barcode'">
+                                                [[ item.barcode ]]
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </tab>
+                </tabset>
             </div>
         </div>
     </section>

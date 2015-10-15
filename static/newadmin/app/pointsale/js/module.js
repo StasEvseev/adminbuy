@@ -114,9 +114,22 @@ angular.module('pointsales.module', ['ui.router', 'ui.bootstrap', 'core.service'
         return pointsales;
     };
 })
-.controller('PointsaleViewCntr', function($scope, $controller, $stateParams, $state, item, pointsales) {
+.controller('PointsaleViewCntr', function($scope, $rootScope, $controller, $stateParams, $state, item, pointsales, pointsalesgoods) {
+
     var id = $stateParams.id;
     $scope.model = item;
+
+    var $scopeGood = $rootScope.$new();
+
+    $controller('GoodListCntr', {$scope: $scopeGood});
+
+    $scopeGood.getService = function() {
+        var serv  = pointsalesgoods;
+        serv.setPointId(id);
+        return serv;
+    };
+
+    $scope.$scopeGood = $scopeGood;
 
     $scope.edit = function() {
         $state.go('index.pointsale.view.edit', {id: id});

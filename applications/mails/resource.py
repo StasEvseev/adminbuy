@@ -35,7 +35,7 @@ ITEM = {
 
 class MailInvoiceItem(BaseTokeniseResource):
     def get(self, id):
-        from services import MailInvoiceService
+        from services.mailinvoice import MailInvoiceService
         mail = MailInvoiceService.get_mail(id)
         return InvoiceItemResource().get(mail.invoice_id)
 
@@ -43,7 +43,7 @@ class MailInvoiceItem(BaseTokeniseResource):
 class MailItem(BaseTokeniseResource):
     @marshal_with(ITEM)
     def get(self, id):
-        from services import MailInvoiceService
+        from services.mailinvoice import MailInvoiceService
         mail = MailInvoiceService.get_mail(id)
         MailInvoiceService.handle(mail)
         db.session.add(mail)
@@ -112,7 +112,7 @@ class MailCheck(BaseTokenMixinResource, BaseModelPackResource):
         """
         Запрос на обработку почтового ящика(проверка новых писем и сохранение их в БД).
         """
-        from services import MailInvoiceService, MailInvoiceException
+        from services.mailinvoice import MailInvoiceService, MailInvoiceException
         try:
             res = MailInvoiceService.handle_mail()
         except MailInvoiceException as err:
