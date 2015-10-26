@@ -92,6 +92,9 @@ angular.module("session.module", ['ui.router', 'core.service', 'core.controllers
             'content@index': {
                 templateUrl: "static/newadmin/app/session/template/view.html",
                 controller: function($scope, $state, $rootScope, $http, $window, $timeout, goods, hIDScanner, SessionService) {
+
+                    $rootScope.$broadcast("toggleSidebar", {value: true});
+
                     $scope.itemsFixed = [];
 
                     $scope.cnt = -5;

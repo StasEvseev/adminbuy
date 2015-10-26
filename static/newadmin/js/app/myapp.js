@@ -201,7 +201,10 @@ AdminApp.factory("ShowHideRoles", function($state, principal) {
 
 AdminApp.controller("MainController", MainController);
 
-AdminApp.controller('HeaderController', function ($scope, mails, User, ShowHideRoles) {
+AdminApp.controller('HeaderController', function ($scope, $rootScope, mails, User, ShowHideRoles) {
+    /*
+    * Контроллер верхней панели.
+    * */
     $scope.messages = function() {return mails.all_new()};
     $scope.iconUrl = User.iconUrl();
 
@@ -209,30 +212,20 @@ AdminApp.controller('HeaderController', function ($scope, mails, User, ShowHideR
         return mails.countNew();
     };
 
-    $scope.toggle = function(e) {
-        e.preventDefault();
-        var screenSizes = $.AdminLTE.options.screenSizes;
-
-        //Enable sidebar push menu
-        if ($(window).width() > (screenSizes.sm - 1)) {
-          $("body").toggleClass('sidebar-collapse');
-        }
-        //Handle sidebar push menu for small screens
-        else {
-          if ($("body").hasClass('sidebar-open')) {
-            $("body").removeClass('sidebar-open');
-            $("body").removeClass('sidebar-collapse')
-          } else {
-            $("body").addClass('sidebar-open');
-          }
-        }
-    };
+    $scope.toggle = handlerToggleBtn;
 
     $scope.show = ShowHideRoles.showState;
+
+    function handlerToggleBtn(event) {
+        event.preventDefault();
+        $rootScope.$broadcast("toggleSidebar");
+    }
 });
 
 AdminApp.controller('SidebarController', function ($scope, $rootScope, ShowHideRoles, mails, User) {
-//    $scope.messages = function() {return mails.all_new()};
+    /*
+    * Контроллер боковой панели.
+    * */
     $scope.iconUrl = User.iconUrl();
 
     var status = $("#status-line > span");
@@ -241,6 +234,11 @@ AdminApp.controller('SidebarController', function ($scope, $rootScope, ShowHideR
     $scope.countNew = function () {
         return mails.countNew();
     };
+
+    $rootScope.$on("toggleSidebar", function(arg, value) {
+        console.info("Event toggleSidebar");
+        toggleSidebar(value ? value.value : undefined);
+    });
 
     $rootScope.$on('online', function(arg, status) {
        if(status.status == true) {
@@ -263,6 +261,41 @@ AdminApp.controller('SidebarController', function ($scope, $rootScope, ShowHideR
     };
 
     $scope.show = ShowHideRoles.showState;
+
+    var stateSidebar = {
+        toggle: false
+    };
+
+    function toggleSidebar(value) {
+
+        if (value != undefined) {
+            if (value != stateSidebar.toggle) {
+                changeTog();
+                stateSidebar.toggle = value;
+            }
+        } else {
+            changeTog();
+            stateSidebar.toggle = !stateSidebar.toggle;
+        }
+
+        function changeTog() {
+            var screenSizes = $.AdminLTE.options.screenSizes;
+
+            //Enable sidebar push menu
+            if ($(window).width() > (screenSizes.sm - 1)) {
+              $("body").toggleClass('sidebar-collapse');
+            }
+            //Handle sidebar push menu for small screens
+            else {
+              if ($("body").hasClass('sidebar-open')) {
+                $("body").removeClass('sidebar-open');
+                $("body").removeClass('sidebar-collapse')
+              } else {
+                $("body").addClass('sidebar-open');
+              }
+            }
+        }
+    }
 });
 
 //Сервис загрузки данных
@@ -308,7 +341,7 @@ AdminApp.config(function ($stateProvider, $urlRouterProvider) {
             views: {
                 'main@': {
                     templateUrl: 'static/newadmin/template/login.html',
-                    controller: function ($scope, $state, principal) {
+                    controller: function ($scope, $rootScope, $state, principal) {
                         $scope.loadingFinish = true;
                         $scope.signin = function () {
 
@@ -333,7 +366,7 @@ AdminApp.config(function ($stateProvider, $urlRouterProvider) {
                                     //Если права выданы только как на продавца - то делаем переход на выбор рабочего дня
                                     var id = principal.getIdentity();
                                     if (id.length == 1 && id.indexOf("vendor") != -1) {
-                                        console.info("You are only vendor. Go to menu.");
+                                        console.info("You are only vendor. Go to vendor's menu.");
                                         $state.go('index.session.menu');
                                     } else {
                                         console.info("Don't you are not only vendor. Go to dash.");
