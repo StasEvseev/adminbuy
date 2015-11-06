@@ -147,6 +147,10 @@ class InvoiceModel(MailFile):
                 arg['sum_with_NDS'] = sheet.cell(rownum, 10).value
                 arg['thematic'] = sheet.cell(rownum, 11).value
 
+                if arg['rate_NDS'] == u'Без НДС':
+                    arg['sum_NDS'] = 0
+                    arg['rate_NDS'] = 0
+
                 count_whole_pack = sheet.cell(rownum, 12).value
                 if count_whole_pack in ['   ', '  ', ' ', ''] :
                     count_whole_pack = 0
