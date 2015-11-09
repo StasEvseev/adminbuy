@@ -94,6 +94,12 @@ var urlCacheApp = [
     "/static/newadmin/app/commodity/template/view.html",
     "/static/newadmin/app/commodity/template/edit.html",
 
+    "/static/newadmin/app/acceptance/template/form.html",
+    "/static/newadmin/app/acceptance/template/list.html",
+    "/static/newadmin/app/acceptance/template/create.html",
+    "/static/newadmin/app/acceptance/template/view.html",
+    "/static/newadmin/app/acceptance/template/edit.html",
+
     "/static/newadmin/app/pointsale/template/form.html",
     "/static/newadmin/app/pointsale/template/list.html",
     "/static/newadmin/app/pointsale/template/create.html",
