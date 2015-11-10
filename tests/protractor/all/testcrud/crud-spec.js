@@ -8,66 +8,65 @@ beforeEach(function() {
 });
 
 describe('project home page', function() {
-    it("should be create user", function() {
+
+    it("authenticate to admin", function() {
         auth.auth('admin', 'admin').then(function() {
 
             expect(browser.getLocationAbsUrl()).toEqual("/");
 
-            testUser();
         });
+    });
 
-        function testUser() {
-            hlp.addRoleToRow(0, 'user').then(function() {
+    it("correct add role `user to admin", function() {
+        hlp.addRoleToRow(0, 'user');
 
-                auth.logout().then(function() {
-                    auth.auth('admin', 'admin').then(function() {
-                        testUserCrud();
-                    })
-                });
+        auth.logout().then(function() {
+            auth.auth('admin', 'admin');
+        });
+    });
 
-                function testUserCrud() {
-                    //Открываем пункт пользователей и нажимаем кнопку `Создать`
-                    hlp.openUserItemAndCreate().then(function() {
-                        expect(browser.getLocationAbsUrl()).toEqual("/user/create");
-                        element(by.model("model.login")).sendKeys("Логин");
-                        element(by.model("model.first_name")).sendKeys("Фамилия");
-                        element(by.model("model.last_name")).sendKeys("Имя");
-                        element(by.model("model.email")).sendKeys("a@a.ru");
-                        element(by.model("model.password")).sendKeys("123");
-                        element(by.model("model.retypepassword")).sendKeys("123");
+    it("add new user", function() {
+        hlp.openUserItemAndCreate().then(function() {
+            expect(browser.getLocationAbsUrl()).toEqual("/user/create");
+            element(by.model("model.login")).sendKeys("Логин");
+            element(by.model("model.first_name")).sendKeys("Фамилия");
+            element(by.model("model.last_name")).sendKeys("Имя");
+            element(by.model("model.email")).sendKeys("a@a.ru");
+            element(by.model("model.password")).sendKeys("123");
+            element(by.model("model.retypepassword")).sendKeys("123");
 
-                        var element_role = element(by.model("model.roles"));
-                        form_view.selectItemToMultiselectField(element_role, 3).then(function() {
-                            crud_view.buttonSave().then(function() {
-                                hlp.openUserItem().then(function() {
-                                    crud_view.countRows().then(function(count) {
-                                        expect(count).toEqual(2);
+            var element_role = element(by.model("model.roles"));
+            form_view.selectItemToMultiselectField(element_role, 3).then(function() {
+                crud_view.buttonSave().then(function() {
+                    hlp.openUserItem().then(function() {
+                        crud_view.countRows().then(function(count) {
+                            expect(count).toEqual(2);
 
-                                        crud_view.getRow(0).click().then(function() {
-                                            expect(browser.getLocationAbsUrl()).toEqual("/user/2");
+                            crud_view.getRow(0).click().then(function() {
+                                expect(browser.getLocationAbsUrl()).toEqual("/user/2");
 
-                                            crud_view.buttonEdit().then(function() {
-                                                expect(browser.getLocationAbsUrl()).toEqual("/user/2/edit");
+                                crud_view.buttonEdit().then(function() {
+                                    expect(browser.getLocationAbsUrl()).toEqual("/user/2/edit");
 
-                                                element(by.model("model.login")).sendKeys("Логин2");
-                                                element(by.model("model.first_name")).sendKeys("Фамилия2");
-                                                element(by.model("model.last_name")).sendKeys("Имя2");
-                                                element(by.model("model.email")).sendKeys("a@a2.ru");
+                                    element(by.model("model.login")).sendKeys("Логин2");
+                                    element(by.model("model.first_name")).sendKeys("Фамилия2");
+                                    element(by.model("model.last_name")).sendKeys("Имя2");
+                                    element(by.model("model.email")).sendKeys("a@a2.ru");
 
-                                                crud_view.buttonSave().then(function() {
-                                                    expect(browser.getLocationAbsUrl()).toEqual("/user/2");
+                                    crud_view.buttonSave().then(function() {
+                                        expect(browser.getLocationAbsUrl()).toEqual("/user/2");
+
+                                        hlp.openUserItem().then(function() {
+                                            crud_view.countRows().then(function (count) {
+                                                expect(count).toEqual(2);
+                                            });
+
+                                            crud_view.getRow(0).click().then(function() {
+                                                crud_view.removeRow().then(function() {
 
                                                     hlp.openUserItem().then(function() {
-                                                        crud_view.countRows().then(function (count) {
-                                                            expect(count).toEqual(2);
-                                                        });
-
-                                                        crud_view.getRow(0).click().then(function() {
-                                                            crud_view.removeRow().then(function() {
-                                                                crud_view.countRows().then(function(count) {
-                                                                    expect(count).toEqual(1);
-                                                                });
-                                                            });
+                                                        crud_view.countRows().then(function(count) {
+                                                            expect(count).toEqual(1);
                                                         });
                                                     });
                                                 });
@@ -77,10 +76,10 @@ describe('project home page', function() {
                                 });
                             });
                         });
-                    })
-                }
+                    });
+                });
             });
-        }
+        })
     });
 
 //    it("CRUD receiver", function() {

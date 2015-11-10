@@ -37,6 +37,12 @@ angular.module("session.module", ['ui.router', 'core.service', 'core.controllers
                                 });
                             };
 
+                            $scope.toDash = function() {
+                                $state.go("index.dash").then(function() {
+                                    $modalInstance.dismiss("cancel");
+                                })
+                            };
+
                             $scope.continueWorkday = function() {
                                 SessionService.getOpenWorkDay().then(function(resp) {
                                     var workday = resp['res'];

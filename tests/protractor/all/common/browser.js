@@ -11,6 +11,12 @@ var obj = {
         browser.wait(function () {
             return elm.isDisplayed();
         },10000);
+    },
+
+    waitUntilHide: function(elm) {
+        browser.wait(function () {
+            return !elm.isDisplayed();
+        },10000);
     }
 };
 

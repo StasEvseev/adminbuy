@@ -481,9 +481,6 @@ class BaseCanoniseResource(object):
             error(u"Ошибка при редактировании записи %d модели %s. %s", id, self.model.__class__.__name__, unicode(exc))
             db.session.rollback()
             raise
-        else:
-            pass
-            # db.session.commit()
         return obj
 
     def delete(self, id):
@@ -501,7 +498,7 @@ class BaseCanoniseResource(object):
             db.session.rollback()
             abort(400, message=unicode(exc))
         except Exception as exc:
-            error(u"Ошибка при редактировании записи %d модели %s. %s", id, self.model.__class__.__name__, unicode(exc))
+            error(u"Ошибка при удалении записи %d модели %s. %s", id, self.model.__class__.__name__, unicode(exc))
             db.session.rollback()
             raise
 
