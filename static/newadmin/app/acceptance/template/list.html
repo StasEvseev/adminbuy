@@ -59,15 +59,30 @@
                                         <!-- TODO!!! style into css -->
                                         <tr style="cursor:pointer;" ng-click="detail(item.id)" ng-repeat="item in $data">
                                             <td data-title="'Дата'" sortable="'date'">
-                                                [[ item.date ]]
+                                                [[ item.date | date:'d MMM y' ]]
                                             </td>
-                                            <td data-title="'Номер'" sortable="'number'">
-                                                [[ item.number ]]
+                                            <td data-title="'Накладная'" sortable="'invoice_str'">
+                                                [[ item.invoice_str ]]
                                             </td>
 
-                                            <td data-title="'Поставщик'" sortable="'provider'">
-                                                [[ item.provider_name ]]
+                                            <td data-title="'Точка приемки'" sortable="'pointsale_name'">
+                                                [[ item.pointsale_name ]]
                                             </td>
+
+                                            <td data-title="'Поставщик'" sortable="'receiver'">
+                                                [[ item.receiver ]]
+                                            </td>
+
+                                            <td data-title="'Статус'" sortable="'status_str'">
+                                                <span ng-class="{
+                                                    'label-success': item.status == 3,
+                                                    'label-warning': item.status != 3}" class="label">
+                                                    [[ item.status_str ]]
+                                                </span>
+
+                                            </td>
+
+
                                         </tr>
                                     </table>
                                 </div>
