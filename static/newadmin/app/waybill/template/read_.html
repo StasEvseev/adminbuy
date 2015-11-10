@@ -39,39 +39,39 @@
             </div>
         </div>
     </div>
-<header class="status-bar">
-    <div>
-        <span>
-            <button class="btn btn-danger btn-flat btn-sm" ng-click="toStatus(2)"
-                    ng-show="!model.status || model.status == 1">Начать формирование</button>
-            <button class="btn btn-danger btn-flat btn-sm" ng-click="toStatus(3)"
-                    ng-show="model.status == 2">Отправить получателю</button>
-            <button class="btn btn-danger btn-flat btn-sm" ng-click="toStatus(4)"
-                    ng-show="model.status == 3">Подтвердить доставку</button>
-            <button class="btn btn-danger btn-flat btn-sm" ng-click="toStatus(1)"
-                    ng-show="model.status == 2">Отменить формирование</button>
-            <button class="btn btn-danger btn-flat btn-sm" ng-click="toStatus(2)"
-                    ng-show="model.status == 3">Отменить отправление</button>
-        </span>
+    <header class="status-bar">
+        <div>
+            <span>
+                <button class="btn btn-danger btn-flat btn-sm" ng-click="toStatus(2)"
+                        ng-show="!model.status || model.status == 1">Начать формирование</button>
+                <button class="btn btn-danger btn-flat btn-sm" ng-click="toStatus(3)"
+                        ng-show="model.status == 2">Отправить получателю</button>
+                <button class="btn btn-danger btn-flat btn-sm" ng-click="toStatus(4)"
+                        ng-show="model.status == 3">Подтвердить доставку</button>
+                <button class="btn btn-danger btn-flat btn-sm" ng-click="toStatus(1)"
+                        ng-show="model.status == 2">Отменить формирование</button>
+                <button class="btn btn-danger btn-flat btn-sm" ng-click="toStatus(2)"
+                        ng-show="model.status == 3">Отменить отправление</button>
+            </span>
 
-        <ul class="pull-right status-bar" style="float:right;">
-            <li class="status-item" ng-class="{'active': model.status == 1 || model.status == undefined}">
-                <span>Черновик</span>
-            </li>
-            <li class="status-item" ng-class="{'active': model.status == 2}"
-                >
-                <span>Оформление</span>
-            </li>
-            <li class="status-item" ng-class="{'active': model.status == 3}">
-                <span>Доставка</span>
-            </li>
-            <li class="status-item" ng-class="{'active': model.status == 4}">
-                <span>Товар на точке</span>
-            </li>
-        </ul>
-    </div>
+            <ul class="pull-right status-bar" style="float:right;">
+                <li class="status-item" ng-class="{'active': model.status == 1 || model.status == undefined}">
+                    <span>Черновик</span>
+                </li>
+                <li class="status-item" ng-class="{'active': model.status == 2}"
+                    >
+                    <span>Оформление</span>
+                </li>
+                <li class="status-item" ng-class="{'active': model.status == 3}">
+                    <span>Доставка</span>
+                </li>
+                <li class="status-item" ng-class="{'active': model.status == 4}">
+                    <span>Товар на точке</span>
+                </li>
+            </ul>
+        </div>
 
-</header>
+    </header>
 </div>
 
 

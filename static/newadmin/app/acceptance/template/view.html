@@ -10,18 +10,18 @@
         <ol class="breadcrumb">
             <li><a ui-sref="index.dash"><i class="fa fa-dashboard"></i> Дом</a></li>
             <li><a ui-sref="index.acceptance.list">[[name_head]]</a></li>
-            <li class="active">[[ model.number ]]</li>
+            <li class="active">Приемка [[ model.invoice_str ]]</li>
         </ol>
 
         <div class="btn-custom-group">
             <div class="row">
-                <div class="col-md-8 col-sm-8 col-xs-8 ng-scope">
+                <div class="col-md-6 col-sm-6 col-xs-6 ng-scope">
                     <span>
                         <button class="btn-edt btn-flat btn btn-default btn-sm" ng-click="edit()">Редактировать</button>
                     </span>
                 </div>
 
-                <div class="col-md-4 col-sm-4 col-xs-4">
+                <div class="col-md-6 col-sm-6 col-xs-6">
                     <div class="btn-group" dropdown>
                         <button type="button" class="btn btn-default btn-flat btn-sm" dropdown-toggle>
                           Больше <span class="caret"></span>
@@ -36,6 +36,33 @@
 
     </div>
 
+    <header class="status-bar">
+        <div>
+            <span>
+                <button class="btn btn-danger btn-flat btn-sm" ng-click="toStatus(2)"
+                        ng-show="!model.status || model.status == 1">Начать приемку</button>
+                <button class="btn btn-danger btn-flat btn-sm" ng-click="toStatus(3)"
+                        ng-show="model.status == 2">Подтвердить приемку</button>
+                <button class="btn btn-danger btn-flat btn-sm" ng-click="toStatus(1)"
+                        ng-show="model.status == 2">Отменить приемку</button>
+            </span>
+
+            <ul class="pull-right status-bar" style="float:right;">
+                <li class="status-item" ng-class="{'active': model.status == 1 || model.status == undefined}">
+                    <span>Черновик</span>
+                </li>
+                <li class="status-item" ng-class="{'active': model.status == 2}"
+                    >
+                    <span>Приемка</span>
+                </li>
+                <li class="status-item" ng-class="{'active': model.status == 3}">
+                    <span>Товар принят</span>
+                </li>
+            </ul>
+        </div>
+
+    </header>
+
 </div>
 
 
@@ -49,30 +76,58 @@
             <div class="row">
                 <div class="col-xs-12">
                     <h2 class="page-header">
-                        [[model.number]]
+                        [[nameInvoice]]
                         <small class="pull-right">Дата: [[ model.date | date:'d MMM y' ]]</small>
                     </h2>
                 </div>
                 <!-- /.col -->
             </div>
 
+            <div class="row invoice-info">
+                <div class="col-sm-6 invoice-col">
+                    Накладная
+                    <div>
+                        <strong>[[model.invoice_str]]</strong>
+                    </div>
+                </div>
+            </div>
+
+            <br/>
+
+            <div class="row invoice-info">
+                <div class="col-sm-4 invoice-col">
+                    Поставшик
+                    <div>
+                        <strong>[[model.receiver]]</strong>
+                    </div>
+                </div>
+
+                <div class="col-sm-4 invoice-col">
+                    Точка приемки
+                    <div>
+                        <strong>[[model.pointsale_name]]</strong>
+                    </div>
+                </div>
+
+            </div>
+
+            <br/>
+
             <!-- Table row -->
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th>Наименование</th>
-                            <th>Цена с НДС</th>
-                            <th>Цена розницы</th>
-                            <th>Цена опта</th>
+                            <th>Товар</th>
+                            <th>Кол-во</th>
+                            <th>Кол-во(факт.)</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr ng-repeat="row in model.items">
-                            <td>[[ row.full_name ]]</td>
-                            <td ng-bind-html="row.price_with_NDS | rub"></td>
-                            <td ng-bind-html="row.good.price.price_retail | rub"></td>
-                            <td ng-bind-html="row.good.price.price_gross | rub"></td>
+                            <td>[[ row.good.full_name ]]</td>
+                            <td>[[row.count]]</td>
+                            <td>[[row.fact_count]]</td>
                         </tr>
                         </tbody>
                     </table>
@@ -80,23 +135,6 @@
                 <!-- /.col -->
             <!-- /.row -->
 
-            <div class="row">
-                <!--<div class="col-xs-6">
-
-                </div>
-                <div class="col-xs-6">
-                    <p class="lead">Сумма</p>
-
-                    <div class="table-responsive">
-                        <table class="table">
-                            <tr>
-                                <th style="width:50%">Итог:</th>
-                                <td>[[ getTotal() ]] р.</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>-->
-            </div>
         </section>
 </div>
 
