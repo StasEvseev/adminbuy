@@ -152,27 +152,23 @@ angular.module("mails.module", ['ui.router'])
 
             freezeInterface(button);
 
-            mails.checkMail().then(function(res) {
-                disableButton(button, false);
-                mails.filterToStateParams($stateParams).then(function(items) {
+            mails.checkMailAndLoadItems($stateParams).then(function(res_items) {
+                var res = res_items[0],
+                    items = res_items[1];
+                setItems(items);
 
-                    setItems(items);
+                unfreezeInterface(button);
 
-                    unfreezeInterface(button);
-
-                    if(res == "ok") {
-                        toastr.info("Есть новые письма. Для просмотра перейдите по <a href='/admin#/mailbox?_new=true&page=1'>ссылке</a>", "Оповещения");
-                    } else if (res == "nothing") {
-                        toastr.info("Нету новых писем", "Оповещения", {"closeButton": true, "progressBar": true});
-                    }
-                }).catch(function() {
-                    showError("Не удалось загрузить письма. Обратитесь к администратору.");
-                    unfreezeInterface(button);
-                });
+                if(res == "ok") {
+                    toastr.info("Есть новые письма. Для просмотра перейдите по <a href='/admin#/mailbox?_new=true&page=1'>ссылке</a>", "Оповещения");
+                } else if (res == "nothing") {
+                    toastr.info("Нету новых писем", "Оповещения", {"closeButton": true, "progressBar": true});
+                }
             }).catch(function() {
                 showError("Не удалось проверить почту. Обратитесь к администратору.");
                 unfreezeInterface(button);
             });
+
         };
 
         if ($stateParams.filter) {

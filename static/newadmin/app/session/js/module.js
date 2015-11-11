@@ -12,9 +12,11 @@ angular.module("session.module", ['ui.router', 'core.service', 'core.controllers
         abstract: true,
         url: '/session',
         resolve: {
-            isWork: function($state, $rootScope, SessionService) {
+            isWork: function($state, $rootScope, $timeout, SessionService) {
                 if ($rootScope.toState.name != 'index.session.menu' && !SessionService.isWork()) {
-                    $state.go('index.session.menu');
+                    $timeout(function() {
+                        $state.go('index.session.menu')
+                    }, 0);
                 }
             }
         }

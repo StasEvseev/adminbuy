@@ -4,7 +4,7 @@
 
 angular.module('mails.service', ['core.utils'])
 
-.factory('mails', function($http, remoteHelper) {
+.factory('mails', function($http, $q, remoteHelper) {
     var path = 'api/mail';
     var cnt = 0;
     var items = [];
@@ -28,6 +28,19 @@ angular.module('mails.service', ['core.utils'])
         return $http.post('/api/mail').then(function(resp) {
             return resp.data;
         });
+    };
+
+    factory.checkMailAndLoadItems = function($stateParams) {
+        var q = $q.defer(),
+            self = this;
+
+        self.checkMail().then(function (res) {
+            self.filterToStateParams($stateParams).then(function(items) {
+                q.resolve([res, items]);
+            });
+        });
+
+        return q.promise;
     };
 
     factory.fetch = function() {
