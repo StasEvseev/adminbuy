@@ -265,8 +265,9 @@ AdminApp.controller('SidebarController', function ($scope, $rootScope, ShowHideR
 
     $scope.show = ShowHideRoles.showState;
 
+    //TODO магия
     var stateSidebar = {
-        toggle: false
+        toggle: window.innerWidth < 768
     };
 
     function toggleSidebar(value) {

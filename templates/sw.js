@@ -3,7 +3,7 @@
  */
 importScripts('/static/js/lib/index.js');
 
-var CACHE_MAIN = 'admin-main-v5';
+var CACHE_MAIN = 'admin-main-v6';
 var CACHE_STATIC = 'admin-static-v6';
 var CACHE_APP = 'admin-app-v19';
 
