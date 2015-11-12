@@ -86,6 +86,46 @@ angular.module("users.module", ['ui.router', 'core.service', 'core.controllers',
             resolve: {
                 item: function(users, $stateParams) {
                     return users.getById(parseInt($stateParams.id))
+                },
+                profile: function($http, $stateParams, $q) {
+                    var q = $q.defer();
+                    var name, iconUrl, position, is_superuser, id;
+                    $http.get('/api/profile_by_id/' + $stateParams.id).then(function(resp) {
+                        name = resp.data.name;
+                        iconUrl = resp.data.iconUrl;
+                        position = resp.data.position;
+                        is_superuser = resp.data.is_superuser;
+                        id = resp.data.id;
+
+                        q.resolve({
+                            name: name,
+                            iconUrl: iconUrl,
+                            position: position,
+                            is_superuser: is_superuser,
+                            id: id
+                        })
+                    }, function(resp) {
+                        id: '';
+                        name = '';
+                        iconUrl = '';
+                        position = '';
+                        is_superuser = '';
+                        q.resolve({
+                            name: name,
+                            iconUrl: iconUrl,
+                            position: position,
+                            is_superuser: is_superuser,
+                            id: id
+                        })
+                    });
+
+
+
+
+
+                    return q.promise;
+
+                    //return
                 }
             }
         })
@@ -120,9 +160,11 @@ AdminApp.controller('UserListCntr', function($scope, users, $controller) {
     };
 })
 
-.controller('UserViewCntr', function($scope, $stateParams, $state, item, users) {
+.controller('UserViewCntr', function($scope, $stateParams, $state, item, users, profile) {
         var id = $stateParams.id;
     $scope.model = item;
+
+    $scope.iconUrl = profile.iconUrl;
 
     $scope.edit = function() {
         $state.go('index.user.view.edit', {id: id});

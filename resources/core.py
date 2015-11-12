@@ -586,6 +586,26 @@ class TokenResource(BaseTokeniseResource):
         })
 
 
+class ProfileResourceById(BaseTokeniseResource):
+    def get(self, id):
+        from services.userservice import UserService
+        user = UserService.get_by_id(id)
+
+        fname = user.first_name or ""
+        lname = user.last_name or ""
+        position = u"Администратор" if user.is_superuser else u"Пользователь"
+
+        name = " ".join([fname, lname]) if fname or lname else "Без имени"
+
+        return jsonify({
+            'id': user.id,
+            'name': name,
+            'position': position,
+            'iconUrl': "static/images/users/empty.png",
+            'is_superuser': user.is_superuser
+        })
+
+
 class ProfileResource(BaseTokeniseResource):
     def get(self):
         from services.userservice import UserService
@@ -603,7 +623,7 @@ class ProfileResource(BaseTokeniseResource):
                 'id': user.id,
                 'name': name,
                 'position': position,
-                'iconUrl': "static/images/users/2.jpg",
+                'iconUrl': "static/images/users/empty.png",
                 'is_superuser': user.is_superuser
             })
         else:

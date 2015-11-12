@@ -71,6 +71,7 @@ bundles = {
     'NAcss': Bundle(
         'newadmin/css/main.css',
         'newadmin/css/AdminLTE.css',
+        'newadmin/css/adminlte_extens.css',
         'newadmin/css/dataTables.bootstrap.css',
         'newadmin/css/skins/_all-skins.min.css'),
 

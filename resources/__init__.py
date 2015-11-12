@@ -1,10 +1,10 @@
 #coding: utf-8
 
-__author__ = 'StasEvseev'
-
 from flask.ext import restful
 from flask.ext.restful.fields import Raw
 from log import error
+
+__author__ = 'StasEvseev'
 
 
 class Date(Raw):
@@ -35,12 +35,15 @@ class MyApi(restful.Api):
 api = MyApi(prefix='/api')
 
 
-from resources.core import TokenResource, AuthResource, RegistrationResource, ProfileResource, IdentityResource
+from resources.core import TokenResource, AuthResource, RegistrationResource, \
+    ProfileResource, IdentityResource, ProfileResourceById
 from resources.invoice import (
-    InvoicePriceItemsResource, InvoiceItemResource, InvoiceItemCountResource, InvoicePrice2ItemsResource)
-from resources.sync import SyncResource, SyncResourceError, SyncResourceCreate, SyncSessionRes
-from resources.revision import RevisionResource, RevisionItemResource, RevisionApprove
-
+    InvoicePriceItemsResource, InvoiceItemResource, InvoiceItemCountResource,
+    InvoicePrice2ItemsResource)
+from resources.sync import (SyncResource, SyncResourceError, SyncResourceCreate,
+                            SyncSessionRes)
+from resources.revision import (RevisionResource, RevisionItemResource,
+                                RevisionApprove)
 from applications.mails.resource import MailCheck, MailInvoiceItem, MailItem
 
 api.add_resource(RegistrationResource, '/registration')
@@ -48,6 +51,7 @@ api.add_resource(TokenResource, '/token')
 api.add_resource(AuthResource, '/auth')
 api.add_resource(IdentityResource, '/identity')
 api.add_resource(ProfileResource, '/profile')
+api.add_resource(ProfileResourceById, '/profile_by_id/<int:id>')
 
 api.add_resource(MailCheck, '/mail')
 api.add_resource(MailItem, '/mail/<int:id>')
