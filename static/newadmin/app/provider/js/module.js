@@ -12,42 +12,42 @@ angular.module('provider.module', ['core.controllers']).constant('ProviderConfig
 })
 
 
-//.factory('CommodityService', function(BaseDictService, commodities, $controller) {
-//
-//    var child = Object.create(BaseDictService);
-//    child.records = function (text) {
-//        return commodities.filter(text);
-//    };
-//
-//    child.formInclude = function() {
-//        return "CommodityForm";
-//    };
-//
-//    child.title = function() {
-//        return "Создание номенклатуры";
-//    };
-//
-//    child.titleEdit = function() {
-//        return "Редактирование номенклатуры";
-//    };
-//
-//    child.controller = function() {
-//        return function($scope, $modalInstance) {
-//            var parent = BaseDictService.controller();
-//            $controller(parent, {$scope: $scope, $modalInstance: $modalInstance});
-//        }
-//    };
-//
-//    child.resolveEdit = function(item) {
-//        return {
-//            item: function() {
-//                return commodities.getById(item.id);
-//            }
-//        };
-//    };
-//
-//    return child;
-//})
+.factory('ProviderService', function(BaseDictService, providers, $controller) {
+
+    var child = Object.create(BaseDictService);
+    child.records = function (text) {
+        return providers.filter(text);
+    };
+
+    child.formInclude = function() {
+        return "ProviderForm";
+    };
+
+    child.title = function() {
+        return "Создание поставщика";
+    };
+
+    child.titleEdit = function() {
+        return "Редактирование поставщика";
+    };
+
+    child.controller = function() {
+        return function($scope, $modalInstance) {
+            var parent = BaseDictService.controller();
+            $controller(parent, {$scope: $scope, $modalInstance: $modalInstance});
+        }
+    };
+
+    child.resolveEdit = function(item) {
+        return {
+            item: function() {
+                return providers.getById(item.id);
+            }
+        };
+    };
+
+    return child;
+})
 
 
 .config(function($stateProvider) {

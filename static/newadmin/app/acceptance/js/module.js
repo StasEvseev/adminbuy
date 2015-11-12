@@ -96,11 +96,17 @@ angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).
     };
 })
 
-.controller("AcceptanceCreateCntr", function($scope, $controller, invoices, AcceptanceConfig) {
+.controller("AcceptanceCreateCntr", function($scope, $controller, invoices, AcceptanceConfig, ConfigWidgets, PointService,
+                                             ProviderService) {
     $controller('BaseCreateController', {$scope: $scope});
     $scope.name_head = AcceptanceConfig.name;
 
     $scope.formname =  AcceptanceConfig.formname;
+
+    $scope.config_datepicker = ConfigWidgets.defaultConfigDatepicker($scope.model.date);
+
+    $scope.PointService = PointService;
+    $scope.ProviderService = ProviderService;
 
     $scope.saveToServer = function() {
         return invoices.create($scope.model);

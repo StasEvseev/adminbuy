@@ -1,21 +1,108 @@
-<form name="myForm.item">
-    <div class="box-body">
+<section class="invoice">
+    <form name="myForm.item">
 
-        <div class="form-group" ng-class="{'has-error': Form.isSubmitted() && myForm.item.name.$error.required}">
-            <label>Название</label>
-            <input type="text" ng-model="model.name" required name="name" class="form-control" id="exampleInputPassword1"
-                   placeholder="Введите название">
+        <div class="row invoice-info">
+            <div class="col-sm-5 invoice-col">
+
+
+                <div class="form-group">
+                    <label>Дата приемки</label>
+
+                    <div class="input-group">
+
+                        <div ng-click="config_datepicker.open($event)" class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+
+                        <input type="text" class="form-control"
+                               datepicker-popup="yyyy-MM-dd"
+                               name="date"
+                               ng-model="model.date"
+                               is-open="config_datepicker.status.opened"
+                               min-date="config_datepicker.minDate"
+                               max-date="'2020-06-22'"
+                               datepicker-options="config_datepicker.dateOptions"
+                               date-disabled="config_datepicker.disabled(date, mode)"
+                               ng-required="true"
+                               ng-disabled="editForm"
+                               close-text="Закрыть" />
+                    </div>
+                </div>
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-5 invoice-col">
+
+                <div class="form-group">
+                    <label for="typeRec">Тип получателя</label>
+
+                    <div id="typeRec">
+                        <label>
+                            <input ng-disabled="editForm" type="radio" ng-model="model.typeRec" value="1" name="r3" />
+                            Торговая точка
+                        </label><br/>
+                        <label>
+                            <input ng-disabled="editForm" type="radio" ng-model="model.typeRec" value="2" name="r3" />
+                            Оптовик
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <!-- /.col -->
         </div>
 
-        <div class="form-group" ng-class="{'has-error': Form.isSubmitted() && myForm.item.address.$error.required}">
-            <label>Юр. адрес</label>
-            <textarea class="form-control" ng-model="model.address" required rows="3" placeholder="Введите адрес ..."></textarea>
-        </div>
+        <div class="row invoice-info">
 
-        <div class="form-group" ng-class="{'has-error': Form.isSubmitted() && myForm.item.emails.$error.required}">
-            <label>Почтовые ящики</label>
-            <textarea class="form-control" ng-model="model.emails" required rows="3" placeholder="Введите почтовые ящики через запятую ..."></textarea>
-        </div>
+            <div class="col-sm-5 invoice-col">
+                <div class="form-group" ng-class="{'has-error':  Form.isSubmitted() && myForm.item.pointsale.$error.required}">
+                    <label for="exampleInputPassword1">Точка приемки</label>
 
-    </div>
-</form>
+                    <dict-select-field
+                            ng-model="model.pointsale"
+                            service="PointService"
+                            lazy="true"
+                            select="model.pointsale_id"
+                            style="width: 100%"
+                            dng-required="true"
+                            dname="pointsale"
+                            dng-disabled="editForm"
+                            >
+                        <dict-select-field-match placeholder="Введите название...">[[$select.selected.name]]</dict-select-field-match>
+                        <dict-select-field-choices repeat="item in $items | propsFilter: {name: $select.search}">
+                            <div ng-bind-html="item.name | highlight: $select.search"></div>
+                        </dict-select-field-choices>
+                    </dict-select-field>
+
+                </div>
+                <address>
+                    Адрес: [[model.pointsale.address]]
+                </address>
+            </div>
+
+            <div class="col-sm-5 invoice-col">
+                <div class="form-group" ng-class="{'has-error':  Form.isSubmitted() && myForm.item.provider.$error.required}">
+                    <label for="exampleInputPassword1">Поставщик</label>
+
+                    <dict-select-field
+                            ng-model="model.provider"
+                            service="ProviderService"
+                            lazy="true"
+                            select="model.provider_id"
+                            style="width: 100%"
+                            dng-required="true"
+                            dname="provider"
+                            dng-disabled="editForm"
+                            >
+                        <dict-select-field-match placeholder="Введите название...">[[$select.selected.name]]</dict-select-field-match>
+                        <dict-select-field-choices repeat="item in $items | propsFilter: {name: $select.search}">
+                            <div ng-bind-html="item.name | highlight: $select.search"></div>
+                        </dict-select-field-choices>
+                    </dict-select-field>
+
+                </div>
+                <address>
+                    Адрес: [[model.receiver.address]]
+                </address>
+            </div>
+        </div>
+    </form>
+</section>

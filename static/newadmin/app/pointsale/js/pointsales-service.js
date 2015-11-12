@@ -19,7 +19,6 @@ angular.module('pointsales.service', ['core.service'])
     };
 
     child._getPath = function() {
-        debugger
         return "api/pointsale/" + pointId + "/items";
     };
     return child;
