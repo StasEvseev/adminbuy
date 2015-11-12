@@ -462,9 +462,36 @@ AdminApp.config(function ($stateProvider, $urlRouterProvider) {
             views: {
                 'content': {
                     templateUrl: 'static/newadmin/template/dash.html',
-                    controller: function ($scope, $rootScope, Application, ShowHideRoles) {
+                    controller: function ($scope, $rootScope, Application, ShowHideRoles, mails) {
                         $scope.version = Application.version();
                         $scope.showRole = ShowHideRoles.showRole;
+
+                        $scope.checkMail = checkMail;
+
+                        $scope.newAcceptance = newAcceptance;
+
+                        function checkMail($event) {
+                            var button = $event.target;
+                            disableButton(button, true);
+                            mails.checkMail().then(function(res) {
+                                if(res == "ok") {
+                                    toastr.info("Есть новые письма. Для просмотра перейдите по <a href='/admin#/mailbox?_new=true&page=1'>ссылке</a>", "Оповещения");
+                                } else if (res == "nothing") {
+                                    toastr.info("Нету новых писем", "Оповещения", {"closeButton": true, "progressBar": true});
+                                }
+                                disableButton(button, false);
+                            });
+                        }
+
+                        function newAcceptance($event) {
+                            var button = $event.target;
+                            disableButton(button, true);
+                            console.log("new ACCEPTANCE");
+                        }
+
+                        function disableButton(element, comp) {
+                            $(element).prop('disabled', comp);
+                        }
                     }
                 }
             }

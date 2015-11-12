@@ -20,11 +20,13 @@
                     <h3 class="box-title">МЕНЮ для небольших экранов</h3>
                 </div>
                 <div class="box-body">
-                    <button type="button" class="btn btn-default btn-block btn-flat btn-lg" ng-show="showRole(['user'])">
+                    <button type="button" class="btn btn-default btn-block btn-flat btn-lg"
+                            ng-show="showRole(['user'])" ng-click="newAcceptance($event)">
                         Начать приемку товара
                     </button>
 
-                    <button type="button" class="btn btn-default btn-block btn-flat btn-lg" ng-show="showRole(['user'])">
+                    <button type="button" class="btn btn-default btn-block btn-flat btn-lg"
+                            ng-show="showRole(['user'])" ng-click="checkMail($event)">
                         Проверить почту
                     </button>
 
