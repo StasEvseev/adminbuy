@@ -37,12 +37,12 @@
 
                     <div id="typeRec">
                         <label>
-                            <input ng-disabled="editForm" type="radio" ng-model="model.typeRec" value="1" name="r3" />
-                            Торговая точка
+                            <input ng-disabled="editForm" type="radio" ng-model="model.type" value="1" name="r3" />
+                            Регулярные накладные
                         </label><br/>
                         <label>
-                            <input ng-disabled="editForm" type="radio" ng-model="model.typeRec" value="2" name="r3" />
-                            Оптовик
+                            <input ng-disabled="editForm" type="radio" ng-model="model.type" value="2" name="r3" />
+                            Приемка без накладной
                         </label>
                     </div>
                 </div>
@@ -77,6 +77,29 @@
                     Адрес: [[model.pointsale.address]]
                 </address>
             </div>
+
+            <div class="col-sm-5 invoice-col">
+                <div class="form-group" ng-class="{'has-error':  Form.isSubmitted() && myForm.item.invoices.$error.required}">
+                    <label for="exampleInputPassword1">Накладные</label>
+                    <dict-select-field
+                            multiple="true"
+                            ng-model="model.invoices"
+                            service="InvoiceService"
+                            lazy="true"
+                            dname="invoices"
+                            style="width: 100%"
+                            can-edit="false"
+                            can-create="false">
+                        <dict-select-field-match placeholder="Введите имя...">[[$item.fullname]]</dict-select-field-match>
+                        <dict-select-field-choices repeat="item in $items">
+                            <div ng-bind-html="item.fullname | highlight: $select.search"></div>
+                        </dict-select-field-choices>
+                    </dict-select-field>
+                </div>
+            </div>
+
+
+
 
             <div class="col-sm-5 invoice-col">
                 <div class="form-group" ng-class="{'has-error':  Form.isSubmitted() && myForm.item.provider.$error.required}">

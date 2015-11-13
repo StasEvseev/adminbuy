@@ -97,7 +97,7 @@ angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).
 })
 
 .controller("AcceptanceCreateCntr", function($scope, $controller, invoices, AcceptanceConfig, ConfigWidgets, PointService,
-                                             ProviderService) {
+                                             ProviderService, InvoiceService) {
     $controller('BaseCreateController', {$scope: $scope});
     $scope.name_head = AcceptanceConfig.name;
 
@@ -107,6 +107,7 @@ angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).
 
     $scope.PointService = PointService;
     $scope.ProviderService = ProviderService;
+    $scope.InvoiceService = InvoiceService;
 
     $scope.saveToServer = function() {
         return invoices.create($scope.model);
