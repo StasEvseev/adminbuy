@@ -329,7 +329,7 @@ class MailInvoiceService(object):
     def handle(cls, mail):
         if mail.is_handling is False:
             mail.is_handling = True
-            print "PULISH"
+            print "PUbLISH"
             r = redis.StrictRedis(host='localhost', port=6379, db=0)
             r.publish("mail_handle", mail.id)
 
@@ -363,6 +363,13 @@ class MailInvoiceService(object):
                         ml.provider = provider
                         db.session.add(ml)
                         db.session.commit()
+                        try:
+                            print "PUBLIC new mail"
+                            r = redis.StrictRedis(host='localhost', port=6379, db=0)
+                            r.publish("new mail")
+                        except Exception as exc:
+                            error(u"Не удалось подключиться к редису")
+
                         res.append(ml)
             except GoodArgumentExc as exc:
                 mark_as_unseen(ids)
