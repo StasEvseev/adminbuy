@@ -57,6 +57,7 @@ angular.module("core.controllers", ['ui.router', 'form', 'ngTable'])
                 }
             });
         } else {
+            console.warn("Form is not valid.", Form.getForm().item.$error);
             Form.setSubmitted();
         }
     };

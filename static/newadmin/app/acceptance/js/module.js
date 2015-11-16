@@ -40,7 +40,19 @@ angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).
                     templateUrl: "static/newadmin/app/acceptance/template/create.html",
                     controller: "AcceptanceCreateCntr"
                 }
+            },
+            resolve: {
+                topointsale: function (pointsales, $stateParams) {
+                    if ($stateParams.to_pointsale_id) {
+                        return pointsales.getByIds($stateParams.to_pointsale_id).then(function (resp) {
+                            return resp.items;
+                        });
+                    } else {
+                        return pointsales.getCentralPoint();
+                    }
+                }
             }
+
         })
         .state('index.acceptance.view', {
             url: "/:id",
@@ -96,10 +108,14 @@ angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).
     };
 })
 
-.controller("AcceptanceCreateCntr", function($scope, $controller, invoices, AcceptanceConfig, ConfigWidgets, PointService,
-                                             ProviderService, InvoiceService) {
+.controller("AcceptanceCreateCntr", function($scope, $controller, acceptances, AcceptanceConfig, ConfigWidgets, PointService,
+                                             ProviderService, InvoiceService, topointsale) {
     $controller('BaseCreateController', {$scope: $scope});
     $scope.name_head = AcceptanceConfig.name;
+
+    $scope.model.type = 1;
+
+    $scope.model.pointsale = topointsale;
 
     $scope.formname =  AcceptanceConfig.formname;
 
@@ -110,15 +126,19 @@ angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).
     $scope.InvoiceService = InvoiceService;
 
     $scope.saveToServer = function() {
-        return invoices.create($scope.model);
+        return acceptances.create($scope.model);
     };
 
     $scope.goView = function() {
         return "index.acceptance.view";
     };
+
+    $scope.goList = function() {
+        return "index.acceptance.list";
+    };
 })
 
-.controller("AcceptanceService", function($scope, $controller, $state, item, items, invoices, AcceptanceConfig) {
+.controller("AcceptanceEditCntr", function($scope, $controller, $state, item, items, invoices, AcceptanceConfig) {
     $controller('BaseCreateController', {$scope: $scope});
 
     $scope.name_head = AcceptanceConfig.name;

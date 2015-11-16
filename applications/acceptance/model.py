@@ -1,9 +1,10 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from sqlalchemy_utils import ChoiceType
 from db import db
+
+__author__ = 'StasEvseev'
+
 
 MAIL, NEW = 1, 2
 RecType = {
@@ -27,19 +28,22 @@ class Acceptance(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     pointsale_id = db.Column(db.Integer, db.ForeignKey('point_sale.id'))
-    pointsale = db.relationship('PointSale', backref=db.backref('acceptances', lazy=True))
-    #Накладная основание
+    pointsale = db.relationship(
+        'PointSale', backref=db.backref('acceptances', lazy=True))
+    # Накладная основание
     invoice_id = db.Column(db.Integer, db.ForeignKey('invoice.id'), unique=True)
-    invoice = db.relationship('Invoice',
-        backref=db.backref('acceptance', uselist=False))
-    waybill_id = db.Column(db.Integer, db.ForeignKey('way_bill.id'), unique=True)
-    waybill = db.relationship('WayBill', backref=db.backref('acceptance', uselist=False))
+    invoice = db.relationship(
+        'Invoice', backref=db.backref('acceptance', uselist=False))
+    waybill_id = db.Column(
+        db.Integer, db.ForeignKey('way_bill.id'), unique=True)
+    waybill = db.relationship('WayBill', backref=db.backref(
+        'acceptance', uselist=False))
 
     provider_id = db.Column(db.Integer, db.ForeignKey('provider.id'))
-    provider = db.relationship('Provider',
-        backref=db.backref('acceptances', lazy='dynamic'))
+    provider = db.relationship(
+        'Provider', backref=db.backref('acceptances', lazy='dynamic'))
 
-    #Дата приема товара
+    # Дата приема товара
     date = db.Column(db.Date)
 
     type = db.Column(ChoiceType(RecType), default=MAIL)
@@ -63,12 +67,14 @@ class AcceptanceItems(db.Model):
     """
     id = db.Column(db.Integer, primary_key=True)
 
-    #накладная
+    # накладная
     acceptance_id = db.Column(db.Integer, db.ForeignKey('acceptance.id'))
-    acceptance = db.relationship('Acceptance', backref=db.backref('items', lazy='dynamic'))
+    acceptance = db.relationship(
+        'Acceptance', backref=db.backref('items', lazy='dynamic'))
 
     good_id = db.Column(db.Integer, db.ForeignKey('good.id'))
-    good = db.relationship('Good', backref=db.backref('acceptanceitems', lazy='dynamic'))
+    good = db.relationship(
+        'Good', backref=db.backref('acceptanceitems', lazy='dynamic'))
 
     count = db.Column(db.Integer)
     fact_count = db.Column(db.Integer)

@@ -4,7 +4,6 @@
         <div class="row invoice-info">
             <div class="col-sm-5 invoice-col">
 
-
                 <div class="form-group">
                     <label>Дата приемки</label>
 
@@ -78,7 +77,7 @@
                 </address>
             </div>
 
-            <div class="col-sm-5 invoice-col">
+            <div ng-show="model.type == 1" class="col-sm-5 invoice-col">
                 <div class="form-group" ng-class="{'has-error':  Form.isSubmitted() && myForm.item.invoices.$error.required}">
                     <label for="exampleInputPassword1">Накладные</label>
                     <dict-select-field
@@ -89,6 +88,7 @@
                             dname="invoices"
                             style="width: 100%"
                             can-edit="false"
+                            dng-required='model.type == 1'
                             can-create="false">
                         <dict-select-field-match placeholder="Введите имя...">[[$item.fullname]]</dict-select-field-match>
                         <dict-select-field-choices repeat="item in $items">
@@ -98,10 +98,7 @@
                 </div>
             </div>
 
-
-
-
-            <div class="col-sm-5 invoice-col">
+            <div ng-show="model.type == 2" class="col-sm-5 invoice-col">
                 <div class="form-group" ng-class="{'has-error':  Form.isSubmitted() && myForm.item.provider.$error.required}">
                     <label for="exampleInputPassword1">Поставщик</label>
 
@@ -111,7 +108,7 @@
                             lazy="true"
                             select="model.provider_id"
                             style="width: 100%"
-                            dng-required="true"
+                            dng-required='model.type == 2'
                             dname="provider"
                             dng-disabled="editForm"
                             >
