@@ -61,6 +61,17 @@ class Acceptance(db.Model):
         return u"Неизвестный"
 
 
+# class LinkAcceptanceInvoice(db.Model):
+#
+#     id = db.Column(db.INTEGER, primary_key=True)
+#
+#     acceptance_id = db.Column(db.INTEGER, db.ForeignKey('acceptance.id'),
+#                               doc=u"Поле для связи с Acceptance")
+#     invoice_id = db.Column(db.Integer, db.ForeignKey('invoice.id'))
+#     invoice = db.relationship(
+#         'Invoice', backref=db.backref('acceptance', uselist=False))
+
+
 class AcceptanceItems(db.Model):
     """
     Позиция в накладной.

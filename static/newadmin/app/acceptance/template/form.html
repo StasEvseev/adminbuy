@@ -90,7 +90,9 @@
                             can-edit="false"
                             dng-required='model.type == 1'
                             can-create="false">
-                        <dict-select-field-match placeholder="Введите имя...">[[$item.fullname]]</dict-select-field-match>
+                        <dict-select-field-match placeholder="Введите имя...">
+                                <div ng-bind="$item.fullname"></div>
+                        </dict-select-field-match>
                         <dict-select-field-choices repeat="item in $items">
                             <div ng-bind-html="item.fullname | highlight: $select.search"></div>
                         </dict-select-field-choices>
