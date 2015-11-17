@@ -21,6 +21,12 @@ StatusType = {
 }
 
 
+linkacceptanceinvoice = db.Table('linkacceptanceinvoice',
+    db.Column('acceptance_id', db.Integer, db.ForeignKey('acceptance.id')),
+    db.Column('invoice_id', db.Integer, db.ForeignKey('invoice.id'))
+)
+
+
 class Acceptance(db.Model):
     """
     Приемка товара
@@ -30,14 +36,6 @@ class Acceptance(db.Model):
     pointsale_id = db.Column(db.Integer, db.ForeignKey('point_sale.id'))
     pointsale = db.relationship(
         'PointSale', backref=db.backref('acceptances', lazy=True))
-    # Накладная основание
-    invoice_id = db.Column(db.Integer, db.ForeignKey('invoice.id'), unique=True)
-    invoice = db.relationship(
-        'Invoice', backref=db.backref('acceptance', uselist=False))
-    waybill_id = db.Column(
-        db.Integer, db.ForeignKey('way_bill.id'), unique=True)
-    waybill = db.relationship('WayBill', backref=db.backref(
-        'acceptance', uselist=False))
 
     provider_id = db.Column(db.Integer, db.ForeignKey('provider.id'))
     provider = db.relationship(
@@ -49,6 +47,9 @@ class Acceptance(db.Model):
     type = db.Column(ChoiceType(RecType), default=MAIL)
     status = db.Column(ChoiceType(StatusType), default=DRAFT)
 
+    invoices = db.relationship('Invoice', secondary=linkacceptanceinvoice,
+                               backref=db.backref('acceptances', lazy='dynamic'))
+
     def __repr__(self):
         return '<Acceptance %r>' % self.id
 
@@ -59,17 +60,6 @@ class Acceptance(db.Model):
         elif self.type == NEW:
             return self.provider.name
         return u"Неизвестный"
-
-
-# class LinkAcceptanceInvoice(db.Model):
-#
-#     id = db.Column(db.INTEGER, primary_key=True)
-#
-#     acceptance_id = db.Column(db.INTEGER, db.ForeignKey('acceptance.id'),
-#                               doc=u"Поле для связи с Acceptance")
-#     invoice_id = db.Column(db.Integer, db.ForeignKey('invoice.id'))
-#     invoice = db.relationship(
-#         'Invoice', backref=db.backref('acceptance', uselist=False))
 
 
 class AcceptanceItems(db.Model):

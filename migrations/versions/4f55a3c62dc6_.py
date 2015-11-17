@@ -5,23 +5,16 @@ Revises: 3ba659b6b340
 Create Date: 2015-09-16 18:15:07.324821
 
 """
+from alembic import op
+import sqlalchemy as sa
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker, relationship
 
 # revision identifiers, used by Alembic.
 revision = '4f55a3c62dc6'
 down_revision = '3ba659b6b340'
 
-from alembic import op
-from flask_sqlalchemy import _SessionSignalEvents
-import sqlalchemy as sa
-from sqlalchemy import event
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, Session as BaseSession, relationship, backref
-
 Session = sessionmaker()
-
-# event.remove(BaseSession, 'before_commit', _SessionSignalEvents.session_signal_before_commit)
-# event.remove(BaseSession, 'after_commit', _SessionSignalEvents.session_signal_after_commit)
-# event.remove(BaseSession, 'after_rollback', _SessionSignalEvents.session_signal_after_rollback)
 
 Base = declarative_base()
 
