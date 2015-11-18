@@ -1,19 +1,69 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from sqlalchemy import asc
 from sqlalchemy.orm.exc import NoResultFound
-from applications.acceptance.constant import ITEM_ID_ATTR, COUNT_ATTR, GOOD_ATTR, PRICE_POST_ATTR, PRICE_RETAIL_ATTR, \
-    PRICE_GROSS_ATTR, GOOD_OBJ_ATTR, GOOD_ID_ATTR
-from applications.acceptance.model import Acceptance, StatusType, AcceptanceItems, IN_PROG, VALIDATED, MAIL, NEW, DRAFT
 
 from db import db
 from log import debug
 from models.invoiceitem import InvoiceItem
+from services.core import BaseSQLAlchemyModelService
+from applications.acceptance.constant import (
+    ITEM_ID_ATTR, COUNT_ATTR, PRICE_POST_ATTR, PRICE_RETAIL_ATTR,
+    PRICE_GROSS_ATTR, GOOD_OBJ_ATTR, GOOD_ID_ATTR)
+from applications.acceptance.model import (
+    Acceptance, StatusType, AcceptanceItems, IN_PROG, VALIDATED, MAIL, NEW,
+    DRAFT)
+
+__author__ = 'StasEvseev'
+
+
+class AcceptanceException(BaseSQLAlchemyModelService.ServiceException):
+    pass
 
 
 class AcceptanceService(object):
+
+    model = Acceptance
+
+    @classmethod
+    def prepared_acceptance(cls, acceptance, date, pointsale_id, type,
+                            provider_id, invoices):
+        from services.mailinvoice import InvoiceService
+        from services.helperserv import HelperService
+        from services.modelhelper import ModelService
+        if acceptance.id is None:
+            if date is None:
+                raise AcceptanceException(
+                    u"Поле дата - обязательно для заполнения.")
+            acceptance.date = HelperService.convert_to_pydate(date)
+            if not ModelService.check_id(
+                    pointsale_id):
+                raise AcceptanceException(
+                    u"Поле торговая точка - обязательно для заполнения.")
+            if type is None:
+                raise AcceptanceException(
+                    u"Нельзя создать приход без типа.")
+            type = int(type)
+            if type not in [MAIL, NEW]:
+                raise AcceptanceException(
+                    u"Передан неверный тип.")
+            if type == MAIL and not invoices:
+                raise AcceptanceException(
+                    u"При выбранном типе 'Регулярная накладная' необходимо "
+                    u"указать накладную")
+            if type == NEW and not ModelService.check_id(provider_id):
+                raise AcceptanceException(
+                    u"При выбранном типе 'Новая' необходимо указать поставщика")
+            if type == MAIL:
+                acceptance.provider_id = None
+
+                for invoice_id in invoices:
+                    invoice = InvoiceService.get_by_id(invoice_id)
+                    acceptance.invoices.append(invoice)
+
+        elif date is not None:
+            acceptance.date = HelperService.convert_to_pydate(date)
+        return acceptance
 
     @classmethod
     def get_by_invoice_id(cls, invoice_id):
@@ -56,7 +106,7 @@ class AcceptanceService(object):
               u"начато." % acceptance.id)
         from services.mailinvoice import InvoiceService
         from applications.good.service import GoodService
-        invoice = acceptance.invoice
+        invoice = acceptance.invoices[0]
         acceptance.items.delete()
         invoice.items.delete()
         for item in items:
@@ -133,7 +183,7 @@ class AcceptanceService(object):
                             acceptance.pointsale_id, item.good_id,
                             item.fact_count)
             elif acceptance.type == NEW:
-                invoice = acceptance.invoice
+                invoice = acceptance.invoices[0]
                 for item in invoice.items:
                     good = item.good
 
@@ -165,7 +215,7 @@ class AcceptanceService(object):
             number=InvoiceService.generate_number(acceptance.date),
             date=acceptance.date, provider=acceptance.provider
         )
-        acceptance.invoice = invoice
+        acceptance.invoices.append(invoice)
         debug(u"Инициализация по новой `прихода` id = '%s' завершена."
               % acceptance.id)
 
@@ -173,7 +223,7 @@ class AcceptanceService(object):
     def initial_acceptance_from_mail(cls, acceptance):
         debug(u"Инициализация по почте `прихода` id = '%s' начата."
               % acceptance.id)
-        invoice = acceptance.invoice
+        invoice = acceptance.invoices[0]
         items = invoice.items.order_by(asc(InvoiceItem.id))
         debug(u"Удаляем позиции прихода id = '%s'." % acceptance.id)
         acceptance.items.delete()

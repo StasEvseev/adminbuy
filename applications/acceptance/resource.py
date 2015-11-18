@@ -9,8 +9,8 @@ from resources.core import BaseTokeniseResource, BaseCanoniseResource, BaseInner
 from log import warning, debug
 
 from applications.acceptance.model import Acceptance, AcceptanceItems, MAIL, NEW, IN_PROG, VALIDATED
-from applications.acceptance.service import AcceptanceService
-
+from applications.acceptance.service import AcceptanceService, \
+    AcceptanceException
 from db import db
 from services.helperserv import HelperService
 from services.mailinvoice import InvoiceService
@@ -64,54 +64,31 @@ class AcceptanceCanon(BaseCanoniseResource):
 
     attr_json = ITEM
 
-    def pre_save(self, obj, data):
-        obj = super(AcceptanceCanon, self).pre_save(obj, data)
-        #TODO: отрефакторить!!!
-        if obj.id is None:
-            if self.model.query.filter(
-                    self.model.invoice_id == obj.invoice_id).count() > 0:
-                warning(u"Попытка создания приемки по расходной накладной, на которую уже есть приемка.")
-                raise BaseCanoniseResource.CanonException(
-                    u"Для расходной накладной можно создавать только одну приемку.")
-            if 'date' not in data:
-                raise BaseCanoniseResource.CanonException(u"Поле дата - обязательно для заполнения.")
-            obj.date = HelperService.convert_to_pydate(data['date'])
-            if 'pointsale_id' not in data or not ModelService.check_id(data['pointsale_id']):
-                raise BaseCanoniseResource.CanonException(u"Поле торговая точка - обязательно для заполнения.")
-            if 'type' not in data:
-                raise BaseCanoniseResource.CanonException(u"Нельзя создать приход без типа.")
-            type = int(data['type'])
-            if type not in [MAIL, NEW]:
-                raise BaseCanoniseResource.CanonException(u"Передан неверный тип.")
-            if type == MAIL and not ModelService.check_id(data['invoice_id']):
-                raise BaseCanoniseResource.CanonException(
-                    u"При выбранном типе 'Регулярная накладная' необходимо указать накладную")
-            if type == NEW and not ModelService.check_id(data['provider_id']):
-                raise BaseCanoniseResource.CanonException(
-                    u"При выбранном типе 'Новая' необходимо указать поставщика")
-            if type == MAIL:
-                obj.provider_id = None
-            elif type == NEW:
-                obj.invoice_id = None
+    def pre_save(self, acceptance, data):
+        acceptance = super(AcceptanceCanon, self).pre_save(acceptance, data)
+        try:
+            acceptance = AcceptanceService.prepared_acceptance(
+                acceptance=acceptance,
+                date=data.get('date', None),
+                pointsale_id=data.get('pointsale_id', None),
+                type=data.get('type', None),
+                provider_id=data.get('provider_id', None),
+                invoices=map(lambda x: x['id'], data.get('invoices', [])))
+        except AcceptanceException as exc:
+            raise BaseCanoniseResource.CanonException(unicode(exc))
 
-        elif 'date' in data:
-            obj.date = HelperService.convert_to_pydate(data['date'])
-        if obj.id:
-            if self.model.query.filter(
-                    self.model.invoice_id == obj.invoice_id,
-                    self.model.id != obj.id).count() > 0:
-                raise BaseCanoniseResource.CanonException(
-                    u"Для расходной накладной можно создавать только одну приемку.")
-        return obj
+        return acceptance
 
     def pre_delete(self, obj):
         if obj.status == VALIDATED:
-            warning(u"Попытка удалить приемку в завершенном статусе (%s)." % obj.id)
+            warning(u"Попытка удалить приемку в завершенном статусе (%s)."
+                    % obj.id)
             raise BaseCanoniseResource.CanonException(
                 u"Нельзя удалять приемку, в завершенном статусе."
             )
         if obj.type == NEW:
-            debug(u"Удаление приемки с типом новой (%s). Удаляется также накладная." % obj.id)
+            debug(u"Удаление приемки с типом новой (%s). Удаляется также "
+                  u"накладная." % obj.id)
             obj.invoice.items.delete()
             db.session.delete(obj.invoice)
 

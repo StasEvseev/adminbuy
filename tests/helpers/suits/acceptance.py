@@ -1,8 +1,8 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from . import BaseSuite
+
+__author__ = 'StasEvseev'
 
 
 class AcceptanceSuite(BaseSuite):
@@ -14,25 +14,34 @@ class AcceptanceSuite(BaseSuite):
                                 }}),
                                 headers=self._get_headers(True))
 
-    def create(self, date, type=None, provider_id=-1, pointsale_id=-1, invoice_id=-1):
+    def create(self, date, type=None, provider_id=-1, pointsale_id=-1,
+               invoice_id=-1):
+
+        invoices = [{'id': invoice_id}] if invoice_id != -1 else []
+
         data = {
-            'invoice_id': invoice_id,
+            'invoices': invoices,
             'pointsale_id': pointsale_id,
             'provider_id': provider_id,
             'date': unicode(date)
         }
         if type:
             data['type'] = type
-        return self.client.put("/api/acceptance", data=self._serialize({'data': data}),
-                               headers=self._get_headers(True))
+        return self.client.put(
+            "/api/acceptance",
+            data=self._serialize({'data': data}),
+            headers=self._get_headers(True))
 
-    def update(self, id, date=None, type=None, provider=None, pointsale_id=-1, invoice_id=-1):
+    def update(self, id, date=None, type=None, provider=None, pointsale_id=-1,
+               invoice_id=-1):
         data = {}
         if date:
             data['date'] = unicode(date)
 
-        return self.client.post("/api/acceptance/" + str(id), data=self._serialize(
-            {'data': data}), headers=self._get_headers(True))
+        return self.client.post(
+            "/api/acceptance/" + str(id),
+            data=self._serialize({'data': data}),
+            headers=self._get_headers(True))
 
     def update_items(self, id, items=None):
         return self._update_items(id, 'items', items)
@@ -44,5 +53,7 @@ class AcceptanceSuite(BaseSuite):
         data = {}
         if items:
             data[attr] = items
-        return self.client.post('/api/acceptance/' + str(id), data=self._serialize(
-            {'data': data}), headers=self._get_headers(True))
+        return self.client.post(
+            '/api/acceptance/' + str(id),
+            data=self._serialize({'data': data}),
+            headers=self._get_headers(True))

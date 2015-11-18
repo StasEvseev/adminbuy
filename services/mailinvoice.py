@@ -366,7 +366,7 @@ class MailInvoiceService(object):
                         try:
                             print "PUBLIC new mail"
                             r = redis.StrictRedis(host='localhost', port=6379, db=0)
-                            r.publish("new mail")
+                            r.publish("new mail", "")
                         except Exception as exc:
                             error(u"Не удалось подключиться к редису")
 
