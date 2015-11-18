@@ -23,41 +23,41 @@ bundles = {
         'newadmin/js/app/core/controllers.js',
         'newadmin/js/app/core/service.js',
 
-        'newadmin/app/mail/js/mails-service.js',
-        'newadmin/app/mail/js/module.js',
+        'newadmin/js/applications/mail/js/mails-service.js',
+        'newadmin/js/applications/mail/js/module.js',
 
-        'newadmin/app/invoice/js/module.js',
-        'newadmin/app/invoice/js/service.js',
+        'newadmin/js/applications/invoice/js/module.js',
+        'newadmin/js/applications/invoice/js/service.js',
 
-        'newadmin/app/waybill/js/service.js',
-        'newadmin/app/waybill/js/module.js',
+        'newadmin/js/applications/waybill/js/service.js',
+        'newadmin/js/applications/waybill/js/module.js',
 
-        'newadmin/app/pointsale/js/pointsales-service.js',
-        'newadmin/app/pointsale/js/module.js',
+        'newadmin/js/applications/pointsale/js/pointsales-service.js',
+        'newadmin/js/applications/pointsale/js/module.js',
 
-        'newadmin/app/provider/js/service.js',
-        'newadmin/app/provider/js/module.js',
+        'newadmin/js/applications/provider/js/service.js',
+        'newadmin/js/applications/provider/js/module.js',
 
-        'newadmin/app/commodity/js/service.js',
-        'newadmin/app/commodity/js/module.js',
+        'newadmin/js/applications/commodity/js/service.js',
+        'newadmin/js/applications/commodity/js/module.js',
 
-        'newadmin/app/good/js/service.js',
-        'newadmin/app/good/js/module.js',
+        'newadmin/js/applications/good/js/service.js',
+        'newadmin/js/applications/good/js/module.js',
 
-        'newadmin/app/collect/js/service.js',
-        'newadmin/app/collect/js/module.js',
+        'newadmin/js/applications/collect/js/service.js',
+        'newadmin/js/applications/collect/js/module.js',
 
-        'newadmin/app/acceptance/js/service.js',
-        'newadmin/app/acceptance/js/module.js',
+        'newadmin/js/applications/acceptance/js/service.js',
+        'newadmin/js/applications/acceptance/js/module.js',
 
-        'newadmin/app/receiver/js/receivers-service.js',
-        'newadmin/app/receiver/js/module.js',
+        'newadmin/js/applications/receiver/js/receivers-service.js',
+        'newadmin/js/applications/receiver/js/module.js',
 
-        'newadmin/app/user/js/users-service.js',
-        'newadmin/app/user/js/module.js',
+        'newadmin/js/applications/user/js/users-service.js',
+        'newadmin/js/applications/user/js/module.js',
 
-        'newadmin/app/session/js/module.js',
-        'newadmin/app/session/js/service.js',
+        'newadmin/js/applications/session/js/module.js',
+        'newadmin/js/applications/session/js/service.js',
 
         'newadmin/js/app/utils.js',
         'newadmin/js/app/application.js',
