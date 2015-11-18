@@ -24,19 +24,15 @@ ITEM = {
     'type_str': fields.String(attribute='type.value'),
     'status': fields.Integer(attribute='status.code'),
     'status_str': fields.String(attribute='status.value'),
-    'invoice_id': fields.Integer,
-    'invoice_str': fields.String(attribute='invoice'),
     'receiver': fields.String,
     'provider_id': fields.Integer,
     'pointsale_id': fields.Integer,
     'pointsale_name': fields.String(attribute='pointsale.name'),
-    'invoice': fields.Nested({
+    'invoices': fields.Nested({
+        'id': fields.Integer,
         'number': fields.String,
-        'provider': fields.Nested({
-            'id': fields.Integer,
-            'name': fields.String
-        })
-    }, allow_null=True),
+        'fullname': fields.String
+    }),
     'pointsale': fields.Nested({
         'name': fields.String
     })

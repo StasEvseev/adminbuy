@@ -85,9 +85,22 @@
 
             <div class="row invoice-info">
                 <div class="col-sm-6 invoice-col">
-                    Накладная
+                    Накладные
                     <div>
-                        <strong>[[model.invoice_str]]</strong>
+
+                        <strong ng-repeat="item in model.invoices">
+                            [[item.fullname]]
+                        </strong>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-6 invoice-col">
+                    Тип приемки
+                    <div>
+                        <strong>
+                            [[model.type_str]]
+                        </strong>
                     </div>
                 </div>
             </div>
@@ -95,7 +108,7 @@
             <br/>
 
             <div class="row invoice-info">
-                <div class="col-sm-4 invoice-col">
+                <div class="col-sm-4 invoice-col" ng-show="model.type == 2">
                     Поставшик
                     <div>
                         <strong>[[model.receiver]]</strong>
