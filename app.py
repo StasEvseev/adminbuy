@@ -28,7 +28,6 @@ app.config['MAIL_PASSWORD'] = admin_pass
 app.config['MAIL_DEFAULT_SENDER'] = 'server-error@example.com'
 
 from db import db
-from mailmodule import mail
 from log import init_logging, debug
 
 
@@ -37,7 +36,6 @@ def create_app(application):
     from assets import assets
     from applications.security.auth import login_manager
     from security import security
-    # from admin import admin
 
     application.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
     application.config['SECURITY_TOKEN_AUTHENTICATION_HEADER'] = "AUTHORIZATION"
@@ -51,7 +49,6 @@ def create_app(application):
     api.init_app(application)
     api.application = application
     db.init_app(application)
-    mail.init_app(application)
     login_manager.init_app(application)
     security.init_app(application)
 
@@ -81,7 +78,6 @@ from applications.receiver import blueprint as RcBl
 from applications.good import blueprint as GdBl
 from applications.invoice import blueprint as InBl
 from applications.price import blueprint as PriceBl
-# from ___old.good_commodity import blueprint as GoodComBl
 from applications.settings import blueprint as SetBl
 from applications.order import blueprint as OrBl
 from applications.return_app import blueprint as ReBl
@@ -99,7 +95,6 @@ app.register_blueprint(RcBl)
 app.register_blueprint(GdBl)
 app.register_blueprint(InBl)
 app.register_blueprint(PriceBl)
-# app.register_blueprint(GoodComBl)
 app.register_blueprint(SetBl)
 app.register_blueprint(OrBl)
 app.register_blueprint(ReBl)
@@ -115,9 +110,11 @@ app.wsgi_app = ProxyFix(app.wsgi_app)
 def newindex():
     return render_template("index.html")
 
+
 @app.route('/')
 def index():
     return redirect("/admin?%s" % request.query_string)
+
 
 """
 Сервис воркер(для кеширования страниц и ресурсов в Chrome.
@@ -127,6 +124,7 @@ def manifest():
     res = make_response(render_template('sw.js'), 200)
     res.headers["Content-Type"] = "text/javascript"
     return res
+
 
 @app.route('/update_cache.js')
 def update_cache():
@@ -139,8 +137,9 @@ def create_superuser():
     from services.userservice import UserService
     with app.app_context():
         if UserService.check_duplicate('admin'):
-            user = UserService.registration('admin', 'a@a.ru', 'admin', is_superuser=True,
-                                            first_name='Админов', last_name='Админ', role=['admin'])
+            user = UserService.registration(
+                'admin', 'a@a.ru', 'admin', is_superuser=True,
+                first_name='Админов', last_name='Админ', role=['admin'])
             db.session.add(user)
             db.session.commit()
         else:
@@ -151,32 +150,3 @@ app.create_superuser = create_superuser
 if __name__ == "__main__":
     debug(u"Запуск системы.")
     app.run(debug=True)
-
-
-# @app.route('/logout')
-# def logout():
-#     from flask.ext import login
-#     login.logout_user()
-#     return redirect(url_for('.login'))
-#
-#
-# @app.route('/login', methods=('GET', 'POST'))
-# def login():
-#     from flask.ext import login
-#     from applications.security.form import LoginForm
-#     from flask.ext.admin import helpers
-#     form = LoginForm(request.form)
-#     if helpers.validate_form_on_submit(form):
-#         user = form.get_user()
-#         login.login_user(user)
-#         from flask import session
-#         session.permanent = True
-#
-#     if login.current_user.is_authenticated():
-#         if 'target' in request.args:
-#             return redirect(request.args['target'])
-#         return redirect(url_for('newindex'))
-#     # link = u'<p>Не имеете аккаунта? <a id="a_reg" href="' + url_for('.register_view') + u'">Нажмите для регистрации.</a></p>'
-#     # self._template_args['form'] = form
-#     # self._template_args['link'] = link
-#     return render_template("newadmin/login.html")

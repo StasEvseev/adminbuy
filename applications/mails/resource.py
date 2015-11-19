@@ -114,6 +114,7 @@ class MailCheck(BaseTokenMixinResource, BaseModelPackResource):
         """
         from services.mailinvoice import MailInvoiceService, MailInvoiceException
         try:
+            raise MailInvoiceException("TEST")
             res = MailInvoiceService.handle_mail()
         except MailInvoiceException as err:
             error(unicode(err))

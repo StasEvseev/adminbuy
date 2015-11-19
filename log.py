@@ -1,6 +1,4 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 import logging
 from logging.handlers import RotatingFileHandler
@@ -8,6 +6,8 @@ from kombu.exceptions import EncodeError
 import traceback
 
 from config import admin_imap, admin_pass
+
+__author__ = 'StasEvseev'
 
 MAX_BYTES = 1048576
 BACKUP_COUNT = 50
@@ -25,7 +25,7 @@ class MyHandler(logging.Handler):
         super(MyHandler, self).__init__(*args, **kwargs)
 
     def emit(self, record):
-        from tasks import send_error
+        from tasks.mailmodule import send_error
         try:
             send_error.apply_async([record])
         except EncodeError as exc:
@@ -108,4 +108,4 @@ def error(message, *args):
     from app import app
     import traceback
     trace = traceback.format_exc()
-    app.logger.error(_mess(message)+"\n"+trace , *prep_arg(*args))
+    app.logger.error(_mess(message)+"\n"+trace, *prep_arg(*args))
