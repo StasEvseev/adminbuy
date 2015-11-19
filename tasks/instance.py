@@ -19,13 +19,13 @@ def make_celery(app):
             # 'app.module_b.tasks',   # our tasks are in other files listed here
         # )
     # )
-    # cel.conf.update(CELERYBEAT_SCHEDULE={
-    #     # Executes every Monday morning at 7:30 A.M
-    #     'every_minute': {
-    #         'task': 'tasks.run_every_minute',
-    #         'schedule': timedelta(minutes=1),
-    #     },
-    # }, CELERY_TIMEZONE='Europe/Moscow')
+    cel.conf.update(CELERYBEAT_SCHEDULE={
+        # Executes every Monday morning at 7:30 A.M
+        'every_minute': {
+            'task': 'tasks.regular.run_every_minute',
+            'schedule': timedelta(minutes=1),
+        },
+    }, CELERY_TIMEZONE='Europe/Moscow')
 
     cel.conf.update(app.config)
     # cel.conf.update(CELERY_TASK_RESULT_EXPIRES=10)
