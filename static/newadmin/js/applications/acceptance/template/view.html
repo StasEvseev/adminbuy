@@ -86,11 +86,12 @@
             <div class="row invoice-info">
                 <div class="col-sm-6 invoice-col">
                     Накладные
-                    <div>
+                    <div ng-repeat="item in model.invoices">
 
-                        <strong ng-repeat="item in model.invoices">
+                        <strong>
                             [[item.fullname]]
                         </strong>
+
 
                     </div>
                 </div>
@@ -127,7 +128,7 @@
             <br/>
 
             <!-- Table row -->
-                <div class="table-responsive">
+                <div class="table-responsive" ng-hide="model.status == 1">
                     <table class="table table-striped">
                         <thead>
                         <tr>

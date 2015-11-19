@@ -173,7 +173,7 @@ angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).
     };
 })
 
-.controller("AcceptanceViewCntr", function($scope, $stateParams, $state, AcceptanceConfig, invoices, item, items) {
+.controller("AcceptanceViewCntr", function($scope, $stateParams, $state, acceptancestatus, AcceptanceConfig, invoices, item, items) {
     $scope.name_head = AcceptanceConfig.name;
 
     $scope.loadingFinish = true;
@@ -194,6 +194,26 @@ angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).
         if (confirm("Вы действительно хотите удалить запись?")) {
             invoices.delete_(id).then(function(){
                 $state.go("index.acceptance.list");
+            });
+        }
+    };
+
+    $scope.toStatus = function(number) {
+        if(number == 3) {
+            if(confirm("Вы переводите приемку в финальный статус (когда товар уже получен). " +
+                "Внимание! Операция необратимая.")){
+                doIt();
+            }
+        } else {
+            doIt();
+        }
+
+        function doIt(){
+            $scope.loadingFinish = false;
+            acceptancestatus.doStatus($scope.model.id, number).then(function() {
+                $state.go('index.acceptance.view', {id: $scope.model.id}, {reload: 'index.acceptance.view'}).then(function() {
+                    $scope.loadingFinish = true;
+                });
             });
         }
     };

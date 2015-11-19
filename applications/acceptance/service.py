@@ -223,17 +223,19 @@ class AcceptanceService(object):
     def initial_acceptance_from_mail(cls, acceptance):
         debug(u"Инициализация по почте `прихода` id = '%s' начата."
               % acceptance.id)
-        invoice = acceptance.invoices[0]
-        items = invoice.items.order_by(asc(InvoiceItem.id))
+        invoices = acceptance.invoices
         debug(u"Удаляем позиции прихода id = '%s'." % acceptance.id)
         acceptance.items.delete()
-        debug(u"Создаем новые позиции прихода id = '%s' из накладной."
-              % acceptance.id)
-        for item in items:
-            ac_it = AcceptanceItems()
-            ac_it.good_id = item.good_id
-            ac_it.acceptance = acceptance
-            ac_it.count = item.count
-            db.session.add(ac_it)
+
+        for invoice in invoices:
+            items = invoice.items.order_by(asc(InvoiceItem.id))
+            debug(u"Создаем новые позиции прихода id = '%s' из накладной."
+                  % acceptance.id)
+            for item in items:
+                ac_it = AcceptanceItems()
+                ac_it.good_id = item.good_id
+                ac_it.acceptance = acceptance
+                ac_it.count = item.count
+                db.session.add(ac_it)
         debug(u"Инициализация по почте `прихода` id = '%s' завершена."
               % acceptance.id)

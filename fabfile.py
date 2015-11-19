@@ -1,6 +1,4 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from fabric.api import local, sudo, lcd, put, cd
 from fabric.context_managers import settings
@@ -12,6 +10,9 @@ from fabric.api import task
 from fabric.state import env
 
 import os
+
+__author__ = 'StasEvseev'
+
 
 env.user = 'adminbuy'
 

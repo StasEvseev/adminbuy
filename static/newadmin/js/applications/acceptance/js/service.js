@@ -15,6 +15,15 @@ angular.module('acceptance.service', ['core.service'])
 })
 
 
+.factory('acceptancestatus', function($http) {
+    return {
+        doStatus: function(id, number) {
+            return $http.post("/api/acceptance/" + id + "/status", {data: {status: number}});
+        }
+    }
+})
+
+
 .factory('acceptances', function(BaseModelService, $http) {
     var path = 'api/acceptance';
 
