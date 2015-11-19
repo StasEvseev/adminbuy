@@ -29,8 +29,8 @@ class MyHandler(logging.Handler):
         try:
             send_error.apply_async([record])
         except EncodeError as exc:
-            #при ошибке сериализации записи, оповестить
-            #ошибку взбросить выше
+            # при ошибке сериализации записи, оповестить
+            # ошибку взбросить выше
             tracebackold = traceback.format_exc()
             t, e, tr = record.exc_info
             try:
@@ -43,18 +43,10 @@ class MyHandler(logging.Handler):
 def init_logging(application):
     if admin_imap and admin_pass:
         my_h = MyHandler()
-        # mail_handler = SMTPHandler('smtp.gmail.com',
-        #                            'server-error@example.com',
-        #                            ADMINS, 'BuyApi Failed', credentials=(admin_imap, admin_pass), secure=())
         my_h.setLevel(logging.ERROR)
-        # mail_handler.setFormatter(logging.Formatter('''
-        #     Message type:       %(levelname)s
-        #     Time:               %(asctime)s
-        #     Message:
-        #     %(message)s
-        # '''))
         application.logger.addHandler(my_h)
-    rotate_handler1 = RotatingFileHandler(LOG_FILE_NAME_ERROR, maxBytes=MAX_BYTES, backupCount=BACKUP_COUNT)
+    rotate_handler1 = RotatingFileHandler(
+        LOG_FILE_NAME_ERROR, maxBytes=MAX_BYTES, backupCount=BACKUP_COUNT)
     rotate_handler1.setLevel(logging.ERROR)
     rotate_handler1.setFormatter(logging.Formatter(
         '%(asctime)s %(levelname)s: %(message)s '
@@ -62,7 +54,8 @@ def init_logging(application):
     ))
     application.logger.addHandler(rotate_handler1)
 
-    rotate_handler2 = RotatingFileHandler(LOG_FILE_NAME_WARNING, maxBytes=MAX_BYTES, backupCount=BACKUP_COUNT)
+    rotate_handler2 = RotatingFileHandler(
+        LOG_FILE_NAME_WARNING, maxBytes=MAX_BYTES, backupCount=BACKUP_COUNT)
     rotate_handler2.setLevel(logging.WARNING)
     rotate_handler2.setFormatter(logging.Formatter(
         '%(asctime)s %(levelname)s: %(message)s '
@@ -70,7 +63,8 @@ def init_logging(application):
     ))
     application.logger.addHandler(rotate_handler2)
 
-    rotate_handler3 = RotatingFileHandler(LOG_FILE_NAME_DEBUG, maxBytes=MAX_BYTES, backupCount=BACKUP_COUNT)
+    rotate_handler3 = RotatingFileHandler(
+        LOG_FILE_NAME_DEBUG, maxBytes=MAX_BYTES, backupCount=BACKUP_COUNT)
     rotate_handler3.setLevel(logging.DEBUG)
     rotate_handler3.setFormatter(logging.Formatter(
         '%(asctime)s %(levelname)s: %(message)s '
