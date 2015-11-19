@@ -2,7 +2,7 @@
 
 __author__ = 'StasEvseev'
 
-from utils.tools import path_to_cache
+from ___old.utils.tools import path_to_cache
 
 
 def save_page_to_cache(page, name):

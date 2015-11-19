@@ -1,8 +1,9 @@
-#coding: utf-8
+# coding: utf-8
+
+from flask.ext.assets import Environment, Bundle
 
 __author__ = 'StasEvseev'
 
-from flask.ext.assets import Environment, Bundle
 
 assets = Environment()
 
@@ -98,7 +99,8 @@ bundles = {
 
     'underscore': Bundle('js/lib/underscore-min.1.8.3.js'),
 
-    'font-awesome-css': Bundle('css/lib/font-awesome-4.1.0/css/font-awesome.min.css'),
+    'font-awesome-css': Bundle(
+        'css/lib/font-awesome-4.1.0/css/font-awesome.min.css'),
 
     'selectize-css': Bundle('css/lib/selectize.default.css'),
 
@@ -154,28 +156,31 @@ bundles = {
         'js/lib/spin.min.js', output='gen/spin.min.js'
     ),
 
-    'angularjs': Bundle('js/lib/angular.js',
-                        'js/lib/angular-resource.min.js',
-                        'js/lib/angular-animate.min.js',
-                        'js/lib/angular-route.min.js',
-                        'js/lib/angular-sanitize.js',
-                        'js/lib/ng-breadcrumbs.js',
-                        'js/lib/angular-spinner.min.js',
-                        'js/lib/spin.min.js',
-                        'js/lib/angular-locale_ru-ru.js',
-                        'js/angular/number.js',
-                        'js/angular/auth.js',
-                        'js/angular/rest.js',
-                        'js/angular/table.js',
-                        'js/angular/filter.js',
-                        'js/angular/params.js',
-                        'js/angular/modalWindow.js',
-                        'js/angular/elems.js',
+    # TODO: LEGACY
 
-                        'js/bl/goodbl.js'
-                        ),
+    # 'angularjs': Bundle('js/lib/angular.js',
+    #                     'js/lib/angular-resource.min.js',
+    #                     'js/lib/angular-animate.min.js',
+    #                     'js/lib/angular-route.min.js',
+    #                     'js/lib/angular-sanitize.js',
+    #                     'js/lib/ng-breadcrumbs.js',
+    #                     'js/lib/angular-spinner.min.js',
+    #                     'js/lib/spin.min.js',
+    #                     'js/lib/angular-locale_ru-ru.js',
+    #                     'js/angular/number.js',
+    #                     'js/angular/auth.js',
+    #                     'js/angular/rest.js',
+    #                     'js/angular/table.js',
+    #                     'js/angular/filter.js',
+    #                     'js/angular/params.js',
+    #                     'js/angular/modalWindow.js',
+    #                     'js/angular/elems.js',
+    #
+    #                     'js/bl/goodbl.js'
+    #                     ),
 
-    'angularjs-ui-bootstrap-old': Bundle('js/lib/ui-bootstrap-tpls-0.11.2.min.js'),
+    'angularjs-ui-bootstrap-old': Bundle(
+        'js/lib/ui-bootstrap-tpls-0.11.2.min.js'),
     'angularjs-ui-bootstrap': Bundle('js/lib/ui-bootstrap-tpls-0.13.3.js'),
 
     'bootbox': Bundle('js/lib/bootbox.min.js'),
@@ -187,8 +192,6 @@ bundles = {
     'metisMenu_js': Bundle('js/lib/metisMenu.js'),
 
     'custom_dash': Bundle('css/custom/sb-admin.css'),
-
-    # 'good': Bundle('js/good/good.js')
 }
 
 assets.register(bundles)

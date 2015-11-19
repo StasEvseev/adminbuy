@@ -1,6 +1,4 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from datetime import timedelta
 import redis
@@ -9,6 +7,8 @@ from app import app
 
 from celery import Celery
 from celery.schedules import crontab
+
+__author__ = 'StasEvseev'
 
 
 def make_celery(app):

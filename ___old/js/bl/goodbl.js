@@ -8,7 +8,7 @@ angular.module('GoodModule', ['ElemsModule'])
             'saveclbk': '=',
             model: "="
         },
-        templateUrl: '/static/template/goodbl/good-form.html',
+        templateUrl: '/___old/template/goodbl/good-form.html',
         controller: function($scope) {
 
             var RATE_RETAIL = 1.6;
@@ -130,7 +130,7 @@ angular.module('GoodModule', ['ElemsModule'])
             savefnc: "=",
             successclbk: "="
         },
-        templateUrl: '/static/template/goodbl/good-edit.html',
+        templateUrl: '/___old/template/goodbl/good-edit.html',
         controller: function($scope) {
             $scope.isCollapsedNumber = true;
             var isNumeric = false;

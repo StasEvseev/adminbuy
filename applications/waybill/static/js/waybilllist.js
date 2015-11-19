@@ -51,7 +51,7 @@ app.controller("MainCtrl", function($scope, $route, $location, $routeParams) {
 //            debugger
 
             var modalInstance = $modal.open({
-                templateUrl: '/static/template/modalAddGood.html',
+                templateUrl: '/___old/template/modalAddGood.html',
                 controller: 'AddToController',
                 resolve: {
                     pointsale_from_id: function() {return $scope.model.waybill.pointsale_from_id},
@@ -398,7 +398,7 @@ app.controller("MainCtrl", function($scope, $route, $location, $routeParams) {
 //            debugger
 
             var modalInstance = $modal.open({
-                templateUrl: '/static/template/modalAddGood.html',
+                templateUrl: '/___old/template/modalAddGood.html',
                 controller: 'AddToController',
                 resolve: {
                     pointsale_from_id: function() {return pointsale_from? pointsale_from.id : acceptance.pointsale_id},

@@ -182,17 +182,17 @@ app.controller("MainCtrl", function($scope, $route, $location, $routeParams, bre
     .config(function($routeProvider, $locationProvider) {
         $routeProvider
             .when('/admin/goodviewpoint', {
-                templateUrl: '/static/template/good/main.html',
+                templateUrl: '/___old/template/good/main.html',
                 controller: 'GoodMainCtrl',
                 label: 'Список товаров'
             })
             .when('/admin/goodviewpoint/:id/edit', {
-                templateUrl: '/static/template/good/edit.html',
+                templateUrl: '/___old/template/good/edit.html',
                 controller: 'EditCtrl',
                 label: 'Редактирование'
             })
             .when('/admin/goodviewpoint/create', {
-                templateUrl: '/static/template/good/edit.html',
+                templateUrl: '/___old/template/good/edit.html',
                 controller: 'CreateCtrl',
                 label: 'Создание'
             })

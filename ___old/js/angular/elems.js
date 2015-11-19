@@ -3,7 +3,7 @@ angular.module('ElemsModule', ['ngTable', 'TableHelper'])
     .directive("topPanel", function() {
         return {
             restrict: "E",
-            templateUrl: "/static/template/elems/topPanel.html",
+            templateUrl: "/___old/template/elems/topPanel.html",
             transclude: true,
             scope: {
                 breadcrumbs: "="
@@ -14,7 +14,7 @@ angular.module('ElemsModule', ['ngTable', 'TableHelper'])
     .directive("searchField", function() {
             return {
                 restrict: "E",
-                templateUrl: "/static/template/elems/searchField.html",
+                templateUrl: "/___old/template/elems/searchField.html",
                 scope: {
                     placeholder: "@",
                     clbkclick: "="
@@ -25,7 +25,7 @@ angular.module('ElemsModule', ['ngTable', 'TableHelper'])
     .directive("dateField", function() {
         return {
             restrict: "E",
-            templateUrl: "/static/template/elems/date.html",
+            templateUrl: "/___old/template/elems/date.html",
             scope: {
                 label: "@",
                 model: "=",
@@ -76,7 +76,7 @@ angular.module('ElemsModule', ['ngTable', 'TableHelper'])
     .directive("dateFieldBr", function() {
         return {
             restrict: "E",
-            templateUrl: "/static/template/elems/datebr.html",
+            templateUrl: "/___old/template/elems/datebr.html",
             scope: {
                 label: "@",
                 model: "=",
@@ -450,7 +450,7 @@ angular.module('ElemsModule', ['ngTable', 'TableHelper'])
     .directive('dictSelectFieldBr', function() {
         return {
             restrict: 'E',
-            templateUrl: '/static/template/elems/dictSelectFieldBr.html',
+            templateUrl: '/___old/template/elems/dictSelectFieldBr.html',
             scope: {
                 id: '@',
                 label: '@',
@@ -563,7 +563,7 @@ angular.module('ElemsModule', ['ngTable', 'TableHelper'])
     .directive('dictSelectField', function() {
         return {
             restrict: 'E',
-            templateUrl: '/static/template/elems/dictSelectField.html',
+            templateUrl: '/___old/template/elems/dictSelectField.html',
             scope: {
                 label: '@',
                 placeholder: '@',

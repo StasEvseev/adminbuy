@@ -1,18 +1,16 @@
-#coding: utf-8
+# coding: utf-8
 
-__author__ = 'StasEvseev'
-
-from datetime import timedelta
 import os
-import time
+from datetime import timedelta
 
 from flask import Flask, redirect, request, render_template, make_response
-from flask.ext.triangle import Triangle
 from flask.ext.babel import Babel
-
+from flask.ext.triangle import Triangle
 from werkzeug.contrib.fixers import ProxyFix
 
 from config import admin_imap, admin_pass, DATABASE_URI, SECRET_KEY, IS_PROD
+
+__author__ = 'StasEvseev'
 
 os.environ['TZ'] = 'Europe/Moscow'
 # time.tzset()
@@ -83,7 +81,7 @@ from applications.receiver import blueprint as RcBl
 from applications.good import blueprint as GdBl
 from applications.invoice import blueprint as InBl
 from applications.price import blueprint as PriceBl
-from applications.good_commodity import blueprint as GoodComBl
+# from ___old.good_commodity import blueprint as GoodComBl
 from applications.settings import blueprint as SetBl
 from applications.order import blueprint as OrBl
 from applications.return_app import blueprint as ReBl
@@ -101,7 +99,7 @@ app.register_blueprint(RcBl)
 app.register_blueprint(GdBl)
 app.register_blueprint(InBl)
 app.register_blueprint(PriceBl)
-app.register_blueprint(GoodComBl)
+# app.register_blueprint(GoodComBl)
 app.register_blueprint(SetBl)
 app.register_blueprint(OrBl)
 app.register_blueprint(ReBl)

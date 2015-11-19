@@ -1,13 +1,13 @@
 #coding: utf-8\n__author__ = 'StasEvseev'
 from flask import render_template, request, g
-from flask.ext.admin.base import AdminViewMeta, expose, BaseView
-from werkzeug.utils import redirect
 from flask.ext import login
-
+from flask.ext.admin.base import AdminViewMeta, expose, BaseView
 from old.angular.fieldview.table import Table
+from werkzeug.utils import redirect
+
+from ___old.utils.tools import pathrend_to_cache
+from ___old.utils.tools import save_page_to_cache
 from log import error, debug
-from utils.tools import pathrend_to_cache
-from utils.tools.cache import save_page_to_cache
 
 
 class AngularMeta(AdminViewMeta):

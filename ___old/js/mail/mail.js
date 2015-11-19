@@ -130,17 +130,17 @@ app.controller("MainCtrl", function($scope, $route, $location, $routeParams, bre
     .config(function($routeProvider, $locationProvider) {
         $routeProvider
             .when('/admin/mailview', {
-                templateUrl: '/static/template/mail/main.html',
+                templateUrl: '/___old/template/mail/main.html',
                 controller: 'MailMainCtrl',
                 label: 'Письма'
             })
             .when('/admin/mailview/:id/edit', {
-                templateUrl: '/static/template/mail/edit.html',
+                templateUrl: '/___old/template/mail/edit.html',
                 controller: 'EditCtrl',
                 label: 'Редактирование'
             })
             .when('/admin/mailview/:id/edit-new', {
-                templateUrl: '/static/template/mail/edit-new.html',
+                templateUrl: '/___old/template/mail/edit-new.html',
                 controller: 'EditCtrl2',
                 label: 'Редактирование2'
             })
