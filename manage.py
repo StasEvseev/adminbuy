@@ -1,11 +1,6 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 import sys
-
-from flask import json
-from flask.ext.fixtures import Fixtures
 from flask.ext.script import Manager
 from flask.ext.migrate import Migrate, MigrateCommand
 from flask.ext.script import Command
@@ -37,6 +32,8 @@ from models.sync import Sync, SyncSession, SyncItemSession
 from models.warehouse import WareHouse
 from applications.settings.model import Profile
 from applications.mails.model import Mail
+
+__author__ = 'StasEvseev'
 
 
 class MyMan(Manager):
@@ -80,26 +77,18 @@ class TestConfig(object):
     FIXTURES_DIRS = ['datas/fixtures']
 
 app.config.from_object(TestConfig)
-fixtures = Fixtures(app, db)
 
-
-class FixtureCommand(Command):
-    "фикстуры"
-
-    def run(self):
-
-        datas = []
-        with open("fixtures/init.json") as f:
-            datas = json.loads(f.read())
-
-        fixtures.load_fixtures(datas)
 
 class SuperUserCommand(Command):
+    """
+
+    Команда создания суперпользователя.
+
+    """
     def run(self):
         app.create_superuser()
 
 manager.add_command('db', MigrateCommand)
-manager.add_command('fixture', FixtureCommand())
 manager.add_command('create_superuser', SuperUserCommand())
 
 if __name__ == "__main__":
