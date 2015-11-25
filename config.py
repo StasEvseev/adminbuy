@@ -57,3 +57,6 @@ mail_folder = 'attachments'
 
 PATH_TO_GENERATE_INVOICE = os.path.join(DIR_PROJECT, 'static', 'files')
 PATH_WEB = "/" + os.path.join('static', 'files')
+
+PATH_TO_ANGULAR_APPS = os.path.join(
+    DIR_PROJECT, 'static', 'newadmin', 'js', 'applications')

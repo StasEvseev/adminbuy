@@ -1,7 +1,7 @@
 # coding: utf-8
 
 import sys
-from flask.ext.script import Manager
+from flask.ext.script import Manager, Option
 from flask.ext.migrate import Migrate, MigrateCommand
 from flask.ext.script import Command
 
@@ -32,6 +32,7 @@ from models.sync import Sync, SyncSession, SyncItemSession
 from models.warehouse import WareHouse
 from applications.settings.model import Profile
 from applications.mails.model import Mail
+from scaffolding import scaffold_angular
 
 __author__ = 'StasEvseev'
 
@@ -88,8 +89,20 @@ class SuperUserCommand(Command):
     def run(self):
         app.create_superuser()
 
+
+class ScaffoldingCommand(Command):
+
+    option_list = (
+        Option('--name', '-n', dest='name', required=True),
+    )
+
+    def run(self, name):
+        scaffold_angular(name)
+
+
 manager.add_command('db', MigrateCommand)
 manager.add_command('create_superuser', SuperUserCommand())
+manager.add_command('scaffold', ScaffoldingCommand())
 
 if __name__ == "__main__":
     manager.run()

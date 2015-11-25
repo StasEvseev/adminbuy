@@ -38,6 +38,8 @@ angular.module('mails.service', ['core.utils'])
             self.filterToStateParams($stateParams).then(function(items) {
                 q.resolve([res, items]);
             });
+        }).catch(function() {
+            q.reject();
         });
 
         return q.promise;

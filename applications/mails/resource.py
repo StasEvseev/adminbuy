@@ -56,7 +56,8 @@ class MailItem(BaseTokeniseResource):
         action = request.json['action']
         index = request.json['index']
 
-        debug(u"Обработка файла почты под индексом '%s' по типу '%s'" % (index, action))
+        debug(u"Обработка файла почты под индексом '%s' по типу '%s'" % (
+            index, action))
         mail = MailInvoiceService.get_mail(id)
         file = mail.get_file_to_index(index)
         fpth = file['path']
@@ -110,7 +111,8 @@ class MailCheck(BaseTokenMixinResource, BaseModelPackResource):
 
     def post(self):
         """
-        Запрос на обработку почтового ящика(проверка новых писем и сохранение их в БД).
+        Запрос на обработку почтового ящика(проверка новых писем и сохранение
+        их в БД).
         """
         from services.mailinvoice import MailInvoiceService, MailInvoiceException
         try:
@@ -118,18 +120,20 @@ class MailCheck(BaseTokenMixinResource, BaseModelPackResource):
             res = MailInvoiceService.handle_mail()
         except MailInvoiceException as err:
             error(unicode(err))
-            abort(404, message=unicode(err))
+            abort(400, message=unicode(err))
         res = 'ok' if len(res) else 'nothing'
         return res
 
-    def filter_query(self, query, filter_field, filter_text, sort_field, sort_course, page, count):
+    def filter_query(self, query, filter_field, filter_text, sort_field,
+                     sort_course, page, count):
         """
         Метод для дополнительной фильтрации.
         """
 
-        return FilterObj.filter_query(query, filter_field, filter_text, sort_field, sort_course, page, count,
-                                      model=self.model, multif=self.multif, clazz=self.__class__,
-                                      default_sort=self.default_sort)
+        return FilterObj.filter_query(
+            query, filter_field, filter_text, sort_field, sort_course, page,
+            count, model=self.model, multif=self.multif, clazz=self.__class__,
+            default_sort=self.default_sort)
 
     def query_initial(self, *args, **kwargs):
         _new = request.values.get("_new", "false") in ['true']
@@ -137,7 +141,9 @@ class MailCheck(BaseTokenMixinResource, BaseModelPackResource):
             return self.model.query.filter(self.model.is_handling == False)
         return self.model.query
 
-    @marshal_with({'items': fields.List(fields.Nested(ITEM)), 'count': fields.Integer, 'max': fields.Integer})
+    @marshal_with({'items': fields.List(fields.Nested(ITEM)),
+                   'count': fields.Integer,
+                   'max': fields.Integer})
     def get(self, *args, **kwargs):
         """
         Получим все почтовые письма.
