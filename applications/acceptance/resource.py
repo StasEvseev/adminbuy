@@ -35,7 +35,9 @@ ITEM = {
     }),
     'pointsale': fields.Nested({
         'name': fields.String
-    })
+    }),
+    'display': fields.String,
+    'display_invoices': fields.String
 }
 
 
@@ -46,7 +48,8 @@ class AcceptanceItemInnerCanon(BaseInnerCanon):
     attr_json = {
         'id': fields.Integer,
         'good': fields.Nested({
-            'full_name': fields.String
+            'full_name': fields.String,
+            'id': fields.Integer
         }),
         'count': fields.Integer,
         'fact_count': fields.String

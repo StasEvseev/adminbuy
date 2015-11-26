@@ -54,6 +54,26 @@ class Acceptance(db.Model):
         return '<Acceptance %r>' % self.id
 
     @property
+    def display_invoices(self):
+        disp_inv = ""
+        if self.type == MAIL:
+            invoices = self.invoices
+            invoices_numbers = [invoice.number for invoice in invoices]
+            disp_inv = u", ".join(invoices_numbers)
+            if len(invoices) > 2:
+                disp_inv += u", ..."
+        return disp_inv
+
+    @property
+    def display(self):
+        if self.type == MAIL:
+            disp_inv = self.display_invoices
+            return u"Приемка накладных(%s)" % disp_inv
+        elif self.type == NEW:
+            return u"Приемка накладной от %s" % self.provider.name
+        return u"Неверный тип"
+
+    @property
     def receiver(self):
         if self.type == MAIL:
             return self.invoice.provider.name

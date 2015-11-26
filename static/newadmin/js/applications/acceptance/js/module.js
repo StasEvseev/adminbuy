@@ -80,9 +80,10 @@ angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).
                 }
             },
             resolve: {
-                items: function(acceptances, $stateParams) {
-                    return acceptances.getRowInvoiceIn(parseInt($stateParams.id));
-                }
+                //items: function(acceptances, $stateParams) {
+                //    return [];
+                //    //return acceptances.getRowInvoiceIn(parseInt($stateParams.id));
+                //}
             }
         })
 })
@@ -138,7 +139,7 @@ angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).
     };
 })
 
-.controller("AcceptanceEditCntr", function($scope, $controller, $state, item, items, invoices, AcceptanceConfig) {
+.controller("AcceptanceEditCntr", function($scope, $controller, $state, item, items, acceptances, AcceptanceConfig) {
     $controller('BaseCreateController', {$scope: $scope});
 
     $scope.name_head = AcceptanceConfig.name;

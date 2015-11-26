@@ -50,10 +50,10 @@ class AcceptanceService(object):
             if type == MAIL and not invoices:
                 raise AcceptanceException(
                     u"При выбранном типе 'Регулярная накладная' необходимо "
-                    u"указать накладную")
+                    u"указать как минимум одну накладную.")
             if type == NEW and not ModelService.check_id(provider_id):
                 raise AcceptanceException(
-                    u"При выбранном типе 'Новая' необходимо указать поставщика")
+                    u"При выбранном типе 'Новая' необходимо указать поставщика.")
             if type == MAIL:
                 acceptance.provider_id = None
 

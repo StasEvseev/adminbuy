@@ -127,4 +127,32 @@
             </div>
         </div>
     </form>
+
+    <script type="text/ng-template" id="myTooltipTemplate.html">
+      <span>Special Tooltip with <strong>markup</strong> and [[ id ]]</span>
+    </script>
+
+    <div class="table-responsive" ng-hide="model.status == 1">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Товар</th>
+                <th>Кол-во</th>
+                <th>Кол-во(факт.)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="row in model.items">
+                <td>
+                    <a href="#"
+                       uib-tooltip-html="'<span>Special Tooltip with <strong>markup</strong> and [[ row.id ]]</span>'"
+                       tooltip-popup-close-delay='1000' >[[ row.good.full_name ]]</a>
+
+                </td>
+                <td>[[row.count]]</td>
+                <td>[[row.fact_count]]</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </section>

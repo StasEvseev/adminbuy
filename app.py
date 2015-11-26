@@ -40,6 +40,7 @@ def create_app(application):
     application.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
     application.config['SECURITY_TOKEN_AUTHENTICATION_HEADER'] = "AUTHORIZATION"
     application.config['SECURITY_REMEMBER_SALT'] = "SALT123123123"
+    application.config['SQLALCHEMY_ECHO'] = True
     # application.config['BABEL_DEFAULT_LOCALE'] = 'ru-ru'
     application.config['SECRET_KEY'] = SECRET_KEY
     application.permanent_session_lifetime = timedelta(minutes=30)

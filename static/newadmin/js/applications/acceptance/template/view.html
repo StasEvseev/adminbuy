@@ -10,7 +10,7 @@
         <ol class="breadcrumb">
             <li><a ui-sref="index.dash"><i class="fa fa-dashboard"></i> Дом</a></li>
             <li><a ui-sref="index.acceptance.list">[[name_head]]</a></li>
-            <li class="active">Приемка [[ model.invoice_str ]]</li>
+            <li class="active">[[ model.display ]]</li>
         </ol>
 
         <div class="btn-custom-group">
@@ -128,7 +128,7 @@
             <br/>
 
             <!-- Table row -->
-                <div class="table-responsive" ng-hide="model.status == 1">
+            <div class="table-responsive" ng-hide="model.status == 1">
                     <table class="table table-striped">
                         <thead>
                         <tr>
