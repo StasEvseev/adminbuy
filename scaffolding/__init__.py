@@ -20,7 +20,8 @@ def scaffold_angular(name):
     apps = map(lambda x: x.lower(), os.listdir(PATH_TO_ANGULAR_APPS))
 
     if name in apps:
-        raise Exception(u"Angular application with name `%s` already exist." % name)
+        raise Exception(
+            u"Angular application with name `%s` already exist." % name)
 
     name_cap = name.capitalize()
     name_service = name_cap + "Service"

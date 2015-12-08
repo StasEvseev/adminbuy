@@ -1,6 +1,4 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from flask.ext.restful import fields, abort
 from log import error
@@ -13,6 +11,8 @@ from resources.core import BaseCanoniseResource, BaseTokeniseResource
 
 from services.helperserv import HelperService
 from services.revisionservice import RevisionService
+
+__author__ = 'StasEvseev'
 
 
 class RevisionApprove(BaseTokeniseResource):
@@ -39,7 +39,6 @@ class RevisionItemResource(BaseCanoniseResource):
         'good_id': fields.Integer,
         'good': fields.String(attribute='good.full_name'),
         'revision_id': fields.Integer,
-        # 'revision': fields.String(attribute="revision.name"),
         'count_before': fields.Integer,
         'count_after': fields.Integer,
     }
@@ -73,6 +72,3 @@ class RevisionResource(BaseCanoniseResource):
     def pre_delete(self, obj):
 
         pass
-        # if RevisionService.exists_point(obj.pointsale_id, obj.id):
-        #
-        #     pass

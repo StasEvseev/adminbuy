@@ -1,13 +1,13 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from db import db
+
+__author__ = 'StasEvseev'
 
 
 class SyncSession(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    #Дата
+    # Дата
     datetime = db.Column(db.DateTime)
     deviceId = db.Column(db.String)
 
@@ -20,21 +20,28 @@ class WorkDay(db.Model):
     datetime_start = db.Column(db.DateTime)
     datetime_end = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user = db.relationship('User', backref=db.backref('workdays', lazy='dynamic'))
+    user = db.relationship(
+        'User', backref=db.backref('workdays', lazy='dynamic'))
     username = db.Column(db.String)
 
     sync_start_id = db.Column(db.Integer, db.ForeignKey('sync_session.id'))
-    sync_start = db.relationship('SyncSession', backref=db.backref('workday_start', lazy='dynamic'), foreign_keys='WorkDay.sync_start_id')
+    sync_start = db.relationship(
+        'SyncSession', backref=db.backref('workday_start', lazy='dynamic'),
+        foreign_keys='WorkDay.sync_start_id')
     sync_end_id = db.Column(db.Integer, db.ForeignKey('sync_session.id'))
-    sync_end = db.relationship('SyncSession', backref=db.backref('workday_end', lazy='dynamic'), foreign_keys='WorkDay.sync_end_id')
+    sync_end = db.relationship(
+        'SyncSession', backref=db.backref('workday_end', lazy='dynamic'),
+        foreign_keys='WorkDay.sync_end_id')
 
 
 class SyncItemSession(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     sync_id = db.Column(db.Integer, db.ForeignKey('sync_session.id'))
-    sync = db.relationship('SyncSession', backref=db.backref('items', lazy='dynamic'))
+    sync = db.relationship(
+        'SyncSession', backref=db.backref('items', lazy='dynamic'))
     workday_id = db.Column(db.Integer, db.ForeignKey('work_day.id'))
-    workday = db.relationship('WorkDay', backref=db.backref('workdayitems', lazy='dynamic'))
+    workday = db.relationship(
+        'WorkDay', backref=db.backref('workdayitems', lazy='dynamic'))
     barcode = db.Column(db.String)
     datetime = db.Column(db.DateTime)
     operation = db.Column(db.Integer)
@@ -44,11 +51,11 @@ class SyncItemSession(db.Model):
 class Sync(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
-    #Дата начала
+    # Дата начала
     date_start = db.Column(db.DateTime)
-    #Дата накладной
+    # Дата накладной
     date_end = db.Column(db.DateTime)
-    #Статус енам
+    # Статус енам
     status = db.Column(db.Integer)
 
     @property

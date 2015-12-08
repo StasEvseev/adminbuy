@@ -1,6 +1,4 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from werkzeug.security import generate_password_hash
 
@@ -10,9 +8,7 @@ from security import user_datastore
 
 from services.core import BaseSQLAlchemyModelService
 
-from itsdangerous import JSONWebSignatureSerializer as Serializer
-
-from config import SECRET_KEY
+__author__ = 'StasEvseev'
 
 
 class UserService(BaseSQLAlchemyModelService):
@@ -42,7 +38,8 @@ class UserService(BaseSQLAlchemyModelService):
         return True
 
     @classmethod
-    def registration(cls, login, email, password, is_superuser=False, first_name=None, last_name=None, role=None):
+    def registration(cls, login, email, password, is_superuser=False,
+                     first_name=None, last_name=None, role=None):
         """
         регистрация пользователя в системе
 
@@ -58,12 +55,14 @@ class UserService(BaseSQLAlchemyModelService):
         """
 
         if not cls.check_duplicate(login):
-            raise UserService.DuplicateError(u"В системе есть пользователь с логином - '%s'" % login)
+            raise UserService.DuplicateError(
+                u"В системе есть пользователь с логином - '%s'" % login)
 
         role = role or ['user']
         user = user_datastore.create_user(
             login=login, email=email, password=generate_password_hash(password),
-            is_superuser=is_superuser, first_name=first_name, last_name=last_name, roles=role)
+            is_superuser=is_superuser, first_name=first_name,
+            last_name=last_name, roles=role)
         profile = Profile()
         profile.user = user
         return user

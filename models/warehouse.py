@@ -1,8 +1,8 @@
-#coding: utf-8
+# coding: utf-8
 
 __author__ = 'StasEvseev'
 
-#Склад
+# Склад
 from db import db
 
 
@@ -12,7 +12,7 @@ class WareHouse(db.Model):
     """
     id = db.Column(db.Integer, primary_key=True)
 
-    #Наименование склада
+    # Наименование склада
     name = db.Column(db.String(250))
-    #адрес склада
+    # адрес склада
     address = db.Column(db.String(250))

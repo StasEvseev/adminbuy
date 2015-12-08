@@ -1,26 +1,27 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from db import db
 
+__author__ = 'StasEvseev'
 
-#TODO: deprecated
+
+# TODO: deprecated
 class RetailInvoice(db.Model):
     """
     Розничная накладная.
     """
     id = db.Column(db.Integer, primary_key=True)
-    #Номер
+    # Номер
     number = db.Column(db.String(250))
-    #Дата накладной
+    # Дата накладной
     date = db.Column(db.Date)
 
-    #Основание
+    # Основание
     invoice_id = db.Column(db.Integer, db.ForeignKey('invoice.id'))
-    invoice = db.relationship('Invoice', backref=db.backref('retailinvoices', lazy='dynamic'))
+    invoice = db.relationship(
+        'Invoice', backref=db.backref('retailinvoices', lazy='dynamic'))
 
-    #Файл накладной
+    # Файл накладной
     file = db.Column(db.String)
 
     def __repr__(self):

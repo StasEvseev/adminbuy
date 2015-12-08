@@ -1,12 +1,12 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from flask.ext.restful import marshal_with, fields
 from applications.invoice.helpers import _stub
 from log import error
 
 from resources.core import BaseTokeniseResource
+
+__author__ = 'StasEvseev'
 
 
 ATTR_STUB = {'items': fields.List(fields.Nested({
@@ -48,8 +48,10 @@ class InvoiceItemResource(BaseTokeniseResource):
         'good_id': fields.Integer,
         'commodity_id': fields.Integer(attribute='good.commodity_id'),
         'price_id': fields.Integer(attribute='good.price_id'),
-        'price_retail': fields.Integer(attribute='good.price.price_retail', default=''),
-        'price_gross': fields.Integer(attribute='good.price.price_gross', default=''),
+        'price_retail': fields.Integer(
+            attribute='good.price.price_retail', default=''),
+        'price_gross': fields.Integer(
+            attribute='good.price.price_gross', default=''),
         'fact_count': fields.Integer(default='')
     }))})
     def get(self, invoice_id):
@@ -79,7 +81,8 @@ class InvoicePrice2ItemsResource(BaseTokeniseResource):
 
 class InvoicePriceItemsResource(BaseTokeniseResource):
     """
-    ресурс для получения товаров, цен, и их рекомендуемую стоимость на товары из накладной
+    ресурс для получения товаров, цен, и их рекомендуемую стоимость на товары
+    из накладной
     """
 
     @marshal_with(ATTR_STUB)

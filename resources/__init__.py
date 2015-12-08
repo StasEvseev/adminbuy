@@ -1,4 +1,4 @@
-#coding: utf-8
+# coding: utf-8
 
 from flask.ext import restful
 from flask.ext.restful.fields import Raw
@@ -66,7 +66,8 @@ api.add_resource(SyncSessionRes, '/syncSession')
 
 api.add_resource(SyncResourceCreate, '/sync/new')
 api.add_resource(SyncResource, '/sync/<int:invoice_id>/stop')
-api.add_resource(SyncResourceError, '/sync/<int:invoice_id>/status/<int:status>')
+api.add_resource(
+    SyncResourceError, '/sync/<int:invoice_id>/status/<int:status>')
 
 api.register_canon(RevisionResource, '/revision')
 api.register_canon(RevisionItemResource, '/revisionitem')

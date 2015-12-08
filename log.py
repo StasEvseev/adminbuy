@@ -18,7 +18,8 @@ LOG_FILE_NAME_DEBUG = "logs/debug.log"
 
 class MyHandler(logging.Handler):
     """
-    Обработчик, исключений. Ставящий задания в очередь по отправке ошибок на почту.
+    Обработчик, исключений. Ставящий задания в очередь по отправке ошибок на
+    почту.
     """
 
     def __init__(self, *args, **kwargs):
@@ -36,7 +37,8 @@ class MyHandler(logging.Handler):
             try:
                 raise e, None, tr
             except Exception:
-                error(u"Произошла ошибка при конвертации: " + unicode(tracebackold) + "\n>>>>>\n")
+                error(u"Произошла ошибка при конвертации: " +
+                      unicode(tracebackold) + "\n>>>>>\n")
                 raise
 
 
