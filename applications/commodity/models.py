@@ -1,8 +1,8 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from db import db
+
+__author__ = 'StasEvseev'
 
 
 class Commodity(db.Model):

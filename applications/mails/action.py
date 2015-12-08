@@ -1,4 +1,5 @@
-#coding:utf-8
+# coding:utf-8
+
 from email.header import decode_header
 
 import imaplib
@@ -28,8 +29,10 @@ class NotMails(ProjectException):
     pass
 
 
-MailObject = namedtuple('MailObject', ['title', 'date_', 'from_', 'to_', 'file_'])
-MailObjectNew = namedtuple('MailObjectNew', ['title', 'date_', 'from_', 'to_', 'files', 'text'])
+MailObject = namedtuple('MailObject',
+                        ['title', 'date_', 'from_', 'to_', 'file_'])
+MailObjectNew = namedtuple('MailObjectNew',
+                           ['title', 'date_', 'from_', 'to_', 'files', 'text'])
 
 
 def get_mail(mail, search_str):
@@ -44,7 +47,7 @@ def get_count_mails(email):
     функция получения количества новых писем
     """
     m, l_ids = get_ids_mails(email)
-    return len(l_ids) # get the latest
+    return len(l_ids)
 
 
 def get_ids_mails(email):
@@ -125,7 +128,7 @@ def mark_as_unseen(ids):
 def decode(str):
     if str and str.startswith("=?UTF"):
         return decode_header(str)[0][0]
-    if str and str[:14] in ["=?Windows-1251", '=?windows-1251']: # .startswith("=?Windows-1251"):
+    if str and str[:14] in ["=?Windows-1251", '=?windows-1251']:
         return decode_header(str)[0][0].decode("windows-1251")
     return str
 
@@ -143,7 +146,8 @@ def files_imap(pmail):
 
     for part in pmail.walk():
 
-        if part.get_content_maintype() == "text" and part.get_content_type() == "text/plain":
+        if part.get_content_maintype() == "text" and \
+                        part.get_content_type() == "text/plain":
             text = part.get_payload(decode=True)
             try:
                 text = text.decode("windows-1251")
@@ -157,14 +161,11 @@ def files_imap(pmail):
         filename = decode(part.get_filename())
         filename = rus_to_eng(filename)
         print "FIND FILE - ", filename
-        # filename = part.get_filename()
         if bool(filename):
 
-            # filePath = os.path.join(detach_dir, mail_folder)
             filename = name_for_file(part, PATH_TO_GENERATE_INVOICE)
             filepath = os.path.join(PATH_TO_GENERATE_INVOICE, filename)
             link = os.path.join(PATH_WEB, filename)
-            #filePath = os.path.join(detach_dir, mail_folder, fileName)
             if not os.path.isfile(filepath):
                 print filename
             fp = open(filepath, 'wb')
@@ -172,7 +173,8 @@ def files_imap(pmail):
             fp.close()
             files.append({'name': filename, 'path': filepath, 'link': link})
 
-    m = MailObjectNew(title=title, date_=date_, from_=from_, to_=to_, files=files, text=text)
+    m = MailObjectNew(title=title, date_=date_, from_=from_, to_=to_,
+                      files=files, text=text)
     return m
 
 
@@ -201,6 +203,7 @@ def file_imap(pmail):
             fp.write(part.get_payload(decode=True))
             fp.close()
 
-            m = MailObject(title=title, date_=date_, from_=from_, to_=to_, file_=filepath)
+            m = MailObject(title=title, date_=date_, from_=from_, to_=to_,
+                           file_=filepath)
 
             return m

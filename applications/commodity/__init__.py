@@ -1,12 +1,12 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from flask import Blueprint
 
 from resources import MyApi
 from applications.commodity.resource import CommodityCanonResource
 from applications.commodity.service import CommodityService
+
+__author__ = 'StasEvseev'
 
 
 blueprint = Blueprint('commodity_blueprint', __name__)

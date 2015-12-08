@@ -1,12 +1,12 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from collections import namedtuple
 
 from sqlalchemy.orm.exc import NoResultFound
 
 from applications.commodity.models import Commodity
+
+__author__ = 'StasEvseev'
 
 
 CommodityStub = namedtuple('CommodityStub', ['id', 'name', 'category'])
@@ -26,12 +26,13 @@ class CommodityService(object):
     @classmethod
     def get_or_create_commodity(cls, name, thematic=None, numeric=None):
         try:
-            commodity = Commodity.query.filter(Commodity.name==name).one()
+            commodity = Commodity.query.filter(Commodity.name == name).one()
         except NoResultFound as err:
-            return False, Commodity(name=name, thematic=thematic, numeric=numeric)
+            return False, Commodity(
+                name=name, thematic=thematic, numeric=numeric)
         else:
             return True, commodity
 
     @classmethod
     def get_commodity(cls, name):
-        return Commodity.query.filter(Commodity.name==name).one()
+        return Commodity.query.filter(Commodity.name == name).one()

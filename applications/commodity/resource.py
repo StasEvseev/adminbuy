@@ -1,11 +1,11 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from flask.ext.restful import fields
 
 from applications.commodity.models import Commodity
 from resources.core import BaseCanoniseResource
+
+__author__ = 'StasEvseev'
 
 
 class CommodityCanonResource(BaseCanoniseResource):

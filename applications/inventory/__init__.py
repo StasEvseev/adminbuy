@@ -1,12 +1,13 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from flask import Blueprint
 
 from applications.inventory.resource import (
-    InventoryCanon, InventoryStatusResource, InventoryItemCanon, InventoryItemInnerCanon, InventoryPrint)
+    InventoryCanon, InventoryStatusResource, InventoryItemCanon,
+    InventoryItemInnerCanon, InventoryPrint)
 from resources import MyApi
+
+__author__ = 'StasEvseev'
 
 
 blueprint = Blueprint('inventory_blueprint', __name__)

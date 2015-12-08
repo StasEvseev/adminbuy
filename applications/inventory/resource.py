@@ -1,21 +1,18 @@
-#coding: utf-8
+# coding: utf-8
 
-__author__ = 'StasEvseev'
+from flask.ext.restful import fields, marshal_with
 
-from copy import copy
+from resources.core import BaseCanoniseResource, BaseInnerCanon, ExtraMixin, \
+    BasePrintResource, BaseStatusResource
 
-from flask import request
-from flask.ext.restful import fields, abort, marshal_with
-
-from resources.core import BaseCanoniseResource, BaseTokeniseResource, BaseInnerCanon, ExtraMixin, BasePrintResource, \
-    BaseStatusResource
-
-from applications.inventory.constant import COUNT_AFTER_ATTR, GOOD_ATTR, GOOD_ID_ATTR, COUNT_BEFORE_ATTR
+from applications.inventory.constant import COUNT_AFTER_ATTR, GOOD_ATTR, \
+    GOOD_ID_ATTR, COUNT_BEFORE_ATTR
 from applications.inventory.models import Inventory, InventoryItems, VALIDATED
 from applications.inventory.service import InventoryService
 
-from db import db
-from log import error, warning
+from log import warning
+
+__author__ = 'StasEvseev'
 
 
 attr = {
@@ -55,10 +52,6 @@ ATTR_ITEMS = {
 }
 
 
-# ATTR_INV = copy(ATTR_ITEMS)
-# ATTR_G = ATTR_INV[GOOD_ATTR].nested
-# ATTR_G.update({"full_name_with_price": fields.String})
-
 class InventoryItemCanon(BaseCanoniseResource):
     model = InventoryItems
 
@@ -97,7 +90,8 @@ class InventoryCanon(ExtraMixinItemsInventory, BaseCanoniseResource):
 
     def pre_delete(self, obj):
         if obj.status == VALIDATED:
-            warning(u"Попытка удалить инвентаризацию в завершенном статусе (%s)." % obj.id)
+            warning(u"Попытка удалить инвентаризацию в завершенном "
+                    u"статусе (%s)." % obj.id)
             raise BaseCanoniseResource.CanonException(
                 u"Нельзя удалять инвентаризацию, в завершенном статусе."
             )
@@ -118,8 +112,9 @@ class InventoryPrint(BasePrintResource):
         from applications.good.service import GoodService
         inventory = InventoryService.get_by_id(id)
 
-        su = sum(map(lambda it: GoodService.get_price(it.good_id).price_retail * it.count_after,
-                     inventory.items))
+        su = sum(map(
+            lambda it: GoodService.get_price(
+                it.good_id).price_retail * it.count_after, inventory.items))
 
         pi.set_cells(0, 0, [('number', 2)])
         pi.set_cells(0, 2, ['a', 'date', 'c', 'c', 'c', 'sum'])
@@ -127,7 +122,8 @@ class InventoryPrint(BasePrintResource):
         pi.set_cells(0, 6, [('name', 5), 'price', 'a', 'count', 'b', 'c', 'd'])
 
         pi.write(0, 0, 0, [{'number': inventory.number}])
-        pi.write(0, 2, 1, [{'date': inventory.datetimenew.strftime("%d.%m.%Y - %H:%M:%S"), 'sum': su}])
+        pi.write(0, 2, 1, [{'date': inventory.datetimenew.strftime(
+            "%d.%m.%Y - %H:%M:%S"), 'sum': su}])
         pi.write(0, 3, 0, [{'pointsale': inventory.location.name}])
 
         items = [

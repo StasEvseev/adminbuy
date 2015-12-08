@@ -1,6 +1,4 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from flask import request
 
@@ -11,7 +9,10 @@ from db import db
 from excel import InvoiceModel, InvoiceReturnModel
 from log import error, debug
 from resources import InvoiceItemResource
-from resources.core import BaseTokeniseResource, BaseTokenMixinResource, BaseModelPackResource, parser, FilterObj
+from resources.core import BaseTokeniseResource, BaseTokenMixinResource, \
+    BaseModelPackResource, parser, FilterObj
+
+__author__ = 'StasEvseev'
 
 
 ITEM = {
@@ -75,7 +76,8 @@ class MailItem(BaseTokeniseResource):
                 db.session.commit()
                 debug(u"Обработка файла завершена.")
             except Exception as err:
-                error(u"Ошибка при обработке файла '"+fpth+u"'. " + unicode(err))
+                error(
+                    u"Ошибка при обработке файла '"+fpth+u"'. " + unicode(err))
                 abort(400, message=u"Произошла ошибка в обработке документа.")
             else:
                 return mail
@@ -92,7 +94,8 @@ class MailItem(BaseTokeniseResource):
                 db.session.commit()
                 debug(u"Обработка файла завершена.")
             except Exception as err:
-                error(u"Ошибка при обработке файла '"+fpth+u"'. " + unicode(err))
+                error(
+                    u"Ошибка при обработке файла '"+fpth+u"'. " + unicode(err))
                 abort(400, message=u"Произошла ошибка в обработке документа.")
             else:
                 return mail
@@ -114,9 +117,9 @@ class MailCheck(BaseTokenMixinResource, BaseModelPackResource):
         Запрос на обработку почтового ящика(проверка новых писем и сохранение
         их в БД).
         """
-        from services.mailinvoice import MailInvoiceService, MailInvoiceException
+        from services.mailinvoice import MailInvoiceService, \
+            MailInvoiceException
         try:
-            raise MailInvoiceException("TEST")
             res = MailInvoiceService.handle_mail()
         except MailInvoiceException as err:
             error(unicode(err))
@@ -160,6 +163,7 @@ class MailCheck(BaseTokenMixinResource, BaseModelPackResource):
         query = self.query_initial(*args, **kwargs)
 
         records, max_, count_ = self.filter_query(
-            query, filter_field, filter_text, sort_field, sort_course, page, count)
+            query, filter_field, filter_text, sort_field, sort_course, page,
+            count)
 
         return {'items': records, 'count': count_, 'max': max_}

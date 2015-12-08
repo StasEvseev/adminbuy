@@ -1,6 +1,4 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 import os
 import uuid
@@ -11,6 +9,9 @@ from applications.good.service import GoodService, GoodServiceException
 from config import PATH_TO_GENERATE_INVOICE, PATH_WEB
 
 from resources.core import BaseCanoniseResource, BaseTokeniseResource
+
+
+__author__ = 'StasEvseev'
 
 
 class GoodResourceCanon(BaseCanoniseResource):
@@ -42,9 +43,11 @@ class GoodResourceCanon(BaseCanoniseResource):
     def pre_save(self, obj, data):
         from applications.commodity.service import CommodityService
         obj.number_local = str(obj.number_local) if obj.number_local else None
-        obj.number_global = str(obj.number_global) if obj.number_global else None
+        obj.number_global = str(obj.number_global) if obj.number_global \
+            else None
         if obj.commodity_id is None:
-            raise GoodResourceCanon.GoodResourceException(u"Нельзя сохранить товар без номенклатуры.")
+            raise GoodResourceCanon.GoodResourceException(
+                u"Нельзя сохранить товар без номенклатуры.")
 
         commodity = CommodityService.get_by_id(obj.commodity_id)
         try:
@@ -66,9 +69,12 @@ class GoodResourceCanon(BaseCanoniseResource):
             # good.barcode = data.get('barcode')
         if res is True:
             if commodity.numeric:
-                message = u"В системе уже есть товар с наименованием %s и №%s(%s)" % (commodity.name, obj.number_local, obj.number_global)
+                message = u"В системе уже есть товар с наименованием %s и " \
+                          u"№%s(%s)" % (
+                    commodity.name, obj.number_local, obj.number_global)
             else:
-                message = u"В системе уже есть безномерной товар с наименованием %s" % commodity.name
+                message = u"В системе уже есть безномерной товар с " \
+                          u"наименованием %s" % commodity.name
             raise GoodResourceCanon.GoodResourceException(message)
         good = super(GoodResourceCanon, self).pre_save(good, data)
         return good
@@ -84,7 +90,6 @@ class GoodResourceCanon(BaseCanoniseResource):
 def createBarCodes(path, barcode_value):
     from reportlab.graphics.barcode import eanbc
     from reportlab.graphics.shapes import Drawing
-    from reportlab.lib.pagesizes import letter
     from reportlab.pdfgen import canvas
     from reportlab.graphics import renderPDF
     from reportlab.lib.units import cm, mm
@@ -121,7 +126,8 @@ class GoodPrintBarcode(BaseTokeniseResource):
         path = os.path.join(PATH_WEB, file_name)
 
         if good.barcode is None or good.barcode == '':
-            abort(400, message=u"Для печати штрих кода, необходимо указать его!")
+            abort(400, message=u"Для печати штрих кода, необходимо указать "
+                               u"его!")
 
         createBarCodes(path_to_target, str(good.barcode))
 
@@ -147,4 +153,5 @@ def good_from_dict(data):
     price_id = data.get('price_id')
     full_name = data.get('full_name')
     barcode = data.get('barcode')
-    return commodity_id, number_local, number_global, price_id, full_name, barcode
+    return commodity_id, number_local, number_global, price_id, full_name, \
+           barcode

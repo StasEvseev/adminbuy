@@ -1,6 +1,4 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 import json
 from flask import request
@@ -10,7 +8,9 @@ from sqlalchemy import asc
 from applications.acceptance.model import Acceptance
 from models.invoice import Invoice
 from models.invoiceitem import InvoiceItem
-from resources.core import BaseCanoniseResource, BaseInnerCanon, BaseTokeniseResource
+from resources.core import BaseCanoniseResource, BaseInnerCanon
+
+__author__ = 'StasEvseev'
 
 
 ATTR = {
@@ -43,7 +43,6 @@ ATTR_ITEMS = {
     'count_whole_pack': fields.Integer,
     'placer': fields.Integer,
 
-    # 'commodity_id': fields.Integer(attribute='good.commodity_id'),
     'fact_count': fields.Integer(default=''),
 
     'good_id': fields.Integer,
@@ -71,10 +70,11 @@ class InvoiceItemInnerCanon(BaseInnerCanon):
     attr_json = ATTR_ITEMS
 
     def query_initial(self, inner_id, **kwargs):
-        query = super(InvoiceItemInnerCanon, self).query_initial(inner_id, **kwargs)
+        query = super(InvoiceItemInnerCanon, self).query_initial(
+            inner_id, **kwargs)
 
         if "exclude_good_id" in request.values:
-            #фильтруем товары для исключения дубляжей
+            # фильтруем товары для исключения дубляжей
             exc_good_id = request.values.get("exclude_good_id")
             exc_good_id = json.loads(exc_good_id)
             query = query.filter(
