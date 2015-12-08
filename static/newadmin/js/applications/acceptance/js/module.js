@@ -139,11 +139,36 @@ angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).
     };
 })
 
-.controller("AcceptanceEditCntr", function($scope, $controller, $state, item, items, acceptances, AcceptanceConfig) {
+.controller("AcceptanceEditCntr", function($scope, $compile, $controller, $state, $q, goods, item, items, acceptances, AcceptanceConfig) {
     $controller('BaseCreateController', {$scope: $scope});
 
     $scope.name_head = AcceptanceConfig.name;
     $scope.formname =  AcceptanceConfig.formname;
+
+    $scope.tooltipDynamicContent = function(id) {
+        return function(event, api) {
+            goods.getById(id).then(function(data) {
+
+                var template = "<div>" +
+                    "<h5>" +
+                    "Полное наименование: "+data.full_name +
+                    "</h5>" +
+                    "<h5>" +
+                    "Номенклатура: <a ui-sref='index.commodity.view({id: "+data.commodity.id+"})'>"+data.commodity.name+"</a>" +
+                    "</h5>" +
+                    "<h6>Цена розницы: "+data['price.price_retail']+"</h6>" +
+                    "</div>";
+
+                var linkFn = $compile(template);
+                var content = linkFn($scope);
+
+                api.set('content.text', content);
+            });
+            return "Loading...";
+        };
+    };
+
+    $scope.dynamicContent = $scope.tooltipDynamicContent;
 
     $scope.goView = function() {
         return "index.acceptance.view";

@@ -144,10 +144,12 @@
             <tbody>
             <tr ng-repeat="row in model.items">
                 <td>
-                    <a href="#"
-                       uib-tooltip-html="'<span>Special Tooltip with <strong>markup</strong> and [[ row.id ]]</span>'"
-                       tooltip-popup-close-delay='1000' >[[ row.good.full_name ]]</a>
-
+                    <a ui-sref="index.good.view({id: row.good.id})"
+                       qtip
+                       data-classes="qtip-light"
+                       ng-init="dynamicContent = dynamicContent(row.good.id)"
+                       data-hide-fixed
+                       data-hide-delay="300">[[ row.good.full_name ]]</a>
                 </td>
                 <td>[[row.count]]</td>
                 <td>[[row.fact_count]]</td>

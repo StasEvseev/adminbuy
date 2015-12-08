@@ -9,19 +9,13 @@
         <link href="{{ ASSET_URL }}" rel="stylesheet"/>
     {% endassets %}
 
-{#    'bootstrap-css': Bundle('css/lib/bootstrap.min.css'),#}
-{#    'bootstrap-js': Bundle('js/lib/bootstrap.min.js'),#}
-
-{#    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />    #}
     <!-- FontAwesome 4.3.0 -->
     {% assets 'font-awesome-css' %}
         <link href="{{ ASSET_URL }}" rel="stylesheet"/>
     {% endassets %}
-{#    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />#}
+
     <!-- Ionicons 2.0.0 -->
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
-
-{#    <link href="//fonts.googleapis.com/css?family=Syncopate:400,700" rel="stylesheet" type="text/css">#}
 
     <!-- Theme style -->
     {% assets 'NAcss' %}
@@ -57,7 +51,9 @@
         <script type="text/javascript" src="{{ ASSET_URL }}"></script>
     {% endassets %}
 
-
+    {% assets 'qtip_js' %}
+        <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
 
     {% assets 'underscore' %}
         <script type="text/javascript" src="{{ ASSET_URL }}"></script>
@@ -93,6 +89,9 @@
         <link href="{{ ASSET_URL }}" rel="stylesheet"/>
     {% endassets %}
 
+    {% assets 'qtip_css' %}
+        <link href="{{ ASSET_URL }}" rel="stylesheet"/>
+    {% endassets %}
 
     <!-- Ui-Select -->
     {% assets 'select-js' %}

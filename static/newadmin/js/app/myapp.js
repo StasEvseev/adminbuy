@@ -4,6 +4,8 @@ AdminApp = angular.module('AdminApp', [
     'ui.select',
     'ui.bootstrap',
 
+    'qtip2',
+
     'auth.ui',
     'auth.http',
 

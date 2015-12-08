@@ -59,23 +59,26 @@
                                            role="grid"
                                            aria-describedby="example1_info" template-pagination="custom/pager">
                                         <!-- TODO!!! style into css -->
-                                        <tr style="cursor:pointer;" ng-click="detail(invoice.id)" ng-repeat="invoice in $data">
-                                            <td data-title="'Дата'" sortable="'date'">
+                                        <tr ng-repeat="invoice in $data">
+                                            <td width="30" header="'ng-table/headers/checkbox.html'">
+                                                <input type="checkbox" ng-model="checkboxes.items[item.id]" />
+                                            </td>
+                                            <td style="cursor:pointer;" ng-click="detail(invoice.id)" data-title="'Дата'" sortable="'date'">
                                                 [[ invoice.date | date:'d MMM y' ]]
                                             </td>
-                                            <td data-title="'Номер'" sortable="'number'">
+                                            <td style="cursor:pointer;" ng-click="detail(invoice.id)" data-title="'Номер'" sortable="'number'">
                                                 [[ invoice.number ]]
                                             </td>
 
-                                            <td data-title="'Получатель'" sortable="'pointsale'">
+                                            <td style="cursor:pointer;" ng-click="detail(invoice.id)" data-title="'Получатель'" sortable="'pointsale'">
                                                 [[ invoice.pointsale ]]
                                             </td>
 
-                                            <td data-title="'Отправитель'" sortable="'pointsale_from'">
+                                            <td style="cursor:pointer;" ng-click="detail(invoice.id)" data-title="'Отправитель'" sortable="'pointsale_from'">
                                                 [[ invoice.pointsale_from ]]
                                             </td>
 
-                                            <td data-title="'Статус'" sortable="'status_str'">
+                                            <td style="cursor:pointer;" ng-click="detail(invoice.id)" data-title="'Статус'" sortable="'status_str'">
                                                 <span ng-class="{
                                                     'label-success': invoice.status == 4,
                                                     'label-warning': invoice.status != 4}" class="label">

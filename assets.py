@@ -9,6 +9,7 @@ assets = Environment()
 
 bundles = {
     'NAjs': Bundle(
+        'js/lib/voilab-angular-qtip.js',
         'js/lib/socket.io.min.js',
         'newadmin/js/app.js',
         'newadmin/js/demo.js',
@@ -66,9 +67,9 @@ bundles = {
         'newadmin/js/app/auth/http.js',
         'newadmin/js/app/auth/ui.js',
         'newadmin/js/angular-indexed-db.js',
-        'js/lib/counter.js'
+        'js/lib/counter.js',
+        output='gen/myapp.min.js'),
 
-    , output='gen/myapp.min.js'),
     'NAcss': Bundle(
         'newadmin/css/main.css',
         'newadmin/css/AdminLTE.css',
@@ -193,6 +194,9 @@ bundles = {
     'metisMenu_js': Bundle('js/lib/metisMenu.js'),
 
     'custom_dash': Bundle('css/custom/sb-admin.css'),
+
+    'qtip_css': Bundle('css/lib/jquery.qtip.min.css'),
+    'qtip_js': Bundle('js/lib/jquery.qtip.min.js'),
 }
 
 assets.register(bundles)
