@@ -1,8 +1,8 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from db import db
+
+__author__ = 'StasEvseev'
 
 
 class Order(db.Model):
@@ -10,11 +10,11 @@ class Order(db.Model):
     Модель заказа
     """
     id = db.Column(db.Integer, primary_key=True)
-    #Заказ с
+    # Заказ с
     date_start = db.Column(db.Date)
-    #Заказ по
+    # Заказ по
     date_end = db.Column(db.Date)
-    #Поставщик
+    # Поставщик
     provider_id = db.Column(db.Integer, db.ForeignKey('provider.id'))
     provider = db.relationship('Provider',
         backref=db.backref('orders', lazy='dynamic'))
@@ -33,27 +33,28 @@ class OrderItem(db.Model):
     number_local = db.Column(db.String(250))
     number_global = db.Column(db.String(250))
 
-    #Название издания
+    # Название издания
     name = db.Column(db.String(250))
-    #Ориент. дата выхода
+    # Ориент. дата выхода
     date = db.Column(db.Date)
-    #Рем%
+    # Рем%
     remission = db.Column(db.DECIMAL)
-    #НДС%
+    # НДС%
     NDS = db.Column(db.DECIMAL)
-    #Заказ клиента
+    # Заказ клиента
     count = db.Column(db.Integer)
 
-    #Пред цена
+    # Пред цена
     price_prev = db.Column(db.DECIMAL)
-    #Пост цена
+    # Пост цена
     price_post = db.Column(db.DECIMAL)
 
-    #Товар в системе
+    # Товар в системе
     good_id = db.Column(db.Integer, db.ForeignKey('good.id'))
-    good = db.relationship('Good', backref=db.backref('orderitem', lazy='dynamic'))
+    good = db.relationship(
+        'Good', backref=db.backref('orderitem', lazy='dynamic'))
 
-    #Заказ
+    # Заказ
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
     order = db.relationship('Order',
         backref=db.backref('items', lazy='dynamic'))

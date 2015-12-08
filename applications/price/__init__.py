@@ -1,11 +1,13 @@
-#coding: utf-8
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from flask import Blueprint
-from applications.price.resource import PriceParishByGood, PriceResource, PriceHelperResource, PriceBulkMailResource, \
-    PriceParishByGood2, PriceBulkInvoiceResource
+from applications.price.resource import PriceParishByGood, PriceResource, \
+    PriceHelperResource, PriceBulkMailResource, PriceParishByGood2, \
+    PriceBulkInvoiceResource
 
 from resources import MyApi
+
+__author__ = 'StasEvseev'
 
 
 blueprint = Blueprint('price_blueprint', __name__)

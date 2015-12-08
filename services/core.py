@@ -1,4 +1,4 @@
-#coding: utf-8
+# coding: utf-8
 
 __author__ = 'StasEvseev'
 
@@ -6,7 +6,6 @@ __author__ = 'StasEvseev'
 class BaseService(object):
     class ServiceException(Exception):
         pass
-    pass
 
 
 class BaseSQLAlchemyModelService(BaseService):

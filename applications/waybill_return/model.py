@@ -1,9 +1,9 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from sqlalchemy_utils import ChoiceType
 from db import db
+
+__author__ = 'StasEvseev'
 
 RETAIL = 1
 GROSS = 2
@@ -32,34 +32,29 @@ class WayBillReturn(db.Model):
     накладная.
     """
     id = db.Column(db.Integer, primary_key=True)
-    #Номер
+    # Номер
     number = db.Column(db.String(250))
-    #Дата накладной
+    # Дата накладной
     date = db.Column(db.Date)
     date_to = db.Column(db.Date)
 
-    # #Торговая точка - откуда пересылают товар
-    # pointsale_from_id = db.Column(db.Integer, db.ForeignKey('point_sale.id'))
-    # pointsale_from = db.relationship('PointSale', foreign_keys='WayBill.pointsale_from_id',
-    #                                  backref=db.backref('from_waybills', lazy='dynamic'))
-
     receiver_id = db.Column(db.Integer, db.ForeignKey('receiver.id'))
-    receiver = db.relationship('Receiver', backref=db.backref('waybillreturns', lazy='dynamic'))
+    receiver = db.relationship(
+        'Receiver', backref=db.backref('waybillreturns', lazy='dynamic'))
 
     pointsale_id = db.Column(db.Integer, db.ForeignKey('point_sale.id'))
-    pointsale = db.relationship('PointSale', backref=db.backref('waybillreturns', lazy='dynamic'))
+    pointsale = db.relationship(
+        'PointSale', backref=db.backref('waybillreturns', lazy='dynamic'))
 
     type = db.Column(ChoiceType(TYPE), default=RETAIL)
 
     typeRec = db.Column(ChoiceType(RecType), default=POINTSALE)
-    #Основание
+    # Основание
     returninst_id = db.Column(db.Integer, db.ForeignKey('return.id'))
-    returninst = db.relationship('Return', backref=db.backref('waybillreturns', lazy='dynamic'))
+    returninst = db.relationship(
+        'Return', backref=db.backref('waybillreturns', lazy='dynamic'))
 
     status = db.Column(ChoiceType(StatusType), default=DRAFT)
-
-    #Файл накладной
-    # file = db.Column(db.String)
 
     @property
     def rec(self):
@@ -69,10 +64,6 @@ class WayBillReturn(db.Model):
             return self.pointsale.name
         else:
             return "Накладная не имеет получателя"
-
-    # @property
-    # def filepath(self):
-    #     return url_for('static', filename='files/' + self.file.split("/")[-1])
 
     def __repr__(self):
         return '<WayBillReturn %r>' % self.number
@@ -84,12 +75,14 @@ class WayBillReturnItems(db.Model):
     """
     id = db.Column(db.Integer, primary_key=True)
 
-    #накладная
+    # накладная
     waybill_id = db.Column(db.Integer, db.ForeignKey('way_bill_return.id'))
-    waybill = db.relationship('WayBillReturn', backref=db.backref('items', lazy='dynamic'))
+    waybill = db.relationship(
+        'WayBillReturn', backref=db.backref('items', lazy='dynamic'))
 
     good_id = db.Column(db.Integer, db.ForeignKey('good.id'))
-    good = db.relationship('Good', backref=db.backref('waybillreturnitems', lazy='dynamic'))
+    good = db.relationship(
+        'Good', backref=db.backref('waybillreturnitems', lazy='dynamic'))
 
     count_plan = db.Column(db.Integer)
 

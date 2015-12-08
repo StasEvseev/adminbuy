@@ -1,15 +1,13 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
-
-import json
+# coding: utf-8
 
 from flask import request
-from flask.ext.restful import fields, marshal_with
+from flask.ext.restful import fields
 
-from resources.core import BaseCanoniseResource, BaseTokeniseResource, BaseInnerCanon
+from resources.core import BaseCanoniseResource, BaseInnerCanon
 from applications.point_sale.service import PointSaleService
 from applications.point_sale.models import PointSale, PointSaleItem
+
+__author__ = 'StasEvseev'
 
 
 class PointSaleCanon(BaseCanoniseResource):
@@ -24,7 +22,8 @@ class PointSaleCanon(BaseCanoniseResource):
 
     multif = {'filter_field': ("name", "address")}
 
-    def filter_query(self, query, filter_field, filter_text, sort_field, sort_course, page, count):
+    def filter_query(self, query, filter_field, filter_text, sort_field,
+                     sort_course, page, count):
         try:
             exclude_points = request.args['exclude_point_id']
         except KeyError:
@@ -43,12 +42,14 @@ class PointSaleCanon(BaseCanoniseResource):
             )
 
         return super(PointSaleCanon, self).filter_query(
-            query, filter_field, filter_text, sort_field, sort_course, page, count)
+            query, filter_field, filter_text, sort_field, sort_course, page,
+            count)
 
     def pre_save(self, obj, data):
         try:
-            point = PointSaleService.point_save(obj=obj, name=obj.name, address=obj.address,
-                                                is_central=obj.is_central)
+            point = PointSaleService.point_save(
+                obj=obj, name=obj.name, address=obj.address,
+                is_central=obj.is_central)
         except PointSaleService.PointSaleServiceException as exc:
             raise BaseCanoniseResource.CanonException(unicode(exc))
         return point
@@ -77,21 +78,3 @@ class PointSaleItemInnerCanon(BaseInnerCanon):
                 'price_gross': fields.Float})
         }),
     }
-
-# class PointSaleItemResource(BaseTokeniseResource):
-#     @marshal_with({'items': fields.List(fields.Nested({
-#         'id': fields.Integer,
-#         'count': fields.Integer(attribute='count'),
-#         'good_id': fields.Integer(attribute='good.id'),
-#         'full_name': fields.String(attribute='good.full_name'),
-#         'price_retail': fields.String(attribute='good.price.price_retail'),
-#         'price_gross': fields.String(attribute='good.price.price_gross'),
-#     }))})
-#     def get(self, point_id):
-#         try:
-#             exclude_items = request.args['exclude_items']
-#             exclude_items = json.loads(exclude_items)['array']
-#         except KeyError:
-#             exclude_items = []
-#
-#         return {'items': PointSaleService.items_pointsale(point_id, exclude_items)}

@@ -1,15 +1,13 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 import os
 import uuid
 
 from flask import request
 from flask.ext.restful import marshal_with, fields, abort
-from applications.good.service import GoodService
 from applications.waybill.constant import GOOD_ATTR, COUNT_ATTR
-from applications.waybill_return.model import WayBillReturn, WayBillReturnItems, RETAIL, FINISH
+from applications.waybill_return.model import WayBillReturn, \
+    WayBillReturnItems, RETAIL, FINISH
 from applications.waybill_return.service import WayBillReturnService
 from config import PATH_TO_GENERATE_INVOICE, PATH_WEB
 from db import db
@@ -17,8 +15,11 @@ from excel.output import PrintInvoice, PATH_TEMPLATE
 
 from log import error, debug, warning
 
-from resources.core import BaseTokeniseResource, BaseCanoniseResource, BaseInnerCanon
+from resources.core import BaseTokeniseResource, BaseCanoniseResource, \
+    BaseInnerCanon
 from services.helperserv import HelperService
+
+__author__ = 'StasEvseev'
 
 
 ITEM = {
@@ -26,8 +27,6 @@ ITEM = {
         'date': fields.String,
         'date_to': fields.String,
         'number': fields.String,
-        # 'pointsale_from_id': fields.Integer,
-        # 'pointsale_from': fields.String(attribute="pointsale_from.name"),
         'receiver_id': fields.Integer,
         'receiver': fields.String(attribute="receiver.fullname"),
         'pointsale_id': fields.Integer,
@@ -84,7 +83,8 @@ class WayBillReturnCanon(BaseCanoniseResource):
             obj.date_to = HelperService.convert_to_pydate(data['date_to'])
         except KeyError as exc:
             error(u"Попытка сохранить накладную без даты. " + unicode(exc))
-            raise WayBillReturnCanon.WayBillCanonException(u"Для сохранения необходим обязательный параметр %s." % 'date')
+            raise WayBillReturnCanon.WayBillCanonException(
+                u"Для сохранения необходим обязательный параметр %s." % 'date')
         try:
             obj.waybill_items = data['items']
         except KeyError as exc:
@@ -100,15 +100,18 @@ class WayBillReturnCanon(BaseCanoniseResource):
         try:
             if not obj.id:
                 waybill = WayBillReturnService.create(
-                    obj.pointsale_id, obj.receiver_id, obj.date, obj.date_to, obj.type, obj.typeRec, obj.returninst_id)
+                    obj.pointsale_id, obj.receiver_id, obj.date, obj.date_to,
+                    obj.type, obj.typeRec, obj.returninst_id)
             else:
                 super(WayBillReturnCanon, self).save_model(obj)
                 waybill = obj
             if obj.waybill_items:
                 try:
-                    items = WayBillReturnService.build_retail_items(obj.waybill_items)
+                    items = WayBillReturnService.build_retail_items(
+                        obj.waybill_items)
                 except Exception as exc:
-                    debug(u"Ошибка сохранения накладной %s. " + unicode(exc) % obj)
+                    debug(u"Ошибка сохранения накладной %s. " + unicode(
+                        exc) % obj)
                     raise WayBillReturnCanon.WayBillCanonException(unicode(exc))
                 WayBillReturnService.upgrade_items(waybill, items)
         except WayBillReturnService.WayBillReturnServiceExc as exc:
@@ -122,7 +125,8 @@ class WayBillReturnCanon(BaseCanoniseResource):
 
     def pre_delete(self, obj):
         if obj.status == FINISH:
-            warning(u"Попытка удалить возвратную накладную в завершенном статусе (%s)." % obj.id)
+            warning(u"Попытка удалить возвратную накладную в завершенном "
+                    u"статусе (%s)." % obj.id)
             raise BaseCanoniseResource.CanonException(
                 u"Нельзя удалять возвратную накладную, в завершенном статусе."
             )
@@ -139,7 +143,8 @@ class WayBillReturnStatusResource(BaseTokeniseResource):
             db.session.commit()
             return inventory
         except Exception as exc:
-            message = u" Не удалось сменить статус `накладной возврата` %s." % id
+            message = u" Не удалось сменить статус `накладной " \
+                      u"возврата` %s." % id
             error(message + unicode(exc))
             abort(400, message=message)
 
@@ -168,8 +173,10 @@ class WayBillReturnPrint(BaseTokeniseResource):
         pi.set_cells(0, 7, [('name', 5), 'count_plan', 'count'])
 
         pi.write(0, 0, 0, [{'number': waybill.number}])
-        pi.write(0, 3, 2, [{'date': waybill.date.strftime('%d.%m.%Y').decode("utf-8"), 'receiver': waybill.rec}])
-        pi.write(0, 4, 0, [{'date_to': waybill.date_to.strftime('%d.%m.%Y').decode("utf-8")}])
+        pi.write(0, 3, 2, [{'date': waybill.date.strftime(
+            '%d.%m.%Y').decode("utf-8"), 'receiver': waybill.rec}])
+        pi.write(0, 4, 0, [{'date_to': waybill.date_to.strftime(
+            '%d.%m.%Y').decode("utf-8")}])
         pi.write(0, 5, 0, [{'type': waybill.type}])
 
         if waybill.type == RETAIL:
@@ -182,6 +189,5 @@ class WayBillReturnPrint(BaseTokeniseResource):
                 {'name': it.good.full_name, 'count_plan': it.count_plan or "",
                  'count': it.count or ""} for it in waybill.items]
             pi.write(0, 7, 2, items)
-        # pi.write(0, 9, 1, [{'a': '', 'b': u'Итог', 'sum': sum(map(lambda x: x['mul'], items))}])
 
         return {"link": path}

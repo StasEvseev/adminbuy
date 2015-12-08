@@ -1,10 +1,10 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from flask.ext.restful import fields
 from applications.seller.model import Seller
 from resources.core import BaseCanoniseResource
+
+__author__ = 'StasEvseev'
 
 
 class SellerResource(BaseCanoniseResource):

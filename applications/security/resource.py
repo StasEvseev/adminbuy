@@ -1,6 +1,4 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from flask.ext.restful import fields
 
@@ -9,6 +7,8 @@ from db import db
 from resources.core import BaseCanoniseResource, BaseTokeniseAdminResource
 from security import user_datastore
 from services.userservice import UserService
+
+__author__ = 'StasEvseev'
 
 
 class RoleCanon(BaseCanoniseResource):
@@ -64,20 +64,23 @@ class UserCanon(BaseCanoniseResource):
         email = data.get('email')
 
         if login is None or email is None:
-            raise UserCanon.UserCanonExc(u"Не заполнены логин или почтовый ящик.")
+            raise UserCanon.UserCanonExc(
+                u"Не заполнены логин или почтовый ящик.")
 
         if not roles:
             raise UserCanon.UserCanonExc(u"Не выбраны роли для пользователя.")
         obj._roles = [x['name'] for x in roles]
 
         if not UserService.check_duplicate(login, email, id):
-            raise UserCanon.UserCanonExc(u"В системе уже есть запись с именем '%s'" % login)
+            raise UserCanon.UserCanonExc(
+                u"В системе уже есть запись с именем '%s'" % login)
         return obj
 
     def save_model(self, obj):
         if obj.id is None:
             return UserService.registration(
-                obj.login, obj.email, obj.password, obj.is_superuser, obj.first_name, obj.last_name, obj._roles)
+                obj.login, obj.email, obj.password, obj.is_superuser,
+                obj.first_name, obj.last_name, obj._roles)
         _roles = [role.name for role in obj.roles]
 
         for rol in list(set(_roles).difference(obj._roles)):

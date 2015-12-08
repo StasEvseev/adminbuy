@@ -1,11 +1,11 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from flask import Blueprint
 from applications.seller.resource import SellerResource
 
 from resources import MyApi
+
+__author__ = 'StasEvseev'
 
 
 blueprint = Blueprint('seller_blueprint', __name__)

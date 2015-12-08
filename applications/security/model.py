@@ -1,12 +1,12 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from flask.ext.security import RoleMixin, UserMixin
 from flask.ext.security.core import _token_loader
 from db import db
 
 from werkzeug.security import check_password_hash
+
+__author__ = 'StasEvseev'
 
 
 roles_users = db.Table('roles_users',
@@ -28,7 +28,9 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120))
     password = db.Column(db.String)
     is_superuser = db.Column(db.Boolean, default=False)
-    roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
+    roles = db.relationship(
+        'Role', secondary=roles_users,
+        backref=db.backref('users', lazy='dynamic'))
     active = db.Column(db.Boolean, default=True)
 
     @property

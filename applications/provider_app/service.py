@@ -1,15 +1,18 @@
-#coding: utf-8
+# coding: utf-8
+
+from applications.provider_app.models import Provider
+from services.core import BaseSQLAlchemyModelService
 
 __author__ = 'StasEvseev'
 
-from applications.provider_app.models import Provider
 
+class ProviderService(BaseSQLAlchemyModelService):
 
-class ProviderService(object):
+    model = Provider
 
-    @classmethod
-    def get_by_id(cls, id):
-        return Provider.query.get(id)
+    # @classmethod
+    # def get_by_id(cls, id):
+    #     return Provider.query.get(id)
 
     @classmethod
     def get_all(cls):
@@ -17,7 +20,8 @@ class ProviderService(object):
 
     @classmethod
     def get_provider_by_email(cls, email):
-        return Provider.query.filter(Provider.emails.like('%'+ email +'%')).one()
+        return Provider.query.filter(
+            Provider.emails.like('%'+ email +'%')).one()
 
     @classmethod
     def get_all_emails(cls):

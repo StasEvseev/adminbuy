@@ -1,8 +1,8 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from db import db
+
+__author__ = 'StasEvseev'
 
 
 class PointSale(db.Model):
@@ -25,10 +25,12 @@ class PointSaleItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     pointsale_id = db.Column(db.Integer, db.ForeignKey('point_sale.id'))
-    pointsale = db.relationship(PointSale, backref=db.backref('items', lazy='dynamic'))
+    pointsale = db.relationship(
+        PointSale, backref=db.backref('items', lazy='dynamic'))
 
-    #Товар в системе
+    # Товар в системе
     good_id = db.Column(db.Integer, db.ForeignKey('good.id'))
-    good = db.relationship('Good', backref=db.backref('pointsaleitems', uselist=False))
+    good = db.relationship(
+        'Good', backref=db.backref('pointsaleitems', uselist=False))
 
     count = db.Column(db.Integer)

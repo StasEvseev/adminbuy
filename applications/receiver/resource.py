@@ -1,12 +1,12 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from flask.ext.restful import marshal_with, fields
 from applications.receiver.model import Receiver
 from applications.receiver.service import ReceiverService
 
 from resources.core import BaseTokeniseResource, BaseCanoniseResource
+
+__author__ = 'StasEvseev'
 
 
 class ReceiverResource(BaseTokeniseResource):

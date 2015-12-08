@@ -1,6 +1,4 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from applications.good.service import GoodArgumentExc
 from db import db
@@ -9,19 +7,23 @@ from log import debug, error
 
 from services.core import BaseSQLAlchemyModelService
 
+__author__ = 'StasEvseev'
+
 
 class ReturnService(BaseSQLAlchemyModelService):
     model = Return
 
     @classmethod
     def create_return(cls, date_start, date_end, provider_id):
-        order = Return(date_start=date_start, date_end=date_end, provider_id=provider_id)
+        order = Return(
+            date_start=date_start, date_end=date_end, provider_id=provider_id)
         db.session.add(order)
         return order
 
     @classmethod
-    def handle_returnitem(cls, full_name, name, number_local, number_global, date, date_to, price_without_NDS,
-                          price_with_NDS, remission, count_delivery, count_rem, return_inst):
+    def handle_returnitem(cls, full_name, name, number_local, number_global,
+                          date, date_to, price_without_NDS, price_with_NDS,
+                          remission, count_delivery, count_rem, return_inst):
         from applications.commodity.service import CommodityService
         from applications.good.service import GoodService
         item = ReturnItem()
@@ -48,9 +50,11 @@ class ReturnService(BaseSQLAlchemyModelService):
             db.session.flush()
 
         try:
-            res, good = GoodService.get_or_create_commodity_numbers(comm.id, number_local, number_global)
+            res, good = GoodService.get_or_create_commodity_numbers(
+                comm.id, number_local, number_global)
         except GoodArgumentExc as exc:
-            error(u"При обработке позиций возврата возникла ошибка. " + unicode(exc))
+            error(u"При обработке позиций возврата возникла ошибка. " + unicode(
+                exc))
             raise
 
         good.commodity = comm
@@ -62,7 +66,8 @@ class ReturnService(BaseSQLAlchemyModelService):
 
     @classmethod
     def status(cls, return_inst, status):
-        debug(u"Смена статуса `возврата` id = '%s' с %s на %s." % (return_inst.id, return_inst.status, StatusType[status]))
+        debug(u"Смена статуса `возврата` id = '%s' с %s на %s." % (
+            return_inst.id, return_inst.status, StatusType[status]))
         old_status = return_inst.status
         return_inst.status = status
         debug(u"Смена статуса `возврата` id = '%s' с %s на %s завершено." % (

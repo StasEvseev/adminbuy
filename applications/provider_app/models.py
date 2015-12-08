@@ -1,8 +1,8 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from db import db
+
+__author__ = 'StasEvseev'
 
 
 class Provider(db.Model):
@@ -10,7 +10,7 @@ class Provider(db.Model):
     Поставщик
     """
     id = db.Column(db.Integer, primary_key=True)
-    #Наименование
+    # Наименование
     name = db.Column(db.String(250))
 
     address = db.Column(db.String(250))

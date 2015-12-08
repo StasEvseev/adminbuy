@@ -1,7 +1,8 @@
-#coding: utf-8
+# coding: utf-8
+
+from db import db
 
 __author__ = 'StasEvseev'
-from db import db
 
 
 class Receiver(db.Model):
@@ -9,7 +10,7 @@ class Receiver(db.Model):
     Получатель.
     """
     id = db.Column(db.Integer, primary_key=True)
-    #Номер
+    # Номер
     fname = db.Column(db.String(250))
     lname = db.Column(db.String(250))
     pname = db.Column(db.String(250))

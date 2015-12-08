@@ -1,8 +1,8 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from db import db
+
+__author__ = 'StasEvseev'
 
 
 class Price(db.Model):
@@ -11,13 +11,15 @@ class Price(db.Model):
     """
     id = db.Column(db.Integer, primary_key=True)
 
-    #Розничная цена
+    # Розничная цена
     price_retail = db.Column(db.DECIMAL)
-    #Оптовая цена
+    # Оптовая цена
     price_gross = db.Column(db.DECIMAL)
 
     def __repr__(self):
-        return '<Price to %r from %s (%s, %s)>' % (self.commodity.name, self.date_from, self.price_retail or "", self.price_gross or "")
+        return '<Price to %r from %s (%s, %s)>' % (
+            self.commodity.name, self.date_from, self.price_retail or "",
+            self.price_gross or "")
 
 
 class PriceParish(db.Model):
@@ -25,8 +27,10 @@ class PriceParish(db.Model):
     Цена прихода
     """
     id = db.Column(db.Integer, primary_key=True)
-    commodity_id = db.Column(db.Integer, db.ForeignKey('commodity.id'), nullable=False)
-    commodity = db.relationship('Commodity', backref=db.backref('priceparish', lazy='dynamic'))
+    commodity_id = db.Column(
+        db.Integer, db.ForeignKey('commodity.id'), nullable=False)
+    commodity = db.relationship(
+        'Commodity', backref=db.backref('priceparish', lazy='dynamic'))
 
     number_local_from = db.Column(db.String(250))
     number_global_from = db.Column(db.String(250))
@@ -34,13 +38,16 @@ class PriceParish(db.Model):
     date_from = db.Column(db.Date)
 
     NDS = db.Column(db.DECIMAL)
-    #Пред цена
+    # Пред цена
     price_prev = db.Column(db.DECIMAL)
-    #Пост цена
+    # Пост цена
     price_post = db.Column(db.DECIMAL, nullable=False)
 
     price_id = db.Column(db.Integer, db.ForeignKey('price.id'), nullable=False)
-    price = db.relationship('Price', backref=db.backref('priceparish', lazy='dynamic'))
-    #Накладная основание
-    invoice_id = db.Column(db.Integer, db.ForeignKey('invoice.id'), nullable=False)
-    invoice = db.relationship('Invoice', backref=db.backref('priceparish', lazy='dynamic'))
+    price = db.relationship(
+        'Price', backref=db.backref('priceparish', lazy='dynamic'))
+    # Накладная основание
+    invoice_id = db.Column(
+        db.Integer, db.ForeignKey('invoice.id'), nullable=False)
+    invoice = db.relationship(
+        'Invoice', backref=db.backref('priceparish', lazy='dynamic'))

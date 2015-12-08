@@ -1,6 +1,4 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 import os
 import uuid
@@ -10,18 +8,19 @@ from flask.ext.restful import marshal_with, fields, reqparse, abort
 from applications.good.service import GoodService
 from applications.waybill.constant import GOOD_ATTR, COUNT_ATTR
 from db import db
-from excel.output import PrintInvoice, PATH_TEMPLATE
 
 from log import error, debug, warning
-from applications.waybill.models import WayBill, WayBillItems, RETAIL, FINISH
+from applications.waybill.models import WayBill, WayBillItems, FINISH
 from applications.waybill.service import WayBillService, WayBillServiceException
 
-from config import PATH_TO_GENERATE_INVOICE, PATH_WEB
+from config import PATH_TO_GENERATE_INVOICE
 
-from resources.core import BaseTokeniseResource, BaseCanoniseResource, BaseInnerCanon
+from resources.core import BaseTokeniseResource, BaseCanoniseResource, \
+    BaseInnerCanon
 
 from services.helperserv import HelperService
-from simple_report.report import SpreadsheetReport
+
+__author__ = 'StasEvseev'
 
 
 ITEM = {
@@ -90,15 +89,12 @@ ITEM_ITEMS = {
 
 def convert_itemitems_to_json(item, type):
     price = GoodService.get_price(item.good_id)
-    # WayBillService.get_items()
-    # PointSaleService
-    # pointitem = PointSaleService.get_item_to_pointsale_good(item.pointsale_from_id, item.good_id)
+
     return {
         'id': item.id,
         'full_name': item.good.full_name,
         'good_id': item.good_id,
         'count_invoice': item.count,
-        # 'count': pointitem.count if pointitem else 0,
         'price': price.price_retail if type == 1 else price.price_gross,
         'price_gross': price.price_gross,
         'price_retail': price.price_retail,
@@ -112,11 +108,14 @@ def convert_item_to_json(item_waybill):
         'date': item_waybill.date,
         'number': item_waybill.number,
         'pointsale_from_id': item_waybill.pointsale_from_id,
-        'pointsale_from': item_waybill.pointsale_from.name if item_waybill.pointsale_from else None,
+        'pointsale_from': item_waybill.pointsale_from.name
+        if item_waybill.pointsale_from else None,
         'receiver_id': item_waybill.receiver_id or None,
-        'receiver': item_waybill.receiver.fullname if item_waybill.receiver else None,
+        'receiver': item_waybill.receiver.fullname
+        if item_waybill.receiver else None,
         'pointsale_id': item_waybill.pointsale_id or None,
-        'pointsale': item_waybill.pointsale.name if item_waybill.pointsale else None,
+        'pointsale': item_waybill.pointsale.name
+        if item_waybill.pointsale else None,
         'point': item_waybill.rec,
         'type': item_waybill.type,
         'type_str': item_waybill.typeS,
@@ -144,12 +143,14 @@ class WayBillHelperResource(BaseTokeniseResource):
         pointsale_id = args['pointsale_id']
         type = args['type']
 
-        count = WayBillService.count_exists(invoice_id, receiver_id, pointsale_id, type)
+        count = WayBillService.count_exists(invoice_id, receiver_id,
+                                            pointsale_id, type)
         if count:
             if count > 1:
                 return {'status': True, 'extra': 'multi'}
             else:
-                waybill = WayBillService.get_by_attr(invoice_id, receiver_id, pointsale_id, type)
+                waybill = WayBillService.get_by_attr(invoice_id, receiver_id,
+                                                     pointsale_id, type)
                 return {'status': True, 'data': waybill, 'extra': 'single'}
         else:
             return {'status': False}
@@ -176,9 +177,11 @@ class WayBillBulk(BaseTokeniseResource):
                 if waybill.waybill_items:
                     debug(u"Сохранение позиций накладной %s." % waybill)
                     try:
-                        waybill_items = WayBillService.build_retail_items(waybill.waybill_items)
+                        waybill_items = WayBillService.build_retail_items(
+                            waybill.waybill_items)
                     except Exception as exc:
-                        debug(u"Ошибка сохранения накладной %s. " + unicode(exc) % waybill)
+                        debug(u"Ошибка сохранения накладной %s. " + unicode(
+                            exc) % waybill)
                         raise WayBillCanon.WayBillCanonException(unicode(exc))
                     WayBillService.upgrade_items(waybill, waybill_items)
         except Exception as exc:
@@ -200,6 +203,7 @@ class WayBillItemInnerCanon(BaseInnerCanon):
 
 class WayBillPrint(BaseTokeniseResource):
     prefix_url_with_id = "/<int:id>"
+
     @marshal_with({
         'link': fields.String
     })
@@ -225,7 +229,8 @@ class WayBillCanon(BaseCanoniseResource):
             obj.date = HelperService.convert_to_pydate(data['date'])
         except KeyError as exc:
             error(u"Попытка сохранить накладную без даты. " + unicode(exc))
-            raise WayBillCanon.WayBillCanonException(u"Для сохранения необходим обязательный параметр %s." % 'date')
+            raise WayBillCanon.WayBillCanonException(
+                u"Для сохранения необходим обязательный параметр %s." % 'date')
         try:
             obj.waybill_items = data['items']
         except KeyError as exc:
@@ -243,9 +248,9 @@ class WayBillCanon(BaseCanoniseResource):
         try:
             if not obj.id:
                 waybill = WayBillService.create(
-                    obj.pointsale_from_id, obj.invoice_id, obj.date, obj.receiver_id, obj.pointsale_id, obj.type,
+                    obj.pointsale_from_id, obj.invoice_id, obj.date,
+                    obj.receiver_id, obj.pointsale_id, obj.type,
                     obj.typeRec, forse=True)
-                # obj = waybill
             else:
                 super(WayBillCanon, self).save_model(obj)
                 waybill = obj
@@ -254,10 +259,12 @@ class WayBillCanon(BaseCanoniseResource):
                 try:
                     items = WayBillService.build_retail_items(obj.waybill_items)
                 except Exception as exc:
-                    debug(u"Ошибка сохранения накладной %s. " + unicode(exc) % obj)
+                    debug(u"Ошибка сохранения накладной %s. " + unicode(
+                        exc) % obj)
                     raise WayBillCanon.WayBillCanonException(unicode(exc))
                 path = url_for('static', filename='files/' + file_name)
-                WayBillService.upgrade_items(waybill, items, path_to_target, path)
+                WayBillService.upgrade_items(
+                    waybill, items, path_to_target, path)
                 waybill.file_load = path
             else:
                 waybill.file_load = waybill.file
@@ -269,7 +276,6 @@ class WayBillCanon(BaseCanoniseResource):
     def put(self):
         obj = super(WayBillCanon, self).put()
         return obj
-        # return {"status": "ok", "path": obj.file_load, "data": obj}
 
     def pre_delete(self, obj):
         if obj.status == FINISH:
@@ -301,4 +307,5 @@ class WayBillItemItemsResource(BaseTokeniseResource):
     @marshal_with({'items': fields.List(fields.Nested(item_items))})
     def get(self, id):
         waybill = WayBillService.get_by_id(id)
-        return {'items': [convert_itemitems_to_json(x, waybill.type) for x in waybill.items]}
+        return {'items': [convert_itemitems_to_json(x, waybill.type) for x in
+                          waybill.items]}

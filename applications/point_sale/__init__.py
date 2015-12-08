@@ -1,11 +1,12 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from flask import Blueprint
 
-from applications.point_sale.resource import PointSaleItemInnerCanon, PointSaleCanon#, PointSaleItemResource
+from applications.point_sale.resource import PointSaleItemInnerCanon, \
+    PointSaleCanon
 from resources import MyApi
+
+__author__ = 'StasEvseev'
 
 
 blueprint = Blueprint('pointsale_blueprint', __name__)

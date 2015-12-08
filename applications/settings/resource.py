@@ -1,6 +1,4 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from flask import request, g
 from flask.ext.restful import fields, marshal_with
@@ -8,6 +6,8 @@ from applications.settings.model import Profile
 from applications.settings.service import SettingsService
 from db import db
 from resources.core import BaseCanoniseResource, BaseTokeniseResource
+
+__author__ = 'StasEvseev'
 
 
 class BaseCanonWithoutId(BaseCanoniseResource):
@@ -19,12 +19,16 @@ class BaseCanonWithoutId(BaseCanoniseResource):
             cls.__name__ + "Item",
             (BaseTokeniseResource, ),
             {
-                "get": marshal_with(cls.attr_json)(self.get.__func__).__get__(self, cls),
-                "post": marshal_with(cls.attr_response_post)(self.post.__func__).__get__(self, cls),
+                "get": marshal_with(cls.attr_json)(self.get.__func__).__get__(
+                    self, cls),
+                "post": marshal_with(cls.attr_response_post)(
+                    self.post.__func__).__get__(self, cls),
             }
         )
 
-        return ((cls.prefix_url_without_id, type1), )
+        return (
+            (cls.prefix_url_without_id, type1),
+        )
 
 
 class ProfileCanon(BaseCanonWithoutId):
@@ -53,4 +57,3 @@ class ProfileCanon(BaseCanonWithoutId):
         db.session.add(profile)
         db.session.commit()
         return profile
-

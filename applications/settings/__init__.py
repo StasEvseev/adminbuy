@@ -1,11 +1,11 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from flask import Blueprint
 
 from applications.settings.resource import ProfileCanon
 from resources import MyApi
+
+__author__ = 'StasEvseev'
 
 
 blueprint = Blueprint('settings_blueprint', __name__)

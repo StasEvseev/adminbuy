@@ -1,11 +1,10 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
-
+# coding: utf-8
 
 from flask import Blueprint
 from resources import MyApi
 from applications.security.resource import UserCanon, RoleCanon
+
+__author__ = 'StasEvseev'
 
 
 blueprint = Blueprint('user_blueprint', __name__)

@@ -1,12 +1,12 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from flask import Blueprint
 
-from applications.waybill_return.resource import WayBillReturnStatusResource, WayBillReturnItemInnerCanon, \
-    WayBillReturnCanon, WayBillReturnPrint
+from applications.waybill_return.resource import WayBillReturnStatusResource, \
+    WayBillReturnItemInnerCanon, WayBillReturnCanon, WayBillReturnPrint
 from resources import MyApi
+
+__author__ = 'StasEvseev'
 
 
 blueprint = Blueprint('waybillreturn_blueprint', __name__)

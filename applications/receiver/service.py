@@ -1,11 +1,13 @@
-#coding: utf-8
+# coding: utf-8
+
+from applications.receiver.model import Receiver
+from services.core import BaseSQLAlchemyModelService
 
 __author__ = 'StasEvseev'
 
-from applications.receiver.model import Receiver
 
-
-class ReceiverService(object):
+class ReceiverService(BaseSQLAlchemyModelService):
+    model = Receiver
 
     @classmethod
     def get_all(cls):

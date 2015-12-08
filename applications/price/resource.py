@@ -1,15 +1,17 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from flask import request
 from flask.ext.restful import abort, marshal_with, fields
 from applications.good.service import GoodService
-from applications.price.service import PriceService, NotFindPriceParishExc, PriceServiceException
+from applications.price.service import PriceService, NotFindPriceParishExc, \
+    PriceServiceException
 from db import db
 from log import debug, error
 from resources.core import BaseTokeniseResource
 from services.mailinvoice import InvoiceService, MailInvoiceService
+
+__author__ = 'StasEvseev'
+
 
 ATTR = {
     'id': fields.Integer,
@@ -143,10 +145,7 @@ class PriceBulkInvoiceResource(BaseTokeniseResource):
         invoice_id = data['invoice_id']
         invoice = InvoiceService.get_by_id(invoice_id)
         try:
-            # MailInvoiceService
             PriceService.create_or_update_prices(invoice, prices)
-            # mail.is_handling = True
-            # db.session.add(mail)
             db.session.commit()
         except PriceServiceException as err:
             debug(unicode(err))
