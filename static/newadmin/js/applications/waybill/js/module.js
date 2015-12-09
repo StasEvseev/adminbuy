@@ -240,7 +240,7 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
             }
         })
 })
-.controller("InvoiceInListController", function ($scope, $stateParams, $state, ngTableParams, waybills, $controller) {
+.controller("InvoiceInListController", function ($scope, $stateParams, $state, ngTableParams, waybills, waybillprint, $controller) {
     $controller('BaseListController', {$scope: $scope});
 
     $scope.goList = function() {
@@ -263,6 +263,20 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
         $state.go("index.invoice_in.bulk");
     };
 
+    $scope.printBulk = function() {
+
+        var ids = _.map(_.filter(_.pairs($scope.checkboxes.items), function(item) {
+            return item[1];
+        }), function(item) {
+            return parseInt(item[0]);
+        });
+
+        waybillprint.printBulk(ids).then(function(resp) {
+            var url = resp.data.link;
+            window.open(url, "_target");
+        })
+    };
+
 
     $scope.checkboxes = { 'checked': false, items: {} };
 
@@ -278,7 +292,7 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
 
     // watch for data checkboxes
     $scope.$watch('checkboxes.items', function(values) {
-        debugger
+        //debugger
         var items = $scope.tableParams.data;
         if (!items) {
             return;

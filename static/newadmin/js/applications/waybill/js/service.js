@@ -37,6 +37,13 @@ angular.module('waybill.service', ['core.service'])
     return {
         print: function(id) {
             return $http.get("/api/waybill/print/" + id);
+        },
+        printBulk: function(ids) {
+            var par = {
+                'ids': JSON.stringify(ids)
+            };
+
+            return $http.get("/api/waybill/print_bulk", {params: par});
         }
     }
 })

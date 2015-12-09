@@ -16,6 +16,7 @@
                     <span>
                         <button class="btn-crt btn-flat btn btn-danger btn-sm" ng-click="create()">Создать</button>
                         <button class="btn-crt btn-flat btn btn-danger btn-sm" ng-click="createBulk()">Создать накладные пачкой</button>
+                        <button class="btn-crt btn-flat btn btn-danger btn-sm" ng-click="printBulk()">Печать накладных пачкой</button>
                     </span>
                 </div>
             </div>
@@ -61,7 +62,7 @@
                                         <!-- TODO!!! style into css -->
                                         <tr ng-repeat="invoice in $data">
                                             <td width="30" header="'ng-table/headers/checkbox.html'">
-                                                <input type="checkbox" ng-model="checkboxes.items[item.id]" />
+                                                <input type="checkbox" ng-model="checkboxes.items[invoice.id]" />
                                             </td>
                                             <td style="cursor:pointer;" ng-click="detail(invoice.id)" data-title="'Дата'" sortable="'date'">
                                                 [[ invoice.date | date:'d MMM y' ]]

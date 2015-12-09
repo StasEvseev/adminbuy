@@ -1,5 +1,5 @@
 # coding: utf-8
-
+import json
 import os
 import uuid
 
@@ -212,6 +212,20 @@ class WayBillPrint(BaseTokeniseResource):
         path = WayBillService.report(id)
 
         return {"link": path}
+
+
+parser = reqparse.RequestParser()
+parser.add_argument('ids')
+
+
+class WayBillPrintBulk(BaseTokeniseResource):
+    def get(self):
+
+        args = parser.parse_args()
+        ids = json.loads(args['ids'])
+        path = WayBillService.report_multi(ids)
+
+        return {'link': path}
 
 
 class WayBillCanon(BaseCanoniseResource):

@@ -28,7 +28,31 @@ class WayBillService(object):
 
     @classmethod
     def report_multi(cls, ids):
-        raise NotImplemented
+        import uuid
+        import os
+        from config import PATH_TO_GENERATE_INVOICE, PATH_WEB
+        from excel.output import PATH_TEMPLATE
+        from applications.good.service import GoodService
+        # waybill = WayBillService.get_by_id(id)
+        file_name = str(uuid.uuid4()) + ".xlsx"
+        path_to_target = os.path.join(PATH_TO_GENERATE_INVOICE, file_name)
+        path = os.path.join(PATH_WEB, file_name)
+
+        report = SpreadsheetReport(os.path.join(
+            PATH_TEMPLATE, 'print_invoice_bulk.xlsx'))
+
+        sec = report.get_section("sec_short")
+
+        sec_data = {}
+
+        for i in xrange(5):
+
+
+            sec.flush(sec_data)
+
+        report.build(path_to_target)
+
+        return path
 
     @classmethod
     def report(cls, id):
