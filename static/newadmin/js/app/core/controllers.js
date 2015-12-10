@@ -130,7 +130,7 @@ angular.module("core.controllers", ['ui.router', 'form', 'ngTable'])
                 var orig_page_func = params.page;
                 params.page = function (arg) {
                     if (angular.isDefined(arg)) {
-                        $state.go($scope.goList(), {filter: $scope.searchText, page: arg})
+                        $scope.checkPage(arg);
                     } else {
                         return orig_page_func();
                     }
@@ -145,7 +145,12 @@ angular.module("core.controllers", ['ui.router', 'form', 'ngTable'])
                         $scope.loadingFinish = true;
                     });
             }
-        });
+        }
+    );
+
+    $scope.checkPage = function(arg) {
+        $state.go($scope.goList(), {filter: $scope.searchText, page: arg});
+    };
 
     $scope.detail = function (id) {
         $scope.loadingFinish = false;

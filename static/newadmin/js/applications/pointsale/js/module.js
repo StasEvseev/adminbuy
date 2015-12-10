@@ -72,7 +72,7 @@ angular.module('pointsales.module', ['ui.router', 'ui.bootstrap', 'core.service'
             }
         })
         .state('index.pointsale.view', {
-            url: "/:id",
+            url: "/:id?tab&filter&page",
             views: {
                 'content@index': {
                     templateUrl: "static/newadmin/js/applications/pointsale/template/view.html",
@@ -127,6 +127,10 @@ angular.module('pointsales.module', ['ui.router', 'ui.bootstrap', 'core.service'
         var serv  = pointsalesgoods;
         serv.setPointId(id);
         return serv;
+    };
+
+    $scopeGood.checkPage = function(page) {
+        $state.go('index.pointsale.view', {filter: $scopeGood.searchText, page: page, tab: 1})
     };
 
     $scope.$scopeGood = $scopeGood;
