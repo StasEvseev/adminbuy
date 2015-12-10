@@ -36,21 +36,18 @@ class WayBillService(object):
 
         COUNT_ROW = 42
         COUNT_ROW2 = 91
-        # waybill = WayBillService.get_by_id(id)
         file_name = str(uuid.uuid4()) + ".xlsx"
         path_to_target = os.path.join(PATH_TO_GENERATE_INVOICE, file_name)
         path = os.path.join(PATH_WEB, file_name)
 
         report = SpreadsheetReport(os.path.join(
-            PATH_TEMPLATE, 'print_invoice_bulk.xlsx'))
+            PATH_TEMPLATE, 'print_invoice2.xlsx'))
 
         for id in ids:
-            is_short = True
-            waybill = WayBillService.get_by_id(id)
 
+            waybill = WayBillService.get_by_id(id)
             sec_sub = report.get_section("sec1")
             sec_items = report.get_section("secitem")
-
             sec_data = {}
             sec_data['number'] = waybill.number
             sec_data['date'] = waybill.date.strftime('%d.%m.%Y').decode("utf-8")
@@ -58,7 +55,6 @@ class WayBillService(object):
             sec_data['typeInv'] = waybill.type
             sec_data['rec'] = waybill.rec
             sec_sub.flush(sec_data)
-
             if waybill.type == RETAIL:
 
                 for it in waybill.items:
@@ -73,7 +69,6 @@ class WayBillService(object):
                         sec_items.flush({'name': '', 'count': '',
                                          'price_pay': '', 'mul': ''})
                 elif waybill.items.count() <= COUNT_ROW2:
-                    is_short = False
                     for i in xrange(COUNT_ROW2 - waybill.items.count()):
                         sec_items.flush({'name': '', 'count': '',
                                          'price_pay': '', 'mul': ''})
@@ -90,14 +85,9 @@ class WayBillService(object):
                         sec_items.flush({'name': '', 'count': '',
                                          'price_pay': '', 'mul': ''})
                 elif waybill.items.count() <= COUNT_ROW2:
-                    is_short = False
                     for i in xrange(COUNT_ROW2 - waybill.items.count()):
                         sec_items.flush({'name': '', 'count': '',
                                          'price_pay': '', 'mul': ''})
-            sec_name = "sec_short" if is_short else "sec_long"
-            sec = report.get_section(sec_name)
-
-            sec.flush({})
 
         report.build(path_to_target)
 
@@ -105,70 +95,8 @@ class WayBillService(object):
 
     @classmethod
     def report(cls, id):
-        import uuid
-        import os
-        from config import PATH_TO_GENERATE_INVOICE, PATH_WEB
-        from excel.output import PATH_TEMPLATE
-        from applications.good.service import GoodService
 
-        COUNT_ROW = 42
-        COUNT_ROW2 = 91
-
-        waybill = WayBillService.get_by_id(id)
-        file_name = str(uuid.uuid4()) + ".xlsx"
-        path_to_target = os.path.join(PATH_TO_GENERATE_INVOICE, file_name)
-        path = os.path.join(PATH_WEB, file_name)
-
-        report = SpreadsheetReport(os.path.join(
-            PATH_TEMPLATE, 'print_invoice2.xlsx'))
-        sec = report.get_section("sec1")
-        sec_items = report.get_section("secitem")
-
-        sec_data = {}
-        sec_data['number'] = waybill.number
-        sec_data['date'] = waybill.date.strftime('%d.%m.%Y').decode("utf-8")
-        sec_data['point'] = waybill.pointsale_from.name
-        sec_data['typeInv'] = waybill.type
-        sec_data['rec'] = waybill.rec
-        sec.flush(sec_data)
-
-        if waybill.type == RETAIL:
-
-            for it in waybill.items:
-                sec_items_data = {
-                    'name': it.good.full_name, 'count': it.count or "",
-                    'price_pay': GoodService.get_price(it.good_id).price_retail,
-                    'mul': it.count * GoodService.get_price(
-                        it.good_id).price_retail if it.count else ''}
-                sec_items.flush(sec_items_data)
-            if waybill.items.count() <= COUNT_ROW:
-                for i in xrange(COUNT_ROW - waybill.items.count()):
-                    sec_items.flush({'name': '', 'count': '',
-                                     'price_pay': '', 'mul': ''})
-            elif waybill.items.count() <= COUNT_ROW2:
-                for i in xrange(COUNT_ROW2 - waybill.items.count()):
-                    sec_items.flush({'name': '', 'count': '',
-                                     'price_pay': '', 'mul': ''})
-        else:
-            for it in waybill.items:
-                sec_items_data = {'name': it.good.full_name,
-                                  'count': it.count or "",
-                 'price_pay': GoodService.get_price(it.good_id).price_gross,
-                 'mul': it.count * GoodService.get_price(
-                     it.good_id).price_gross if it.count else ''}
-                sec_items.flush(sec_items_data)
-            if waybill.items.count() <= COUNT_ROW:
-                for i in xrange(COUNT_ROW - waybill.items.count()):
-                    sec_items.flush({'name': '', 'count': '',
-                                     'price_pay': '', 'mul': ''})
-            elif waybill.items.count() <= COUNT_ROW2:
-                for i in xrange(COUNT_ROW2 - waybill.items.count()):
-                    sec_items.flush({'name': '', 'count': '',
-                                     'price_pay': '', 'mul': ''})
-
-        report.build(path_to_target)
-
-        return path
+        return cls.report_multi([id])
 
     @classmethod
     def check_count(cls, invoice_id, good_id, count, waybill_id):
