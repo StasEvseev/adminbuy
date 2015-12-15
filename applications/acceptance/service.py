@@ -21,7 +21,7 @@ class AcceptanceException(BaseSQLAlchemyModelService.ServiceException):
     pass
 
 
-class AcceptanceService(object):
+class AcceptanceService(BaseSQLAlchemyModelService):
 
     model = Acceptance
 
@@ -53,7 +53,8 @@ class AcceptanceService(object):
                     u"указать как минимум одну накладную.")
             if type == NEW and not ModelService.check_id(provider_id):
                 raise AcceptanceException(
-                    u"При выбранном типе 'Новая' необходимо указать поставщика.")
+                    u"При выбранном типе 'Новая' необходимо указать "
+                    u"поставщика.")
             if type == MAIL:
                 acceptance.provider_id = None
 
@@ -77,10 +78,6 @@ class AcceptanceService(object):
     @classmethod
     def get_all(cls):
         return Acceptance.query.all()
-
-    @classmethod
-    def get_by_id(cls, id):
-        return Acceptance.query.get(id)
 
     @classmethod
     def get_item(cls, id):

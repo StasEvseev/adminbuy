@@ -102,3 +102,8 @@ class AcceptanceItems(db.Model):
 
     def __repr__(self):
         return '<AcceptanceItems %r>' % self.good.full_name or ''
+
+    # TO FRONTEND
+    @property
+    def fact_count_front(self):
+        return self.fact_count or self.count

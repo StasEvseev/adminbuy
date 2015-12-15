@@ -5,7 +5,10 @@ from flask import request
 from flask.ext.restful import fields
 import sqlalchemy
 from sqlalchemy import asc
+from sqlalchemy.orm import joinedload
+
 from applications.acceptance.model import Acceptance
+from log import error
 from models.invoice import Invoice
 from models.invoiceitem import InvoiceItem
 from resources.core import BaseCanoniseResource, BaseInnerCanon
@@ -70,18 +73,22 @@ class InvoiceItemInnerCanon(BaseInnerCanon):
     attr_json = ATTR_ITEMS
 
     def query_initial(self, inner_id, **kwargs):
-        query = super(InvoiceItemInnerCanon, self).query_initial(
-            inner_id, **kwargs)
+        try:
+            queryset = self.model.query.options(
+                joinedload('good').joinedload('price'))
+            queryset = queryset.filter_by(invoice_id=inner_id)
 
-        if "exclude_good_id" in request.values:
-            # фильтруем товары для исключения дубляжей
-            exc_good_id = request.values.get("exclude_good_id")
-            exc_good_id = json.loads(exc_good_id)
-            query = query.filter(
-                ~InvoiceItem.good_id.in_(exc_good_id)
-            )
-
-        return query.order_by(asc(InvoiceItem.id))
+            if "exclude_good_id" in request.values:
+                # фильтруем товары для исключения дубляжей
+                exc_good_id = request.values.get("exclude_good_id")
+                exc_good_id = json.loads(exc_good_id)
+                queryset = queryset.filter(
+                    ~InvoiceItem.good_id.in_(exc_good_id)
+                )
+            return queryset.order_by(asc(InvoiceItem.id))
+        except Exception as exc:
+            error(u"Ошибка в инициализации запроса. " + unicode(exc))
+            raise exc
 
 
 class InvoiceItemAcceptanceInnerCanon(BaseInnerCanon):

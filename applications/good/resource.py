@@ -3,6 +3,7 @@
 import os
 import uuid
 from flask.ext.restful import fields, abort
+from sqlalchemy.orm import joinedload
 
 from applications.good.model import Good
 from applications.good.service import GoodService, GoodServiceException
@@ -85,6 +86,15 @@ class GoodResourceCanon(BaseCanoniseResource):
         except GoodServiceException as err:
             abort(404, message=unicode(err))
         return good
+
+    def query_initial(self, ids=None, *args, **kwargs):
+        queryset = super(GoodResourceCanon, self).query_initial(
+            ids, *args, **kwargs)
+
+        queryset = queryset.options(
+            joinedload('price'), joinedload('commodity'))
+
+        return queryset
 
 
 def createBarCodes(path, barcode_value):
