@@ -1,12 +1,12 @@
 # coding: utf-8
 
 from flask.ext.restful import marshal_with, fields
+from sqlalchemy.orm import joinedload
 
 from resources import Date
 from resources.core import BaseTokeniseResource, BaseCanoniseResource, \
     BaseInnerCanon, BaseStatusResource
-from log import warning, debug
-
+from log import warning, debug, error
 from applications.acceptance.model import Acceptance, AcceptanceItems, MAIL, \
     NEW, IN_PROG, VALIDATED
 from applications.acceptance.service import AcceptanceService, \
@@ -57,6 +57,15 @@ class AcceptanceItemInnerCanon(BaseInnerCanon):
     }
 
     default_sort = 'asc', 'id'
+
+    def query_initial(self, inner_id, **kwargs):
+        try:
+            queryset = self.model.query.options(
+                joinedload(AcceptanceItems.good))
+            return queryset.filter_by(acceptance_id=inner_id)
+        except Exception as exc:
+            error(u"Ошибка в инициализации запроса. " + unicode(exc))
+            raise exc
 
 
 class AcceptanceCanon(BaseCanoniseResource):

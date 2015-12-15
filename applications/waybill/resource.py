@@ -5,6 +5,8 @@ import uuid
 
 from flask import url_for, request
 from flask.ext.restful import marshal_with, fields, reqparse, abort
+from sqlalchemy.orm import joinedload
+
 from applications.good.service import GoodService
 from applications.waybill.constant import GOOD_ATTR, COUNT_ATTR
 from db import db
@@ -199,6 +201,15 @@ class WayBillItemInnerCanon(BaseInnerCanon):
     attr_json = ITEM_ITEMS
 
     default_sort = "asc", "id"
+
+    def query_initial(self, inner_id, **kwargs):
+        try:
+            queryset = self.model.query.options(
+                joinedload('good').joinedload('price'))
+            return queryset.filter_by(waybill_id=inner_id)
+        except Exception as exc:
+            error(u"Ошибка в инициализации запроса. " + unicode(exc))
+            raise exc
 
 
 class WayBillPrint(BaseTokeniseResource):

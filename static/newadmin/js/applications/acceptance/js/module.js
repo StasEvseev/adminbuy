@@ -1,11 +1,3 @@
-/**
- * Created by user on 02.09.15.
- */
-
-/**
- * Created by user on 14.08.15.
- */
-
 angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).constant('AcceptanceConfig', {
     name: "Приемки",
     formname: "AcceptanceForm"
@@ -139,13 +131,52 @@ angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).
     };
 })
 
-.controller("AcceptanceEditCntr", function($scope, $compile, $controller, $state, $q, goods, item, items, acceptances, AcceptanceConfig) {
+.controller("AcceptanceEditCntr", function($scope, $compile, $controller, $state, $q, goods, item,
+                                           items, acceptances, AcceptanceConfig) {
     $controller('BaseCreateController', {$scope: $scope});
 
     $scope.name_head = AcceptanceConfig.name;
     $scope.formname =  AcceptanceConfig.formname;
 
-    $scope.tooltipDynamicContent = function(id) {
+    $scope.loadingFinish = true;
+
+    $scope.item = angular.copy(item);
+    $scope.model = $scope.item;
+    $scope.model.items = angular.copy(items);
+
+    $scope.tableEditEnabled = $scope.model.status == 2;
+    $scope.formEditEnabled = !(!$scope.model.status || $scope.model.status == 1);
+
+    $scope.dynamicContent = tooltipDynamicContent;
+
+    $scope.goView = function() {
+        return "index.acceptance.view";
+    };
+
+    $scope._goCancel = function() {
+        $state.go("index.acceptance.view", {mailId: $scope.item.id});
+    };
+
+    $scope.save = function() {
+        $scope.loadingFinish = false;
+
+        acceptances.update($scope.model.id, $scope.model).then(function() {
+
+            //debugger
+
+            $state.go("index.acceptance.view", {mailId: $scope.model.id}, {reload: 'index.acceptance.view'}).then(function() {
+                $scope.loadingFinish = true;
+            });
+
+        }, function(resp) {
+
+            //debugger
+            toastr.error(resp.data.message, "Цены не сохранены!");
+            $scope.loadingFinish = true;
+        });
+    };
+
+    function tooltipDynamicContent(id) {
         return function(event, api) {
             goods.getById(id).then(function(data) {
 
@@ -166,40 +197,11 @@ angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).
             });
             return "Loading...";
         };
-    };
-
-    $scope.dynamicContent = $scope.tooltipDynamicContent;
-
-    $scope.goView = function() {
-        return "index.acceptance.view";
-    };
-
-    $scope.model = item;
-    $scope.model.items = items;
-
-    $scope.loadingFinish = true;
-
-    $scope._goCancel = function() {
-        $state.go("index.acceptance.view", {mailId: $scope.item.id});
-    };
-
-    $scope.save = function() {
-        $scope.loadingFinish = false;
-
-        invoices.savePriceFromInvoice($scope.model.id, $scope.model.items).then(function() {
-
-            $state.go("index.acceptance.view", {mailId: $scope.model.id}, {reload: 'index.acceptance.view'}).then(function() {
-                $scope.loadingFinish = true;
-            });
-
-        }, function(resp) {
-            toastr.error(resp.data.message, "Цены не сохранены!");
-            $scope.loadingFinish = true;
-        });
-    };
+    }
 })
 
-.controller("AcceptanceViewCntr", function($scope, $stateParams, $state, acceptancestatus, AcceptanceConfig, invoices, item, items) {
+.controller("AcceptanceViewCntr", function($scope, $stateParams, $state, acceptancestatus,
+                                           AcceptanceConfig, invoices, item, items) {
     $scope.name_head = AcceptanceConfig.name;
 
     $scope.loadingFinish = true;
