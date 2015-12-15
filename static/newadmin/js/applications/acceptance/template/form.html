@@ -9,7 +9,7 @@
 
                     <div class="input-group">
 
-                        <div ng-click="config_datepicker.open($event)" class="input-group-addon">
+                        <div ng-click="config_datepicker.open($event, fTableEditEnabled)" class="input-group-addon">
                             <i class="fa fa-calendar"></i>
                         </div>
 
@@ -23,7 +23,7 @@
                                datepicker-options="config_datepicker.dateOptions"
                                date-disabled="config_datepicker.disabled(date, mode)"
                                ng-required="true"
-                               ng-disabled="editForm"
+                               ng-disabled="tableEditEnabled"
                                close-text="Закрыть" />
                     </div>
                 </div>
@@ -36,11 +36,11 @@
 
                     <div id="typeRec">
                         <label>
-                            <input ng-disabled="editForm" type="radio" ng-model="model.type" value="1" name="r3" />
+                            <input ng-disabled="tableEditEnabled" type="radio" ng-model="model.type" value="1" name="r3" />
                             Регулярные накладные
                         </label><br/>
                         <label>
-                            <input ng-disabled="editForm" type="radio" ng-model="model.type" value="2" name="r3" />
+                            <input ng-disabled="tableEditEnabled" type="radio" ng-model="model.type" value="2" name="r3" />
                             Приемка без накладной
                         </label>
                     </div>
@@ -63,7 +63,7 @@
                             style="width: 100%"
                             dng-required="true"
                             dname="pointsale"
-                            dng-disabled="editForm"
+                            dng-disabled="tableEditEnabled"
                             >
                         <dict-select-field-match placeholder="Введите название...">[[$select.selected.name]]</dict-select-field-match>
                         <dict-select-field-choices repeat="item in $items | propsFilter: {name: $select.search}">
@@ -88,6 +88,7 @@
                             dname="invoices"
                             style="width: 100%"
                             can-edit="false"
+                            dng-disabled="tableEditEnabled"
                             dng-required='model.type == 1'
                             can-create="false">
                         <dict-select-field-match placeholder="Введите имя...">

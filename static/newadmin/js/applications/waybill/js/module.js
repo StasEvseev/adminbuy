@@ -1,15 +1,10 @@
-/**
- * Created by user on 29.07.15.
- */
-
 angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.service'])
+
 .run(function($templateCache, $http) {
     $templateCache.put('InvoiceInForm', $http.get("static/newadmin/js/applications/waybill/template/form_.html"));
-})
 
-.run(function($templateCache, $http) {
-        $templateCache.put("InvoiceSelectGood", $http.get("static/newadmin/js/applications/waybill/template/selectgood.html"));
-    })
+    $templateCache.put("InvoiceSelectGood", $http.get("static/newadmin/js/applications/waybill/template/selectgood.html"));
+})
 
 .config(function($stateProvider) {
     $stateProvider.state('index.invoice_in', {
@@ -156,11 +151,10 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
                                 $scope.model.items = $scope.model.items.concat(items);
                             }, function () {
                             });
+                        }
                     }
                 }
-            }
-        }
-        ,
+            },
             resolve: {
                 frompointsale: function(pointsales, $stateParams) {
                     if($stateParams.from_pointsale_id) {
@@ -177,11 +171,12 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
                         return invoice_canon_items.all($stateParams.invoice_from).then(function(resp) {return resp.items;});
                     }
                 }
-            }})
+            }
+        })
+
         .state('index.invoice_in.list', {
             url: "?filter&page",
             views: {
-
                 'content@index': {
                     templateUrl: "static/newadmin/js/applications/waybill/template/list_.html",
                     controller: "InvoiceInListController"
@@ -376,7 +371,8 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
     }
 })
 
-.controller('InvoiceInCreateCntr', function ($scope, $state, Form, waybills, pointsales, receivers, Company, $controller, $q, PointService, ReceiverService) {
+.controller('InvoiceInCreateCntr', function ($scope, $state, Form, waybills, pointsales, receivers,
+                                             Company, $controller, $q, PointService, ReceiverService) {
     $controller('BaseCreateController', {$scope: $scope});
 
     $scope.model.typeRec = 1;

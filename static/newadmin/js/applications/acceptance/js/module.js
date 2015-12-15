@@ -16,6 +16,7 @@ angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).
             abstract: true,
             url: '/acceptance'
         })
+
         .state('index.acceptance.list', {
             url: "?filter&page",
             views: {
@@ -25,6 +26,7 @@ angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).
                 }
             }
         })
+
         .state('index.acceptance.create', {
             url: '/create',
             views: {
@@ -44,8 +46,8 @@ angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).
                     }
                 }
             }
-
         })
+
         .state('index.acceptance.view', {
             url: "/:id",
             views: {
@@ -63,6 +65,7 @@ angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).
                 }
             }
         })
+
         .state('index.acceptance.view.edit', {
             url: "/edit",
             views: {
@@ -72,10 +75,15 @@ angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).
                 }
             },
             resolve: {
-                //items: function(acceptances, $stateParams) {
-                //    return [];
-                //    //return acceptances.getRowInvoiceIn(parseInt($stateParams.id));
-                //}
+                topointsale: function (pointsales, $stateParams) {
+                    if ($stateParams.to_pointsale_id) {
+                        return pointsales.getByIds($stateParams.to_pointsale_id).then(function (resp) {
+                            return resp.items;
+                        });
+                    } else {
+                        return pointsales.getCentralPoint();
+                    }
+                }
             }
         })
 })
@@ -101,8 +109,8 @@ angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).
     };
 })
 
-.controller("AcceptanceCreateCntr", function($scope, $controller, acceptances, AcceptanceConfig, ConfigWidgets, PointService,
-                                             ProviderService, InvoiceService, topointsale) {
+.controller("AcceptanceCreateCntr", function($scope, $controller, acceptances, AcceptanceConfig, ConfigWidgets,
+                                             PointService, ProviderService, InvoiceService, topointsale) {
     $controller('BaseCreateController', {$scope: $scope});
     $scope.name_head = AcceptanceConfig.name;
 
@@ -132,8 +140,8 @@ angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).
 })
 
 .controller("AcceptanceEditCntr", function($scope, $compile, $controller, $state, $q, goods, item,
-                                           items, acceptances, AcceptanceConfig) {
-    $controller('BaseCreateController', {$scope: $scope});
+                                           items, acceptances, AcceptanceConfig, topointsale) {
+    $controller('AcceptanceCreateCntr', {$scope: $scope, topointsale: topointsale});
 
     $scope.name_head = AcceptanceConfig.name;
     $scope.formname =  AcceptanceConfig.formname;
@@ -146,6 +154,10 @@ angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).
 
     $scope.tableEditEnabled = $scope.model.status == 2;
     $scope.formEditEnabled = !(!$scope.model.status || $scope.model.status == 1);
+
+    $scope.fTableEditEnabled = function() {
+        return $scope.tableEditEnabled;
+    };
 
     $scope.dynamicContent = tooltipDynamicContent;
 
@@ -162,17 +174,15 @@ angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).
 
         acceptances.update($scope.model.id, $scope.model).then(function() {
 
-            //debugger
-
             $state.go("index.acceptance.view", {mailId: $scope.model.id}, {reload: 'index.acceptance.view'}).then(function() {
                 $scope.loadingFinish = true;
             });
 
         }, function(resp) {
 
-            //debugger
             toastr.error(resp.data.message, "Цены не сохранены!");
             $scope.loadingFinish = true;
+
         });
     };
 
