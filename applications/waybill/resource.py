@@ -311,6 +311,13 @@ class WayBillCanon(BaseCanoniseResource):
             obj.items.delete()
             super(WayBillCanon, self).pre_delete(obj)
 
+    def query_initial(self, ids=None, *args, **kwargs):
+        queryset = super(WayBillCanon, self).query_initial(ids, *args, **kwargs)
+
+        queryset = queryset.options(joinedload('pointsale'))
+
+        return queryset
+
 
 class WayBillStatusResource(BaseTokeniseResource):
     @marshal_with(ITEM)
