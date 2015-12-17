@@ -169,21 +169,8 @@ angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).
         $state.go("index.acceptance.view", {mailId: $scope.item.id});
     };
 
-    $scope.save = function() {
-        $scope.loadingFinish = false;
-
-        acceptances.update($scope.model.id, $scope.model).then(function() {
-
-            $state.go("index.acceptance.view", {mailId: $scope.model.id}, {reload: 'index.acceptance.view'}).then(function() {
-                $scope.loadingFinish = true;
-            });
-
-        }, function(resp) {
-
-            toastr.error(resp.data.message, "Цены не сохранены!");
-            $scope.loadingFinish = true;
-
-        });
+    $scope.saveToServer = function() {
+        return acceptances.update($scope.model.id, $scope.model);
     };
 
     function tooltipDynamicContent(id) {

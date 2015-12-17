@@ -31,7 +31,7 @@ class AcceptanceService(BaseSQLAlchemyModelService):
         from services.mailinvoice import InvoiceService
         from services.helperserv import HelperService
         from services.modelhelper import ModelService
-        if acceptance.id is None:
+        if acceptance.id is None or acceptance.status == DRAFT:
             if date is None:
                 raise AcceptanceException(
                     u"Поле дата - обязательно для заполнения.")
@@ -58,12 +58,12 @@ class AcceptanceService(BaseSQLAlchemyModelService):
             if type == MAIL:
                 acceptance.provider_id = None
 
+                acceptance.invoices[:] = []
+
                 for invoice_id in invoices:
                     invoice = InvoiceService.get_by_id(invoice_id)
                     acceptance.invoices.append(invoice)
 
-        elif date is not None:
-            acceptance.date = HelperService.convert_to_pydate(date)
         return acceptance
 
     @classmethod

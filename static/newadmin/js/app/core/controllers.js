@@ -45,7 +45,7 @@ angular.module("core.controllers", ['ui.router', 'form', 'ngTable'])
                 Form.updateView();
                 $scope.loadingFinish = true;
                 if(angular.isUndefined($scope._goAfterSave)) {
-                    $state.go($scope.goView(), {id: resp.data.id});
+                    $state.go($scope.goView(), {id: resp.data.id}, {reload: $scope.goView()});
                 } else {
                     $scope._goAfterSave(resp.data.id);
                 }
