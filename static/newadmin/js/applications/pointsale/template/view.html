@@ -83,8 +83,8 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div id="example1_filter" class="dataTables_filter">
-                                        <form ng-submit="filter(searchText)"><label>Поиск:<input type="search"
-                                                                                                 ng-model="searchText"
+                                        <form ng-submit="$scopeGood.filter($scopeGood.searchText)"><label>Поиск:<input type="search"
+                                                                                                 ng-model="$scopeGood.searchText"
                                                                                                             class="form-control input-sm"
                                                                                                             placeholder=""
                                                                                                             aria-controls="example1"></label></form>
@@ -98,18 +98,15 @@
                                            aria-describedby="example1_info" template-pagination="custom/pager">
                                         <!-- TODO!!! style into css -->
                                         <tr style="cursor:pointer;" ng-click="detail(item.id)" ng-repeat="item in $data">
-                                            <td data-title="'Наименование'" sortable="'full_name'">
+                                            <td data-title="'Товар'" sortable="'full_name'">
                                                 [[ item.full_name ]]
                                             </td>
-                                            <td data-title="'Номер годовой'" sortable="'number_local'">
-                                                [[ item.number_local ]]
+                                            <td data-title="'Кол-во'" sortable="'number_local'">
+                                                [[ item.count ]]
                                             </td>
 
-                                            <td data-title="'Номер общий'" sortable="'number_global'">
-                                                [[ item.number_global ]]
-                                            </td>
-                                            <td data-title="'Штрих код'" sortable="'barcode'">
-                                                [[ item.barcode ]]
+                                            <td data-title="'Цена'" sortable="'number_global'">
+                                                [[ item.price_retail ]]
                                             </td>
                                         </tr>
                                     </table>

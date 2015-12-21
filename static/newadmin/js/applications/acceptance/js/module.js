@@ -155,6 +155,12 @@ angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).
     $scope.tableEditEnabled = $scope.model.status == 2;
     $scope.formEditEnabled = !(!$scope.model.status || $scope.model.status == 1);
 
+    $scope.clearDefault = function() {
+        angular.forEach($scope.model.items, function(item) {
+            item.fact_count = '';
+        });
+    };
+
     $scope.fTableEditEnabled = function() {
         return $scope.tableEditEnabled;
     };

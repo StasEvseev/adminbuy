@@ -130,7 +130,11 @@ angular.module('pointsales.module', ['ui.router', 'ui.bootstrap', 'core.service'
     };
 
     $scopeGood.checkPage = function(page) {
-        $state.go('index.pointsale.view', {filter: $scopeGood.searchText, page: page, tab: 1})
+        $state.go('index.pointsale.view', {filter: $scopeGood.searchText, page: page, tab: 1});
+    };
+
+    $scopeGood.filter = function() {
+        $state.go('index.pointsale.view', {filter: $scopeGood.searchText, page: 1, tab: 1})
     };
 
     $scope.$scopeGood = $scopeGood;

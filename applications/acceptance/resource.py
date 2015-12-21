@@ -53,7 +53,8 @@ class AcceptanceItemInnerCanon(BaseInnerCanon):
             'id': fields.Integer
         }),
         'count': fields.Integer,
-        'fact_count': fields.String(attribute='fact_count_front')
+        'fact_count': fields.String,
+        'fact_count_default': fields.String(attribute='fact_count_front')
     }
 
     default_sort = 'asc', 'id'

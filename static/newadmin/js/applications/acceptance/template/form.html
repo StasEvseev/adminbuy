@@ -154,7 +154,9 @@
                 </td>
                 <td>[[row.count]]</td>
                 <td>
-                    <input ng-model="row.fact_count" />
+                    <input ng-model="row.fact_count" ng-init="row.fact_count=row.fact_count_default" />
+
+                    <span ng-show="$index==0"><button ng-click="clearDefault()">Очистить все</button></span>
                 </td>
             </tr>
             </tbody>
