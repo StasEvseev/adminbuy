@@ -12,7 +12,7 @@ angular.module('invoice.module', ['core.controllers', 'pointsales.service']).con
 })
 
 .run(function($templateCache, $http) {
-    $templateCache.put("InvoiceForm", $http.get("static/newadmin/app/invoice/template/form.html"));
+    $templateCache.put("InvoiceForm", $http.get("/static/newadmin/app/invoice/template/form.html"));
 })
 
 
@@ -28,7 +28,7 @@ angular.module('invoice.module', ['core.controllers', 'pointsales.service']).con
             url: "?filter&page",
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/invoice/template/list.html",
+                    templateUrl: "/static/newadmin/app/invoice/template/list.html",
                     controller: "InvoiceListCntr"
                 }
             }
@@ -37,7 +37,7 @@ angular.module('invoice.module', ['core.controllers', 'pointsales.service']).con
             url: '/create',
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/invoice/template/create.html",
+                    templateUrl: "/static/newadmin/app/invoice/template/create.html",
                     controller: "InvoiceCreateCntr"
                 }
             }
@@ -46,7 +46,7 @@ angular.module('invoice.module', ['core.controllers', 'pointsales.service']).con
             url: "/:id",
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/invoice/template/view.html",
+                    templateUrl: "/static/newadmin/app/invoice/template/view.html",
                     controller: "InvoiceViewCntr"
                 }
             },
@@ -69,7 +69,7 @@ angular.module('invoice.module', ['core.controllers', 'pointsales.service']).con
             url: "/edit",
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/invoice/template/edit.html",
+                    templateUrl: "/static/newadmin/app/invoice/template/edit.html",
                     controller: "InvoiceEditCntr"
                 }
             },

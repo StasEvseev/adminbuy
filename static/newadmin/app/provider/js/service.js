@@ -5,7 +5,7 @@
 angular.module('provider.service', ['core.service'])
 .factory('providers', function(BaseModelService) {
 
-    var url = 'api/provider',
+    var url = '/api/provider',
         items;
 
     var child = Object.create(BaseModelService);

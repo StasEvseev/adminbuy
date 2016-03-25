@@ -17,7 +17,7 @@ angular.module('users.service', ['core.service'])
 
 
 .factory('roles', function(BaseModelService) {
-        var url = 'api/role';
+        var url = '/api/role';
 
         var child = Object.create(BaseModelService);
         child._getPath = function () {
@@ -33,7 +33,7 @@ angular.module('users.service', ['core.service'])
 
 .factory('users', function(BaseModelService) {
 
-    var url = 'api/user',
+    var url = '/api/user',
         items;
 
     var child = Object.create(BaseModelService);

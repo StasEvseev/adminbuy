@@ -24,11 +24,11 @@ angular.module("session.module", ['ui.router', 'core.service', 'core.controllers
         url: '/menu',
         views: {
             'content@index': {
-                templateUrl: "static/newadmin/app/session/template/menu.html",
+                templateUrl: "/static/newadmin/app/session/template/menu.html",
                 controller: function($scope, $modal, SessionService) {
 
                     $modal.open({
-                        templateUrl: "static/newadmin/app/session/template/menumodal.html",
+                        templateUrl: "/static/newadmin/app/session/template/menumodal.html",
                         controller: function($scope, $state, $modalInstance, principal) {
                             $scope.logout = function() {
                                 principal.authenticate();
@@ -90,7 +90,7 @@ angular.module("session.module", ['ui.router', 'core.service', 'core.controllers
         url: "?filter&page",
         views: {
             'content@index': {
-                templateUrl: "static/newadmin/app/session/template/view.html",
+                templateUrl: "/static/newadmin/app/session/template/view.html",
                 controller: function($scope, $state, $rootScope, $http, $window, $timeout, goods, hIDScanner, SessionService) {
                     $scope.itemsFixed = [];
 

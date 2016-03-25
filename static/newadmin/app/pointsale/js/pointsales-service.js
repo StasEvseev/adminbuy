@@ -5,7 +5,7 @@
 angular.module('pointsales.service', ['core.service'])
 
 .factory('pointsales', function($http, BaseModelService) {
-    var path = 'api/pointsale';
+    var path = '/api/pointsale';
 
     var child = Object.create(BaseModelService);
     child._getPath = function () {

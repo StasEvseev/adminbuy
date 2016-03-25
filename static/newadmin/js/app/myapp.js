@@ -295,7 +295,7 @@ AdminApp.config(function ($stateProvider, $urlRouterProvider) {
             url: '/signin',
             views: {
                 'main@': {
-                    templateUrl: 'static/newadmin/template/login.html',
+                    templateUrl: '/static/newadmin/template/login.html',
                     controller: function ($scope, $state, principal) {
                         $scope.loadingFinish = true;
                         $scope.signin = function () {
@@ -344,7 +344,7 @@ AdminApp.config(function ($stateProvider, $urlRouterProvider) {
             url: '/403',
             views: {
                 'content': {
-                    templateUrl: "static/newadmin/template/403.html",
+                    templateUrl: "/static/newadmin/template/403.html",
                     controller: function() {
 
                     }
@@ -357,7 +357,7 @@ AdminApp.config(function ($stateProvider, $urlRouterProvider) {
             abstract: true,
             views: {
                 'main@': {
-                    templateUrl: "static/newadmin/template/admin.html",
+                    templateUrl: "/static/newadmin/template/admin.html",
                     controller: 'MainController'
                 }
             }
@@ -366,7 +366,7 @@ AdminApp.config(function ($stateProvider, $urlRouterProvider) {
         .state('index.load', {
             views: {
                 'main@': {
-                    templateUrl: "static/newadmin/template/load.html",
+                    templateUrl: "/static/newadmin/template/load.html",
                     controller: function($scope, $q, $rootScope, $state, $timeout, mails, User, Application, Company) {
 
                         $scope.max = 100;
@@ -410,7 +410,7 @@ AdminApp.config(function ($stateProvider, $urlRouterProvider) {
             url: '/',
             views: {
                 'content': {
-                    templateUrl: 'static/newadmin/template/dash.html',
+                    templateUrl: '/static/newadmin/template/dash.html',
                     controller: function ($scope, $rootScope, Application, ShowHideRoles) {
                         $scope.version = Application.version();
                         $scope.showRole = ShowHideRoles.showRole;

@@ -16,7 +16,7 @@ angular.module('invoice.service', ['core.service'])
 
 
 .factory('invoices', function(BaseModelService, $http) {
-    var path = 'api/invoice_canon';
+    var path = '/api/invoice_canon';
 
     var child = Object.create(BaseModelService);
     child._getPath = function () {

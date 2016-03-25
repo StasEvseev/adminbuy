@@ -5,7 +5,7 @@
 angular.module('mails.service', ['core.utils'])
 
 .factory('mails', function($http, remoteHelper) {
-    var path = 'api/mail';
+    var path = '/api/mail';
     var cnt = 0;
     var items = [];
     var items_id = [];
@@ -17,12 +17,6 @@ angular.module('mails.service', ['core.utils'])
     factory.handle_mail = function(id, index, action) {
         return $http.post("/api/mail/" + id, {index: index, action: action});
     };
-
-//    factory.getRowInvoiceIn = function(id) {
-//        return $http.get("/api/invoicepriceitems/" + id).then(function(resp) {
-//            return resp.data.items;
-//        });
-//    };
 
     factory.checkMail = function() {
         return $http.post('/api/mail').then(function(resp) {

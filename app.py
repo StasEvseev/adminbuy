@@ -1,10 +1,11 @@
-#coding: utf-8
+# coding: utf-8
 
 from datetime import timedelta
 import os
 import time
 
-from flask import Flask, redirect, request, render_template, url_for, make_response
+from flask import (Flask, redirect, request, render_template, url_for,
+                   make_response)
 from flask.ext.principal import identity_loaded, UserNeed
 from flask.ext.triangle import Triangle
 from flask.ext.babel import Babel
@@ -114,9 +115,10 @@ app.register_blueprint(UsBl)
 app.wsgi_app = ProxyFix(app.wsgi_app)
 
 
-@app.route('/admin')
+@app.route('/admin/')
 def newindex():
     return render_template("index.html")
+
 
 @app.route('/logout')
 def logout():
@@ -125,50 +127,51 @@ def logout():
     return redirect(url_for('.login'))
 
 
-@app.route('/login', methods=('GET', 'POST'))
-def login():
-    from flask.ext import login
-    from applications.security.form import LoginForm
-    from flask.ext.admin import helpers
-    form = LoginForm(request.form)
-    if helpers.validate_form_on_submit(form):
-        user = form.get_user()
-        login.login_user(user)
-        from flask import session
-        session.permanent = True
-
-    if login.current_user.is_authenticated():
-        if 'target' in request.args:
-            return redirect(request.args['target'])
-        return redirect(url_for('newindex'))
-    # link = u'<p>Не имеете аккаунта? <a id="a_reg" href="' + url_for('.register_view') + u'">Нажмите для регистрации.</a></p>'
-    # self._template_args['form'] = form
-    # self._template_args['link'] = link
-    return render_template("newadmin/login.html")
+# @app.route('/login', methods=('GET', 'POST'))
+# def login():
+#     from flask.ext import login
+#     from applications.security.form import LoginForm
+#     from flask.ext.admin import helpers
+#     form = LoginForm(request.form)
+#     if helpers.validate_form_on_submit(form):
+#         user = form.get_user()
+#         login.login_user(user)
+#         from flask import session
+#         session.permanent = True
+#
+#     if login.current_user.is_authenticated():
+#         if 'target' in request.args:
+#             return redirect(request.args['target'])
+#         return redirect(url_for('newindex'))
+#     return render_template("newadmin/login.html")
 
 
 @app.route('/')
 def index():
     return redirect("/admin?%s" % request.query_string)
 
-@app.route('/sw.js')
-def manifest():
-    res = make_response(render_template('sw.js'), 200)
-    res.headers["Content-Type"] = "text/javascript"
-    return res
 
-@app.route('/update_cache.js')
-def update_cache():
-    res = make_response(render_template('update_cache.js'), 200)
-    res.headers["Content-Type"] = "text/javascript"
-    return res
+# @app.route('/sw.js')
+# def manifest():
+#     res = make_response(render_template('sw.js'), 200)
+#     res.headers["Content-Type"] = "text/javascript"
+#     return res
+
+
+# @app.route('/update_cache.js')
+# def update_cache():
+#     res = make_response(render_template('update_cache.js'), 200)
+#     res.headers["Content-Type"] = "text/javascript"
+#     return res
+
 
 def create_superuser():
     from services.userservice import UserService
     with app.app_context():
         if UserService.check_duplicate('admin'):
-            user = UserService.registration('admin', 'a@a.ru', 'admin', is_superuser=True,
-                                            first_name='Админов', last_name='Админ', role=['admin'])
+            user = UserService.registration(
+                'admin', 'a@a.ru', 'admin', is_superuser=True,
+                first_name='Админов', last_name='Админ', role=['admin'])
             db.session.add(user)
             db.session.commit()
         else:

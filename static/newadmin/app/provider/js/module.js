@@ -8,7 +8,7 @@ angular.module('provider.module', ['core.controllers']).constant('ProviderConfig
 })
 
 .run(function($templateCache, $http) {
-    $templateCache.put("ProviderForm", $http.get("static/newadmin/app/provider/template/form.html"));
+    $templateCache.put("ProviderForm", $http.get("/static/newadmin/app/provider/template/form.html"));
 })
 
 
@@ -62,7 +62,7 @@ angular.module('provider.module', ['core.controllers']).constant('ProviderConfig
             url: "?filter&page",
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/provider/template/list.html",
+                    templateUrl: "/static/newadmin/app/provider/template/list.html",
                     controller: "ProviderListCntr"
                 }
             }
@@ -71,7 +71,7 @@ angular.module('provider.module', ['core.controllers']).constant('ProviderConfig
             url: '/create',
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/provider/template/create.html",
+                    templateUrl: "/static/newadmin/app/provider/template/create.html",
                     controller: "ProviderCreateCntr"
                 }
             }
@@ -80,7 +80,7 @@ angular.module('provider.module', ['core.controllers']).constant('ProviderConfig
             url: "/:id",
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/provider/template/view.html",
+                    templateUrl: "/static/newadmin/app/provider/template/view.html",
                     controller: "ProviderViewCntr"
                 }
             },
@@ -94,7 +94,7 @@ angular.module('provider.module', ['core.controllers']).constant('ProviderConfig
             url: "/edit",
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/provider/template/edit.html",
+                    templateUrl: "/static/newadmin/app/provider/template/edit.html",
                     controller: "ProviderEditCntr"
                 }
             }

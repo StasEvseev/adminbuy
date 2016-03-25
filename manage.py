@@ -91,6 +91,7 @@ class FixtureCommand(Command):
 
         fixtures.load_fixtures(datas)
 
+
 class SuperUserCommand(Command):
     def run(self):
         app.create_superuser()

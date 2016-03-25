@@ -132,7 +132,7 @@ div.TEST {
 }
 
 div.TEST > span:first-child > button {
-    background-image: url('/static/images/navigation-bar-icon.jpg');
+    background-image: url('//static/images/navigation-bar-icon.jpg');
     background-position: 133px 143px;
     /*font-size: 23px;*/
     height: 46px;

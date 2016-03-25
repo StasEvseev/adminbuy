@@ -12,7 +12,7 @@ angular.module("mails.module", ['ui.router'])
             url: "/mailbox",
             views: {
                 'content': {
-                    templateUrl: "static/newadmin/app/mail/template/base.html"
+                    templateUrl: "/static/newadmin/app/mail/template/base.html"
                 }
             }
         })
@@ -21,11 +21,11 @@ angular.module("mails.module", ['ui.router'])
             url: "?_new&filter&page",
             views: {
                 'head': {
-                    templateUrl: "static/newadmin/app/mail/template/list.head.html",
+                    templateUrl: "/static/newadmin/app/mail/template/list.head.html",
                     controller: "MailListController"
                 },
                 'item': {
-                    templateUrl: "static/newadmin/app/mail/template/list.html",
+                    templateUrl: "/static/newadmin/app/mail/template/list.html",
                     controller: "MailListController"
                 }
             },
@@ -47,13 +47,13 @@ angular.module("mails.module", ['ui.router'])
             },
             views: {
                 'head@index.mailbox': {
-                    templateUrl: "static/newadmin/app/mail/template/read.head.html",
+                    templateUrl: "/static/newadmin/app/mail/template/read.head.html",
                     controller: function ($scope, item, mails) {
                         $scope.item = item;
                     }
                 },
                 '': {
-                    templateUrl: "static/newadmin/app/mail/template/read.html",
+                    templateUrl: "/static/newadmin/app/mail/template/read.html",
                     controller: function ($scope, $stateParams, $state, item, mails, mailLoading) {
                         mails.setCurrent(item);
                         $scope.item = item;

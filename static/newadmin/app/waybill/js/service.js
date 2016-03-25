@@ -5,7 +5,7 @@
 angular.module('waybill.service', ['core.service'])
 
 .factory('waybills', function($http, BaseModelService) {
-    var path = 'api/waybill';
+    var path = '/api/waybill';
 
     var child = Object.create(BaseModelService);
     child._getPath = function () {
@@ -48,7 +48,7 @@ angular.module('waybill.service', ['core.service'])
                 if (excl_ids) {
                     par['exclude_good_id'] = JSON.stringify(excl_ids);
                 }
-                return $http.get('api/invoice_canon/' + id + '/items', {params: par}).then(function(resp) {
+                return $http.get('/api/invoice_canon/' + id + '/items', {params: par}).then(function(resp) {
                     return resp.data;
                 });
             }
@@ -58,7 +58,7 @@ angular.module('waybill.service', ['core.service'])
 .factory('waybillitems', function($http) {
         return {
             all: function(id) {
-                return $http.get('api/waybill/' + id + '/items').then(function(resp) {
+                return $http.get('/api/waybill/' + id + '/items').then(function(resp) {
                     return resp.data.items;
                 });
             }

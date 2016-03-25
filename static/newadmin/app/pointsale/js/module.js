@@ -5,7 +5,7 @@
 angular.module('pointsales.module', ['ui.router', 'ui.bootstrap', 'core.service', 'core.controllers', 'pointsales.service', 'form'])
 
 .run(function($templateCache, $http) {
-    $templateCache.put("PointsaleForm", $http.get("static/newadmin/app/pointsale/template/form.html"));
+    $templateCache.put("PointsaleForm", $http.get("/static/newadmin/app/pointsale/template/form.html"));
 })
 
 .factory('PointService', function(BaseDictService, pointsales, $controller) {
@@ -57,7 +57,7 @@ angular.module('pointsales.module', ['ui.router', 'ui.bootstrap', 'core.service'
             url: "?filter&page",
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/pointsale/template/list.html",
+                    templateUrl: "/static/newadmin/app/pointsale/template/list.html",
                     controller: "PointsaleListCntr"
                 }
             }
@@ -66,7 +66,7 @@ angular.module('pointsales.module', ['ui.router', 'ui.bootstrap', 'core.service'
             url: '/create',
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/pointsale/template/create.html",
+                    templateUrl: "/static/newadmin/app/pointsale/template/create.html",
                     controller: "PointsaleCreateCntr"
                 }
             }
@@ -75,7 +75,7 @@ angular.module('pointsales.module', ['ui.router', 'ui.bootstrap', 'core.service'
             url: "/:id",
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/pointsale/template/view.html",
+                    templateUrl: "/static/newadmin/app/pointsale/template/view.html",
                     controller: "PointsaleViewCntr"
                 }
             },
@@ -89,7 +89,7 @@ angular.module('pointsales.module', ['ui.router', 'ui.bootstrap', 'core.service'
             url: "/edit",
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/pointsale/template/edit.html",
+                    templateUrl: "/static/newadmin/app/pointsale/template/edit.html",
                     controller: "PointsaleEditCntr"
                 }
             }

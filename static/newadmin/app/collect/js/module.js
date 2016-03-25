@@ -8,7 +8,7 @@ angular.module('collects.module', ['core.controllers']).constant('config', {
 })
 
 .run(function($templateCache, $http) {
-    $templateCache.put("CollectForm", $http.get("static/newadmin/app/collect/template/form.html"));
+    $templateCache.put("CollectForm", $http.get("/static/newadmin/app/collect/template/form.html"));
 })
 
 
@@ -24,7 +24,7 @@ angular.module('collects.module', ['core.controllers']).constant('config', {
             url: "?filter&page",
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/collect/template/list.html",
+                    templateUrl: "/static/newadmin/app/collect/template/list.html",
                     controller: "CollectListCntr"
                 }
             }
@@ -33,7 +33,7 @@ angular.module('collects.module', ['core.controllers']).constant('config', {
             url: '/create',
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/collect/template/create.html",
+                    templateUrl: "/static/newadmin/app/collect/template/create.html",
                     controller: "CollectCreateCntr"
                 }
             }
@@ -42,7 +42,7 @@ angular.module('collects.module', ['core.controllers']).constant('config', {
             url: "/:id",
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/collect/template/view.html",
+                    templateUrl: "/static/newadmin/app/collect/template/view.html",
                     controller: "CollectViewCntr"
                 }
             },
@@ -56,7 +56,7 @@ angular.module('collects.module', ['core.controllers']).constant('config', {
             url: "/edit",
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/collect/template/edit.html",
+                    templateUrl: "/static/newadmin/app/collect/template/edit.html",
                     controller: "CollectEditCntr"
                 }
             }

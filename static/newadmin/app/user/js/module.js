@@ -8,7 +8,7 @@
 
 angular.module("users.module", ['ui.router', 'core.service', 'core.controllers', 'users.service', 'form'])
 .run(function($templateCache, $http) {
-    $templateCache.put("UserForm", $http.get("static/newadmin/app/user/template/form.html"));
+    $templateCache.put("UserForm", $http.get("/static/newadmin/app/user/template/form.html"));
 })
 
 .factory('UserService', function(BaseDictService, users, $controller) {
@@ -61,7 +61,7 @@ angular.module("users.module", ['ui.router', 'core.service', 'core.controllers',
             url: "?filter&page",
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/user/template/list.html",
+                    templateUrl: "/static/newadmin/app/user/template/list.html",
                     controller: "UserListCntr"
                 }
             }
@@ -70,7 +70,7 @@ angular.module("users.module", ['ui.router', 'core.service', 'core.controllers',
             url: '/create',
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/user/template/create.html",
+                    templateUrl: "/static/newadmin/app/user/template/create.html",
                     controller: "UserCreateCntr"
                 }
             }
@@ -79,7 +79,7 @@ angular.module("users.module", ['ui.router', 'core.service', 'core.controllers',
             url: "/:id",
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/user/template/view.html",
+                    templateUrl: "/static/newadmin/app/user/template/view.html",
                     controller: "UserViewCntr"
                 }
             },
@@ -93,7 +93,7 @@ angular.module("users.module", ['ui.router', 'core.service', 'core.controllers',
             url: "/edit",
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/user/template/edit.html",
+                    templateUrl: "/static/newadmin/app/user/template/edit.html",
                     controller: "UserEditCntr"
                 }
             }

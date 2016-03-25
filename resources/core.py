@@ -601,7 +601,7 @@ class ProfileResource(BaseTokeniseResource):
             return jsonify({
                 'name': name,
                 'position': position,
-                'iconUrl': "static/images/users/2.jpg",
+                'iconUrl': "/static/images/users/2.jpg",
                 'is_superuser': user.is_superuser
             })
         else:

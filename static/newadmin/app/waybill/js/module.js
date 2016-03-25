@@ -4,11 +4,11 @@
 
 angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.service'])
 .run(function($templateCache, $http) {
-    $templateCache.put('InvoiceInForm', $http.get("static/newadmin/app/waybill/template/form_.html"));
+    $templateCache.put('InvoiceInForm', $http.get("/static/newadmin/app/waybill/template/form_.html"));
 })
 
 .run(function($templateCache, $http) {
-        $templateCache.put("InvoiceSelectGood", $http.get("static/newadmin/app/waybill/template/selectgood.html"));
+        $templateCache.put("InvoiceSelectGood", $http.get("/static/newadmin/app/waybill/template/selectgood.html"));
     })
 
 .config(function($stateProvider) {
@@ -24,7 +24,7 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
             url: '/create_bulk?from_pointsale_id&to_pointsale_ids&invoice_from',
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/waybill/template/page_bulk.html",
+                    templateUrl: "/static/newadmin/app/waybill/template/page_bulk.html",
                     controller: function($scope, $controller, $state, $modal, frompointsale, topointsale, invoice_items, waybills) {
                         $controller('InvoiceInCreateCntr', {$scope: $scope});
 
@@ -183,7 +183,7 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
             views: {
 
                 'content@index': {
-                    templateUrl: "static/newadmin/app/waybill/template/list_.html",
+                    templateUrl: "/static/newadmin/app/waybill/template/list_.html",
                     controller: "InvoiceInListController"
                 }
             }
@@ -193,7 +193,7 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
             url: '/create',
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/waybill/template/create_.html",
+                    templateUrl: "/static/newadmin/app/waybill/template/create_.html",
                     controller: "InvoiceInCreateCntr"
                 }
             }
@@ -203,7 +203,7 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
             url: '/:id',
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/waybill/template/read_.html",
+                    templateUrl: "/static/newadmin/app/waybill/template/read_.html",
                     controller: "InvoiceInViewCntr"
                 }
             },
@@ -234,7 +234,7 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
             url: '/edit',
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/waybill/template/read_create.html",
+                    templateUrl: "/static/newadmin/app/waybill/template/read_create.html",
                     controller: "InvoiceInEditCntr"
                 }
             }

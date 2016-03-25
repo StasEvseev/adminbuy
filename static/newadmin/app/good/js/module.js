@@ -8,7 +8,7 @@ angular.module('good.module', ['core.controllers']).constant('configGood', {
 })
 
 .run(function($templateCache, $http) {
-    $templateCache.put("GoodForm", $http.get("static/newadmin/app/good/template/form.html"));
+    $templateCache.put("GoodForm", $http.get("/static/newadmin/app/good/template/form.html"));
 })
 
 
@@ -24,7 +24,7 @@ angular.module('good.module', ['core.controllers']).constant('configGood', {
             url: "?filter&page",
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/good/template/list.html",
+                    templateUrl: "/static/newadmin/app/good/template/list.html",
                     controller: "GoodListCntr"
                 }
             }
@@ -33,7 +33,7 @@ angular.module('good.module', ['core.controllers']).constant('configGood', {
             url: '/create',
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/good/template/create.html",
+                    templateUrl: "/static/newadmin/app/good/template/create.html",
                     controller: "GoodCreateCntr"
                 }
             }
@@ -42,7 +42,7 @@ angular.module('good.module', ['core.controllers']).constant('configGood', {
             url: "/:id",
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/good/template/view.html",
+                    templateUrl: "/static/newadmin/app/good/template/view.html",
                     controller: "GoodViewCntr"
                 }
             },
@@ -56,7 +56,7 @@ angular.module('good.module', ['core.controllers']).constant('configGood', {
             url: "/edit",
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/good/template/edit.html",
+                    templateUrl: "/static/newadmin/app/good/template/edit.html",
                     controller: "GoodEditCntr"
                 }
             }

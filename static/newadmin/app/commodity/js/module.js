@@ -8,7 +8,7 @@ angular.module('commodity.module', ['core.controllers']).constant('CommodityConf
 })
 
 .run(function($templateCache, $http) {
-    $templateCache.put("CommodityForm", $http.get("static/newadmin/app/commodity/template/form.html"));
+    $templateCache.put("CommodityForm", $http.get("/static/newadmin/app/commodity/template/form.html"));
 })
 
 
@@ -62,7 +62,7 @@ angular.module('commodity.module', ['core.controllers']).constant('CommodityConf
             url: "?filter&page",
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/commodity/template/list.html",
+                    templateUrl: "/static/newadmin/app/commodity/template/list.html",
                     controller: "CommodityListCntr"
                 }
             }
@@ -71,7 +71,7 @@ angular.module('commodity.module', ['core.controllers']).constant('CommodityConf
             url: '/create',
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/commodity/template/create.html",
+                    templateUrl: "/static/newadmin/app/commodity/template/create.html",
                     controller: "CommodityCreateCntr"
                 }
             }
@@ -80,7 +80,7 @@ angular.module('commodity.module', ['core.controllers']).constant('CommodityConf
             url: "/:id",
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/commodity/template/view.html",
+                    templateUrl: "/static/newadmin/app/commodity/template/view.html",
                     controller: "CommodityViewCntr"
                 }
             },
@@ -94,7 +94,7 @@ angular.module('commodity.module', ['core.controllers']).constant('CommodityConf
             url: "/edit",
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/app/commodity/template/edit.html",
+                    templateUrl: "/static/newadmin/app/commodity/template/edit.html",
                     controller: "CommodityEditCntr"
                 }
             }

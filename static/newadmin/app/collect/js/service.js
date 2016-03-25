@@ -5,7 +5,7 @@
 angular.module('collects.service', ['core.service'])
 .factory('collects', function(BaseModelService, $http) {
 
-    var url = 'api/collect',
+    var url = '/api/collect',
         items;
 
     var child = Object.create(BaseModelService);
