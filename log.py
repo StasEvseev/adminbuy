@@ -1,11 +1,11 @@
-#coding: utf-8
+# coding: utf-8
 
 import logging
-from logging.handlers import SMTPHandler, RotatingFileHandler
+from logging.handlers import RotatingFileHandler
 from kombu.exceptions import EncodeError
 import traceback
 
-from config import ADMINS, admin_imap, admin_pass
+from config import admin_imap, admin_pass
 
 MAX_BYTES = 1048576
 BACKUP_COUNT = 50
@@ -16,7 +16,8 @@ LOG_FILE_NAME_DEBUG = "logs/debug.log"
 
 class MyHandler(logging.Handler):
     """
-    Обработчик, исключений. Ставящий задания в очередь по отправке ошибок на почту.
+    Обработчик, исключений. Ставящий задания в очередь по отправке ошибок на
+    почту.
     """
 
     def __init__(self, *args, **kwargs):
@@ -98,4 +99,4 @@ def error(message, *args):
     from app import app
     import traceback
     trace = traceback.format_exc()
-    app.logger.error(_mess(message)+"\n"+trace , *prep_arg(*args))
+    app.logger.error(_mess(message)+"\n"+trace, *prep_arg(*args))

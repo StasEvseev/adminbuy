@@ -1,4 +1,5 @@
-#coding: utf-8
+# coding: utf-8
+
 from sqlalchemy_utils import ChoiceType
 
 from db import db

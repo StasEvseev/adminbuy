@@ -2,14 +2,10 @@
 
 from datetime import timedelta
 import os
-import time
 
-from flask import (Flask, redirect, request, render_template, url_for,
-                   make_response)
-from flask.ext.principal import identity_loaded, UserNeed
+from flask import Flask, redirect, request, render_template, url_for
 from flask.ext.triangle import Triangle
 from flask.ext.babel import Babel
-from sqlalchemy.sql.functions import current_user
 
 from werkzeug.contrib.fixers import ProxyFix
 
@@ -43,7 +39,8 @@ def create_app(application):
     # from admin import admin
 
     application.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
-    application.config['SECURITY_TOKEN_AUTHENTICATION_HEADER'] = "AUTHORIZATION"
+    application.config['SECURITY_TOKEN_AUTHENTICATION_HEADER'] = (
+        "AUTHORIZATION")
     application.config['SECURITY_REMEMBER_SALT'] = "SALT123123123"
     # application.config['BABEL_DEFAULT_LOCALE'] = 'ru-ru'
     application.config['SECRET_KEY'] = SECRET_KEY
@@ -68,8 +65,10 @@ def create_app(application):
     @babel.localeselector
     def get_locale():
         return request.accept_languages.best_match(["ru"])
-
-    init_logging(application)
+    try:
+        init_logging(application)
+    except:
+        pass
 
     return application
 
@@ -175,6 +174,7 @@ def create_superuser():
             db.session.add(user)
             db.session.commit()
         else:
+            debug(u'Error - has admin.')
             raise Exception(u"Has admin.")
 
 app.create_superuser = create_superuser

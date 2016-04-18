@@ -1,4 +1,5 @@
-#coding: utf-8
+# coding: utf-8
+
 import random
 import string
 from datetime import datetime, date, timedelta
@@ -10,18 +11,19 @@ class Generator(object):
 
     @classmethod
     def generate_string(cls, length=12):
-        return unicode(''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(length)))
+        return unicode(''.join(random.choice(
+            string.ascii_uppercase + string.digits) for _ in range(length)))
 
     @classmethod
     def generate_date(cls, from_=date(2008, 1, 1), to_=date.today()):
         delta = to_ - from_
-        # int_delta = (delta.days * 24 * 60 * 60) + delta.seconds
         random_days = random.randrange(delta.days)
 
         return from_ + timedelta(days=random_days)
 
     @classmethod
-    def generate_datetime(cls, from_=datetime.strptime('1/1/2008 1:30 PM', '%m/%d/%Y %I:%M %p'), to_=datetime.now()):
+    def generate_datetime(cls, from_=datetime.strptime(
+            '1/1/2008 1:30 PM', '%m/%d/%Y %I:%M %p'), to_=datetime.now()):
         delta = to_ - from_
         int_delta = (delta.days * 24 * 60 * 60) + delta.seconds
         random_second = random.randrange(int_delta)

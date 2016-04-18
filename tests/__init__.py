@@ -1,4 +1,4 @@
-#coding: utf-8
+# coding: utf-8
 
 import os
 import unittest
@@ -14,11 +14,6 @@ PATH_DB = os.path.join(CURRENT_DIR, "app.db")
 
 
 def initializetest(app):
-    # with app.app_context():
-        # print the connection string we will use to connect
-        # print "Connecting to database\n	->%s" % (conn_string)
-
-        # get a connection, if a connect cannot be made an exception will be raised here
     conn = psycopg2.connect(COMMON_URL % (USER, PASSWORD, DB))
     with conn.cursor() as cur:
         conn.autocommit = True
@@ -27,7 +22,8 @@ def initializetest(app):
         cur.execute("CREATE DATABASE test;")
         conn.commit()
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = COMMON_URL % (USER, PASSWORD, "test")
+    app.config['SQLALCHEMY_DATABASE_URI'] = COMMON_URL % (
+        USER, PASSWORD, "test")
     app.config['TESTING'] = True
 
     old_argv = sys.argv

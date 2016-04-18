@@ -1,4 +1,5 @@
-#coding: utf-8
+# coding: utf-8
+
 import redis
 from sqlalchemy import desc
 from applications.good.service import GoodService, GoodArgumentExc
@@ -11,7 +12,8 @@ from models.invoice import Invoice
 from models.invoiceitem import InvoiceItem
 from applications.provider_app.service import ProviderService
 from applications.mails.model import Mail
-from applications.mails.action import get_count_mails, NotConnect, MailHepls, mark_as_unseen
+from applications.mails.action import (get_count_mails, NotConnect, MailHepls,
+                                       mark_as_unseen)
 
 
 class MailInvoiceException(Exception):
@@ -31,7 +33,8 @@ class InvoiceService(object):
         """
         Генерация номера для накладной.
         Маска - [порядкой номер для дня] - [тип(1,2)] - [дата полная].
-        Пример - 001-1-20122014 - означает первая розничная накладная на дату 20 декабря 2014 года.
+        Пример - 001-1-20122014 - означает первая розничная накладная на дату
+        20 декабря 2014 года.
         """
         invoice = Invoice.query.filter(
             Invoice.date==date).order_by(desc(Invoice.id)).first()
@@ -42,7 +45,6 @@ class InvoiceService(object):
             numbers = number.split("-")
             number = int(numbers[0])
             return "-".join(['%03d' % (number + 1), numbers[1]])
-
 
     @classmethod
     def get_by_id(cls, id):
@@ -67,7 +69,8 @@ class InvoiceService(object):
         """
         Возвращаем количество позиций в накладной.
         """
-        return InvoiceItem.query.filter(InvoiceItem.invoice_id == invoice_id).count()
+        return InvoiceItem.query.filter(
+            InvoiceItem.invoice_id == invoice_id).count()
 
     @classmethod
     def get_items(cls, invoice_id):
@@ -75,7 +78,8 @@ class InvoiceService(object):
         Получаем позиции накладной по id
         """
         return InvoiceItem.query.filter(
-            InvoiceItem.invoice_id==invoice_id).order_by(InvoiceItem.id).all()
+            InvoiceItem.invoice_id == invoice_id
+        ).order_by(InvoiceItem.id).all()
 
     @classmethod
     def get_items_acceptance(cls, acc_id, remain=True):

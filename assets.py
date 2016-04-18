@@ -1,4 +1,4 @@
-#coding: utf-8
+# coding: utf-8
 
 from flask.ext.assets import Environment, Bundle
 
@@ -92,7 +92,8 @@ bundles = {
 
     'underscore': Bundle('js/lib/underscore-min.1.8.3.js'),
 
-    'font-awesome-css': Bundle('css/lib/font-awesome-4.1.0/css/font-awesome.min.css'),
+    'font-awesome-css': Bundle(
+        'css/lib/font-awesome-4.1.0/css/font-awesome.min.css'),
 
     'selectize-css': Bundle('css/lib/selectize.default.css'),
 
@@ -169,7 +170,8 @@ bundles = {
                         'js/bl/goodbl.js'
                         ),
 
-    'angularjs-ui-bootstrap-old': Bundle('js/lib/ui-bootstrap-tpls-0.11.2.min.js'),
+    'angularjs-ui-bootstrap-old': Bundle(
+        'js/lib/ui-bootstrap-tpls-0.11.2.min.js'),
     'angularjs-ui-bootstrap': Bundle('js/lib/ui-bootstrap-tpls-0.13.3.js'),
 
     'bootbox': Bundle('js/lib/bootbox.min.js'),
@@ -181,8 +183,6 @@ bundles = {
     'metisMenu_js': Bundle('js/lib/metisMenu.js'),
 
     'custom_dash': Bundle('css/custom/sb-admin.css'),
-
-    # 'good': Bundle('js/good/good.js')
 }
 
 assets.register(bundles)

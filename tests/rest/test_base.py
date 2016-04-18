@@ -1,4 +1,5 @@
-#coding: utf-8
+# coding: utf-8
+
 from tests import BaseTestCase
 
 
@@ -17,20 +18,20 @@ class FlaskrTestCase(BaseTestCase):
         self.auth_api()
 
     def start_page(self):
-        #Пытаемся зайти в системе без авторизации
+        # Пытаемся зайти в системе без авторизации
         data = self.client.get("/admin/mailview")
-        #опа. Не получается.
+        # опа. Не получается.
         assert data.status_code, 301
-        #может быть тут фиктивная проверка пользователя
+        # может быть тут фиктивная проверка пользователя
         data = self.client.post("/admin/login", data={
             'login': 'Stas',
             'password': 'Stas'
         }, follow_redirects=True)
         assert data.status_code, 200
-        #однакож
+        # однакож
         assert "Invalid user" in data.data
 
-        #ну ладно, зарегаемся и заходим.
+        # ну ладно, зарегаемся и заходим.
         data = self.client.post("/admin/register/", data={
                     'login': 'Stas',
                     'email': 'a@a.ru',
@@ -38,11 +39,11 @@ class FlaskrTestCase(BaseTestCase):
                 }, follow_redirects=True)
 
         assert data.status_code, 200
-        #Ура товарищи!
+        # Ура товарищи!
         # assert "Добро пожаловать!" in data.data
 
     def auth_api(self):
-        #проверяем все api на требование авторизации
+        # проверяем все api на требование авторизации
         for rule in self.application.url_map.iter_rules():
             if rule.rule.startswith("/api"):
 

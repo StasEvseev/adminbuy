@@ -1,4 +1,4 @@
-#coding: utf-8
+# coding: utf-8
 
 import os
 import uuid
@@ -7,18 +7,19 @@ from flask import url_for, request
 from flask.ext.restful import marshal_with, fields, reqparse, abort
 from applications.waybill.constant import GOOD_ATTR, COUNT_ATTR
 from db import db
-from excel.output import PrintInvoice, PATH_TEMPLATE
+from excel.output import PATH_TEMPLATE
 
 from log import error, debug, warning
 from applications.waybill.models import WayBill, WayBillItems, RETAIL, FINISH
-from applications.waybill.service import WayBillService, WayBillServiceException
+from applications.waybill.service import (WayBillService,
+                                          WayBillServiceException)
 
 from config import PATH_TO_GENERATE_INVOICE, PATH_WEB
 
-from resources.core import BaseTokeniseResource, BaseCanoniseResource, BaseInnerCanon, GetResource
+from resources.core import (BaseTokeniseResource, BaseCanoniseResource,
+                            BaseInnerCanon)
 
 from services import GoodService, HelperService
-from simple_report.converter.abstract import FileConverter
 from simple_report.report import SpreadsheetReport
 
 
@@ -88,15 +89,12 @@ ITEM_ITEMS = {
 
 def convert_itemitems_to_json(item, type):
     price = GoodService.get_price(item.good_id)
-    # WayBillService.get_items()
-    # PointSaleService
-    # pointitem = PointSaleService.get_item_to_pointsale_good(item.pointsale_from_id, item.good_id)
+
     return {
         'id': item.id,
         'full_name': item.good.full_name,
         'good_id': item.good_id,
         'count_invoice': item.count,
-        # 'count': pointitem.count if pointitem else 0,
         'price': price.price_retail if type == 1 else price.price_gross,
         'price_gross': price.price_gross,
         'price_retail': price.price_retail,
@@ -110,11 +108,14 @@ def convert_item_to_json(item_waybill):
         'date': item_waybill.date,
         'number': item_waybill.number,
         'pointsale_from_id': item_waybill.pointsale_from_id,
-        'pointsale_from': item_waybill.pointsale_from.name if item_waybill.pointsale_from else None,
+        'pointsale_from': (item_waybill.pointsale_from.name
+                           if item_waybill.pointsale_from else None),
         'receiver_id': item_waybill.receiver_id or None,
-        'receiver': item_waybill.receiver.fullname if item_waybill.receiver else None,
+        'receiver': (item_waybill.receiver.fullname
+                     if item_waybill.receiver else None),
         'pointsale_id': item_waybill.pointsale_id or None,
-        'pointsale': item_waybill.pointsale.name if item_waybill.pointsale else None,
+        'pointsale': (item_waybill.pointsale.name
+                      if item_waybill.pointsale else None),
         'point': item_waybill.rec,
         'type': item_waybill.type,
         'type_str': item_waybill.typeS,
@@ -142,12 +143,14 @@ class WayBillHelperResource(BaseTokeniseResource):
         pointsale_id = args['pointsale_id']
         type = args['type']
 
-        count = WayBillService.count_exists(invoice_id, receiver_id, pointsale_id, type)
+        count = WayBillService.count_exists(invoice_id, receiver_id,
+                                            pointsale_id, type)
         if count:
             if count > 1:
                 return {'status': True, 'extra': 'multi'}
             else:
-                waybill = WayBillService.get_by_attr(invoice_id, receiver_id, pointsale_id, type)
+                waybill = WayBillService.get_by_attr(invoice_id, receiver_id,
+                                                     pointsale_id, type)
                 return {'status': True, 'data': waybill, 'extra': 'single'}
         else:
             return {'status': False}
@@ -198,6 +201,7 @@ class WayBillItemInnerCanon(BaseInnerCanon):
 
 class WayBillPrint(BaseTokeniseResource):
     prefix_url_with_id = "/<int:id>"
+
     @marshal_with({
         'link': fields.String
     })

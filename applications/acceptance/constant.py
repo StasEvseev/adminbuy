@@ -1,4 +1,4 @@
-#coding: utf-8
+# coding: utf-8
 
 ITEM_ID_ATTR = "id"
 GOOD_OBJ_ATTR = "good"

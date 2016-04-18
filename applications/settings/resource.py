@@ -1,4 +1,5 @@
-#coding: utf-8
+# coding: utf-8
+
 from flask import request, g
 from flask.ext.restful import fields, marshal_with
 from applications.settings.model import Profile
@@ -16,8 +17,10 @@ class BaseCanonWithoutId(BaseCanoniseResource):
             cls.__name__ + "Item",
             (BaseTokeniseResource, ),
             {
-                "get": marshal_with(cls.attr_json)(self.get.__func__).__get__(self, cls),
-                "post": marshal_with(cls.attr_response_post)(self.post.__func__).__get__(self, cls),
+                "get": marshal_with(cls.attr_json)(self.get.__func__).__get__(
+                    self, cls),
+                "post": marshal_with(cls.attr_response_post)(
+                    self.post.__func__).__get__(self, cls),
             }
         )
 
@@ -37,40 +40,19 @@ class ProfileCanon(BaseCanonWithoutId):
 
     def get(self):
         user = g.user
+
         return SettingsService.setting_to_user(user)
-        # profile = Profile.query.filter(
-        #     Profile.user_id == user.id
-        # )
-        # if profile.count() == 0:
-        #     profile = Profile()
-        #     profile.user = user
-        #     db.session.add(profile)
-        #     db.session.commit()
-        # else:
-        #     profile = profile.one()
-        # return profile
 
     def post(self):
         data = request.json['data']
         user = g.user
 
         profile = SettingsService.setting_to_user(user)
-
-        # profile = Profile.query.filter(
-        #     Profile.user_id == user.id
-        # )
-        # if profile.count() == 0:
-        #     profile = Profile()
-        #     profile.user = user
-        #     profile.rate_gross = data['rate_gross']
-        #     profile.rate_retail = data['rate_retail']
-        #     db.session.add(profile)
-        #     db.session.commit()
-        # else:
-        #     profile = profile.one()
         profile.rate_gross = data['rate_gross']
         profile.rate_retail = data['rate_retail']
+
         db.session.add(profile)
         db.session.commit()
+
         return profile
 

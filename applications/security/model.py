@@ -1,4 +1,5 @@
-#coding: utf-8
+# coding: utf-8
+
 from flask.ext.security import RoleMixin, UserMixin
 from flask.ext.security.core import _token_loader
 from db import db
@@ -6,9 +7,10 @@ from db import db
 from werkzeug.security import check_password_hash
 
 
-roles_users = db.Table('roles_users',
-        db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
-        db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
+roles_users = db.Table(
+    'roles_users',
+    db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
+    db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
 
 
 class Role(db.Model, RoleMixin):
@@ -54,7 +56,8 @@ class User(db.Model, UserMixin):
     @staticmethod
     def verify_auth_token(token):
         res = _token_loader(token)
-        if res.is_anonymous():
+        if ((callable(res.is_anonymous) and res.is_anonymous()) or
+                (not callable(res.is_anonymous) and res.is_anonymous)):
             res = None
         return res
 

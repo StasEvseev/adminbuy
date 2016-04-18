@@ -1,6 +1,8 @@
-#coding: utf-8
+# coding: utf-8
 from flask import Blueprint
-from applications.return_app.resource import ReturnCanon, ReturnItemInnerCanon, ReturnStatusResource
+from applications.return_app.resource import (ReturnCanon,
+                                              ReturnItemInnerCanon,
+                                              ReturnStatusResource)
 
 from resources import MyApi
 

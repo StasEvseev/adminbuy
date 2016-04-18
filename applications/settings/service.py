@@ -1,4 +1,5 @@
-#coding: utf-8
+# coding: utf-8
+
 from applications.settings.model import Profile
 from db import db
 from services.core import BaseSQLAlchemyModelService

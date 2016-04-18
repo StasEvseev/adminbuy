@@ -1,12 +1,8 @@
-#coding: utf-8
+# coding: utf-8
 
-
-#coding: utf-8
 from flask import url_for
 from sqlalchemy_utils import ChoiceType
 from db import db
-# from models.invoice import Invoice
-# from models.receiver import Receiver
 
 FROM_MAIL = 1
 FROM_ACCEPTANCE = 2
@@ -42,32 +38,38 @@ class WayBill(db.Model):
     накладная.
     """
     id = db.Column(db.Integer, primary_key=True)
-    #Номер
+    # Номер
     number = db.Column(db.String(250))
-    #Дата накладной
+    # Дата накладной
     date = db.Column(db.Date)
 
-    #Торговая точка - откуда пересылают товар
-    pointsale_from_id = db.Column(db.Integer, db.ForeignKey('point_sale.id'))
-    pointsale_from = db.relationship('PointSale', foreign_keys='WayBill.pointsale_from_id',
-                                     backref=db.backref('from_waybills', lazy='dynamic'))
+    # Торговая точка - откуда пересылают товар
+    pointsale_from_id = db.Column(
+        db.Integer, db.ForeignKey('point_sale.id'))
+    pointsale_from = db.relationship(
+        'PointSale', foreign_keys='WayBill.pointsale_from_id',
+        backref=db.backref('from_waybills', lazy='dynamic'))
 
     receiver_id = db.Column(db.Integer, db.ForeignKey('receiver.id'))
-    receiver = db.relationship('Receiver', backref=db.backref('waybills', lazy='dynamic'))
+    receiver = db.relationship(
+        'Receiver', backref=db.backref('waybills', lazy='dynamic'))
 
     pointsale_id = db.Column(db.Integer, db.ForeignKey('point_sale.id'))
-    pointsale = db.relationship('PointSale', foreign_keys='WayBill.pointsale_id', backref=db.backref('waybills', lazy='dynamic'))
+    pointsale = db.relationship(
+        'PointSale', foreign_keys='WayBill.pointsale_id',
+        backref=db.backref('waybills', lazy='dynamic'))
 
     type = db.Column(ChoiceType(TYPE), default=RETAIL)
 
     typeRec = db.Column(ChoiceType(RecType), default=POINTSALE)
-    #Основание
+    # Основание
     invoice_id = db.Column(db.Integer, db.ForeignKey('invoice.id'))
-    invoice = db.relationship('Invoice', backref=db.backref('waybills', lazy='dynamic'))
+    invoice = db.relationship(
+        'Invoice', backref=db.backref('waybills', lazy='dynamic'))
 
     status = db.Column(ChoiceType(StatusType), default=DRAFT)
 
-    #Файл накладной
+    # Файл накладной
     file = db.Column(db.String)
 
     def from_type(self):
@@ -101,12 +103,14 @@ class WayBillItems(db.Model):
     """
     id = db.Column(db.Integer, primary_key=True)
 
-    #накладная
+    # накладная
     waybill_id = db.Column(db.Integer, db.ForeignKey('way_bill.id'))
-    waybill = db.relationship('WayBill', backref=db.backref('items', lazy='dynamic'))
+    waybill = db.relationship(
+        'WayBill', backref=db.backref('items', lazy='dynamic'))
 
     good_id = db.Column(db.Integer, db.ForeignKey('good.id'))
-    good = db.relationship('Good', backref=db.backref('waybillitems', lazy='dynamic'))
+    good = db.relationship(
+        'Good', backref=db.backref('waybillitems', lazy='dynamic'))
 
     count = db.Column(db.Integer)
 

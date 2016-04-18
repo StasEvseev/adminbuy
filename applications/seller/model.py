@@ -1,7 +1,6 @@
-#coding: utf-8
+# coding: utf-8
 
-
-#Продавец
+# Продавец
 from db import db
 
 

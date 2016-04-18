@@ -1,4 +1,4 @@
-#coding: utf-8
+# coding: utf-8
 
 from flask.ext.restful import marshal_with, fields
 from applications.receiver.model import Receiver
@@ -33,4 +33,3 @@ class ReceiverCanonResource(BaseCanoniseResource):
         'address': fields.String,
         'passport': fields.String
     }
-    pass

@@ -1,11 +1,9 @@
-#coding: utf-8
+# coding: utf-8
+
 from functools import wraps
 from flask import g
-from flask.ext.principal import RoleNeed, Permission, Identity, UserNeed
+from flask.ext.principal import RoleNeed, Permission, Identity
 from flask.ext.restful import abort
-from flask.ext.security import roles_accepted, auth_token_required, http_auth_required
-from flask.ext.security.decorators import _get_unauthorized_response
-__author__ = 'Stanislav'
 
 
 def roles_accepted2(*roles):
@@ -33,6 +31,5 @@ def roles_accepted2(*roles):
             if perm.can():
                 return fn(*args, **kwargs)
             abort(403, message=u"Недостаточно прав!")
-            # return _get_unauthorized_response()
         return decorated_view
     return wrapper

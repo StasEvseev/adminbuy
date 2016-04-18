@@ -1,9 +1,15 @@
-#coding: utf-8
+# coding: utf-8
+
 from sqlalchemy import asc
 from sqlalchemy.orm.exc import NoResultFound
-from applications.acceptance.constant import ITEM_ID_ATTR, COUNT_ATTR, GOOD_ATTR, PRICE_POST_ATTR, PRICE_RETAIL_ATTR, \
-    PRICE_GROSS_ATTR, GOOD_OBJ_ATTR, GOOD_ID_ATTR
-from applications.acceptance.model import Acceptance, StatusType, AcceptanceItems, IN_PROG, VALIDATED, MAIL, NEW, DRAFT
+from applications.acceptance.constant import (ITEM_ID_ATTR, COUNT_ATTR,
+                                              PRICE_POST_ATTR,
+                                              PRICE_RETAIL_ATTR,
+                                              PRICE_GROSS_ATTR, GOOD_OBJ_ATTR,
+                                              GOOD_ID_ATTR)
+from applications.acceptance.model import (Acceptance, StatusType,
+                                           AcceptanceItems, IN_PROG, VALIDATED,
+                                           MAIL, NEW, DRAFT)
 
 from db import db
 from log import debug
@@ -35,7 +41,8 @@ class AcceptanceService(object):
 
     @classmethod
     def update_fact_count(cls, acceptance, items):
-        debug(u"Обновление фактического кол-ва по почте `прихода` id = '%s' начато." % acceptance.id)
+        debug(u"Обновление фактического кол-ва по почте `прихода` id = '%s' "
+              u"начато." % acceptance.id)
         for item in items:
             id = item[ITEM_ID_ATTR]
             fact_count = item[COUNT_ATTR]
@@ -43,11 +50,13 @@ class AcceptanceService(object):
                 it = cls.get_item(id)
                 it.fact_count = fact_count
                 db.session.add(it)
-        debug(u"Обновление фактического кол-ва по почте `прихода` id = '%s' завершено." % acceptance.id)
+        debug(u"Обновление фактического кол-ва по почте `прихода` id = '%s' "
+              u"завершено." % acceptance.id)
 
     @classmethod
     def update_fact_count_custom(cls, acceptance, items):
-        debug(u"Обновление фактического кол-ва по новой `прихода` id = '%s' начато." % acceptance.id)
+        debug(u"Обновление фактического кол-ва по новой `прихода` id = '%s' "
+              u"начато." % acceptance.id)
         from services.mailinvoice import InvoiceService
         from applications.good.service import GoodService
         invoice = acceptance.invoice
@@ -61,17 +70,22 @@ class AcceptanceService(object):
             price_gross = item[PRICE_GROSS_ATTR]
             good = GoodService.get_good(good_id)
             InvoiceService.handle_invoiceitem(
-                invoice=invoice, good=good, fact_count=fact_count, price_with_NDS=price_post, full_name=None, name=None,
-                number_local=None, number_global=None, count_order=None, count_postorder=None, count=fact_count,
-                price_without_NDS=None, sum_NDS=None, sum_with_NDS=None, thematic=None, count_whole_pack=None,
-                placer=None, rate_NDS=None, sum_without_NDS=None, price_retail=price_retail, price_gross=price_gross)
+                invoice=invoice, good=good, fact_count=fact_count,
+                price_with_NDS=price_post, full_name=None, name=None,
+                number_local=None, number_global=None, count_order=None,
+                count_postorder=None, count=fact_count,
+                price_without_NDS=None, sum_NDS=None, sum_with_NDS=None,
+                thematic=None, count_whole_pack=None,
+                placer=None, rate_NDS=None, sum_without_NDS=None,
+                price_retail=price_retail, price_gross=price_gross)
             ac_it = AcceptanceItems()
             ac_it.good_id = good_id
             ac_it.acceptance = acceptance
             ac_it.count = fact_count
             ac_it.fact_count = fact_count
             db.session.add(ac_it)
-        debug(u"Обновление фактического кол-ва по новой `прихода` id = '%s' завершено." % acceptance.id)
+        debug(u"Обновление фактического кол-ва по новой `прихода` id = '%s' "
+              u"завершено." % acceptance.id)
 
     @classmethod
     def get_or_create_by_invoice_pointsale(cls, invoice_id, pointsale_id):
@@ -96,11 +110,14 @@ class AcceptanceService(object):
     def status(cls, acceptance, status):
         from applications.point_sale.service import PointSaleService
         from applications.price.service import PriceService, DataToUpdatePrice
-        debug(u"Смена статуса `прихода` id = '%s' с %s на %s." % (acceptance.id, acceptance.status, StatusType[status]))
+        debug(u"Смена статуса `прихода` id = '%s' с %s на %s." % (
+            acceptance.id, acceptance.status, StatusType[status]))
 
         if status == DRAFT:
             if acceptance.type == NEW:
-                debug(u"Переход `прихода` id = '%s' в статус 'Черновик' и типом 'Новая' сопровождается удалением накладной." % acceptance.id)
+                debug(u"Переход `прихода` id = '%s' в статус 'Черновик' и "
+                      u"типом 'Новая' сопровождается удалением "
+                      u"накладной." % acceptance.id)
                 acceptance.items.delete()
                 acceptance.invoice.items.delete()
                 db.session.delete(acceptance.invoice)
@@ -115,7 +132,9 @@ class AcceptanceService(object):
             if acceptance.type == MAIL:
                 for item in acceptance.items:
                     if item.fact_count:
-                        PointSaleService.sync_good_increment(acceptance.pointsale_id, item.good_id, item.fact_count)
+                        PointSaleService.sync_good_increment(
+                            acceptance.pointsale_id, item.good_id,
+                            item.fact_count)
             elif acceptance.type == NEW:
                 invoice = acceptance.invoice
                 for item in invoice.items:
@@ -128,10 +147,13 @@ class AcceptanceService(object):
                         price_prev=None,
                         price_post=item.price_with_NDS,
                         NDS=None,
-                        number_local=good.number_local, number_global=good.number_global,
+                        number_local=good.number_local,
+                        number_global=good.number_global,
                         invoice=invoice))
                     if item.fact_count:
-                        PointSaleService.sync_good_increment(acceptance.pointsale_id, item.good_id, item.fact_count)
+                        PointSaleService.sync_good_increment(
+                            acceptance.pointsale_id, item.good_id,
+                            item.fact_count)
         old_status = acceptance.status
         acceptance.status = status
         debug(u"Смена статуса `прихода` id = '%s' с %s на %s завершено." % (
@@ -139,27 +161,32 @@ class AcceptanceService(object):
 
     @classmethod
     def initial_acceptance_from_custom(cls, acceptance):
-        debug(u"Инициализация по новой `прихода` id = '%s' начата." % acceptance.id)
+        debug(u"Инициализация по новой `прихода` id = '%s' "
+              u"начата." % acceptance.id)
         from services import InvoiceService
         invoice = InvoiceService.create_invoice(
             number=InvoiceService.generate_number(acceptance.date),
             date=acceptance.date, provider=acceptance.provider
         )
         acceptance.invoice = invoice
-        debug(u"Инициализация по новой `прихода` id = '%s' завершена." % acceptance.id)
+        debug(u"Инициализация по новой `прихода` id = '%s' "
+              u"завершена." % acceptance.id)
 
     @classmethod
     def initial_acceptance_from_mail(cls, acceptance):
-        debug(u"Инициализация по почте `прихода` id = '%s' начата." % acceptance.id)
+        debug(u"Инициализация по почте `прихода` id = '%s' "
+              u"начата." % acceptance.id)
         invoice = acceptance.invoice
         items = invoice.items.order_by(asc(InvoiceItem.id))
         debug(u"Удаляем позиции прихода id = '%s'." % acceptance.id)
         acceptance.items.delete()
-        debug(u"Создаем новые позиции прихода id = '%s' из накладной." % acceptance.id)
+        debug(u"Создаем новые позиции прихода id = '%s' из "
+              u"накладной." % acceptance.id)
         for item in items:
             ac_it = AcceptanceItems()
             ac_it.good_id = item.good_id
             ac_it.acceptance = acceptance
             ac_it.count = item.count
             db.session.add(ac_it)
-        debug(u"Инициализация по почте `прихода` id = '%s' завершена." % acceptance.id)
+        debug(u"Инициализация по почте `прихода` id = '%s' "
+              u"завершена." % acceptance.id)
