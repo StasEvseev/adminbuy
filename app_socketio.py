@@ -1,6 +1,7 @@
-#coding: utf-8
+# coding: utf-8
+
 from flask import Flask
-from flask.ext.socketio import SocketIO, emit, send, join_room
+from flask.ext.socketio import SocketIO, join_room
 
 
 app = Flask(__name__)

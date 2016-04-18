@@ -36,7 +36,6 @@ def create_app(application):
     from assets import assets
     from applications.security.auth import login_manager
     from security import security
-    # from admin import admin
 
     application.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
     application.config['SECURITY_TOKEN_AUTHENTICATION_HEADER'] = (
@@ -52,7 +51,6 @@ def create_app(application):
     api.application = application
     db.init_app(application)
     mail.init_app(application)
-    # admin.init_app(application)
     login_manager.init_app(application)
 
     security.init_app(application)
@@ -147,7 +145,8 @@ def logout():
 
 @app.route('/')
 def index():
-    return redirect("/admin?%s" % request.query_string)
+    return render_template('home.html')
+    # return redirect("/admin?%s" % request.query_string)
 
 
 # @app.route('/sw.js')
