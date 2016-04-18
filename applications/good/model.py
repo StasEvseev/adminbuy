@@ -1,4 +1,4 @@
-#coding: utf-8
+# coding: utf-8
 from db import db
 
 
@@ -7,18 +7,18 @@ class Good(db.Model):
     Товар
     """
     id = db.Column(db.Integer, primary_key=True)
-    #штрих код
+    # штрих код
     barcode = db.Column(db.BigInteger)
 
-    #Полное наименование
+    # Полное наименование
     full_name = db.Column(db.String(250))
-    #Продукция
+    # Продукция
     commodity_id = db.Column(db.Integer, db.ForeignKey('commodity.id'))
     commodity = db.relationship('Commodity', backref=db.backref('goods', lazy='dynamic'))
 
     number_local = db.Column(db.String(250))
     number_global = db.Column(db.String(250))
-    #Цена на продукцию
+    # Цена на продукцию
     price_id = db.Column(db.Integer, db.ForeignKey('price.id'))
     price = db.relationship('Price', backref=db.backref('goods', lazy='dynamic'))
 

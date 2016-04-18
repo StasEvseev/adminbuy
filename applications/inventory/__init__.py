@@ -1,8 +1,10 @@
-#coding: utf-8
+# coding: utf-8
+
 from flask import Blueprint
 
 from applications.inventory.resource import (
-    InventoryCanon, InventoryStatusResource, InventoryItemCanon, InventoryItemInnerCanon, InventoryPrint)
+    InventoryCanon, InventoryStatusResource, InventoryItemCanon,
+    InventoryItemInnerCanon, InventoryPrint)
 from resources import MyApi
 
 

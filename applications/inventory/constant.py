@@ -1,5 +1,4 @@
-#coding: utf-8
-
+# coding: utf-8
 
 GOOD_ATTR = "good"
 GOOD_ID_ATTR = "id"

@@ -1,5 +1,4 @@
 # coding: utf-8
-__author__ = 'user'
 
 from sqlalchemy import asc
 
@@ -7,7 +6,8 @@ from sqlalchemy import asc
 def _stub(invoice):
     from applications.price.service import PriceService
     from models.invoiceitem import InvoiceItem
-    items = PriceService.generate_price_stub(invoice.items.order_by(asc(InvoiceItem.id)))
+    items = PriceService.generate_price_stub(invoice.items.order_by(
+        asc(InvoiceItem.id)))
 
     return {'items': [{
         'id_commodity': it.id_commodity,

@@ -1,4 +1,5 @@
-#coding: utf-8
+# coding: utf-8
+
 import os
 import uuid
 from flask.ext.restful import fields, abort
@@ -41,7 +42,9 @@ class GoodResourceCanon(BaseCanoniseResource):
         obj.number_local = str(obj.number_local) if obj.number_local else None
         obj.number_global = str(obj.number_global) if obj.number_global else None
         if obj.commodity_id is None:
-            raise GoodResourceCanon.GoodResourceException(u"Нельзя сохранить товар без номенклатуры.")
+            raise GoodResourceCanon.GoodResourceException(
+                u"Нельзя сохранить товар без номенклатуры.")
+
         commodity = CommodityService.get_by_id(obj.commodity_id)
         try:
             res, good = GoodService.get_or_create_commodity_numbers(
@@ -59,14 +62,19 @@ class GoodResourceCanon(BaseCanoniseResource):
             else:
                 full_name = obj.full_name
             good.full_name = full_name
-            # good.barcode = data.get('barcode')
+
         if res is True:
             if commodity.numeric:
-                message = u"В системе уже есть товар с наименованием %s и №%s(%s)" % (commodity.name, obj.number_local, obj.number_global)
+                message = (u"В системе уже есть товар с наименованием %s и "
+                           u"№%s(%s)" % (commodity.name, obj.number_local,
+                                         obj.number_global))
             else:
-                message = u"В системе уже есть безномерной товар с наименованием %s" % commodity.name
+                message = (u"В системе уже есть безномерной товар с "
+                           u"наименованием %s" % commodity.name)
             raise GoodResourceCanon.GoodResourceException(message)
+
         good = super(GoodResourceCanon, self).pre_save(good, data)
+
         return good
 
     def get(self, id):
@@ -74,13 +82,13 @@ class GoodResourceCanon(BaseCanoniseResource):
             good = GoodService.get_good(id)
         except GoodServiceException as err:
             abort(404, message=unicode(err))
+
         return good
 
 
 def createBarCodes(path, barcode_value):
     from reportlab.graphics.barcode import eanbc
     from reportlab.graphics.shapes import Drawing
-    from reportlab.lib.pagesizes import letter
     from reportlab.pdfgen import canvas
     from reportlab.graphics import renderPDF
     from reportlab.lib.units import cm, mm
@@ -140,4 +148,5 @@ def good_from_dict(data):
     price_id = data.get('price_id')
     full_name = data.get('full_name')
     barcode = data.get('barcode')
-    return commodity_id, number_local, number_global, price_id, full_name, barcode
+    return (commodity_id, number_local, number_global, price_id, full_name,
+            barcode)

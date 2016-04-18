@@ -78,7 +78,8 @@ class AcceptanceCanon(BaseCanoniseResource):
                 raise BaseCanoniseResource.CanonException(
                     u"Поле дата - обязательно для заполнения.")
             obj.date = HelperService.convert_to_pydate(data['date'])
-            if 'pointsale_id' not in data or not ModelService.check_id(data['pointsale_id']):
+            if ('pointsale_id' not in data or
+                    not ModelService.check_id(data['pointsale_id'])):
                 raise BaseCanoniseResource.CanonException(
                     u"Поле торговая точка - обязательно для заполнения.")
             if 'type' not in data:

@@ -1,4 +1,5 @@
-#coding: utf-8
+# coding: utf-8
+
 from flask.ext.admin import Admin
 from flask.ext.admin.menu import MenuView
 
@@ -14,4 +15,5 @@ class MyMenuView(MenuView):
 
 class MyAdmin(Admin):
     def _add_view_to_menu(self, view):
-        self._add_menu_item(MyMenuView(view.name, view.get_id(), view), view.category)
+        self._add_menu_item(MyMenuView(
+            view.name, view.get_id(), view), view.category)

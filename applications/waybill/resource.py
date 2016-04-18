@@ -177,15 +177,19 @@ class WayBillBulk(BaseTokeniseResource):
                 if waybill.waybill_items:
                     debug(u"Сохранение позиций накладной %s." % waybill)
                     try:
-                        waybill_items = WayBillService.build_retail_items(waybill.waybill_items)
+                        waybill_items = WayBillService.build_retail_items(
+                            waybill.waybill_items)
                     except Exception as exc:
-                        debug(u"Ошибка сохранения накладной %s. " + unicode(exc) % waybill)
+                        debug(u"Ошибка сохранения накладной"
+                              u" %s. " + unicode(exc) % waybill)
                         raise WayBillCanon.WayBillCanonException(unicode(exc))
+
                     WayBillService.upgrade_items(waybill, waybill_items)
         except Exception as exc:
             db.session.rollback()
             debug(u"Сохранение накладной %s не удалось." % unicode(exc))
             abort(400, message=unicode(exc))
+
         db.session.commit()
         return "ok"
 
@@ -216,7 +220,8 @@ class WayBillPrint(BaseTokeniseResource):
         path_to_target = os.path.join(PATH_TO_GENERATE_INVOICE, file_name)
         path = os.path.join(PATH_WEB, file_name)
 
-        report = SpreadsheetReport(os.path.join(PATH_TEMPLATE, 'print_invoice2.xlsx'))
+        report = SpreadsheetReport(os.path.join(
+            PATH_TEMPLATE, 'print_invoice2.xlsx'))
         sec = report.get_section("sec1")
         sec_items = report.get_section("secitem")
 
@@ -233,27 +238,35 @@ class WayBillPrint(BaseTokeniseResource):
             for it in waybill.items:
                 sec_items_data = {
                     'name': it.good.full_name, 'count': it.count or "",
-                    'price_pay': GoodService.get_price(it.good_id).price_retail,
-                    'mul': it.count * GoodService.get_price(it.good_id).price_retail if it.count else ''}
+                    'price_pay': GoodService.get_price(
+                        it.good_id).price_retail,
+                    'mul': it.count * GoodService.get_price(
+                        it.good_id).price_retail if it.count else ''}
                 sec_items.flush(sec_items_data)
             if waybill.items.count() <= COUNT_ROW:
                 for i in xrange(COUNT_ROW - waybill.items.count()):
-                    sec_items.flush({'name': '', 'count': '', 'price_pay': '', 'mul': ''})
+                    sec_items.flush({'name': '', 'count': '',
+                                     'price_pay': '', 'mul': ''})
             elif waybill.items.count() <= COUNT_ROW2:
                 for i in xrange(COUNT_ROW2 - waybill.items.count()):
-                    sec_items.flush({'name': '', 'count': '', 'price_pay': '', 'mul': ''})
+                    sec_items.flush({'name': '', 'count': '',
+                                     'price_pay': '', 'mul': ''})
         else:
             for it in waybill.items:
-                sec_items_data = {'name': it.good.full_name, 'count': it.count or "",
+                sec_items_data = {'name': it.good.full_name,
+                                  'count': it.count or "",
                  'price_pay': GoodService.get_price(it.good_id).price_gross,
-                 'mul': it.count * GoodService.get_price(it.good_id).price_gross if it.count else ''}
+                 'mul': it.count * GoodService.get_price(
+                     it.good_id).price_gross if it.count else ''}
                 sec_items.flush(sec_items_data)
             if waybill.items.count() <= COUNT_ROW:
                 for i in xrange(COUNT_ROW - waybill.items.count()):
-                    sec_items.flush({'name': '', 'count': '', 'price_pay': '', 'mul': ''})
+                    sec_items.flush({'name': '', 'count': '', 'price_pay': '',
+                                     'mul': ''})
             elif waybill.items.count() <= COUNT_ROW2:
                 for i in xrange(COUNT_ROW2 - waybill.items.count()):
-                    sec_items.flush({'name': '', 'count': '', 'price_pay': '', 'mul': ''})
+                    sec_items.flush({'name': '', 'count': '', 'price_pay': '',
+                                     'mul': ''})
 
         report.build(path_to_target)
 
@@ -275,12 +288,15 @@ class WayBillCanon(BaseCanoniseResource):
             obj.date = HelperService.convert_to_pydate(data['date'])
         except KeyError as exc:
             error(u"Попытка сохранить накладную без даты. " + unicode(exc))
-            raise WayBillCanon.WayBillCanonException(u"Для сохранения необходим обязательный параметр %s." % 'date')
+            raise WayBillCanon.WayBillCanonException(
+                u"Для сохранения необходим обязательный параметр %s." % 'date')
+
         try:
             obj.waybill_items = data['items']
         except KeyError as exc:
             debug(u"Сохранение накладной %s без позиций товара." % obj)
             obj.waybill_items = []
+
         return super(WayBillCanon, self).pre_save(obj, data)
 
     def post(self, id):
@@ -293,21 +309,25 @@ class WayBillCanon(BaseCanoniseResource):
         try:
             if not obj.id:
                 waybill = WayBillService.create(
-                    obj.pointsale_from_id, obj.invoice_id, obj.date, obj.receiver_id, obj.pointsale_id, obj.type,
+                    obj.pointsale_from_id, obj.invoice_id, obj.date,
+                    obj.receiver_id, obj.pointsale_id, obj.type,
                     obj.typeRec, forse=True)
-                # obj = waybill
             else:
                 super(WayBillCanon, self).save_model(obj)
                 waybill = obj
             if obj.waybill_items:
                 debug(u"Сохранение позиций накладной %s." % obj)
                 try:
-                    items = WayBillService.build_retail_items(obj.waybill_items)
+                    items = WayBillService.build_retail_items(
+                        obj.waybill_items)
                 except Exception as exc:
-                    debug(u"Ошибка сохранения накладной %s. " + unicode(exc) % obj)
+                    debug(u"Ошибка сохранения накладной "
+                          u"%s. " + unicode(exc) % obj)
                     raise WayBillCanon.WayBillCanonException(unicode(exc))
+
                 path = url_for('static', filename='files/' + file_name)
-                WayBillService.upgrade_items(waybill, items, path_to_target, path)
+                WayBillService.upgrade_items(
+                    waybill, items, path_to_target, path)
                 waybill.file_load = path
             else:
                 waybill.file_load = waybill.file
@@ -319,7 +339,6 @@ class WayBillCanon(BaseCanoniseResource):
     def put(self):
         obj = super(WayBillCanon, self).put()
         return obj
-        # return {"status": "ok", "path": obj.file_load, "data": obj}
 
     def pre_delete(self, obj):
         if obj.status == FINISH:
@@ -351,4 +370,5 @@ class WayBillItemItemsResource(BaseTokeniseResource):
     @marshal_with({'items': fields.List(fields.Nested(item_items))})
     def get(self, id):
         waybill = WayBillService.get_by_id(id)
-        return {'items': [convert_itemitems_to_json(x, waybill.type) for x in waybill.items]}
+        return {'items': [convert_itemitems_to_json(x, waybill.type) for x
+                          in waybill.items]}

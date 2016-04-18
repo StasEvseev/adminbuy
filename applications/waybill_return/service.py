@@ -1,7 +1,9 @@
-#coding: utf-8
+# coding: utf-8
+
 from sqlalchemy import desc
-from applications.waybill_return.model import WayBillReturn, TYPE, RecType, POINTSALE, RECEIVER, WayBillReturnItems, \
-    RETAIL, StatusType, FINISH, IN_PROG, DRAFT
+from applications.waybill_return.model import (
+    WayBillReturn, TYPE, RecType, POINTSALE, RECEIVER, WayBillReturnItems,
+    RETAIL, StatusType, FINISH, IN_PROG, DRAFT)
 from db import db
 from log import error, debug
 from services import ModelService
@@ -19,7 +21,8 @@ class WayBillReturnService(BaseSQLAlchemyModelService):
         """
         Генерация номера для накладной.
         Маска - [порядкой номер для дня] - [тип(1,2)] - [дата полная].
-        Пример - 001-1-20122014 - означает первая розничная накладная на дату 20 декабря 2014 года.
+        Пример - 001-1-20122014 - означает первая розничная накладная на дату
+        20 декабря 2014 года.
         """
         waybillreturn = WayBillReturn.query.filter(
             WayBillReturn.date == date).order_by(desc(WayBillReturn.id)).first()
@@ -29,27 +32,37 @@ class WayBillReturnService(BaseSQLAlchemyModelService):
             number = waybillreturn.number
             numbers = number.split("-")
             number = int(numbers[0])
-            return "-".join([u"В", '%03d' % (number + 1), str(type), numbers[2]])
+            return "-".join([u"В", '%03d' % (number + 1), str(type),
+                             numbers[2]])
 
     #TODO изменить сигнатуру метода
     @classmethod
-    def create(cls, pointsale_id, receiver_id, date, date_to, type, typeRec, return_id):
+    def create(cls, pointsale_id, receiver_id, date, date_to, type, typeRec,
+               return_id):
         """
         Создаем или получаем итоговую накладную.
-        Сначала проверяем, есть ли уже накладная по параметрам уникальности(приходная накладная, получатели
+        Сначала проверяем, есть ли уже накладная по параметрам уникальности
+        (приходная накладная, получатели
         (точки или получатель) и тип).
         Если накладной нет, то создаем.
-        Если накладная уже есть, генерим исключение. Но если нам передали флаг forse, то извлекаем из БД и возвращаем.
+        Если накладная уже есть, генерим исключение. Но если нам передали флаг
+        forse, то извлекаем из БД и возвращаем.
         """
-        if not ModelService.check_id(receiver_id) and not ModelService.check_id(pointsale_id):
-            raise WayBillReturnService.WayBillReturnServiceExc(u"No receiver or point sale")
+        if (not ModelService.check_id(receiver_id) and
+                not ModelService.check_id(pointsale_id)):
+            raise WayBillReturnService.WayBillReturnServiceExc(
+                u"No receiver or point sale")
 
         type = int(type)
         typeRec = int(typeRec)
+
         if type not in TYPE.keys():
-            raise WayBillReturnService.WayBillReturnServiceExc(u"Тип накладной указан неверно - %s." % type)
+            raise WayBillReturnService.WayBillReturnServiceExc(
+                u"Тип накладной указан неверно - %s." % type)
+
         if typeRec not in RecType.keys():
-            raise WayBillReturnService.WayBillReturnServiceExc(u"Тип получателя указан неверно - %s." % typeRec)
+            raise WayBillReturnService.WayBillReturnServiceExc(
+                u"Тип получателя указан неверно - %s." % typeRec)
 
         waybillreturn = WayBillReturn()
         waybillreturn.returninst_id = return_id
@@ -57,11 +70,15 @@ class WayBillReturnService(BaseSQLAlchemyModelService):
         waybillreturn.date_to = date_to
         if typeRec == POINTSALE:
             if not ModelService.check_id(pointsale_id):
-                raise WayBillReturnService.WayBillReturnServiceExc(u"Ошибка. Нельзя выбрать тип 'Торговая точка' и 'Оптовика'.")
+                raise WayBillReturnService.WayBillReturnServiceExc(
+                    u"Ошибка. Нельзя выбрать тип 'Торговая точка' и "
+                    u"'Оптовика'.")
             waybillreturn.pointsale_id = pointsale_id
         elif typeRec == RECEIVER:
             if not ModelService.check_id(receiver_id):
-                raise WayBillReturnService.WayBillReturnServiceExc(u"Ошибка. Нельзя выбрать тип 'Оптовика' и 'Торговую точку'.")
+                raise WayBillReturnService.WayBillReturnServiceExc(
+                    u"Ошибка. Нельзя выбрать тип 'Оптовика' и "
+                    u"'Торговую точку'.")
             waybillreturn.receiver_id = receiver_id
 
         waybillreturn.type = type
@@ -76,13 +93,16 @@ class WayBillReturnService(BaseSQLAlchemyModelService):
         Собираем объекты для более удобной обработки из списка словарей.
         """
         try:
-            return [WayBillReturnItems(good_id=it['good_id'],
-                                       count_plan=it['count_plan'] if 'count_plan' in it and it['count_plan'] else None,
-                                       count=it['count'] if 'count' in it and it['count'] else None
-                                       ) for it in items]
+            return [WayBillReturnItems(
+                good_id=it['good_id'],
+                count_plan=(it['count_plan'] if 'count_plan' in it and
+                                                it['count_plan'] else None),
+                count=it['count'] if 'count' in it and it['count'] else None)
+                    for it in items]
         except KeyError as exc:
             error(u"Ошибка при сохранении позиций товара. " + unicode(exc))
-            raise WayBillReturnService.WayBillReturnServiceExc(u"Ошибка при сохранении позиций товара.")
+            raise WayBillReturnService.WayBillReturnServiceExc(
+                u"Ошибка при сохранении позиций товара.")
 
     @classmethod
     def upgrade_items(cls, waybillreturn, items):
@@ -95,13 +115,17 @@ class WayBillReturnService(BaseSQLAlchemyModelService):
         for it in items:
             good = GoodService.get_good(it.good_id)
             if waybillreturn.type == RETAIL:
-                if not good.price_id or not PriceService.get_price(good.price_id).price_retail:
+                if not good.price_id or not PriceService.get_price(
+                        good.price_id).price_retail:
                     raise WayBillReturnService.WayBillReturnServiceExc(
                         u"Товар без розничной цены. %s" % good.full_name)
+
             else:
-                if not good.price_id or not PriceService.get_price(good.price_id).price_gross:
+                if not good.price_id or not PriceService.get_price(
+                        good.price_id).price_gross:
                     raise WayBillReturnService.WayBillReturnServiceExc(
                         u"Товар без оптовой цены. %s" % good.full_name)
+
             it.waybill = waybillreturn
             db.session.add(it)
 
@@ -109,7 +133,8 @@ class WayBillReturnService(BaseSQLAlchemyModelService):
     def status(cls, waybillreturn, status):
         from applications.point_sale.service import PointSaleService
         from applications.return_app.service import ReturnService
-        debug(u"Смена статуса `накладной возврата` %s с %s на %s." % (waybillreturn.id, waybillreturn.status, StatusType[status]))
+        debug(u"Смена статуса `накладной возврата` %s с %s на %s." % (
+            waybillreturn.id, waybillreturn.status, StatusType[status]))
 
         if status == DRAFT:
             waybillreturn.items.delete()
@@ -121,7 +146,8 @@ class WayBillReturnService(BaseSQLAlchemyModelService):
 
             for item in return_inst.items:
                 good_id = item.good_id
-                res = PointSaleService.item_to_pointsale_good(point.id, good_id)
+                res = PointSaleService.item_to_pointsale_good(
+                    point.id, good_id)
                 if res:
                     itemreturn = WayBillReturnItems()
                     itemreturn.waybill = waybillreturn
@@ -133,8 +159,13 @@ class WayBillReturnService(BaseSQLAlchemyModelService):
             from_point = waybillreturn.pointsale
             to_point = PointSaleService.get_central()
             for item in waybillreturn.items:
-                PointSaleService.sync_good_increment(from_point.id, item.good_id, item.count * -1 if item.count else 0)
-                PointSaleService.sync_good_increment(to_point.id, item.good_id, item.count if item.count else 0)
+                PointSaleService.sync_good_increment(
+                    from_point.id, item.good_id,
+                    item.count * -1 if item.count else 0)
+                PointSaleService.sync_good_increment(
+                    to_point.id, item.good_id, item.count if item.count else 0)
 
         waybillreturn.status = status
-        debug(u"Смена статуса `накладной возврата` %s с %s на %s завершено." % (waybillreturn.id, waybillreturn.status, StatusType[status]))
+        debug(u"Смена статуса `накладной возврата` %s с %s на %s "
+              u"завершено." % (waybillreturn.id, waybillreturn.status,
+                               StatusType[status]))

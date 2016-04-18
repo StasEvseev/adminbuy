@@ -1,4 +1,5 @@
-#coding: utf-8
+# coding: utf-8
+
 from flask.ext.restful import fields
 
 from applications.commodity.models import Commodity
