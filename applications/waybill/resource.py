@@ -1,26 +1,28 @@
 # coding: utf-8
+import json
 
 import os
 import uuid
 
 from flask import url_for, request
 from flask.ext.restful import marshal_with, fields, reqparse, abort
+from sqlalchemy.orm import joinedload
+
+from applications.good.service import GoodService
 from applications.waybill.constant import GOOD_ATTR, COUNT_ATTR
 from db import db
-from excel.output import PATH_TEMPLATE
 
 from log import error, debug, warning
-from applications.waybill.models import WayBill, WayBillItems, RETAIL, FINISH
+from applications.waybill.models import WayBill, WayBillItems, FINISH
 from applications.waybill.service import (WayBillService,
                                           WayBillServiceException)
 
-from config import PATH_TO_GENERATE_INVOICE, PATH_WEB
+from config import PATH_TO_GENERATE_INVOICE
 
 from resources.core import (BaseTokeniseResource, BaseCanoniseResource,
                             BaseInnerCanon)
 
-from services import GoodService, HelperService
-from simple_report.report import SpreadsheetReport
+from services.helperserv import HelperService
 
 
 ITEM = {
@@ -108,14 +110,14 @@ def convert_item_to_json(item_waybill):
         'date': item_waybill.date,
         'number': item_waybill.number,
         'pointsale_from_id': item_waybill.pointsale_from_id,
-        'pointsale_from': (item_waybill.pointsale_from.name
-                           if item_waybill.pointsale_from else None),
+        'pointsale_from': item_waybill.pointsale_from.name
+        if item_waybill.pointsale_from else None,
         'receiver_id': item_waybill.receiver_id or None,
-        'receiver': (item_waybill.receiver.fullname
-                     if item_waybill.receiver else None),
+        'receiver': item_waybill.receiver.fullname
+        if item_waybill.receiver else None,
         'pointsale_id': item_waybill.pointsale_id or None,
-        'pointsale': (item_waybill.pointsale.name
-                      if item_waybill.pointsale else None),
+        'pointsale': item_waybill.pointsale.name
+        if item_waybill.pointsale else None,
         'point': item_waybill.rec,
         'type': item_waybill.type,
         'type_str': item_waybill.typeS,
@@ -180,8 +182,8 @@ class WayBillBulk(BaseTokeniseResource):
                         waybill_items = WayBillService.build_retail_items(
                             waybill.waybill_items)
                     except Exception as exc:
-                        debug(u"Ошибка сохранения накладной"
-                              u" %s. " + unicode(exc) % waybill)
+                        debug(u"Ошибка сохранения накладной %s. " + unicode(
+                            exc) % waybill)
                         raise WayBillCanon.WayBillCanonException(unicode(exc))
 
                     WayBillService.upgrade_items(waybill, waybill_items)
@@ -202,6 +204,15 @@ class WayBillItemInnerCanon(BaseInnerCanon):
 
     default_sort = "asc", "id"
 
+    def query_initial(self, inner_id, **kwargs):
+        try:
+            queryset = self.model.query.options(
+                joinedload('good').joinedload('price'))
+            return queryset.filter_by(waybill_id=inner_id)
+        except Exception as exc:
+            error(u"Ошибка в инициализации запроса. " + unicode(exc))
+            raise exc
+
 
 class WayBillPrint(BaseTokeniseResource):
     prefix_url_with_id = "/<int:id>"
@@ -211,66 +222,23 @@ class WayBillPrint(BaseTokeniseResource):
     })
     def get(self, id):
 
-        COUNT_ROW = 42
-        COUNT_ROW2 = 91
-
-        waybill = WayBillService.get_by_id(id)
-
-        file_name = str(uuid.uuid4()) + ".xlsx"
-        path_to_target = os.path.join(PATH_TO_GENERATE_INVOICE, file_name)
-        path = os.path.join(PATH_WEB, file_name)
-
-        report = SpreadsheetReport(os.path.join(
-            PATH_TEMPLATE, 'print_invoice2.xlsx'))
-        sec = report.get_section("sec1")
-        sec_items = report.get_section("secitem")
-
-        sec_data = {}
-        sec_data['number'] = waybill.number
-        sec_data['date'] = waybill.date.strftime('%d.%m.%Y').decode("utf-8")
-        sec_data['point'] = waybill.pointsale_from.name
-        sec_data['typeInv'] = waybill.type
-        sec_data['rec'] = waybill.rec
-        sec.flush(sec_data)
-
-        if waybill.type == RETAIL:
-
-            for it in waybill.items:
-                sec_items_data = {
-                    'name': it.good.full_name, 'count': it.count or "",
-                    'price_pay': GoodService.get_price(
-                        it.good_id).price_retail,
-                    'mul': it.count * GoodService.get_price(
-                        it.good_id).price_retail if it.count else ''}
-                sec_items.flush(sec_items_data)
-            if waybill.items.count() <= COUNT_ROW:
-                for i in xrange(COUNT_ROW - waybill.items.count()):
-                    sec_items.flush({'name': '', 'count': '',
-                                     'price_pay': '', 'mul': ''})
-            elif waybill.items.count() <= COUNT_ROW2:
-                for i in xrange(COUNT_ROW2 - waybill.items.count()):
-                    sec_items.flush({'name': '', 'count': '',
-                                     'price_pay': '', 'mul': ''})
-        else:
-            for it in waybill.items:
-                sec_items_data = {'name': it.good.full_name,
-                                  'count': it.count or "",
-                 'price_pay': GoodService.get_price(it.good_id).price_gross,
-                 'mul': it.count * GoodService.get_price(
-                     it.good_id).price_gross if it.count else ''}
-                sec_items.flush(sec_items_data)
-            if waybill.items.count() <= COUNT_ROW:
-                for i in xrange(COUNT_ROW - waybill.items.count()):
-                    sec_items.flush({'name': '', 'count': '', 'price_pay': '',
-                                     'mul': ''})
-            elif waybill.items.count() <= COUNT_ROW2:
-                for i in xrange(COUNT_ROW2 - waybill.items.count()):
-                    sec_items.flush({'name': '', 'count': '', 'price_pay': '',
-                                     'mul': ''})
-
-        report.build(path_to_target)
+        path = WayBillService.report(id)
 
         return {"link": path}
+
+
+parser = reqparse.RequestParser()
+parser.add_argument('ids')
+
+
+class WayBillPrintBulk(BaseTokeniseResource):
+    def get(self):
+
+        args = parser.parse_args()
+        ids = json.loads(args['ids'])
+        path = WayBillService.report_multi(ids)
+
+        return {'link': path}
 
 
 class WayBillCanon(BaseCanoniseResource):
@@ -290,7 +258,6 @@ class WayBillCanon(BaseCanoniseResource):
             error(u"Попытка сохранить накладную без даты. " + unicode(exc))
             raise WayBillCanon.WayBillCanonException(
                 u"Для сохранения необходим обязательный параметр %s." % 'date')
-
         try:
             obj.waybill_items = data['items']
         except KeyError as exc:
@@ -321,8 +288,8 @@ class WayBillCanon(BaseCanoniseResource):
                     items = WayBillService.build_retail_items(
                         obj.waybill_items)
                 except Exception as exc:
-                    debug(u"Ошибка сохранения накладной "
-                          u"%s. " + unicode(exc) % obj)
+                    debug(u"Ошибка сохранения накладной %s. " + unicode(
+                        exc) % obj)
                     raise WayBillCanon.WayBillCanonException(unicode(exc))
 
                 path = url_for('static', filename='files/' + file_name)
@@ -349,6 +316,13 @@ class WayBillCanon(BaseCanoniseResource):
             obj.items.delete()
             super(WayBillCanon, self).pre_delete(obj)
 
+    def query_initial(self, ids=None, *args, **kwargs):
+        queryset = super(WayBillCanon, self).query_initial(ids, *args, **kwargs)
+
+        queryset = queryset.options(joinedload('pointsale'))
+
+        return queryset
+
 
 class WayBillStatusResource(BaseTokeniseResource):
     @marshal_with(ITEM)
@@ -370,5 +344,5 @@ class WayBillItemItemsResource(BaseTokeniseResource):
     @marshal_with({'items': fields.List(fields.Nested(item_items))})
     def get(self, id):
         waybill = WayBillService.get_by_id(id)
-        return {'items': [convert_itemitems_to_json(x, waybill.type) for x
-                          in waybill.items]}
+        return {'items': [convert_itemitems_to_json(x, waybill.type) for x in
+                          waybill.items]}

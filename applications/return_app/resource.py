@@ -3,8 +3,8 @@
 from flask.ext.restful import fields, marshal_with
 from applications.return_app.service import ReturnService
 from applications.return_app.model import Return, ReturnItem
-from resources.core import (BaseCanoniseResource, BaseInnerCanon,
-                            BaseStatusResource)
+from resources.core import BaseCanoniseResource, BaseInnerCanon, \
+    BaseStatusResource
 
 
 class ReturnItemInnerCanon(BaseInnerCanon):
@@ -46,6 +46,7 @@ class ReturnCanon(BaseCanoniseResource):
     def post_save(self, obj, data, create_new=False):
 
         if obj.id:
+
             items = data['items'] if 'items' in data else []
 
             for item in items:

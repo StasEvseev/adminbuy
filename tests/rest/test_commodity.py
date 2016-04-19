@@ -1,4 +1,7 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from applications.commodity.models import Commodity
 from tests import BaseTestCase
 from tests.helpers.suits.commodity import CommodityTestSuite

@@ -1,15 +1,16 @@
 # coding: utf-8
 
-from datetime import timedelta
 import os
+from datetime import timedelta
 
-from flask import Flask, redirect, request, render_template, url_for
-from flask.ext.triangle import Triangle
+from flask import Flask, redirect, request, render_template, make_response
 from flask.ext.babel import Babel
-
+from flask.ext.triangle import Triangle
 from werkzeug.contrib.fixers import ProxyFix
 
-from config import admin_imap, admin_pass, DATABASE_URI, SECRET_KEY
+from config import admin_imap, admin_pass, DATABASE_URI, SECRET_KEY, IS_PROD
+
+__author__ = 'StasEvseev'
 
 os.environ['TZ'] = 'Europe/Moscow'
 # time.tzset()
@@ -27,7 +28,6 @@ app.config['MAIL_PASSWORD'] = admin_pass
 app.config['MAIL_DEFAULT_SENDER'] = 'server-error@example.com'
 
 from db import db
-from mailmodule import mail
 from log import init_logging, debug
 
 
@@ -41,6 +41,7 @@ def create_app(application):
     application.config['SECURITY_TOKEN_AUTHENTICATION_HEADER'] = (
         "AUTHORIZATION")
     application.config['SECURITY_REMEMBER_SALT'] = "SALT123123123"
+    application.config['SQLALCHEMY_ECHO'] = True
     # application.config['BABEL_DEFAULT_LOCALE'] = 'ru-ru'
     application.config['SECRET_KEY'] = SECRET_KEY
     application.permanent_session_lifetime = timedelta(minutes=30)
@@ -50,9 +51,7 @@ def create_app(application):
     api.init_app(application)
     api.application = application
     db.init_app(application)
-    mail.init_app(application)
     login_manager.init_app(application)
-
     security.init_app(application)
 
     application.db = db
@@ -68,6 +67,9 @@ def create_app(application):
     except:
         pass
 
+    if IS_PROD:
+        init_logging(application)
+
     return application
 
 app = create_app(app)
@@ -82,7 +84,6 @@ from applications.receiver import blueprint as RcBl
 from applications.good import blueprint as GdBl
 from applications.invoice import blueprint as InBl
 from applications.price import blueprint as PriceBl
-from applications.good_commodity import blueprint as GoodComBl
 from applications.settings import blueprint as SetBl
 from applications.order import blueprint as OrBl
 from applications.return_app import blueprint as ReBl
@@ -100,7 +101,6 @@ app.register_blueprint(RcBl)
 app.register_blueprint(GdBl)
 app.register_blueprint(InBl)
 app.register_blueprint(PriceBl)
-app.register_blueprint(GoodComBl)
 app.register_blueprint(SetBl)
 app.register_blueprint(OrBl)
 app.register_blueprint(ReBl)
@@ -117,45 +117,22 @@ def newindex():
     return render_template("index.html")
 
 
-@app.route('/logout')
-def logout():
-    from flask.ext import login
-    login.logout_user()
-    return redirect(url_for('.login'))
-
-
-# @app.route('/login', methods=('GET', 'POST'))
-# def login():
-#     from flask.ext import login
-#     from applications.security.form import LoginForm
-#     from flask.ext.admin import helpers
-#     form = LoginForm(request.form)
-#     if helpers.validate_form_on_submit(form):
-#         user = form.get_user()
-#         login.login_user(user)
-#         from flask import session
-#         session.permanent = True
-#
-#     if login.current_user.is_authenticated():
-#         if 'target' in request.args:
-#             return redirect(request.args['target'])
-#         return redirect(url_for('newindex'))
-#     return render_template("newadmin/login.html")
-
-
 @app.route('/')
 def index():
     return render_template('home.html')
     # return redirect("/admin?%s" % request.query_string)
 
 
+# """
+# Сервис воркер(для кеширования страниц и ресурсов в Chrome.
+# """
 # @app.route('/sw.js')
 # def manifest():
 #     res = make_response(render_template('sw.js'), 200)
 #     res.headers["Content-Type"] = "text/javascript"
 #     return res
-
-
+#
+#
 # @app.route('/update_cache.js')
 # def update_cache():
 #     res = make_response(render_template('update_cache.js'), 200)

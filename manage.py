@@ -1,10 +1,7 @@
-#coding: utf-8
+# coding: utf-8
 
 import sys
-
-from flask import json
-from flask.ext.fixtures import Fixtures
-from flask.ext.script import Manager
+from flask.ext.script import Manager, Option
 from flask.ext.migrate import Migrate, MigrateCommand
 from flask.ext.script import Command
 
@@ -25,6 +22,7 @@ from applications.return_app.model import Return, ReturnItem
 from applications.waybill_return.model import WayBillReturn, WayBillReturnItems
 from applications.seller.model import Seller
 from applications.collection.model import Collect
+from applications.events.model import Event
 from models.invoice import Invoice
 from models.invoiceitem import InvoiceItem
 from models.retailinvoice import RetailInvoice
@@ -34,6 +32,9 @@ from models.sync import Sync, SyncSession, SyncItemSession
 from models.warehouse import WareHouse
 from applications.settings.model import Profile
 from applications.mails.model import Mail
+from scaffolding import scaffold_angular
+
+__author__ = 'StasEvseev'
 
 
 class MyMan(Manager):
@@ -77,28 +78,31 @@ class TestConfig(object):
     FIXTURES_DIRS = ['datas/fixtures']
 
 app.config.from_object(TestConfig)
-fixtures = Fixtures(app, db)
-
-
-class FixtureCommand(Command):
-    "фикстуры"
-
-    def run(self):
-
-        datas = []
-        with open("fixtures/init.json") as f:
-            datas = json.loads(f.read())
-
-        fixtures.load_fixtures(datas)
 
 
 class SuperUserCommand(Command):
+    """
+
+    Команда создания суперпользователя.
+
+    """
     def run(self):
         app.create_superuser()
 
+
+class ScaffoldingCommand(Command):
+
+    option_list = (
+        Option('--name', '-n', dest='name', required=True),
+    )
+
+    def run(self, name):
+        scaffold_angular(name)
+
+
 manager.add_command('db', MigrateCommand)
-manager.add_command('fixture', FixtureCommand())
 manager.add_command('create_superuser', SuperUserCommand())
+manager.add_command('scaffold', ScaffoldingCommand())
 
 if __name__ == "__main__":
     manager.run()

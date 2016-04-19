@@ -48,7 +48,7 @@ def get_count_mails(email):
     функция получения количества новых писем
     """
     m, l_ids = get_ids_mails(email)
-    return len(l_ids) # get the latest
+    return len(l_ids)
 
 
 def get_ids_mails(email):
@@ -67,7 +67,7 @@ def get_ids_mails(email):
         search_str.append(from_str)
         result, data = get_mail(mail, search_str)
 
-        ids = data[0] # data is a list.
+        ids = data[0]  # data is a list.
         id_list = ids.split()
 
     return mail, id_list

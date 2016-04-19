@@ -1,15 +1,19 @@
-#coding: utf-8
+# coding: utf-8
+
 from dateutil import parser
 import datetime
 from flask import request
 from flask.ext.restful import abort
 from db import db
 
-from models.sync import Sync, IN_PROGRESS, COMPLETE, SyncSession, SyncItemSession, WorkDay
+from models.sync import Sync, IN_PROGRESS, COMPLETE, SyncSession, \
+    SyncItemSession
 
 from resources.core import BaseTokeniseResource
 from services.syncservice import SyncService
 from services.userservice import UserService
+
+__author__ = 'StasEvseev'
 
 
 class SyncSessionRes(BaseTokeniseResource):
@@ -41,7 +45,8 @@ class SyncSessionRes(BaseTokeniseResource):
                     workday.sync_start = sync
 
                 if workday_item['date_end']:
-                    workday.datetime_end = parser.parse(workday_item['date_end'])
+                    workday.datetime_end = parser.parse(
+                        workday_item['date_end'])
                     workday.sync_end = sync
                 workday.username = workday_item['username']
                 db.session.add(workday)

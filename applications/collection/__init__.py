@@ -5,6 +5,8 @@ from applications.collection.resource import CollectCanonResource
 
 from resources import MyApi
 
+__author__ = 'StasEvseev'
+
 
 blueprint = Blueprint('collect_blueprint', __name__)
 

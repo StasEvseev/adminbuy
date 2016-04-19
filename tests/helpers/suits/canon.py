@@ -1,6 +1,9 @@
 #coding: utf-8
 
+__author__ = 'StasEvseev'
+
 from . import BaseSuite
+
 
 class BaseCanonSuite(BaseSuite):
 

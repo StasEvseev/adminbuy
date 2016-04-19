@@ -1,4 +1,5 @@
-#coding: utf-8
+# coding: utf-8
+
 from flask import request
 
 from flask.ext.restful import abort, marshal_with, fields
@@ -8,7 +9,10 @@ from db import db
 from excel import InvoiceModel, InvoiceReturnModel
 from log import error, debug
 from resources import InvoiceItemResource
-from resources.core import BaseTokeniseResource, BaseTokenMixinResource, BaseModelPackResource, parser, FilterObj
+from resources.core import BaseTokeniseResource, BaseTokenMixinResource, \
+    BaseModelPackResource, parser, FilterObj
+
+__author__ = 'StasEvseev'
 
 
 ITEM = {
@@ -32,7 +36,7 @@ ITEM = {
 
 class MailInvoiceItem(BaseTokeniseResource):
     def get(self, id):
-        from services import MailInvoiceService
+        from services.mailinvoice import MailInvoiceService
         mail = MailInvoiceService.get_mail(id)
         return InvoiceItemResource().get(mail.invoice_id)
 
@@ -40,7 +44,7 @@ class MailInvoiceItem(BaseTokeniseResource):
 class MailItem(BaseTokeniseResource):
     @marshal_with(ITEM)
     def get(self, id):
-        from services import MailInvoiceService
+        from services.mailinvoice import MailInvoiceService
         mail = MailInvoiceService.get_mail(id)
         MailInvoiceService.handle(mail)
         db.session.add(mail)
@@ -49,11 +53,12 @@ class MailItem(BaseTokeniseResource):
 
     @marshal_with(ITEM)
     def post(self, id):
-        from services import MailInvoiceService
+        from services.mailinvoice import MailInvoiceService
         action = request.json['action']
         index = request.json['index']
 
-        debug(u"Обработка файла почты под индексом '%s' по типу '%s'" % (index, action))
+        debug(u"Обработка файла почты под индексом '%s' по типу '%s'" % (
+            index, action))
         mail = MailInvoiceService.get_mail(id)
         file = mail.get_file_to_index(index)
         fpth = file['path']
@@ -71,7 +76,8 @@ class MailItem(BaseTokeniseResource):
                 db.session.commit()
                 debug(u"Обработка файла завершена.")
             except Exception as err:
-                error(u"Ошибка при обработке файла '"+fpth+u"'. " + unicode(err))
+                error(
+                    u"Ошибка при обработке файла '"+fpth+u"'. " + unicode(err))
                 abort(400, message=u"Произошла ошибка в обработке документа.")
             else:
                 return mail
@@ -88,7 +94,8 @@ class MailItem(BaseTokeniseResource):
                 db.session.commit()
                 debug(u"Обработка файла завершена.")
             except Exception as err:
-                error(u"Ошибка при обработке файла '"+fpth+u"'. " + unicode(err))
+                error(
+                    u"Ошибка при обработке файла '"+fpth+u"'. " + unicode(err))
                 abort(400, message=u"Произошла ошибка в обработке документа.")
             else:
                 return mail
@@ -110,12 +117,13 @@ class MailCheck(BaseTokenMixinResource, BaseModelPackResource):
         Запрос на обработку почтового ящика(проверка новых писем и сохранение
         их в БД).
         """
-        from services import MailInvoiceService, MailInvoiceException
+        from services.mailinvoice import MailInvoiceService, \
+            MailInvoiceException
         try:
             res = MailInvoiceService.handle_mail()
         except MailInvoiceException as err:
             error(unicode(err))
-            abort(404, message=unicode(err))
+            abort(400, message=unicode(err))
         res = 'ok' if len(res) else 'nothing'
         return res
 
@@ -137,7 +145,8 @@ class MailCheck(BaseTokenMixinResource, BaseModelPackResource):
         return self.model.query
 
     @marshal_with({'items': fields.List(fields.Nested(ITEM)),
-                   'count': fields.Integer, 'max': fields.Integer})
+                   'count': fields.Integer,
+                   'max': fields.Integer})
     def get(self, *args, **kwargs):
         """
         Получим все почтовые письма.

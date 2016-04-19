@@ -2,12 +2,15 @@
 
 from db import db
 
+__author__ = 'StasEvseev'
+
 
 class Receiver(db.Model):
     """
     Получатель.
     """
     id = db.Column(db.Integer, primary_key=True)
+    # Номер
     fname = db.Column(db.String(250))
     lname = db.Column(db.String(250))
     pname = db.Column(db.String(250))

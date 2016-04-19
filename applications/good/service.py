@@ -4,13 +4,14 @@ from collections import namedtuple
 
 from sqlalchemy import not_
 from sqlalchemy.orm.exc import NoResultFound
-from applications.good.model import Good
 
+from applications.good.model import Good
 from models.invoiceitem import InvoiceItem
 
 
-GoodStub = namedtuple(
-    'GoodStub', ['id_price', 'id_commodity', 'full_name', 'count', 'barcode'])
+GoodStub = namedtuple('GoodStub',
+                      ['id_price', 'id_commodity', 'full_name', 'count',
+                       'barcode'])
 
 
 class GoodServiceException(Exception):
@@ -36,22 +37,22 @@ class GoodService(object):
         return Good.query.all()
 
     @classmethod
-    def get_or_create_commodity_numbers(cls, commodity_id, number_local=None,
-                                        number_global=None, id=None):
+    def get_or_create_commodity_numbers(
+            cls, commodity_id, number_local=None, number_global=None, id=None):
         from applications.commodity.service import CommodityService
         commodity = CommodityService.get_by_id(commodity_id)
 
         if commodity.numeric:
             if not number_local and not number_global:
                 raise GoodArgumentExc(
-                    u"Для номерного товара '%s' не указаны "
-                    u"номера" % unicode(commodity.name))
+                    u"Для номерного товара '%s' не указаны номера" %
+                    unicode(commodity.name))
 
         if commodity.numeric is False:
             if number_local or number_global:
                 raise GoodArgumentExc(
-                    u"Для безномерного товара '%s' нельзя указывать "
-                    u"номера" % unicode(commodity.name))
+                    u"Для безномерного товара '%s' нельзя указывать номера" %
+                    unicode(commodity.name))
 
         try:
             if id:
@@ -97,22 +98,23 @@ class GoodService(object):
 
     @classmethod
     def full_name(cls, good):
-        return cls.generate_name(
-            good.commodity.name, good.number_local, good.number_global)
+        return cls.generate_name(good.commodity.name, good.number_local,
+                                 good.number_global)
 
     @classmethod
     def generate_name(cls, name, number_local=None, number_global=None):
         numeric = True if number_local and number_global else False
         if numeric:
-            full_name = (name + u" №" + unicode(number_local) + u"(" +
-                         unicode(number_global) + u")")
+            full_name = name + u" №" + unicode(number_local) + u"(" + unicode(
+                number_global) + u")"
         else:
             full_name = name
         return full_name
 
     @classmethod
     def update_good(cls, session, id, barcode, commodity_id, number_local=None,
-                    number_global=None, price_id=None, full_name=None):
+                    number_global=None, price_id=None,
+                    full_name=None):
         good = cls.get_good(id)
         good.barcode = barcode
         good.commodity_id = commodity_id

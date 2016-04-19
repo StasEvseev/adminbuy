@@ -6,9 +6,8 @@ import uuid
 from flask import request
 from flask.ext.restful import marshal_with, fields, abort
 from applications.waybill.constant import GOOD_ATTR, COUNT_ATTR
-from applications.waybill_return.model import (WayBillReturn,
-                                               WayBillReturnItems, RETAIL,
-                                               FINISH)
+from applications.waybill_return.model import WayBillReturn, \
+    WayBillReturnItems, RETAIL, FINISH
 from applications.waybill_return.service import WayBillReturnService
 from config import PATH_TO_GENERATE_INVOICE, PATH_WEB
 from db import db
@@ -16,10 +15,11 @@ from excel.output import PrintInvoice, PATH_TEMPLATE
 
 from log import error, debug, warning
 
-from resources.core import (BaseTokeniseResource, BaseCanoniseResource,
-                            BaseInnerCanon)
+from resources.core import BaseTokeniseResource, BaseCanoniseResource, \
+    BaseInnerCanon
+from services.helperserv import HelperService
 
-from services import HelperService
+__author__ = 'StasEvseev'
 
 
 ITEM = {
@@ -110,11 +110,9 @@ class WayBillReturnCanon(BaseCanoniseResource):
                     items = WayBillReturnService.build_retail_items(
                         obj.waybill_items)
                 except Exception as exc:
-                    debug(u"Ошибка сохранения накладной "
-                          u"%s. " + unicode(exc) % obj)
-                    raise WayBillReturnCanon.WayBillCanonException(
-                        unicode(exc))
-
+                    debug(u"Ошибка сохранения накладной %s. " + unicode(
+                        exc) % obj)
+                    raise WayBillReturnCanon.WayBillCanonException(unicode(exc))
                 WayBillReturnService.upgrade_items(waybill, items)
         except WayBillReturnService.WayBillReturnServiceExc as exc:
             debug(u"Сохранение накладной %s не удалось." % obj)
@@ -146,8 +144,8 @@ class WayBillReturnStatusResource(BaseTokeniseResource):
 
             return inventory
         except Exception as exc:
-            message = (u" Не удалось сменить статус `накладной "
-                       u"возврата` %s." % id)
+            message = u" Не удалось сменить статус `накладной " \
+                      u"возврата` %s." % id
             error(message + unicode(exc))
             abort(400, message=message)
 

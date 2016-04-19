@@ -2,9 +2,10 @@
 
 from flask import Blueprint
 
-
 from resources import MyApi
 from applications.good.resource import GoodResourceCanon, GoodPrintBarcode
+
+__author__ = 'StasEvseev'
 
 
 blueprint = Blueprint('good_blueprint', __name__)

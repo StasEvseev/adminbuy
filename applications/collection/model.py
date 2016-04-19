@@ -3,6 +3,8 @@
 from datetime import date
 from db import db
 
+__author__ = 'StasEvseev'
+
 
 class Collect(db.Model):
     id = db.Column(db.Integer, primary_key=True)

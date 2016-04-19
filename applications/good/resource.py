@@ -3,12 +3,16 @@
 import os
 import uuid
 from flask.ext.restful import fields, abort
+from sqlalchemy.orm import joinedload
 
 from applications.good.model import Good
 from applications.good.service import GoodService, GoodServiceException
 from config import PATH_TO_GENERATE_INVOICE, PATH_WEB
 
 from resources.core import BaseCanoniseResource, BaseTokeniseResource
+
+
+__author__ = 'StasEvseev'
 
 
 class GoodResourceCanon(BaseCanoniseResource):
@@ -40,7 +44,8 @@ class GoodResourceCanon(BaseCanoniseResource):
     def pre_save(self, obj, data):
         from applications.commodity.service import CommodityService
         obj.number_local = str(obj.number_local) if obj.number_local else None
-        obj.number_global = str(obj.number_global) if obj.number_global else None
+        obj.number_global = str(obj.number_global) if obj.number_global \
+            else None
         if obj.commodity_id is None:
             raise GoodResourceCanon.GoodResourceException(
                 u"Нельзя сохранить товар без номенклатуры.")
@@ -65,12 +70,12 @@ class GoodResourceCanon(BaseCanoniseResource):
 
         if res is True:
             if commodity.numeric:
-                message = (u"В системе уже есть товар с наименованием %s и "
-                           u"№%s(%s)" % (commodity.name, obj.number_local,
-                                         obj.number_global))
+                message = u"В системе уже есть товар с наименованием %s и " \
+                          u"№%s(%s)" % (
+                    commodity.name, obj.number_local, obj.number_global)
             else:
-                message = (u"В системе уже есть безномерной товар с "
-                           u"наименованием %s" % commodity.name)
+                message = u"В системе уже есть безномерной товар с " \
+                          u"наименованием %s" % commodity.name
             raise GoodResourceCanon.GoodResourceException(message)
 
         good = super(GoodResourceCanon, self).pre_save(good, data)
@@ -84,6 +89,15 @@ class GoodResourceCanon(BaseCanoniseResource):
             abort(404, message=unicode(err))
 
         return good
+
+    def query_initial(self, ids=None, *args, **kwargs):
+        queryset = super(GoodResourceCanon, self).query_initial(
+            ids, *args, **kwargs)
+
+        queryset = queryset.options(
+            joinedload('price'), joinedload('commodity'))
+
+        return queryset
 
 
 def createBarCodes(path, barcode_value):
@@ -124,6 +138,10 @@ class GoodPrintBarcode(BaseTokeniseResource):
         path_to_target = os.path.join(PATH_TO_GENERATE_INVOICE, file_name)
         path = os.path.join(PATH_WEB, file_name)
 
+        if good.barcode is None or good.barcode == '':
+            abort(400, message=u"Для печати штрих кода, необходимо указать "
+                               u"его!")
+
         createBarCodes(path_to_target, str(good.barcode))
 
         return {"link": path}
@@ -148,5 +166,6 @@ def good_from_dict(data):
     price_id = data.get('price_id')
     full_name = data.get('full_name')
     barcode = data.get('barcode')
+    
     return (commodity_id, number_local, number_global, price_id, full_name,
             barcode)

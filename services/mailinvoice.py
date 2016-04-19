@@ -12,8 +12,10 @@ from models.invoice import Invoice
 from models.invoiceitem import InvoiceItem
 from applications.provider_app.service import ProviderService
 from applications.mails.model import Mail
-from applications.mails.action import (get_count_mails, NotConnect, MailHepls,
-                                       mark_as_unseen)
+from applications.mails.action import get_count_mails, NotConnect, MailHepls, \
+    mark_as_unseen
+
+__author__ = 'StasEvseev'
 
 
 class MailInvoiceException(Exception):
@@ -37,7 +39,7 @@ class InvoiceService(object):
         20 декабря 2014 года.
         """
         invoice = Invoice.query.filter(
-            Invoice.date==date).order_by(desc(Invoice.id)).first()
+            Invoice.date == date).order_by(desc(Invoice.id)).first()
         if invoice is None:
             return "001-" + date.strftime("%d%m%Y")
         else:
@@ -78,8 +80,7 @@ class InvoiceService(object):
         Получаем позиции накладной по id
         """
         return InvoiceItem.query.filter(
-            InvoiceItem.invoice_id == invoice_id
-        ).order_by(InvoiceItem.id).all()
+            InvoiceItem.invoice_id == invoice_id).order_by(InvoiceItem.id).all()
 
     @classmethod
     def get_items_acceptance(cls, acc_id, remain=True):
@@ -91,8 +92,10 @@ class InvoiceService(object):
 
         def get_count_remain(remain, item, pointsale_id):
             if remain:
-                return PointSaleService.item_to_pointsale_good(pointsale.id, item.good_id).count \
-                    if PointSaleService.item_to_pointsale_good(pointsale.id, item.good_id) else ""
+                return PointSaleService.item_to_pointsale_good(
+                    pointsale.id, item.good_id).count \
+                    if PointSaleService.item_to_pointsale_good(
+                    pointsale.id, item.good_id) else ""
             else:
                 return item.count
 
@@ -104,8 +107,12 @@ class InvoiceService(object):
                 "good_id": item.good_id,
                 "price_without_NDS": item.price_without_NDS,
                 "price_with_NDS": item.price_with_NDS,
-                "price_retail": GoodService.get_price(item.good_id).price_retail if GoodService.get_price(item.good_id) else "",
-                "price_gross": GoodService.get_price(item.good_id).price_gross if GoodService.get_price(item.good_id) else "",
+                "price_retail": GoodService.get_price(
+                    item.good_id).price_retail if GoodService.get_price(
+                    item.good_id) else "",
+                "price_gross": GoodService.get_price(
+                    item.good_id).price_gross if GoodService.get_price(
+                    item.good_id) else "",
                 "count": get_count_remain(remain, item, pointsale.id),
                 "fact_count": item.fact_count
 
@@ -116,8 +123,12 @@ class InvoiceService(object):
                 "id": item.id,
                 "full_name": item.good.full_name,
                 "good_id": item.good_id,
-                "price_retail": GoodService.get_price(item.good_id).price_retail if GoodService.get_price(item.good_id) else "",
-                "price_gross": GoodService.get_price(item.good_id).price_gross if GoodService.get_price(item.good_id) else "",
+                "price_retail": GoodService.get_price(
+                    item.good_id).price_retail if GoodService.get_price(
+                    item.good_id) else "",
+                "price_gross": GoodService.get_price(
+                    item.good_id).price_gross if GoodService.get_price(
+                    item.good_id) else "",
                 "count": get_count_remain(remain, item, pointsale.id),
 
             } for item in WayBillService.get_items(acceptance.waybill_id)]
@@ -148,9 +159,16 @@ class InvoiceService(object):
             "id": item.id,
             "full_name": item.full_name,
             "good_id": item.good_id,
-            "price_retail": GoodService.get_price(item.good_id).price_retail if GoodService.get_price(item.good_id) else "",
-            "price_gross": GoodService.get_price(item.good_id).price_gross if GoodService.get_price(item.good_id) else "",
-            "count": PointSaleService.item_to_pointsale_good(pointsale.id, item.good_id).count if PointSaleService.item_to_pointsale_good(pointsale.id, item.good_id) else "",
+            "price_retail": GoodService.get_price(
+                item.good_id).price_retail if GoodService.get_price(
+                item.good_id) else "",
+            "price_gross": GoodService.get_price(
+                item.good_id).price_gross if GoodService.get_price(
+                item.good_id) else "",
+            "count": PointSaleService.item_to_pointsale_good(
+                pointsale.id, item.good_id).count
+            if PointSaleService.item_to_pointsale_good(
+                pointsale.id, item.good_id) else "",
 
         } for item in cls.get_items(invoice_id=invoice_id)]
 
@@ -192,8 +210,8 @@ class InvoiceService(object):
                 provider = ProviderService.get_by_id(provider_id)
 
                 invmodel = InvoiceService.create_invoice(
-                    number=InvoiceService.generate_number(date), date=date,provider=provider,
-                    sum_without_NDS=None, sum_with_NDS=None,
+                    number=InvoiceService.generate_number(date), date=date,
+                    provider=provider, sum_without_NDS=None, sum_with_NDS=None,
                     sum_NDS=None, weight=None, responsible=None)
 
                 db.session.add(invmodel)
@@ -213,14 +231,18 @@ class InvoiceService(object):
                 name = good.commodity.name
                 number_local = good.number_local
                 number_global = good.number_global
-                full_name = GoodService.generate_name(name, number_local, number_global)
+                full_name = GoodService.generate_name(
+                    name, number_local, number_global)
 
                 invoice = invmodel
                 count_order= None
                 count_postorder = None
-                count = item['count_invoice'] if 'count_invoice' in item else None
-                price_without_NDS = item['price_pre'] if 'price_pre' in item else None
-                price_with_NDS = item['price_post'] if 'price_post' in item else None
+                count = item['count_invoice'] if 'count_invoice' in item \
+                    else None
+                price_without_NDS = item['price_pre'] if 'price_pre' in item \
+                    else None
+                price_with_NDS = item['price_post'] if 'price_post' in item \
+                    else None
                 sum_without_NDS = None
                 sum_NDS = None
                 rate_NDS = item['NDS'] if 'NDS' in item else None
@@ -230,14 +252,20 @@ class InvoiceService(object):
                 placer = None
                 fact_count = None
 
-                cls.handle_invoiceitem(full_name, name, number_local, number_global, invoice, count_order, count_postorder,
-                                       count, price_without_NDS, price_with_NDS, sum_without_NDS, sum_NDS, rate_NDS, sum_with_NDS,
-                                       thematic, count_whole_pack, placer, good, fact_count)
+                cls.handle_invoiceitem(
+                    full_name, name, number_local, number_global, invoice,
+                    count_order, count_postorder, count, price_without_NDS,
+                    price_with_NDS, sum_without_NDS, sum_NDS, rate_NDS,
+                    sum_with_NDS, thematic, count_whole_pack, placer, good,
+                    fact_count)
 
                 if 'price_retail' in item or 'price_gross' in item:
                     PriceService.create_or_update(good, DataToUpdatePrice(
-                        id_commodity=good.commodity_id, price_retail=item['price_retail'], price_gross=item['price_gross'],
-                        price_prev=item['price_prev'] if 'price_prev' in item else None,
+                        id_commodity=good.commodity_id,
+                        price_retail=item['price_retail'],
+                        price_gross=item['price_gross'],
+                        price_prev=item['price_prev'] if 'price_prev' in item
+                        else None,
                         price_post=item['price_post'],
                         NDS=item['NDS'] if 'NDS' in item else None,
                         number_local=number_local, number_global=number_global,
@@ -252,10 +280,12 @@ class InvoiceService(object):
             return invmodel
 
     @classmethod
-    def handle_invoiceitem(cls, full_name, name, number_local, number_global, invoice, count_order,
-                           count_postorder, count, price_without_NDS, price_with_NDS, sum_without_NDS,
-                           sum_NDS, rate_NDS, sum_with_NDS, thematic, count_whole_pack, placer, good=None,
-                           fact_count=None, price_retail=None, price_gross=None):
+    def handle_invoiceitem(
+            cls, full_name, name, number_local, number_global, invoice,
+            count_order, count_postorder, count, price_without_NDS,
+            price_with_NDS, sum_without_NDS, sum_NDS, rate_NDS, sum_with_NDS,
+            thematic, count_whole_pack, placer, good=None, fact_count=None,
+            price_retail=None, price_gross=None):
         """
         Обработка позиции накладной.
 
@@ -265,19 +295,19 @@ class InvoiceService(object):
         from applications.commodity.service import CommodityService
         invitem = InvoiceItem()
 
-        invitem.full_name=full_name
-        invitem.count_order=count_order
-        invitem.count_postorder=count_postorder
-        invitem.count=count
-        invitem.price_without_NDS=price_without_NDS
-        invitem.price_with_NDS=price_with_NDS
-        invitem.sum_without_NDS=sum_without_NDS
-        invitem.sum_with_NDS=sum_with_NDS
-        invitem.sum_NDS=sum_NDS
-        invitem.rate_NDS=rate_NDS
-        invitem.count_whole_pack=count_whole_pack
-        invitem.placer=placer
-        invitem.invoice=invoice
+        invitem.full_name = full_name
+        invitem.count_order = count_order
+        invitem.count_postorder = count_postorder
+        invitem.count = count
+        invitem.price_without_NDS = price_without_NDS
+        invitem.price_with_NDS = price_with_NDS
+        invitem.sum_without_NDS = sum_without_NDS
+        invitem.sum_with_NDS = sum_with_NDS
+        invitem.sum_NDS = sum_NDS
+        invitem.rate_NDS = rate_NDS
+        invitem.count_whole_pack = count_whole_pack
+        invitem.placer = placer
+        invitem.invoice = invoice
         invitem.price_gross = price_gross
         invitem.price_retail = price_retail
 
@@ -303,9 +333,11 @@ class InvoiceService(object):
                 db.session.add(comm)
                 db.session.flush()
             try:
-                res, good = GoodService.get_or_create_commodity_numbers(comm.id, number_local, number_global)
+                res, good = GoodService.get_or_create_commodity_numbers(
+                    comm.id, number_local, number_global)
             except GoodArgumentExc as exc:
-                error(u"При обработке позиций накладной возникла ошибка. " + unicode(exc))
+                error(u"При обработке позиций накладной возникла ошибка. " +
+                      unicode(exc))
                 raise
 
             good.commodity = comm
@@ -330,16 +362,19 @@ class MailInvoiceService(object):
     def handle(cls, mail):
         if mail.is_handling is False:
             mail.is_handling = True
-            print "PULISH"
-            r = redis.StrictRedis(host='localhost', port=6379, db=0)
-            r.publish("mail_handle", mail.id)
+            print "PUbLISH"
+            try:
+                r = redis.StrictRedis(host='localhost', port=6379, db=0)
+                r.publish("mail_handle", mail.id)
+            except Exception as exc:
+                error(u"Не удалось подключиться к редису")
 
     @classmethod
     def handle_mail(cls):
         """
         Метод обрабатывает почтовый ящик
         """
-        from services import ProviderService
+        from applications.provider_app.service import ProviderService
         res = []
         debug(u"Начало проверки почты")
         emails = ProviderService.get_all_emails()
@@ -364,6 +399,14 @@ class MailInvoiceService(object):
                         ml.provider = provider
                         db.session.add(ml)
                         db.session.commit()
+                        try:
+                            print "PUBLIC new mail"
+                            r = redis.StrictRedis(
+                                host='localhost', port=6379, db=0)
+                            r.publish("new mail", "")
+                        except Exception as exc:
+                            error(u"Не удалось подключиться к редису")
+
                         res.append(ml)
             except GoodArgumentExc as exc:
                 mark_as_unseen(ids)
@@ -372,7 +415,8 @@ class MailInvoiceService(object):
                 try:
                     mark_as_unseen(ids)
                 except Exception as err:
-                    error(u"Произошла ошибка при пометке писем как непрочитанных. %s", unicode(err))
+                    error(u"Произошла ошибка при пометке писем как "
+                          u"непрочитанных. %s", unicode(err))
                     raise
                 error(u"Произошла ошибка при обработке почты. %s", unicode(err))
                 raise MailInvoiceException(err)
@@ -383,10 +427,10 @@ class MailInvoiceService(object):
     def get_new_mails(cls, emails=None):
         res = []
         if emails is None:
-            return Mail.query.filter(Mail.is_handling==False)
+            return Mail.query.filter(Mail.is_handling == False)
         else:
             for email in emails:
-                res.append(Mail.query.filter(Mail.from_==email))
+                res.append(Mail.query.filter(Mail.from_ == email))
         return res
 
     @classmethod

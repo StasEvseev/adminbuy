@@ -7,6 +7,8 @@ from applications.settings.service import SettingsService
 from db import db
 from resources.core import BaseCanoniseResource, BaseTokeniseResource
 
+__author__ = 'StasEvseev'
+
 
 class BaseCanonWithoutId(BaseCanoniseResource):
 
@@ -24,7 +26,9 @@ class BaseCanonWithoutId(BaseCanoniseResource):
             }
         )
 
-        return ((cls.prefix_url_without_id, type1), )
+        return (
+            (cls.prefix_url_without_id, type1),
+        )
 
 
 class ProfileCanon(BaseCanonWithoutId):
@@ -55,4 +59,3 @@ class ProfileCanon(BaseCanonWithoutId):
         db.session.commit()
 
         return profile
-

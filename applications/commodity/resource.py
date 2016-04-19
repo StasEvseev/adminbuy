@@ -5,6 +5,8 @@ from flask.ext.restful import fields
 from applications.commodity.models import Commodity
 from resources.core import BaseCanoniseResource
 
+__author__ = 'StasEvseev'
+
 
 class CommodityCanonResource(BaseCanoniseResource):
     model = Commodity

@@ -8,6 +8,8 @@ from resources.core import BaseCanoniseResource, BaseTokeniseAdminResource
 from security import user_datastore
 from services.userservice import UserService
 
+__author__ = 'StasEvseev'
+
 
 class RoleCanon(BaseCanoniseResource):
     model = Role

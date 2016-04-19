@@ -5,7 +5,7 @@ from applications.waybill.resource import (WayBillCanon, WayBillHelperResource,
                                            WayBillItemItemsResource,
                                            WayBillStatusResource,
                                            WayBillItemInnerCanon, WayBillPrint,
-                                           WayBillBulk)
+                                           WayBillBulk, WayBillPrintBulk)
 from resources import MyApi
 
 
@@ -19,3 +19,4 @@ api.register_canon(WayBillItemInnerCanon, '/waybill')
 api.add_resource(WayBillHelperResource, '/waybill/check_exists')
 api.add_resource(WayBillStatusResource, '/waybill/<int:id>/status')
 api.add_resource(WayBillPrint, '/waybill/print/<int:id>')
+api.add_resource(WayBillPrintBulk, '/waybill/print_bulk')

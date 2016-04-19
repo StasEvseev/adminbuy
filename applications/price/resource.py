@@ -1,13 +1,15 @@
-#coding: utf-8
+# coding: utf-8
 
 from flask import request
 from flask.ext.restful import abort, marshal_with, fields
-from applications.price.service import PriceService, NotFindPriceParishExc, PriceServiceException
+from applications.good.service import GoodService
+from applications.price.service import (PriceService, NotFindPriceParishExc,
+                                        PriceServiceException)
 from db import db
 from log import debug, error
 from resources.core import BaseTokeniseResource
+from services.mailinvoice import InvoiceService, MailInvoiceService
 
-from services import GoodService, MailInvoiceService, InvoiceService
 
 ATTR = {
     'id': fields.Integer,
@@ -113,7 +115,8 @@ class PriceHelperResource(BaseTokeniseResource):
         try:
             prices = PriceService.prices_parish_to_commodity_price(
                 commodity, float(price_post))
-        #TODO - кажется тут не вылетит никогда исключение PriceServiceException
+        # TODO - кажется тут не вылетит никогда исключение
+        # PriceServiceException
         except PriceServiceException as exc:
             debug(unicode(exc))
             error(u"Это случилось. resource/price.py")
@@ -141,10 +144,7 @@ class PriceBulkInvoiceResource(BaseTokeniseResource):
         invoice_id = data['invoice_id']
         invoice = InvoiceService.get_by_id(invoice_id)
         try:
-            # MailInvoiceService
             PriceService.create_or_update_prices(invoice, prices)
-            # mail.is_handling = True
-            # db.session.add(mail)
             db.session.commit()
         except PriceServiceException as err:
             debug(unicode(err))

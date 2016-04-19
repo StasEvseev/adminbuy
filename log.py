@@ -24,7 +24,7 @@ class MyHandler(logging.Handler):
         super(MyHandler, self).__init__(*args, **kwargs)
 
     def emit(self, record):
-        from tasks import send_error
+        from tasks.mailmodule import send_error
         try:
             send_error.apply_async([record])
         except EncodeError as exc:
@@ -35,8 +35,8 @@ class MyHandler(logging.Handler):
             try:
                 raise e, None, tr
             except Exception:
-                error(u"Произошла ошибка при конвертации: " + unicode(
-                    tracebackold) + "\n>>>>>\n")
+                error(u"Произошла ошибка при конвертации: " +
+                      unicode(tracebackold) + "\n>>>>>\n")
                 raise
 
 

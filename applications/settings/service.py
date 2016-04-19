@@ -4,6 +4,8 @@ from applications.settings.model import Profile
 from db import db
 from services.core import BaseSQLAlchemyModelService
 
+__author__ = 'StasEvseev'
+
 
 class SettingsService(BaseSQLAlchemyModelService):
     model = Profile

@@ -5,6 +5,8 @@ from flask import g
 from flask.ext.principal import RoleNeed, Permission, Identity
 from flask.ext.restful import abort
 
+__author__ = 'StasEvseev'
+
 
 def roles_accepted2(*roles):
     """Decorator which specifies that a user must have at least one of the

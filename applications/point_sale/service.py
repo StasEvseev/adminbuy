@@ -1,10 +1,12 @@
-#coding: utf-8
+# coding: utf-8
 
 from sqlalchemy import and_
 from sqlalchemy.orm.exc import NoResultFound
 
 from db import db
 from applications.point_sale.models import PointSale, PointSaleItem
+
+__author__ = 'StasEvseev'
 
 
 class PointSaleService(object):
@@ -15,7 +17,8 @@ class PointSaleService(object):
     @classmethod
     def point_save(cls, obj, name, address, is_central=False):
         if is_central is True and cls.has_central(obj.id):
-            raise PointSaleService.PointSaleServiceException(u"Нельзя создавать более одной центральной точки.")
+            raise PointSaleService.PointSaleServiceException(
+                u"Нельзя создавать более одной центральной точки.")
         obj.name = name
         obj.address = address
         obj.is_central = is_central
@@ -24,11 +27,13 @@ class PointSaleService(object):
 
     @classmethod
     def get_central(cls):
-        pointsl = PointSale.query.filter(PointSale.is_central==True)
+        pointsl = PointSale.query.filter(PointSale.is_central == True)
         if pointsl.count() < 1:
-            raise PointSaleService.PointSaleServiceException(u"В системе не заведено центральной точки.")
+            raise PointSaleService.PointSaleServiceException(
+                u"В системе не заведено центральной точки.")
         if pointsl.count() > 1:
-            raise PointSaleService.PointSaleServiceException(u"В системе не заведено больше одной центральной точки.")
+            raise PointSaleService.PointSaleServiceException(
+                u"В системе не заведено больше одной центральной точки.")
         return pointsl.one()
 
     @classmethod
@@ -81,8 +86,8 @@ class PointSaleService(object):
     def item_to_pointsale_good(cls, pointsale_id, good_id):
         try:
             return PointSaleItem.query.filter(
-                PointSaleItem.pointsale_id==pointsale_id,
-                PointSaleItem.good_id==good_id).one()
+                PointSaleItem.pointsale_id == pointsale_id,
+                PointSaleItem.good_id == good_id).one()
         except NoResultFound:
             pass
 
@@ -96,8 +101,8 @@ class PointSaleService(object):
     def items_pointsale(cls, point_id, excl_items=None):
         if excl_items:
             return PointSaleItem.query.filter(
-                and_(PointSaleItem.pointsale_id==point_id,
+                and_(PointSaleItem.pointsale_id == point_id,
                      PointSaleItem.id.notin_(excl_items)))
         else:
             return PointSaleItem.query.filter(
-                PointSaleItem.pointsale_id==point_id)
+                PointSaleItem.pointsale_id == point_id)

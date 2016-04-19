@@ -7,6 +7,8 @@ from flask.ext.httpauth import HTTPBasicAuth
 from db import db
 from model import User
 
+__author__ = 'StasEvseev'
+
 
 auth = HTTPBasicAuth()
 auth_admin = HTTPBasicAuth()
@@ -20,14 +22,14 @@ def load_user(user_id):
 
 
 def unauthorized():
-    return make_response(jsonify(
-        {'error': 'Unauthorized access'}), 401,
+    return make_response(
+        jsonify({'error': 'Unauthorized access'}), 401,
         [('WWW-Authenticate', 'error')])
 
 
 def access_denied():
-    return make_response(jsonify(
-        {'error': "Permission denied"}), 403,
+    return make_response(
+        jsonify({'error': "Permission denied"}), 403,
         [('WWW-Authenticate', 'error')])
 
 

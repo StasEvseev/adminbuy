@@ -6,6 +6,8 @@ from applications.receiver.service import ReceiverService
 
 from resources.core import BaseTokeniseResource, BaseCanoniseResource
 
+__author__ = 'StasEvseev'
+
 
 class ReceiverResource(BaseTokeniseResource):
     @marshal_with({'items': fields.List(fields.Nested({

@@ -1,14 +1,12 @@
 # coding: utf-8
 
 from datetime import datetime
-from applications.acceptance.constant import (GOOD_ATTR, COUNT_ATTR,
-                                              ITEM_ID_ATTR, PRICE_GROSS_ATTR,
-                                              PRICE_POST_ATTR,
-                                              PRICE_RETAIL_ATTR, GOOD_ID_ATTR,
-                                              GOOD_OBJ_ATTR)
-from applications.acceptance.model import (MAIL, NEW, Acceptance,
-                                           AcceptanceItems, IN_PROG, VALIDATED)
 
+from applications.acceptance.constant import (
+    GOOD_ATTR, COUNT_ATTR, ITEM_ID_ATTR, PRICE_GROSS_ATTR, PRICE_POST_ATTR,
+    PRICE_RETAIL_ATTR, GOOD_ID_ATTR, GOOD_OBJ_ATTR)
+from applications.acceptance.model import (
+    MAIL, NEW, Acceptance, AcceptanceItems, IN_PROG, VALIDATED)
 from applications.good.model import Good
 from applications.price.model import PriceParish
 from models.invoice import Invoice
@@ -21,6 +19,8 @@ from tests.helpers.suits.application import ApplicationSuite
 from tests.helpers.suits.invoice import MailInvoiceTestSuite
 from tests.helpers.suits.pointsale import PointSaleSuite
 from tests.helpers.suits.providersuit import ProviderTestSuite
+
+__author__ = 'StasEvseev'
 
 
 class AcceptanceTest(BaseTestCase):
@@ -46,11 +46,12 @@ class AcceptanceTest(BaseTestCase):
             self.pointsale_id = pointsale.id
 
     def invoice_(self):
-        resp = self.invoice_suite.handle_invoice(
+        """
+        Принимаем накладную из файла FILE_NAME
+        """
+        self.invoice_suite.handle_invoice(
             datetime=datetime.now(), file_name=self.FILE_NAME, mail_id=1)
-        self.invoice_id = Invoice.query.first().id
-
-        return resp
+        return Invoice.query.first().id
 
     def price_to_good(self, good_id):
         return Good.query.filter(
@@ -92,9 +93,9 @@ class AcceptanceTest(BaseTestCase):
         )
 
     def success_stories_mail(self, date):
-        self.invoice_()
-        return self.acceptance_suite.create(
-            date=date, type=MAIL, invoice_id=self.invoice_id,
+        invoice_id = self.invoice_()
+        return invoice_id, self.acceptance_suite.create(
+            date=date, type=MAIL, invoice_id=invoice_id,
             pointsale_id=self.pointsale_id)
 
 
@@ -104,9 +105,9 @@ class AcceptanceFromMail(AcceptanceTest):
         date = Generator.generate_date()
 
         with self.application.app_context():
-            resp = self.success_stories_mail(date)
+            invoice_id, resp = self.success_stories_mail(date)
             acc_id = 1
-            inv_items = self.invoice_items(self.invoice_id)
+            inv_items = self.invoice_items(invoice_id)
             items = self.acceptance_items(acc_id)
             self.assertEqual(resp.status_code, 200)
             self.assertEqual(self.acceptance_count(), 1)
@@ -149,9 +150,6 @@ class AcceptanceFromMail(AcceptanceTest):
             for item_acc in items_acc:
                 item = self.acceptance_item(item_acc['id'])
                 self.assertEqual(item.count, item_acc[COUNT_ATTR])
-
-    def tear_down(self):
-        pass
 
 
 class AcceptanceCustom(AcceptanceTest):
@@ -205,27 +203,27 @@ class AcceptanceCustom(AcceptanceTest):
             resp = self.acceptance_suite.update_new_items(acc_id, items=[
                 {GOOD_OBJ_ATTR: {GOOD_ID_ATTR: good_id}, COUNT_ATTR: 15,
                  PRICE_POST_ATTR: 8.0,
-                 PRICE_RETAIL_ATTR: PRICE_R_G_1 + 1.0,
-                 PRICE_GROSS_ATTR: PRICE_G_G_1},
+                 PRICE_RETAIL_ATTR: PRICE_R_G_1 + 1.0, PRICE_GROSS_ATTR:
+                     PRICE_G_G_1},
                 {GOOD_OBJ_ATTR: {GOOD_ID_ATTR: good_id_3}, COUNT_ATTR: 5,
-                 PRICE_POST_ATTR: 9.5,
-                 PRICE_RETAIL_ATTR: PRICE_R_G_3, PRICE_GROSS_ATTR: PRICE_G_G_3}
+                 PRICE_POST_ATTR: 9.5, PRICE_RETAIL_ATTR: PRICE_R_G_3,
+                 PRICE_GROSS_ATTR: PRICE_G_G_3}
             ])
             self.assertEqual(resp.status_code, 200)
             self.assertEqual(self.acceptance_count(), 1)
             self.assertEqual(self.invoice_count(), 1)
-            self.assertEqual(
-                self.priceparish_to_good(good_id).count(), count_pp_good_1)
-            self.assertEqual(
-                self.priceparish_to_good(good_id_3).count(), count_pp_good_3)
-            self.assertEqual(
-                self.price_to_good(good_id).price_retail, PRICE_R_G_1)
-            self.assertEqual(
-                self.price_to_good(good_id).price_gross, PRICE_G_G_1)
-            self.assertEqual(
-                self.price_to_good(good_id_3).price_retail, PRICE_R_G_3)
-            self.assertEqual(
-                self.price_to_good(good_id_3).price_gross, PRICE_G_G_3)
+            self.assertEqual(self.priceparish_to_good(good_id).count(),
+                             count_pp_good_1)
+            self.assertEqual(self.priceparish_to_good(good_id_3).count(),
+                             count_pp_good_3)
+            self.assertEqual(self.price_to_good(good_id).price_retail,
+                             PRICE_R_G_1)
+            self.assertEqual(self.price_to_good(good_id).price_gross,
+                             PRICE_G_G_1)
+            self.assertEqual(self.price_to_good(good_id_3).price_retail,
+                             PRICE_R_G_3)
+            self.assertEqual(self.price_to_good(good_id_3).price_gross,
+                             PRICE_G_G_3)
 
             items = self.acceptance_items(acc_id)
             p_items = self.pointsale_items(self.pointsale_id)
@@ -237,29 +235,28 @@ class AcceptanceCustom(AcceptanceTest):
 
             resp = self.acceptance_suite.update_new_items(acc_id, items=[
                 {GOOD_OBJ_ATTR: {GOOD_ID_ATTR: good_id}, COUNT_ATTR: 15,
-                 PRICE_POST_ATTR: 8.0,
-                 PRICE_RETAIL_ATTR: PRICE_R_G_1 + 1.0,
+                 PRICE_POST_ATTR: 8.0, PRICE_RETAIL_ATTR: PRICE_R_G_1 + 1.0,
                  PRICE_GROSS_ATTR: PRICE_G_G_1},
                 {GOOD_OBJ_ATTR: {GOOD_ID_ATTR: good_id_3}, COUNT_ATTR: 5,
-                 PRICE_POST_ATTR: 9.5,
-                 PRICE_RETAIL_ATTR: PRICE_R_G_3, PRICE_GROSS_ATTR: PRICE_G_G_3}
+                 PRICE_POST_ATTR: 9.5, PRICE_RETAIL_ATTR: PRICE_R_G_3,
+                 PRICE_GROSS_ATTR: PRICE_G_G_3}
             ])
 
             self.assertEqual(resp.status_code, 200)
             self.assertEqual(self.acceptance_count(), 1)
             self.assertEqual(self.invoice_count(), 1)
-            self.assertEqual(
-                self.priceparish_to_good(good_id).count(), count_pp_good_1)
-            self.assertEqual(
-                self.priceparish_to_good(good_id_3).count(), count_pp_good_3)
-            self.assertEqual(
-                self.price_to_good(good_id).price_retail, PRICE_R_G_1)
-            self.assertEqual(
-                self.price_to_good(good_id).price_gross, PRICE_G_G_1)
-            self.assertEqual(
-                self.price_to_good(good_id_3).price_retail, PRICE_R_G_3)
-            self.assertEqual(
-                self.price_to_good(good_id_3).price_gross, PRICE_G_G_3)
+            self.assertEqual(self.priceparish_to_good(good_id).count(),
+                             count_pp_good_1)
+            self.assertEqual(self.priceparish_to_good(good_id_3).count(),
+                             count_pp_good_3)
+            self.assertEqual(self.price_to_good(good_id).price_retail,
+                             PRICE_R_G_1)
+            self.assertEqual(self.price_to_good(good_id).price_gross,
+                             PRICE_G_G_1)
+            self.assertEqual(self.price_to_good(good_id_3).price_retail,
+                             PRICE_R_G_3)
+            self.assertEqual(self.price_to_good(good_id_3).price_gross,
+                             PRICE_G_G_3)
 
             items = self.acceptance_items(acc_id)
             p_items = self.pointsale_items(self.pointsale_id)
@@ -301,14 +298,10 @@ class AcceptanceCrush(AcceptanceTest):
         date = Generator.generate_date()
         with self.application.app_context():
             count = self.acceptance_count()
-
-            resp = self.invoice_()
-
-            self.assertEqual(resp.status_code, 200)
-
+            invoice_id = self.invoice_()
             # Не выбран Тип
             resp = self.acceptance_suite.create(
-                date=date, invoice_id=self.invoice_id,
+                date=date, invoice_id=invoice_id,
                 pointsale_id=self.pointsale_id)
             self.assertEqual(resp.status_code, 400)
             self.assertEqual(self.acceptance_count(), count)
@@ -321,7 +314,7 @@ class AcceptanceCrush(AcceptanceTest):
 
             # Несуществующий тип
             resp = self.acceptance_suite.create(
-                date=date, type=3, invoice_id=self.invoice_id,
+                date=date, type=3, invoice_id=invoice_id,
                 pointsale_id=self.pointsale_id)
             self.assertEqual(resp.status_code, 400)
             self.assertEqual(self.acceptance_count(), count)
@@ -334,10 +327,10 @@ class AcceptanceCrush(AcceptanceTest):
             # Тип "Новая", а поставщик не выбран
             resp = self.acceptance_suite.create(
                 date=date, type=NEW, pointsale_id=self.pointsale_id,
-                invoice_id=self.invoice_id)
+                invoice_id=invoice_id)
             self.assertEqual(resp.status_code, 400)
             self.assertEqual(self.acceptance_count(), count)
 
-            resp = self.success_stories_mail(date)
+            invoice_id, resp = self.success_stories_mail(date)
             self.assertEqual(resp.status_code, 200)
             self.assertEqual(self.acceptance_count(), count + 1)

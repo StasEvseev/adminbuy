@@ -4,6 +4,7 @@ from flask import url_for
 from sqlalchemy_utils import ChoiceType
 from db import db
 
+
 FROM_MAIL = 1
 FROM_ACCEPTANCE = 2
 FROM_CUSTOM = 3
@@ -44,8 +45,7 @@ class WayBill(db.Model):
     date = db.Column(db.Date)
 
     # Торговая точка - откуда пересылают товар
-    pointsale_from_id = db.Column(
-        db.Integer, db.ForeignKey('point_sale.id'))
+    pointsale_from_id = db.Column(db.Integer, db.ForeignKey('point_sale.id'))
     pointsale_from = db.relationship(
         'PointSale', foreign_keys='WayBill.pointsale_from_id',
         backref=db.backref('from_waybills', lazy='dynamic'))

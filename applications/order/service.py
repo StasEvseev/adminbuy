@@ -1,7 +1,10 @@
-#coding: utf-8
+# coding: utf-8
+
 from db import db
 from applications.order.model import Order, OrderItem
 from services.core import BaseSQLAlchemyModelService
+
+__author__ = 'StasEvseev'
 
 
 class OrderService(BaseSQLAlchemyModelService):
@@ -9,13 +12,14 @@ class OrderService(BaseSQLAlchemyModelService):
 
     @classmethod
     def create_order(cls, date_start, date_end, provider_id):
-        order = Order(date_start=date_start, date_end=date_end, provider_id=provider_id)
+        order = Order(date_start=date_start, date_end=date_end,
+                      provider_id=provider_id)
         db.session.add(order)
         return order
 
     @classmethod
-    def handle_orderitem(cls, full_name, name, number_local, number_global, date, remission, NDS,
-                         price_prev, price_post, order):
+    def handle_orderitem(cls, full_name, name, number_local, number_global,
+                         date, remission, NDS, price_prev, price_post, order):
         from applications.good.service import GoodService
         from applications.commodity.service import CommodityService
         item = OrderItem()
@@ -39,7 +43,8 @@ class OrderService(BaseSQLAlchemyModelService):
             db.session.add(comm)
             db.session.flush()
 
-        res, good = GoodService.get_or_create_commodity_numbers(comm.id, number_local, number_global)
+        res, good = GoodService.get_or_create_commodity_numbers(
+            comm.id, number_local, number_global)
         good.commodity = comm
         good.full_name = full_name
         item.good = good

@@ -1,8 +1,11 @@
-#coding: utf-8
+# coding: utf-8
 
 from flask import Blueprint
-from applications.price.resource import PriceParishByGood, PriceResource, PriceHelperResource, PriceBulkMailResource, \
-    PriceParishByGood2, PriceBulkInvoiceResource
+from applications.price.resource import (PriceParishByGood, PriceResource,
+                                         PriceHelperResource,
+                                         PriceBulkMailResource,
+                                         PriceParishByGood2,
+                                         PriceBulkInvoiceResource)
 
 from resources import MyApi
 

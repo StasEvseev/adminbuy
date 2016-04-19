@@ -7,6 +7,8 @@ from log import debug, error
 
 from services.core import BaseSQLAlchemyModelService
 
+__author__ = 'StasEvseev'
+
 
 class ReturnService(BaseSQLAlchemyModelService):
     model = Return

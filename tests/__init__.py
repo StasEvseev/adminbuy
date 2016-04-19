@@ -1,5 +1,8 @@
 # coding: utf-8
 
+__author__ = 'StasEvseev'
+
+
 import os
 import unittest
 import sys

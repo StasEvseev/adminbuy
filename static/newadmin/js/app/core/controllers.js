@@ -45,7 +45,7 @@ angular.module("core.controllers", ['ui.router', 'form', 'ngTable'])
                 Form.updateView();
                 $scope.loadingFinish = true;
                 if(angular.isUndefined($scope._goAfterSave)) {
-                    $state.go($scope.goView(), {id: resp.data.id});
+                    $state.go($scope.goView(), {id: resp.data.id}, {reload: $scope.goView()});
                 } else {
                     $scope._goAfterSave(resp.data.id);
                 }
@@ -57,6 +57,7 @@ angular.module("core.controllers", ['ui.router', 'form', 'ngTable'])
                 }
             });
         } else {
+            console.warn("Form is not valid.", Form.getForm().item.$error);
             Form.setSubmitted();
         }
     };
@@ -129,7 +130,7 @@ angular.module("core.controllers", ['ui.router', 'form', 'ngTable'])
                 var orig_page_func = params.page;
                 params.page = function (arg) {
                     if (angular.isDefined(arg)) {
-                        $state.go($scope.goList(), {filter: $scope.searchText, page: arg})
+                        $scope.checkPage(arg);
                     } else {
                         return orig_page_func();
                     }
@@ -144,7 +145,12 @@ angular.module("core.controllers", ['ui.router', 'form', 'ngTable'])
                         $scope.loadingFinish = true;
                     });
             }
-        });
+        }
+    );
+
+    $scope.checkPage = function(arg) {
+        $state.go($scope.goList(), {filter: $scope.searchText, page: arg});
+    };
 
     $scope.detail = function (id) {
         $scope.loadingFinish = false;

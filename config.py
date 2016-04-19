@@ -1,5 +1,7 @@
 # coding: utf-8
 
+__author__ = 'StasEvseev'
+
 import os
 
 try:
@@ -10,6 +12,13 @@ except ImportError:
     PASSWORD = 'test'
 
 DB = "buyapi"
+
+IS_PROD = True
+
+try:
+    from config_local import IS_PROD
+except ImportError:
+    pass
 
 COMMON_URL = 'postgresql://%s:%s@localhost:5432/%s'
 
@@ -48,3 +57,6 @@ mail_folder = 'attachments'
 
 PATH_TO_GENERATE_INVOICE = os.path.join(DIR_PROJECT, 'static', 'files')
 PATH_WEB = "/" + os.path.join('static', 'files')
+
+PATH_TO_ANGULAR_APPS = os.path.join(
+    DIR_PROJECT, 'static', 'newadmin', 'js', 'applications')

@@ -1,10 +1,11 @@
-#coding: utf-8
+# coding: utf-8
+
 import json
 
 import uuid
 import os
 
-from flask import g, jsonify, request, Response
+from flask import g, jsonify, request
 from flask.ext import restful
 from flask.ext.restful import reqparse, marshal_with, fields, abort
 
@@ -12,7 +13,6 @@ from sqlalchemy import desc, asc, or_, and_
 from sqlalchemy.sql.sqltypes import BigInteger, BIGINT
 from sqlalchemy_utils import ChoiceType
 from sqlalchemy.orm.collections import InstrumentedList
-from werkzeug.wrappers import BaseResponse
 
 from excel.output import PrintInvoice, PATH_TEMPLATE
 from helper import get_relation_model
@@ -83,8 +83,9 @@ class FilterObj(object):
     Класс, основное назначение которого - фильтрация в базе.
     """
     @classmethod
-    def filter_query(cls, query, filter_field, filter_text, sort_field, sort_course, page, count, model,
-                     multif, clazz, default_sort=None):
+    def filter_query(cls, query, filter_field, filter_text, sort_field,
+                     sort_course, page, count, model, multif, clazz,
+                     default_sort=None):
         """
         Метод для дополнительной фильтрации.
         """
@@ -96,29 +97,35 @@ class FilterObj(object):
                 for fld in flds:
                     rels = fld.split(".")
                     """
-                    Проверяем фильтрацию на связанные модели. Если есть, то надо сначала связать эти таблицы.
+                    Проверяем фильтрацию на связанные модели. Если есть, то надо
+                     сначала связать эти таблицы.
                     """
                     if len(rels) == 1:
                         debug(u"Фильтрация %s по модели." % fld)
                         sss = []
                         for ss in filter_text.split(" "):
-                            sss.append(model.__table__.columns[fld].ilike("%"+ss+"%"))
+                            sss.append(model.__table__.columns[fld].ilike(
+                                "%"+ss+"%"))
                         subq.append(and_(*sss))
                     else:
-                        debug(u"Фильтрация %s по связанной модели %s." % (clazz, fld))
+                        debug(u"Фильтрация %s по связанной модели %s." % (
+                            clazz, fld))
                         rel_m, attr = rels
                         cl = get_relation_model(model, rel_m)
                         query = query.join(cl)
-                        subq.append(cl.__table__.columns[attr].ilike("%"+filter_text+"%"))
+                        subq.append(cl.__table__.columns[attr].ilike(
+                            "%"+filter_text+"%"))
                 query = query.filter(or_(*subq))
             else:
                 query = query.filter(
-                    model.__table__.columns[filter_field].ilike("%"+filter_text+"%")
+                    model.__table__.columns[filter_field].ilike(
+                        "%"+filter_text+"%")
                 )
             debug(u"Фильтрация %s успешна." % clazz)
         if sort_field and sort_course:
             query = query.order_by(
-                {'desc': desc, 'asc': asc}[sort_course](model.__table__.columns[sort_field])
+                {'desc': desc, 'asc': asc}[sort_course](
+                    model.__table__.columns[sort_field])
             )
         elif not default_sort:
             query = query.order_by(desc(model.id))
@@ -138,7 +145,8 @@ class FilterObj(object):
 
 class GetResource(BaseTokeniseResource):
     """
-    Ресурс для выбора связанных записей(никаких редактирований, добавлений, удалений).
+    Ресурс для выбора связанных записей(никаких редактирований, добавлений,
+    удалений).
     """
     model = None
     multif = {}
@@ -153,9 +161,11 @@ class GetResource(BaseTokeniseResource):
             cls.__name__ + "Item",
             (BaseTokeniseResource, ),
             {
-                "get": marshal_with({'items': fields.List(fields.Nested(cls.attr_json)),
+                "get": marshal_with({'items': fields.List(fields.Nested(
+                    cls.attr_json)),
                                      'count': fields.Integer,
-                                     'max': fields.Integer})(self.get.__func__).__get__(self, cls),
+                                     'max': fields.Integer})(
+                    self.get.__func__).__get__(self, cls),
                 "parent": self
             }
         )
@@ -180,8 +190,8 @@ class GetResource(BaseTokeniseResource):
         query = self.query_initial(*args, **kwargs)
 
         records, max_, count_ = FilterObj.filter_query(
-            query, filter_field, filter_text, sort_field, sort_course, page, count,
-            model=self.model, multif=self.multif, clazz=self.__class__,
+            query, filter_field, filter_text, sort_field, sort_course, page,
+            count, model=self.model, multif=self.multif, clazz=self.__class__,
             default_sort=self.default_sort)
 
         return {'items': records, 'count': count_, 'max': max_}
@@ -191,15 +201,17 @@ class BaseStatusResource(BaseTokeniseResource):
     service = None
 
     def _action(self, id):
+        service = self.service
         try:
-            object = self.service.get_by_id(id)
+            object = service.get_by_id(id)
             status = request.json['data']['status']
-            self.service.status(object, status)
+            service.status(object, status)
             db.session.add(object)
             db.session.commit()
             return object
         except Exception as exc:
-            message = u" Не удалось сменить статус `%s` %s." % (self.service.model, id)
+            message = u" Не удалось сменить статус `%s` %s." % (
+                service.model, id)
             error(message + unicode(exc))
             abort(400, message=message)
 
@@ -238,10 +250,13 @@ class BaseCanoniseResource(object):
             cls.__name__ + "Item",
             (cls.base_class, ),
             {
-                "get": marshal_with({'items': fields.List(fields.Nested(cls.attr_json)),
+                "get": marshal_with({'items': fields.List(
+                    fields.Nested(cls.attr_json)),
                                      'count': fields.Integer,
-                                     'max': fields.Integer})(self.get_items.__func__).__get__(self, cls),
-                "put": marshal_with(cls.attr_response_put)(self.put.__func__).__get__(self, cls),
+                                     'max': fields.Integer})(
+                    self.get_items.__func__).__get__(self, cls),
+                "put": marshal_with(cls.attr_response_put)(
+                    self.put.__func__).__get__(self, cls),
                 "parent": self
             }
         )
@@ -250,8 +265,10 @@ class BaseCanoniseResource(object):
             cls.__name__ + "Items",
             (cls.base_class, ),
             {
-                "get": marshal_with(cls.attr_json)(self.get.__func__).__get__(self, cls),
-                "post": marshal_with(cls.attr_response_post)(self.post.__func__).__get__(self, cls),
+                "get": marshal_with(cls.attr_json)(self.get.__func__).__get__(
+                    self, cls),
+                "post": marshal_with(cls.attr_response_post)(
+                    self.post.__func__).__get__(self, cls),
                 "delete": self.delete,
                 "parent": self
             }
@@ -259,38 +276,44 @@ class BaseCanoniseResource(object):
 
         return (cls.prefix_url_without_id, type1), (cls.prefix_url_with_id, type2)
 
-    def filter_query(self, query, filter_field, filter_text, sort_field, sort_course, page, count):
+    def filter_query(self, query, filter_field, filter_text, sort_field,
+                     sort_course, page, count):
         """
         Метод для дополнительной фильтрации.
         """
 
-        return FilterObj.filter_query(query, filter_field, filter_text, sort_field, sort_course, page, count,
-                                      model=self.model, multif=self.multif, clazz=self.__class__,
-                                      default_sort=self.default_sort)
+        return FilterObj.filter_query(
+            query, filter_field, filter_text, sort_field, sort_course, page,
+            count, model=self.model, multif=self.multif, clazz=self.__class__,
+            default_sort=self.default_sort)
 
     def _get_attr_relation(self):
         """
         Формируем словарь из :attr_json для связанных моделей.
 
-        Ищем значения с указанными attribute через точку(означает либо аттрибут связанной модели, либо ChoiceType.
+        Ищем значения с указанными attribute через точку(означает либо аттрибут
+        связанной модели, либо ChoiceType.
 
         Убираем ChoiceType.
         """
         def _f(item):
 
             name, value = item
-            if not hasattr(value, "attribute") or getattr(value, "attribute") == None or not "." in getattr(value, "attribute"):
+            if not hasattr(value, "attribute") or \
+                            getattr(value, "attribute") == None or \
+                            not "." in getattr(value, "attribute"):
                 return False
             attr_m = getattr(value, "attribute").split('.')[0]
 
-            if hasattr(getattr(self.model, attr_m), "type") and getattr(self.model, attr_m).type.__class__ == ChoiceType:
+            if hasattr(getattr(self.model, attr_m), "type") and getattr(
+                    self.model, attr_m).type.__class__ == ChoiceType:
                 return False
             return True
 
         return filter(_f, self.attr_json.iteritems())
 
-    #===================================================================================================================
-    #BASE CRUD - вынести в отдельный объект
+    # ==========================================================================
+    # BASE CRUD - вынести в отдельный объект
     def get_by_id(self, id):
         return self.model.query.get(id)
 
@@ -315,13 +338,17 @@ class BaseCanoniseResource(object):
         """
         Сохранение связанных моделей, если вдруг приходит в параметрах.
         Смотрим :attr_json, если в описании есть аттрибуты связанных моделей
-        (Пример: {'price_post': Attr(attribute='price.price_post')}, - это значит что если в запросе придет параметр
-        'price.price_post', то ищем связанную модель 'price' в нашей модели, если нашли, то изменяем ее атрибуты, если
+        (Пример: {'price_post': Attr(attribute='price.price_post')}, - это
+        значит что если в запросе придет параметр
+        'price.price_post', то ищем связанную модель 'price' в нашей модели,
+        если нашли, то изменяем ее атрибуты, если
         нет, то создаем новую модель и привязываем к нашей).
 
         @New version 0.1:
-        Появилось поле ChoiceType, которое тоже нужно прокидывать в рест, в качестве значения в БД, либо в расшифровке.
-        Специально для него, тоже проставляем `attribute. В итоге надо как то искать такие поля и игнорировать, иначе
+        Появилось поле ChoiceType, которое тоже нужно прокидывать в рест, в
+        качестве значения в БД, либо в расшифровке.
+        Специально для него, тоже проставляем `attribute. В итоге надо как то
+        искать такие поля и игнорировать, иначе
         система работает с ними как со связанными через модельку.
         """
         if data:
@@ -366,7 +393,7 @@ class BaseCanoniseResource(object):
             for objs in list_created_obj:
                 db.session.add(objs)
 
-    #===================================================================================================================
+    # ==========================================================================
 
     def fill_obj(self, data, obj=None):
         """
@@ -383,8 +410,10 @@ class BaseCanoniseResource(object):
             if value is not False and value in [-1, 0]:
                 value = None
             try:
-                #В случаях, когда у модели поле типа int, long, а пришла пустая строка - нужно далеть поле None
-                if type(self._type_column(obj, key)) in [BIGINT, BigInteger] and value in ['']:
+                # В случаях, когда у модели поле типа int, long, а пришла пустая
+                # строка - нужно далеть поле None
+                if type(self._type_column(obj, key)) in [BIGINT, BigInteger] \
+                        and value in ['']:
                     setattr(obj, key, None)
                 else:
                     if not isinstance(getattr(obj, key), InstrumentedList):
@@ -393,8 +422,8 @@ class BaseCanoniseResource(object):
                 pass
         return obj
 
-    #===================================================================================================================
-    #REST
+    # ==========================================================================
+    # REST
 
     def query_initial(self, ids=None, *args, **kwargs):
         if ids:
@@ -420,10 +449,9 @@ class BaseCanoniseResource(object):
         else:
             query = self.query_initial(*args, **kwargs)
 
-
-
         records, max_, count_ = self.filter_query(
-            query, filter_field, filter_text, sort_field, sort_course, page, count)
+            query, filter_field, filter_text, sort_field, sort_course, page,
+            count)
 
         return {'items': records, 'count': count_, 'max': max_}
 
@@ -444,7 +472,8 @@ class BaseCanoniseResource(object):
             db.session.rollback()
             abort(400, message=unicode(exc))
         except Exception as exc:
-            error(u"Ошибка при создании записи модели %s. %s", unicode(self.model.__class__.__name__), unicode(exc))
+            error(u"Ошибка при создании записи модели %s. %s", unicode(
+                self.model.__class__.__name__), unicode(exc))
             db.session.rollback()
             raise
         else:
@@ -474,12 +503,10 @@ class BaseCanoniseResource(object):
             db.session.rollback()
             abort(400, message=unicode(exc))
         except Exception as exc:
-            error(u"Ошибка при редактировании записи %d модели %s. %s", id, self.model.__class__.__name__, unicode(exc))
+            error(u"Ошибка при редактировании записи %d модели %s. %s",
+                  id, self.model.__class__.__name__, unicode(exc))
             db.session.rollback()
             raise
-        else:
-            pass
-            # db.session.commit()
         return obj
 
     def delete(self, id):
@@ -497,7 +524,8 @@ class BaseCanoniseResource(object):
             db.session.rollback()
             abort(400, message=unicode(exc))
         except Exception as exc:
-            error(u"Ошибка при редактировании записи %d модели %s. %s", id, self.model.__class__.__name__, unicode(exc))
+            error(u"Ошибка при удалении записи %d модели %s. %s", id,
+                  self.model.__class__.__name__, unicode(exc))
             db.session.rollback()
             raise
 
@@ -560,11 +588,13 @@ class BaseModelPackResource(restful.Resource):
 
         if filter_field and filter_text:
             query = query.filter(
-                self.model.__table__.columns[filter_field].like("%"+filter_text+"%")
+                self.model.__table__.columns[filter_field].like(
+                    "%"+filter_text+"%")
             )
         if sort_field and sort_course:
             query = query.order_by(
-                {'desc': desc, 'asc': asc}[sort_course](self.model.__table__.columns[sort_field])
+                {'desc': desc, 'asc': asc}[sort_course](
+                    self.model.__table__.columns[sort_field])
             )
         max_ = query.count()
 
@@ -585,6 +615,26 @@ class TokenResource(BaseTokeniseResource):
         })
 
 
+class ProfileResourceById(BaseTokeniseResource):
+    def get(self, id):
+        from services.userservice import UserService
+        user = UserService.get_by_id(id)
+
+        fname = user.first_name or ""
+        lname = user.last_name or ""
+        position = u"Администратор" if user.is_superuser else u"Пользователь"
+
+        name = " ".join([fname, lname]) if fname or lname else "Без имени"
+
+        return jsonify({
+            'id': user.id,
+            'name': name,
+            'position': position,
+            'iconUrl': "static/images/users/empty.png",
+            'is_superuser': user.is_superuser
+        })
+
+
 class ProfileResource(BaseTokeniseResource):
     def get(self):
         from services.userservice import UserService
@@ -594,14 +644,16 @@ class ProfileResource(BaseTokeniseResource):
         if user:
             fname = user.first_name or ""
             lname = user.last_name or ""
-            position = u"Администратор" if user.is_superuser else u"Пользователь"
+            position = u"Администратор" if user.is_superuser \
+                else u"Пользователь"
 
             name = " ".join([fname, lname]) if fname or lname else "Без имени"
 
             return jsonify({
+                'id': user.id,
                 'name': name,
                 'position': position,
-                'iconUrl': "/static/images/users/2.jpg",
+                'iconUrl': "/static/images/users/empty.png",
                 'is_superuser': user.is_superuser
             })
         else:
@@ -617,7 +669,8 @@ class RegistrationResource(restful.Resource):
         email = request.json.get('email')
         password = request.json.get('password')
         retypepassword = request.json.get('retypepassword')
-        if login is None or email is None or password is None or retypepassword is None:
+        if login is None or email is None or password is None or \
+                        retypepassword is None:
             abort(400, message=u"Недостаточно данных")
         if password != retypepassword:
             abort(400, message=u"Пароли не совпадают")
@@ -656,13 +709,15 @@ class AuthResource(restful.Resource):
         username = request.json.get('user')
         password = request.json.get('password')
         if is_empty(username) or is_empty(password):
-            abort(400, message=u"Имя и пароль не должны быть пустыми.") # missing arguments
+            abort(400, message=u"Имя и пароль не должны быть пустыми.")
         user = User.query.filter(User.login==username).first()
         if not user or not user.verify_password(password):
-            abort(400, message=u"Пользователя с указаными именем и паролем не найдены в системе.")
+            abort(400, message=u"Пользователя с указаными именем и паролем не "
+                               u"найдены в системе.")
 
         if user.active is False:
-            abort(400, message=u"Пользователь не активен. Обратитесь с администратору.")
+            abort(400, message=u"Пользователь не активен. Обратитесь с "
+                               u"администратору.")
 
         return jsonify({
             'token': user.generate_auth_token().decode('ascii')

@@ -1,9 +1,11 @@
-#coding: utf-8
+# coding: utf-8
 
 from flask.ext.restful import fields
 
 from applications.provider_app.models import Provider
 from resources.core import BaseCanoniseResource
+
+__author__ = 'StasEvseev'
 
 
 class ProviderCanon(BaseCanoniseResource):

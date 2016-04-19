@@ -1,10 +1,13 @@
-#coding: utf-8
+# coding: utf-8
+
 from datetime import datetime
 from flask.ext.restful import fields
 from applications.order.model import Order, OrderItem
 from applications.order.service import OrderService
 from resources.core import BaseCanoniseResource, BaseInnerCanon
-from services import HelperService
+from services.helperserv import HelperService
+
+__author__ = 'StasEvseev'
 
 
 class OrderItemInnerCanon(BaseInnerCanon):
@@ -40,8 +43,10 @@ class OrderCanon(BaseCanoniseResource):
     def post_save(self, obj, data, create_new=False):
 
         if obj.id:
-            if datetime.now().date() > HelperService.convert_to_pydate(obj.date_end).date():
-                raise BaseCanoniseResource.CanonException(u"Нельзя редактировать заказ с истекшим сроком.")
+            if datetime.now().date() > HelperService.convert_to_pydate(
+                    obj.date_end).date():
+                raise BaseCanoniseResource.CanonException(
+                    u"Нельзя редактировать заказ с истекшим сроком.")
 
             OrderService.set_handling(obj.id)
 

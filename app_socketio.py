@@ -3,6 +3,8 @@
 from flask import Flask
 from flask.ext.socketio import SocketIO, join_room
 
+__author__ = 'StasEvseev'
+
 
 app = Flask(__name__)
 
@@ -52,6 +54,9 @@ def redis_thread():
 
 
 def wr(fnc):
+    """
+    Оборачиваем запуск сервера - запускаем тред для редиса.
+    """
     def f(*args, **kwargs):
         import threading
         t = threading.Thread(target=redis_thread)

@@ -1,7 +1,8 @@
 # coding: utf-8
 
-# Продавец
 from db import db
+
+__author__ = 'StasEvseev'
 
 
 class Seller(db.Model):

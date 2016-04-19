@@ -5,6 +5,8 @@ from applications.seller.resource import SellerResource
 
 from resources import MyApi
 
+__author__ = 'StasEvseev'
+
 
 blueprint = Blueprint('seller_blueprint', __name__)
 

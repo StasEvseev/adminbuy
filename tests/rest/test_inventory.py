@@ -1,4 +1,7 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from applications.inventory.constant import COUNT_AFTER_ATTR, GOOD_ATTR, GOOD_ID_ATTR
 from applications.inventory.models import InventoryItems, IN_PROG, VALIDATED
 from applications.point_sale.models import PointSaleItem

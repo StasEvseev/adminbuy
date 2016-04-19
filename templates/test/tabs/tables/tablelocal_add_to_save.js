@@ -1,1 +1,0 @@
-'{{attr}}': $scope.items.{{ tab_id }}ITEMS,

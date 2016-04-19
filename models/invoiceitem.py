@@ -1,6 +1,8 @@
-#coding: utf-8
+# coding: utf-8
+
 from db import db
-# from models.good import Good
+
+__author__ = 'StasEvseev'
 
 
 class InvoiceItem(db.Model):
@@ -9,56 +11,57 @@ class InvoiceItem(db.Model):
     """
     id = db.Column(db.Integer, primary_key=True)
 
-    #Полное наименование издания
+    # Полное наименование издания
     full_name = db.Column(db.String(250))
-    #Название издания
+    # Название издания
     name = db.Column(db.String(250))
-    #Номер издания
+    # Номер издания
     number_local = db.Column(db.String(250))
 
     number_global = db.Column(db.String(250))
 
-    #Заказ
+    # Заказ
     count_order = db.Column(db.Integer)
-    #Дозак
+    # Дозак
     count_postorder = db.Column(db.Integer)
-    #Количество
+    # Количество
     count = db.Column(db.Integer)
 
-    #"Цена Без НДС, руб."
+    # "Цена Без НДС, руб."
     price_without_NDS = db.Column(db.DECIMAL)
-    #"Цена с НДС, руб."
+    # "Цена с НДС, руб."
     price_with_NDS = db.Column(db.DECIMAL)
-    #Сумма без НДС, руб.
+    # Сумма без НДС, руб.
     sum_without_NDS = db.Column(db.DECIMAL)
-    #Сумма НДС, руб.
+    # Сумма НДС, руб.
     sum_NDS = db.Column(db.DECIMAL)
-    #Ставка НДС
+    # Ставка НДС
     rate_NDS = db.Column(db.DECIMAL)
-    #Сумма с учетом НДС, руб.
+    # Сумма с учетом НДС, руб.
     sum_with_NDS = db.Column(db.DECIMAL)
 
-    #Тематика изд.
+    # Тематика изд.
     thematic = db.Column(db.String(250))
-    #Целых пачек
+    # Целых пачек
     count_whole_pack = db.Column(db.Integer)
-    #Россыпь (экз.)
+    # Россыпь (экз.)
     placer = db.Column(db.Integer)
 
-    #Накладная
+    # Накладная
     invoice_id = db.Column(db.Integer, db.ForeignKey('invoice.id'))
-    invoice = db.relationship('Invoice',
-        backref=db.backref('items', lazy='dynamic'))
+    invoice = db.relationship(
+        'Invoice', backref=db.backref('items', lazy='dynamic'))
 
     fact_count = db.Column(db.Integer)
 
-    #Товар в системе
+    # Товар в системе
     good_id = db.Column(db.Integer, db.ForeignKey('good.id'))
-    good = db.relationship('Good', backref=db.backref('invoiceitem', lazy='dynamic'))
+    good = db.relationship(
+        'Good', backref=db.backref('invoiceitem', lazy='dynamic'))
 
-    #Розничная цена
+    # Розничная цена
     price_retail = db.Column(db.DECIMAL)
-    #Оптовая цена
+    # Оптовая цена
     price_gross = db.Column(db.DECIMAL)
 
     def __repr__(self):

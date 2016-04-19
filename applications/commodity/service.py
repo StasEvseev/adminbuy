@@ -6,6 +6,8 @@ from sqlalchemy.orm.exc import NoResultFound
 
 from applications.commodity.models import Commodity
 
+__author__ = 'StasEvseev'
+
 
 CommodityStub = namedtuple('CommodityStub', ['id', 'name', 'category'])
 
@@ -24,9 +26,8 @@ class CommodityService(object):
     @classmethod
     def get_or_create_commodity(cls, name, thematic=None, numeric=None):
         try:
-            commodity = Commodity.query.filter(
-                Commodity.name == name).one()
-        except NoResultFound:
+            commodity = Commodity.query.filter(Commodity.name == name).one()
+        except NoResultFound as err:
             return False, Commodity(
                 name=name, thematic=thematic, numeric=numeric)
         else:
@@ -34,5 +35,4 @@ class CommodityService(object):
 
     @classmethod
     def get_commodity(cls, name):
-        return Commodity.query.filter(
-            Commodity.name == name).one()
+        return Commodity.query.filter(Commodity.name == name).one()

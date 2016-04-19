@@ -189,3 +189,45 @@ AdminApp.directive("headerFixedScroll", function($document, $window, $timeout) {
         }
     }
 });
+
+AdminApp.factory('ConfigWidgets', function() {
+    return {
+        defaultConfigDatepicker: function(attr_value) {
+
+            var conf = {};
+
+            conf.datepickers = {
+                dt: false
+            };
+            conf.today = function() {
+                attr_value = new Date();
+            };
+            conf.today();
+            conf.showWeeks = true;
+            conf.toggleWeeks = function () {
+                conf.showWeeks = ! conf.showWeeks;
+            };
+            conf.clear = function () {
+                attr_value = null;
+            };
+            conf.toggleMin = function() {
+                conf.minDate = ( conf.minDate ) ? null : new Date();
+            };
+            conf.toggleMin();
+            conf.open = function($event, condition_func) {
+                if (angular.isUndefined(condition_func) || !angular.isUndefined(condition_func) && !condition_func()) {
+                    conf.status.opened = true;
+                }
+            };
+            conf.status = {
+                opened: false
+            };
+            conf.dateOptions = {
+                'year-format': "'yy'",
+                'starting-day': 1
+            };
+
+            return conf;
+        }
+    }
+});

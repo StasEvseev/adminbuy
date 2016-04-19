@@ -1,9 +1,13 @@
-#coding: utf-8
+# coding: utf-8
+
 from flask import Blueprint
 
 from resources import MyApi
 
-from applications.invoice.resource import InvoiceCanon, InvoiceItemInnerCanon, InvoiceItemAcceptanceInnerCanon
+from applications.invoice.resource import InvoiceCanon, InvoiceItemInnerCanon, \
+    InvoiceItemAcceptanceInnerCanon
+
+__author__ = 'StasEvseev'
 
 
 blueprint = Blueprint('invoice_blueprint', __name__)

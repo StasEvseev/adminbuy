@@ -1,5 +1,8 @@
-#coding: utf-8
+# coding: utf-8
+
 from datetime import datetime
+
+__author__ = 'StasEvseev'
 
 
 class HelperService(object):

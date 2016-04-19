@@ -7,7 +7,6 @@ attachments
 /static/.webassets-cache
 /tests/app.db
 /tests/app.db-journal
-/access.log
 *.log
 celerybeat-schedule
 celerybeat.pid

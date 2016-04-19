@@ -1,5 +1,7 @@
 # coding: utf-8
 
+from simple_report.report import SpreadsheetReport
+
 from collections import namedtuple
 
 from sqlalchemy import desc, func
@@ -7,11 +9,10 @@ from applications.waybill.constant import COUNT_ATTR, GOOD_ATTR
 
 from db import db
 
-from applications.waybill.models import (
-    FROM_MAIL, WayBillItems, WayBill, TYPE, RETAIL, POINTSALE, RECEIVER,
-    RecType, StatusType, FINISH)
+from applications.waybill.models import FROM_MAIL, WayBillItems, WayBill, TYPE,\
+    RETAIL, POINTSALE, RECEIVER, RecType, StatusType, FINISH
 from log import debug, error
-from services import ModelService
+from services.modelhelper import ModelService
 
 
 WayBillItem = namedtuple('WayBillItem', [GOOD_ATTR, COUNT_ATTR, 'fullname'])
@@ -24,6 +25,78 @@ class WayBillServiceException(Exception):
 class WayBillService(object):
 
     @classmethod
+    def report_multi(cls, ids):
+        import uuid
+        import os
+        from config import PATH_TO_GENERATE_INVOICE, PATH_WEB
+        from excel.output import PATH_TEMPLATE
+        from applications.good.service import GoodService
+
+        COUNT_ROW = 42
+        COUNT_ROW2 = 91
+        file_name = str(uuid.uuid4()) + ".xlsx"
+        path_to_target = os.path.join(PATH_TO_GENERATE_INVOICE, file_name)
+        path = os.path.join(PATH_WEB, file_name)
+
+        report = SpreadsheetReport(os.path.join(
+            PATH_TEMPLATE, 'print_invoice2.xlsx'))
+
+        for id in ids:
+
+            waybill = WayBillService.get_by_id(id)
+            sec_sub = report.get_section("sec1")
+            sec_items = report.get_section("secitem")
+            sec_data = {}
+            sec_data['number'] = waybill.number
+            sec_data['date'] = waybill.date.strftime('%d.%m.%Y').decode("utf-8")
+            sec_data['point'] = waybill.pointsale_from.name
+            sec_data['typeInv'] = waybill.type
+            sec_data['rec'] = waybill.rec
+            sec_sub.flush(sec_data)
+            if waybill.type == RETAIL:
+
+                for it in waybill.items:
+                    sec_items_data = {
+                        'name': it.good.full_name, 'count': it.count or "",
+                        'price_pay': GoodService.get_price(it.good_id).price_retail,
+                        'mul': it.count * GoodService.get_price(
+                            it.good_id).price_retail if it.count else ''}
+                    sec_items.flush(sec_items_data)
+                if waybill.items.count() <= COUNT_ROW:
+                    for i in xrange(COUNT_ROW - waybill.items.count()):
+                        sec_items.flush({'name': '', 'count': '',
+                                         'price_pay': '', 'mul': ''})
+                elif waybill.items.count() <= COUNT_ROW2:
+                    for i in xrange(COUNT_ROW2 - waybill.items.count()):
+                        sec_items.flush({'name': '', 'count': '',
+                                         'price_pay': '', 'mul': ''})
+            else:
+                for it in waybill.items:
+                    sec_items_data = {'name': it.good.full_name,
+                                      'count': it.count or "",
+                     'price_pay': GoodService.get_price(it.good_id).price_gross,
+                     'mul': it.count * GoodService.get_price(
+                         it.good_id).price_gross if it.count else ''}
+                    sec_items.flush(sec_items_data)
+                if waybill.items.count() <= COUNT_ROW:
+                    for i in xrange(COUNT_ROW - waybill.items.count()):
+                        sec_items.flush({'name': '', 'count': '',
+                                         'price_pay': '', 'mul': ''})
+                elif waybill.items.count() <= COUNT_ROW2:
+                    for i in xrange(COUNT_ROW2 - waybill.items.count()):
+                        sec_items.flush({'name': '', 'count': '',
+                                         'price_pay': '', 'mul': ''})
+
+        report.build(path_to_target)
+
+        return path
+
+    @classmethod
+    def report(cls, id):
+
+        return cls.report_multi([id])
+
+    @classmethod
     def check_count(cls, invoice_id, good_id, count, waybill_id):
         waybill = cls.get_by_id(waybill_id)
         from services.mailinvoice import InvoiceService
@@ -33,8 +106,8 @@ class WayBillService(object):
             WayBillItems.query.filter(
                 WayBillItems.good_id == good_id
             )
-            res = db.session.query(func.sum(
-                WayBillItems.count).label('sum')).join(WayBill).filter(
+            res = db.session.query(
+                func.sum(WayBillItems.count).label('sum')).join(WayBill).filter(
                 WayBill.invoice_id == invoice_id,
                 WayBillItems.good_id == good_id)
             res = res.filter(WayBill.id != waybill_id)
@@ -50,8 +123,8 @@ class WayBillService(object):
         """
         count = 0
         if invoice_id:
-            count = cls.count_exists(
-                invoice_id, receiver_id, pointsale_id, type)
+            count = cls.count_exists(invoice_id, receiver_id, pointsale_id,
+                                     type)
         return True if count else False
 
     @classmethod
@@ -158,13 +231,12 @@ class WayBillService(object):
         """
         if not ModelService.check_id(pointsale_from_id):
             raise WayBillServiceException(u"Не выбрана точка отправки.")
-
-        if (not ModelService.check_id(receiver_id) and
-                not ModelService.check_id(pointsale_id)):
+        if not ModelService.check_id(receiver_id) and not ModelService.check_id(
+                pointsale_id):
             raise WayBillServiceException(u"No receiver or point sale")
 
-        if (pointsale_from_id and ModelService.check_id(pointsale_id) and
-                pointsale_id == pointsale_from_id):
+        if pointsale_from_id and ModelService.check_id(pointsale_id) \
+                and pointsale_id == pointsale_from_id:
             raise WayBillServiceException(
                 u"Нельзя делать накладную прихода циклической.")
 
@@ -173,7 +245,6 @@ class WayBillService(object):
         if type not in TYPE.keys():
             raise WayBillServiceException(
                 u"Тип накладной указан неверно - %s." % type)
-
         if typeRec not in RecType.keys():
             raise WayBillServiceException(
                 u"Тип получателя указан неверно - %s." % typeRec)
@@ -187,15 +258,13 @@ class WayBillService(object):
                 raise WayBillServiceException(
                     u"Ошибка. Нельзя выбрать тип 'Торговая точка' и "
                     u"'Оптовика'.")
-
             waybill.pointsale_id = pointsale_id
             waybill.receiver_id = None
         elif typeRec == RECEIVER:
             if not ModelService.check_id(receiver_id):
                 raise WayBillServiceException(
-                    u"Ошибка. Нельзя выбрать тип 'Оптовика' и "
-                    u"'Торговую точку'.")
-
+                    u"Ошибка. Нельзя выбрать тип 'Оптовика' и 'Торговую "
+                    u"точку'.")
             waybill.receiver_id = receiver_id
             waybill.pointsale_id = None
 
@@ -211,11 +280,12 @@ class WayBillService(object):
         Собираем объекты для более удобной обработки из списка словарей.
         """
         try:
-            return [WayBillItem(
-                good_id=it[GOOD_ATTR],
-                count=it[COUNT_ATTR] if COUNT_ATTR in it else None,
-                fullname=it['full_name'] if 'full_name' in it else None,)
-                    for it in items]
+            return [WayBillItem(good_id=it[GOOD_ATTR],
+                                count=it[COUNT_ATTR] if COUNT_ATTR in it
+                                else None,
+                                fullname=it['full_name'] if 'full_name' in it
+                                else None,
+                                ) for it in items]
         except KeyError as exc:
             error(u"Ошибка при сохранении позиций товара. " + unicode(exc))
             raise WayBillServiceException(
@@ -224,7 +294,7 @@ class WayBillService(object):
     @classmethod
     def upgrade_items(cls, waybill, items, path_target=None, path=None):
         from applications.price.service import PriceService
-        from services import GoodService
+        from applications.good.service import GoodService
 
         waybill.items.delete()
         db.session.add(waybill)
@@ -245,13 +315,14 @@ class WayBillService(object):
 
             if it.count and not WayBillService.check_count(
                     invoice_id=waybill.invoice_id, waybill_id=waybill.id,
-                    good_id=it.good_id, count=int(it.count)):
+                    good_id=it.good_id,
+                    count=int(it.count)):
                 raise WayBillServiceException(
                     u"Недостаточно товара %s" % good.full_name)
 
             retail_item = WayBillItems(
-                good_id=good.id, waybill=waybill,
-                count=it.count if it.count else None)
+                good_id=good.id, waybill=waybill, count=it.count if it.count
+                else None)
             db.session.add(retail_item)
 
     @classmethod
@@ -266,24 +337,23 @@ class WayBillService(object):
             from_point = waybill.pointsale_from
 
             if waybill.receiver:
-                debug(u"Пересчет кол-ва товаром на точке отправителе "
-                      u"id = '%s'" % from_point.id)
+                debug(u"Пересчет кол-ва товаром на точке "
+                      u"отправителе id = '%s'" % from_point.id)
                 for item in waybill.items:
                     PointSaleService.sync_good_increment(
-                        from_point.id, item.good_id,
-                        item.count * -1 if item.count else 0)
+                        from_point.id, item.good_id, item.count * -1 if item.count else 0)
             else:
                 to_point = waybill.pointsale
-                debug(u"Пересчет кол-ва товаров на точке отправителе "
-                      u"id = '%s' и точке получаете id = '%s'." % (
+                debug(u"Пересчет кол-ва товаров на точке отправителе id = '%s' "
+                      u"и точке получаете id = '%s'." % (
                         from_point.id, to_point.id))
                 for item in waybill.items:
                     PointSaleService.sync_good_increment(
-                        from_point.id, item.good_id,
-                        item.count * -1 if item.count else 0)
+                        from_point.id, item.good_id, item.count * -1
+                        if item.count else 0)
                     PointSaleService.sync_good_increment(
-                        to_point.id, item.good_id,
-                        item.count if item.count else 0)
+                        to_point.id, item.good_id, item.count if item.count
+                        else 0)
             debug(u"Пересчет кол-ва товаров завершен.")
         old_status = waybill.status
         waybill.status = status

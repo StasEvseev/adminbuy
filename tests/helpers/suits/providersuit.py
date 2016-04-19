@@ -1,9 +1,10 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from app import db
 
 from applications.provider_app.models import Provider
-
-# import provider
 from tests.helpers.suits import BaseSuite
 
 

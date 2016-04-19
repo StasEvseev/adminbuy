@@ -4,6 +4,8 @@ from flask.ext.restful import fields
 from applications.seller.model import Seller
 from resources.core import BaseCanoniseResource
 
+__author__ = 'StasEvseev'
+
 
 class SellerResource(BaseCanoniseResource):
     model = Seller

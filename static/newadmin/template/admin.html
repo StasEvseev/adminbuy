@@ -44,7 +44,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="footer"><a ui-sref="index.mailbox.list({_new:true})">Посмотреть все письма</a></li>
+                        <li class="footer"><a ui-sref="index.mailbox.list({_new:true})">Посмотреть все новые письма</a></li>
                     </ul>
                 </li>
                 <!-- User Account: style can be found in dropdown.less -->
@@ -75,6 +75,7 @@
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
+                                <a ng-click="aboutMe()" class="btn btn-default btn-flat">Профиль</a>
                             </div>
                             <div class="pull-right">
                                 <a ng-click="logout()" class="btn btn-default btn-flat logout-btn">Выход</a>
@@ -106,7 +107,7 @@
             <div class="pull-left info">
                 <p>[[userName]]</p>
 
-                <a id="status-line" href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                <a id="status-line" href="#"><i class="fa fa-circle text-success"></i> <span>Online</span></a>
             </div>
         </div>
         <!-- search form -->
@@ -128,6 +129,12 @@
                 <a class="mailbox-item" ng-show="show('index.mailbox.list')" ui-sref="index.mailbox.list" ui-sref-opts="{inherit: false}">
                     <i class="fa fa-envelope-o"></i> <span>Почтовый ящик</span>
                     <small ng-if="countNew()" class="label pull-right bg-yellow">[[countNew()]]</small>
+                </a>
+            </li>
+
+            <li>
+                <a class="acceptance-item" ng-show="show('index.acceptance.list')" ui-sref="index.acceptance.list" ui-sref-opts="{inherit: false}">
+                    <i class="fa fa-level-down"></i> <span>Приемки товара</span>
                 </a>
             </li>
 
@@ -177,7 +184,7 @@
 
             <li ng-show="show('index.session.view')">
                 <a class="session-item" ui-sref="index.session.view" ui-sref-opts="{inherit: false}">
-                    <i class="fa fa-truck"></i> <span>Торговая сессия</span>
+                    <i class="fa fa-money"></i> <span>Торговая сессия</span>
                 </a>
             </li>
             <li ng-show="show('index.user')" class="header">АДМИНИСТРИРОВАНИЕ</li>

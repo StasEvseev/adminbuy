@@ -1,19 +1,19 @@
 # coding: utf-8
 
 from flask.ext.restful import marshal_with, fields
+from sqlalchemy.orm import joinedload
 
 from resources import Date
-from resources.core import (BaseTokeniseResource, BaseCanoniseResource,
-                            BaseInnerCanon, BaseStatusResource)
-from log import warning, debug
-
-from services import HelperService, InvoiceService, ModelService
-
-from applications.acceptance.model import (Acceptance, AcceptanceItems, MAIL,
-                                           NEW, IN_PROG, VALIDATED)
-from applications.acceptance.service import AcceptanceService
-
+from resources.core import BaseTokeniseResource, BaseCanoniseResource, \
+    BaseInnerCanon, BaseStatusResource
+from log import warning, debug, error
+from applications.acceptance.model import Acceptance, AcceptanceItems, MAIL, \
+    NEW, IN_PROG, VALIDATED
+from applications.acceptance.service import AcceptanceService, \
+    AcceptanceException
 from db import db
+
+from services.mailinvoice import InvoiceService
 
 
 ITEM = {
@@ -23,22 +23,20 @@ ITEM = {
     'type_str': fields.String(attribute='type.value'),
     'status': fields.Integer(attribute='status.code'),
     'status_str': fields.String(attribute='status.value'),
-    'invoice_id': fields.Integer,
-    'invoice_str': fields.String(attribute='invoice'),
     'receiver': fields.String,
     'provider_id': fields.Integer,
     'pointsale_id': fields.Integer,
     'pointsale_name': fields.String(attribute='pointsale.name'),
-    'invoice': fields.Nested({
+    'invoices': fields.Nested({
+        'id': fields.Integer,
         'number': fields.String,
-        'provider': fields.Nested({
-            'id': fields.Integer,
-            'name': fields.String
-        })
-    }, allow_null=True),
+        'fullname': fields.String
+    }),
     'pointsale': fields.Nested({
         'name': fields.String
-    })
+    }),
+    'display': fields.String,
+    'display_invoices': fields.String
 }
 
 
@@ -49,13 +47,24 @@ class AcceptanceItemInnerCanon(BaseInnerCanon):
     attr_json = {
         'id': fields.Integer,
         'good': fields.Nested({
-            'full_name': fields.String
+            'full_name': fields.String,
+            'id': fields.Integer
         }),
         'count': fields.Integer,
-        'fact_count': fields.String
+        'fact_count': fields.String,
+        'fact_count_default': fields.String(attribute='fact_count_front')
     }
 
     default_sort = 'asc', 'id'
+
+    def query_initial(self, inner_id, **kwargs):
+        try:
+            queryset = self.model.query.options(
+                joinedload(AcceptanceItems.good))
+            return queryset.filter_by(acceptance_id=inner_id)
+        except Exception as exc:
+            error(u"Ошибка в инициализации запроса. " + unicode(exc))
+            raise exc
 
 
 class AcceptanceCanon(BaseCanoniseResource):
@@ -63,60 +72,25 @@ class AcceptanceCanon(BaseCanoniseResource):
 
     attr_json = ITEM
 
-    def pre_save(self, obj, data):
-        obj = super(AcceptanceCanon, self).pre_save(obj, data)
-        # TODO: отрефакторить!!!
-        if obj.id is None:
-            if self.model.query.filter(
-                    self.model.invoice_id == obj.invoice_id).count() > 0:
-                warning(u"Попытка создания приемки по расходной накладной, на "
-                        u"которую уже есть приемка.")
-                raise BaseCanoniseResource.CanonException(
-                    u"Для расходной накладной можно создавать только одну "
-                    u"приемку.")
-            if 'date' not in data:
-                raise BaseCanoniseResource.CanonException(
-                    u"Поле дата - обязательно для заполнения.")
-            obj.date = HelperService.convert_to_pydate(data['date'])
-            if ('pointsale_id' not in data or
-                    not ModelService.check_id(data['pointsale_id'])):
-                raise BaseCanoniseResource.CanonException(
-                    u"Поле торговая точка - обязательно для заполнения.")
-            if 'type' not in data:
-                raise BaseCanoniseResource.CanonException(
-                    u"Нельзя создать приход без типа.")
-            type = int(data['type'])
-            if type not in [MAIL, NEW]:
-                raise BaseCanoniseResource.CanonException(
-                    u"Передан неверный тип.")
-            if type == MAIL and not ModelService.check_id(data['invoice_id']):
-                raise BaseCanoniseResource.CanonException(
-                    u"При выбранном типе 'Регулярная накладная' необходимо "
-                    u"указать накладную")
-            if type == NEW and not ModelService.check_id(data['provider_id']):
-                raise BaseCanoniseResource.CanonException(
-                    u"При выбранном типе 'Новая' необходимо указать "
-                    u"поставщика")
-            if type == MAIL:
-                obj.provider_id = None
-            elif type == NEW:
-                obj.invoice_id = None
+    def pre_save(self, acceptance, data):
+        acceptance = super(AcceptanceCanon, self).pre_save(acceptance, data)
+        try:
+            acceptance = AcceptanceService.prepared_acceptance(
+                acceptance=acceptance,
+                date=data.get('date', None),
+                pointsale_id=data.get('pointsale_id', None),
+                type=data.get('type', None),
+                provider_id=data.get('provider_id', None),
+                invoices=map(lambda x: x['id'], data.get('invoices', [])))
+        except AcceptanceException as exc:
+            raise BaseCanoniseResource.CanonException(unicode(exc))
 
-        elif 'date' in data:
-            obj.date = HelperService.convert_to_pydate(data['date'])
-        if obj.id:
-            if self.model.query.filter(
-                    self.model.invoice_id == obj.invoice_id,
-                    self.model.id != obj.id).count() > 0:
-                raise BaseCanoniseResource.CanonException(
-                    u"Для расходной накладной можно создавать только одну "
-                    u"приемку.")
-        return obj
+        return acceptance
 
     def pre_delete(self, obj):
         if obj.status == VALIDATED:
-            warning(u"Попытка удалить приемку в завершенном статусе "
-                    u"(%s)." % obj.id)
+            warning(u"Попытка удалить приемку в завершенном статусе (%s)."
+                    % obj.id)
             raise BaseCanoniseResource.CanonException(
                 u"Нельзя удалять приемку, в завершенном статусе."
             )

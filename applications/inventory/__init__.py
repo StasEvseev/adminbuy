@@ -7,6 +7,8 @@ from applications.inventory.resource import (
     InventoryItemInnerCanon, InventoryPrint)
 from resources import MyApi
 
+__author__ = 'StasEvseev'
+
 
 blueprint = Blueprint('inventory_blueprint', __name__)
 

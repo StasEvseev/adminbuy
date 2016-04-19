@@ -2,10 +2,14 @@
 
 from flask.ext.assets import Environment, Bundle
 
+__author__ = 'StasEvseev'
+
+
 assets = Environment()
 
 bundles = {
     'NAjs': Bundle(
+        'js/lib/voilab-angular-qtip.js',
         'js/lib/socket.io.min.js',
         'newadmin/js/app.js',
         'newadmin/js/demo.js',
@@ -21,38 +25,41 @@ bundles = {
         'newadmin/js/app/core/controllers.js',
         'newadmin/js/app/core/service.js',
 
-        'newadmin/app/mail/js/mails-service.js',
-        'newadmin/app/mail/js/module.js',
+        'newadmin/js/applications/mail/js/mails-service.js',
+        'newadmin/js/applications/mail/js/module.js',
 
-        'newadmin/app/invoice/js/module.js',
-        'newadmin/app/invoice/js/service.js',
+        'newadmin/js/applications/invoice/js/module.js',
+        'newadmin/js/applications/invoice/js/service.js',
 
-        'newadmin/app/waybill/js/service.js',
-        'newadmin/app/waybill/js/module.js',
+        'newadmin/js/applications/waybill/js/service.js',
+        'newadmin/js/applications/waybill/js/module.js',
 
-        'newadmin/app/pointsale/js/pointsales-service.js',
-        'newadmin/app/pointsale/js/module.js',
+        'newadmin/js/applications/pointsale/js/pointsales-service.js',
+        'newadmin/js/applications/pointsale/js/module.js',
 
-        'newadmin/app/provider/js/service.js',
-        'newadmin/app/provider/js/module.js',
+        'newadmin/js/applications/provider/js/service.js',
+        'newadmin/js/applications/provider/js/module.js',
 
-        'newadmin/app/commodity/js/service.js',
-        'newadmin/app/commodity/js/module.js',
+        'newadmin/js/applications/commodity/js/service.js',
+        'newadmin/js/applications/commodity/js/module.js',
 
-        'newadmin/app/good/js/service.js',
-        'newadmin/app/good/js/module.js',
+        'newadmin/js/applications/good/js/service.js',
+        'newadmin/js/applications/good/js/module.js',
 
-        'newadmin/app/collect/js/service.js',
-        'newadmin/app/collect/js/module.js',
+        'newadmin/js/applications/collect/js/service.js',
+        'newadmin/js/applications/collect/js/module.js',
 
-        'newadmin/app/receiver/js/receivers-service.js',
-        'newadmin/app/receiver/js/module.js',
+        'newadmin/js/applications/acceptance/js/service.js',
+        'newadmin/js/applications/acceptance/js/module.js',
 
-        'newadmin/app/user/js/users-service.js',
-        'newadmin/app/user/js/module.js',
+        'newadmin/js/applications/receiver/js/receivers-service.js',
+        'newadmin/js/applications/receiver/js/module.js',
 
-        'newadmin/app/session/js/module.js',
-        'newadmin/app/session/js/service.js',
+        'newadmin/js/applications/user/js/users-service.js',
+        'newadmin/js/applications/user/js/module.js',
+
+        'newadmin/js/applications/session/js/module.js',
+        'newadmin/js/applications/session/js/service.js',
 
         'newadmin/js/app/utils.js',
         'newadmin/js/app/application.js',
@@ -60,12 +67,13 @@ bundles = {
         'newadmin/js/app/auth/http.js',
         'newadmin/js/app/auth/ui.js',
         'newadmin/js/angular-indexed-db.js',
-        'js/lib/counter.js'
+        'js/lib/counter.js',
+        output='gen/myapp.min.js'),
 
-    , output='gen/myapp.min.js'),
     'NAcss': Bundle(
         'newadmin/css/main.css',
         'newadmin/css/AdminLTE.css',
+        'newadmin/css/adminlte_extens.css',
         'newadmin/css/dataTables.bootstrap.css',
         'newadmin/css/skins/_all-skins.min.css'),
 
@@ -149,30 +157,33 @@ bundles = {
         'js/lib/spin.min.js', output='gen/spin.min.js'
     ),
 
-    'angularjs': Bundle('js/lib/angular.js',
-                        'js/lib/angular-resource.min.js',
-                        'js/lib/angular-animate.min.js',
-                        'js/lib/angular-route.min.js',
-                        'js/lib/angular-sanitize.js',
-                        'js/lib/ng-breadcrumbs.js',
-                        'js/lib/angular-spinner.min.js',
-                        'js/lib/spin.min.js',
-                        'js/lib/angular-locale_ru-ru.js',
-                        'js/angular/number.js',
-                        'js/angular/auth.js',
-                        'js/angular/rest.js',
-                        'js/angular/table.js',
-                        'js/angular/filter.js',
-                        'js/angular/params.js',
-                        'js/angular/modalWindow.js',
-                        'js/angular/elems.js',
+    # TODO: LEGACY
 
-                        'js/bl/goodbl.js'
-                        ),
+    # 'angularjs': Bundle('js/lib/angular.js',
+    #                     'js/lib/angular-resource.min.js',
+    #                     'js/lib/angular-animate.min.js',
+    #                     'js/lib/angular-route.min.js',
+    #                     'js/lib/angular-sanitize.js',
+    #                     'js/lib/ng-breadcrumbs.js',
+    #                     'js/lib/angular-spinner.min.js',
+    #                     'js/lib/spin.min.js',
+    #                     'js/lib/angular-locale_ru-ru.js',
+    #                     'js/angular/number.js',
+    #                     'js/angular/auth.js',
+    #                     'js/angular/rest.js',
+    #                     'js/angular/table.js',
+    #                     'js/angular/filter.js',
+    #                     'js/angular/params.js',
+    #                     'js/angular/modalWindow.js',
+    #                     'js/angular/elems.js',
+    #
+    #                     'js/bl/goodbl.js'
+    #                     ),
 
     'angularjs-ui-bootstrap-old': Bundle(
         'js/lib/ui-bootstrap-tpls-0.11.2.min.js'),
-    'angularjs-ui-bootstrap': Bundle('js/lib/ui-bootstrap-tpls-0.13.3.js'),
+    # 'angularjs-ui-bootstrap': Bundle('js/lib/ui-bootstrap-tpls-0.13.3.js'),
+    'angularjs-ui-bootstrap': Bundle('js/lib/ui-bootstrap-tpls-0.14.3.min.js'),
 
     'bootbox': Bundle('js/lib/bootbox.min.js'),
 
@@ -183,6 +194,9 @@ bundles = {
     'metisMenu_js': Bundle('js/lib/metisMenu.js'),
 
     'custom_dash': Bundle('css/custom/sb-admin.css'),
+
+    'qtip_css': Bundle('css/lib/jquery.qtip.min.css'),
+    'qtip_js': Bundle('js/lib/jquery.qtip.min.js'),
 }
 
 assets.register(bundles)

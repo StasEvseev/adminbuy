@@ -1,5 +1,5 @@
 # coding: utf-8
-
+__author__ = 'StasEvseev'
 
 import os
 import multiprocessing
@@ -14,8 +14,6 @@ import signal
 sys.path.append(os.path.dirname(__file__))
 
 from tests import initializetest, BaseLiveTestCase
-
-__author__ = 'user'
 
 
 class BaseProtractorTestCase(BaseLiveTestCase):
@@ -101,4 +99,4 @@ class BaseProtractorTestCase(BaseLiveTestCase):
                         output_string += outs[index]
             except IndexError:
                 pass
-        self.assertEqual(failures, 0, output_string)
+        self.assertEqual(failures, 0)

@@ -1,11 +1,9 @@
 # coding: utf-8
 
 from flask import Blueprint
-from applications.acceptance.resource import (AcceptanceCanon,
-                                              AcceptanceItemsResource,
-                                              AcceptanceRemainItemsResource,
-                                              AcceptanceStatusResource,
-                                              AcceptanceItemInnerCanon)
+from applications.acceptance.resource import AcceptanceCanon, \
+    AcceptanceItemsResource, AcceptanceRemainItemsResource, \
+    AcceptanceStatusResource, AcceptanceItemInnerCanon
 
 from resources import MyApi
 

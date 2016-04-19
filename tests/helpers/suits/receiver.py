@@ -1,8 +1,9 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from app import db
 from applications.receiver.model import Receiver
-
-# from models import db
 from tests.helpers.suits import BaseSuite
 
 

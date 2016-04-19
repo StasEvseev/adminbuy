@@ -2,12 +2,14 @@
 
 from sqlalchemy import asc
 
+__author__ = 'StasEvseev'
+
 
 def _stub(invoice):
     from applications.price.service import PriceService
     from models.invoiceitem import InvoiceItem
-    items = PriceService.generate_price_stub(invoice.items.order_by(
-        asc(InvoiceItem.id)))
+    items = PriceService.generate_price_stub(
+        invoice.items.order_by(asc(InvoiceItem.id)))
 
     return {'items': [{
         'id_commodity': it.id_commodity,

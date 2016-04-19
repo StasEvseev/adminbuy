@@ -3,6 +3,8 @@
 from sqlalchemy_utils import ChoiceType
 from db import db
 
+__author__ = 'StasEvseev'
+
 RETAIL = 1
 GROSS = 2
 TYPE = {RETAIL: u"Розничная", GROSS: u"Оптовая"}
@@ -35,8 +37,6 @@ class WayBillReturn(db.Model):
     # Дата накладной
     date = db.Column(db.Date)
     date_to = db.Column(db.Date)
-
-    # Торговая точка - откуда пересылают товар
 
     receiver_id = db.Column(db.Integer, db.ForeignKey('receiver.id'))
     receiver = db.relationship(

@@ -6,6 +6,8 @@ from models.revision import Revision, RevisionItem
 
 from services.core import BaseSQLAlchemyModelService
 
+__author__ = 'StasEvseev'
+
 
 class RevisionService(BaseSQLAlchemyModelService):
     model = Revision
@@ -55,5 +57,5 @@ class RevisionService(BaseSQLAlchemyModelService):
 
     @classmethod
     def create_item(cls, revision_id, good_id, count):
-        return RevisionItem(
-            revision_id=revision_id, good_id=good_id, count_before=count)
+        return RevisionItem(revision_id=revision_id, good_id=good_id,
+                            count_before=count)

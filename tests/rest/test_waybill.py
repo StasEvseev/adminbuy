@@ -1,4 +1,7 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 from applications.point_sale.models import PointSaleItem
 from applications.waybill.constant import GOOD_ATTR, COUNT_ATTR
 

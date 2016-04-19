@@ -1,13 +1,15 @@
 # coding: utf-8
 
 from sqlalchemy import desc
-from applications.waybill_return.model import (
-    WayBillReturn, TYPE, RecType, POINTSALE, RECEIVER, WayBillReturnItems,
-    RETAIL, StatusType, FINISH, IN_PROG, DRAFT)
+from applications.waybill_return.model import WayBillReturn, TYPE, RecType, \
+    POINTSALE, RECEIVER, WayBillReturnItems, RETAIL, StatusType, FINISH, \
+    IN_PROG, DRAFT
 from db import db
 from log import error, debug
-from services import ModelService
 from services.core import BaseSQLAlchemyModelService
+from services.modelhelper import ModelService
+
+__author__ = 'StasEvseev'
 
 
 class WayBillReturnService(BaseSQLAlchemyModelService):
@@ -41,15 +43,15 @@ class WayBillReturnService(BaseSQLAlchemyModelService):
                return_id):
         """
         Создаем или получаем итоговую накладную.
-        Сначала проверяем, есть ли уже накладная по параметрам уникальности
-        (приходная накладная, получатели
+        Сначала проверяем, есть ли уже накладная по параметрам уникальности(
+        приходная накладная, получатели
         (точки или получатель) и тип).
         Если накладной нет, то создаем.
         Если накладная уже есть, генерим исключение. Но если нам передали флаг
         forse, то извлекаем из БД и возвращаем.
         """
-        if (not ModelService.check_id(receiver_id) and
-                not ModelService.check_id(pointsale_id)):
+        if not ModelService.check_id(receiver_id) and not ModelService.check_id(
+                pointsale_id):
             raise WayBillReturnService.WayBillReturnServiceExc(
                 u"No receiver or point sale")
 
@@ -59,7 +61,6 @@ class WayBillReturnService(BaseSQLAlchemyModelService):
         if type not in TYPE.keys():
             raise WayBillReturnService.WayBillReturnServiceExc(
                 u"Тип накладной указан неверно - %s." % type)
-
         if typeRec not in RecType.keys():
             raise WayBillReturnService.WayBillReturnServiceExc(
                 u"Тип получателя указан неверно - %s." % typeRec)
@@ -77,8 +78,8 @@ class WayBillReturnService(BaseSQLAlchemyModelService):
         elif typeRec == RECEIVER:
             if not ModelService.check_id(receiver_id):
                 raise WayBillReturnService.WayBillReturnServiceExc(
-                    u"Ошибка. Нельзя выбрать тип 'Оптовика' и "
-                    u"'Торговую точку'.")
+                    u"Ошибка. Нельзя выбрать тип 'Оптовика' и 'Торговую "
+                    u"точку'.")
             waybillreturn.receiver_id = receiver_id
 
         waybillreturn.type = type
@@ -95,8 +96,8 @@ class WayBillReturnService(BaseSQLAlchemyModelService):
         try:
             return [WayBillReturnItems(
                 good_id=it['good_id'],
-                count_plan=(it['count_plan'] if 'count_plan' in it and
-                                                it['count_plan'] else None),
+                count_plan=it['count_plan'] if 'count_plan' in it
+                                               and it['count_plan'] else None,
                 count=it['count'] if 'count' in it and it['count'] else None)
                     for it in items]
         except KeyError as exc:
@@ -107,7 +108,7 @@ class WayBillReturnService(BaseSQLAlchemyModelService):
     @classmethod
     def upgrade_items(cls, waybillreturn, items):
         from applications.price.service import PriceService
-        from services import GoodService
+        from applications.good.service import GoodService
 
         waybillreturn.items.delete()
         db.session.add(waybillreturn)
@@ -160,12 +161,11 @@ class WayBillReturnService(BaseSQLAlchemyModelService):
             to_point = PointSaleService.get_central()
             for item in waybillreturn.items:
                 PointSaleService.sync_good_increment(
-                    from_point.id, item.good_id,
-                    item.count * -1 if item.count else 0)
+                    from_point.id, item.good_id, item.count * -1 if item.count
+                    else 0)
                 PointSaleService.sync_good_increment(
                     to_point.id, item.good_id, item.count if item.count else 0)
 
         waybillreturn.status = status
-        debug(u"Смена статуса `накладной возврата` %s с %s на %s "
-              u"завершено." % (waybillreturn.id, waybillreturn.status,
-                               StatusType[status]))
+        debug(u"Смена статуса `накладной возврата` %s с %s на %s завершено." % (
+            waybillreturn.id, waybillreturn.status, StatusType[status]))

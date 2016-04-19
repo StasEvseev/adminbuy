@@ -1,4 +1,7 @@
 #coding: utf-8
+
+__author__ = 'StasEvseev'
+
 import datetime
 from flask import json
 
@@ -9,9 +12,7 @@ from models.invoiceitem import InvoiceItem
 from applications.mails.model import Mail
 from applications.commodity.models import Commodity
 
-
-# from models.commodity import Commodity
-from excel import InvoiceModel, get_name_number
+from excel import get_name_number
 from tests import BaseTestCase
 from tests.helpers.suits.invoice import MailInvoiceTestSuite
 from tests.helpers.suits.providersuit import ProviderTestSuite

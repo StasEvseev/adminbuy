@@ -5,6 +5,8 @@ from applications.collection.model import Collect
 
 from resources.core import BaseCanoniseResource
 
+__author__ = 'StasEvseev'
+
 
 class CollectCanonResource(BaseCanoniseResource):
     model = Collect
