@@ -19,7 +19,7 @@ angular.module('pointsales.service', ['core.service'])
     };
 
     child._getPath = function() {
-        return "api/pointsale/" + pointId + "/items";
+        return "/api/pointsale/" + pointId + "/items";
     };
     return child;
 })

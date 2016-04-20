@@ -3,15 +3,12 @@
 from fabric.api import local, sudo, lcd, put, cd
 from fabric.context_managers import settings
 from fabric.contrib.files import exists
-from fabric.decorators import roles
 from fabric.operations import local as lrun, run
 from fabric.api import task
 
 from fabric.state import env
 
 import os
-
-__author__ = 'StasEvseev'
 
 
 env.user = 'adminbuy'
@@ -44,6 +41,7 @@ def localhost():
     env.hosts = ['localhost']
     env.port = '22'
     env.user = 'user'
+
 
 @task
 def remote():
@@ -108,10 +106,12 @@ def clone_proj():
         run('git clone https://github.com/StasEvseev/adminbuy.git')
     put("config_local.py", proj_fullpath)
 
+
 @task
 def create_user():
     sudo('adduser user')
     sudo('gpasswd -a user sudo')
+
 
 @task
 def install_env():
@@ -141,6 +141,7 @@ def create_superuser():
     with settings(user='user'):
         with cd(proj_dir + root_folder):
             run('python manage.py create_superuser')
+
 
 @task
 def install_rabbitmq():
@@ -190,6 +191,7 @@ def reload_super():
         pass
     sudo('supervisorctl reread')
     sudo('supervisorctl reload')
+
 
 @task
 def configure_nginx():
