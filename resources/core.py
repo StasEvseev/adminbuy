@@ -630,7 +630,7 @@ class ProfileResourceById(BaseTokeniseResource):
             'id': user.id,
             'name': name,
             'position': position,
-            'iconUrl': "static/images/users/empty.png",
+            'iconUrl': "/static/images/users/empty.png",
             'is_superuser': user.is_superuser
         })
 
