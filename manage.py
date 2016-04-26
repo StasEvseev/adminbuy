@@ -112,6 +112,7 @@ class ScaffoldingCommand(Command):
 
 manager.add_command('db', MigrateCommand)
 manager.add_command('create_superuser', SuperUserCommand())
+manager.add_command('change_password', ChangePassword())
 manager.add_command('scaffold', ScaffoldingCommand())
 
 if __name__ == "__main__":
