@@ -36,6 +36,19 @@ class UserService(BaseSQLAlchemyModelService):
         return True
 
     @classmethod
+    def change_password(cls, login, password):
+
+        if not cls.check_duplicate(login):
+            raise UserService.DuplicateError(
+                u"В системе нет пользователя с логином - '%s'" % login)
+
+        user = cls.get_by_name(login)
+
+        user.password = generate_password_hash(password)
+
+        return user
+
+    @classmethod
     def registration(cls, login, email, password, is_superuser=False,
                      first_name=None, last_name=None, role=None):
         """

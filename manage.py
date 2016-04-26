@@ -80,6 +80,16 @@ class TestConfig(object):
 app.config.from_object(TestConfig)
 
 
+class ChangePassword(Command):
+    option_list = (
+        Option('--login', '-l', dest='login', required=True),
+        Option('--password', '-p', dest='password', required=True),
+    )
+
+    def run(self, login, password):
+        app.change_password(login, password)
+
+
 class SuperUserCommand(Command):
     """
 

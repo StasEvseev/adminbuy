@@ -153,7 +153,19 @@ def create_superuser():
             debug(u'Error - has admin.')
             raise Exception(u"Has admin.")
 
+
+def change_password(username, password):
+    from services.userservice import UserService
+
+    with app.app_context():
+        user = UserService.change_password(username, password)
+
+        db.session.add(user)
+        db.session.commit()
+
+
 app.create_superuser = create_superuser
+app.change_password = change_password
 
 if __name__ == "__main__":
     debug(u"Запуск системы.")
