@@ -1,11 +1,9 @@
 # coding: utf-8
 
 from tasks.instance import celery
-from flask.ext.mail import Mail, Message
+from flask.ext.mail import Mail
 
 from app import app
-
-__author__ = 'StasEvseev'
 
 
 mail = Mail(app)

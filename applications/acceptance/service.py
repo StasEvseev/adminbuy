@@ -14,8 +14,6 @@ from applications.acceptance.model import (
     Acceptance, StatusType, AcceptanceItems, IN_PROG, VALIDATED, MAIL, NEW,
     DRAFT)
 
-__author__ = 'StasEvseev'
-
 
 class AcceptanceException(BaseSQLAlchemyModelService.ServiceException):
     pass

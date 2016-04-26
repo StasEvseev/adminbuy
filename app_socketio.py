@@ -1,13 +1,12 @@
 # coding: utf-8
 
+from datetime import datetime
+
 from flask import Flask
 from flask.ext.socketio import SocketIO, join_room
 
-__author__ = 'StasEvseev'
-
 
 app = Flask(__name__)
-
 socketio = SocketIO(app)
 
 cnt = 0
@@ -26,7 +25,6 @@ def test_disconnect():
 
 def redis_thread():
     import redis
-    from datetime import datetime
     global cnt
     cnt += 1
 

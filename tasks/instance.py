@@ -8,8 +8,6 @@ from celery.schedules import crontab
 
 from app import app
 
-__author__ = 'StasEvseev'
-
 
 def make_celery(app):
     cel = Celery(app.import_name, broker=app.config['CELERY_BROKER_URL'])

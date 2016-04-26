@@ -1,7 +1,6 @@
 # coding: utf-8
-from tasks.instance import celery
 
-__author__ = 'StasEvseev'
+from tasks.instance import celery
 
 
 @celery.task
