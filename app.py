@@ -62,10 +62,10 @@ def create_app(application):
     @babel.localeselector
     def get_locale():
         return request.accept_languages.best_match(["ru"])
-    try:
-        init_logging(application)
-    except:
-        pass
+    #try:
+    #    init_logging(application)
+    #except:
+    #    pass
 
     if IS_PROD:
         init_logging(application)
