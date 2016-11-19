@@ -4,6 +4,7 @@ python:
 
 services:
   - postgresql
+  - redis-server
 
 before_script:
   - psql -c "CREATE ROLE test WITH PASSWORD 'test' LOGIN SUPERUSER;" -U postgres
