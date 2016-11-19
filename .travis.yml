@@ -6,8 +6,9 @@ services:
   - postgresql
 
 before_script:
-  - psql -c 'create role test with login superuser password \'test\';' -U postgres
-  - psql -c 'create database buyapi with owner test;' -U postgres
+  - psql -c "CREATE ROLE test WITH PASSWORD 'test' LOGIN SUPERUSER;" -U postgres
+  - psql -c 'CREATE DATABASE buyapi;' -U postgres
+  - psql -c 'GRANT ALL PRIVILEGES ON DATABASE buyapi TO test;' -U postgres
 
 install:
   - pip install -r REQUIREMENTS
