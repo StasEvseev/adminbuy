@@ -13,7 +13,7 @@ except ImportError:
 
 DB = "buyapi"
 
-IS_PROD = True
+IS_PROD = False
 
 try:
     from config_local import IS_PROD

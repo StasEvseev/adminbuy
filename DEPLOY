@@ -7,3 +7,10 @@ sudo swapon /swapfile
 
 #На дешевом хостинге 512 оперативы(маловато для постгреса)
 #Нужно изменить(уменьшить) значение shared_buffers
+
+
+
+
+CREATE ROLE test WITH PASSWORD 'test' LOGIN;
+CREATE DATABASE buyapi;
+GRANT ALL PRIVILEGES ON DATABASE buyapi TO test;
