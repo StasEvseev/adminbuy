@@ -43,6 +43,8 @@ class FlaskrTestCase(BaseTestCase):
                 for meth in rule.methods:
                     if meth == "OPTIONS":
                         continue
-                    data = getattr(self.client, meth.lower())(rule.rule)
+
+                    action = getattr(self.client, meth.lower())
+                    data = action(rule.rule, content_type='application/json')
 
                     #self.assertIn(data.status_code, [401, 405, 404])

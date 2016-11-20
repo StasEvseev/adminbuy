@@ -6,8 +6,7 @@ import uuid
 import os
 
 from flask import g, jsonify, request
-from flask.ext import restful
-from flask.ext.restful import reqparse, marshal_with, fields, abort
+from flask.ext.restful import reqparse, marshal_with, fields, abort, Resource
 
 from sqlalchemy import desc, asc, or_, and_
 from sqlalchemy.sql.sqltypes import BigInteger, BIGINT
@@ -39,7 +38,7 @@ class BaseTokenMixinResource(object):
     decorators = [auth.login_required]
 
 
-class BaseTokeniseResource(restful.Resource):
+class BaseTokeniseResource(Resource):
     decorators = [auth.login_required]
 
 
@@ -571,7 +570,7 @@ class ExtraMixin(object):
         super(ExtraMixin, self).post_save(obj, data, create_new)
 
 
-class BaseModelPackResource(restful.Resource):
+class BaseModelPackResource(Resource):
     model = None
 
     def get(self):
@@ -660,7 +659,7 @@ class ProfileResource(BaseTokeniseResource):
             abort(401)
 
 
-class RegistrationResource(restful.Resource):
+class RegistrationResource(Resource):
     def post(self):
         if request.json is None:
             abort(400, message=u"Пустые параметры")
@@ -699,15 +698,17 @@ class IdentityResource(BaseTokeniseResource):
         abort(401)
 
 
-class AuthResource(restful.Resource):
+class AuthResource(Resource):
     def post(self):
         from applications.security.model import User
 
         def is_empty(at):
             return at in [None, ""]
 
-        username = request.json.get('user')
-        password = request.json.get('password')
+        jsondata = request.get_json()
+
+        username = jsondata.get('user')
+        password = jsondata.get('password')
         if is_empty(username) or is_empty(password):
             abort(400, message=u"Имя и пароль не должны быть пустыми.")
         user = User.query.filter(User.login==username).first()
