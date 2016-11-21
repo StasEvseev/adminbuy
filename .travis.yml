@@ -3,13 +3,12 @@ python:
   - "2.7"
 
 services:
-  - postgresql
+  - postgresql9.3
   - redis-server
 
 before_script:
-  - psql -c "CREATE ROLE test WITH PASSWORD 'test' LOGIN SUPERUSER;" -U postgres
-  - psql -c 'CREATE DATABASE buyapi;' -U postgres
-  - psql -c 'GRANT ALL PRIVILEGES ON DATABASE buyapi TO test;' -U postgres
+  - psql -c "CREATE ROLE adminbuy WITH PASSWORD 'adminbuy' NOSUPERUSER CREATEDB NOCREATEROLE LOGIN;"
+  - psql -c "CREATE DATABASE adminbuy WITH OWNER=adminbuy TEMPLATE=template0 ENCODING='utf-8';"
 
 install:
   - pip install -r REQUIREMENTS
