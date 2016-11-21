@@ -1,0 +1,4 @@
+PASSWORD = '123456'
+PAGES_DIR = 'pages/'
+UPLOAD_DIR = 'media/'
+NAMESPACES = []
