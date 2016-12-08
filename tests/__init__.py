@@ -13,6 +13,7 @@ from config import COMMON_URL, USER, PASSWORD, DB
 from management import man
 
 from app import app
+from db import db
 
 __author__ = 'StasEvseev'
 
@@ -50,6 +51,7 @@ class BaseTestCase(unittest.TestCase):
         unittest.TestCase.__init__(self, *args, **kwargs)
 
         self.application = app
+        self.db = db
 
     def setUp(self):
         super(BaseTestCase, self).setUp()
@@ -67,19 +69,18 @@ class BaseTestCase(unittest.TestCase):
         """
 
         from services.userservice import UserService
-        from db import db
 
         with self.application.app_context():
             user = UserService.registration('I', 'a@a2.ru', 'I')
-            db.session.add(user)
-            db.session.commit()
+            self.db.session.add(user)
+            self.db.session.commit()
 
     def tearDown(self):
         super(BaseTestCase, self).tearDown()
 
         self.tear_down()
-        with app.app.app_context():
-            app.app.db.engine.dispose()
+        with app.app_context():
+            self.db.engine.dispose()
 
     def _serialize(self, dict):
         return json.dumps(dict)
@@ -99,6 +100,7 @@ class BaseLiveTestCase(unittest.TestCase):
         super(BaseLiveTestCase, self).__init__(*args, **kwargs)
 
         self.application = app
+        self.db = db
 
     def setUp(self):
 
@@ -106,8 +108,8 @@ class BaseLiveTestCase(unittest.TestCase):
 
     def tearDown(self):
         self.tear_down()
-        with app.app.app_context():
-            app.app.db.engine.dispose()
+        with self.application.app_context():
+            self.db.engine.dispose()
 
     def set_up(self):
         pass
