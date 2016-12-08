@@ -27,4 +27,4 @@ python-dateutil
 Flask-SocketIO
 redis
 reportlab
-codecov
+coveralls
