@@ -1,16 +1,20 @@
 # coding: utf-8
 
-__author__ = 'StasEvseev'
-
-
 import os
 import unittest
 import sys
-from flask import json
+
 import psycopg2
-import app
+
+from flask import json
+
 from config import COMMON_URL, USER, PASSWORD, DB
-from manage import man
+
+from management import man
+
+from app import app
+
+__author__ = 'StasEvseev'
 
 CURRENT_DIR = os.path.dirname(__file__)
 PATH_DB = os.path.join(CURRENT_DIR, "app.db")
@@ -43,12 +47,12 @@ def initializetest(app):
 class BaseTestCase(unittest.TestCase):
 
     def __init__(self, *args, **kwargs):
-        super(BaseTestCase, self).__init__(*args, **kwargs)
+        unittest.TestCase.__init__(self, *args, **kwargs)
 
-        self.module = app
-        self.application = self.module.app
+        self.application = app
 
     def setUp(self):
+        super(BaseTestCase, self).setUp()
         initializetest(self.application)
 
         self.client = self.application.test_client()
@@ -71,6 +75,8 @@ class BaseTestCase(unittest.TestCase):
             db.session.commit()
 
     def tearDown(self):
+        super(BaseTestCase, self).tearDown()
+
         self.tear_down()
         with app.app.app_context():
             app.app.db.engine.dispose()
@@ -92,8 +98,7 @@ class BaseLiveTestCase(unittest.TestCase):
     def __init__(self, *args, **kwargs):
         super(BaseLiveTestCase, self).__init__(*args, **kwargs)
 
-        self.module = app
-        self.application = self.module.app
+        self.application = app
 
     def setUp(self):
 

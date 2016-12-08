@@ -1,6 +1,4 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 import datetime
 from flask import json
@@ -17,9 +15,10 @@ from tests import BaseTestCase
 from tests.helpers.suits.invoice import MailInvoiceTestSuite
 from tests.helpers.suits.providersuit import ProviderTestSuite
 
+__author__ = 'StasEvseev'
+
 
 class InvoiceTestCase(BaseTestCase):
-
     def set_up(self):
         self.FILE_NAME = "20141020_2IAEW4.xlsx"
         test_date = datetime.datetime.strptime("Fri, 19 Dec 2014 20:20:57", '%a, %d %b %Y %H:%M:%S')
@@ -37,7 +36,6 @@ class InvoiceTestCase(BaseTestCase):
             self.price_invoice()
 
     def price_invoice(self):
-
         ITEMS = (
             (u"Men's Health №11(196)", 106.0, 125.0),
             (u"Men's Health/мини формата/№11(117)", 85.0, 105.0),
@@ -49,7 +47,7 @@ class InvoiceTestCase(BaseTestCase):
         self.assertEqual(Price.query.count(), 0)
         self.assertEqual(PriceParish.query.count(), 0)
 
-        #сохраняем цены
+        # сохраняем цены
         resp = self.mailinvoice_provider.price_invoice(self.invoice.id, datas=ITEMS)
 
         self.assertEqual(resp.status_code, 200)
