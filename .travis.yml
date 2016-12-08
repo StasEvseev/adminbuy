@@ -14,7 +14,7 @@ install:
   - pip install -r REQUIREMENTS
 
 script:
- - coverage run python -m unittest discover
+ - python -m unittest discover
  
 after_success:
   - codecov
