@@ -1,9 +1,10 @@
 # coding: utf-8
 
 from flask import Blueprint
-from applications.good_commodity.resource import GoodCommodityResource
 
-from resources import MyApi
+from adminbuy.resources import MyApi
+
+from .resource import GoodCommodityResource
 
 
 blueprint = Blueprint('goodcommodity_blueprint', __name__)

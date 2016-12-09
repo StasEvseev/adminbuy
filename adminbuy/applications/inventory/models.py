@@ -5,6 +5,7 @@ from sqlalchemy_utils.types.choice import ChoiceType
 
 from adminbuy.db import db
 
+
 DRAFT, IN_PROG, VALIDATED = 1, 2, 3
 
 StatusType = {

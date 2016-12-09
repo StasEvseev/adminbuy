@@ -4,8 +4,8 @@ from flask import Blueprint
 
 from adminbuy.resources import MyApi
 
-from ..invoice.resource import (InvoiceCanon, InvoiceItemInnerCanon,
-                                InvoiceItemAcceptanceInnerCanon)
+from .resource import (InvoiceCanon, InvoiceItemInnerCanon,
+                       InvoiceItemAcceptanceInnerCanon)
 
 
 __author__ = 'StasEvseev'

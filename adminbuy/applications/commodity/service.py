@@ -6,6 +6,7 @@ from sqlalchemy.orm.exc import NoResultFound
 
 from .models import Commodity
 
+
 __author__ = 'StasEvseev'
 
 

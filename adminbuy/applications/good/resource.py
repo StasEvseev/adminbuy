@@ -4,14 +4,14 @@ import os
 import uuid
 
 from flask.ext.restful import fields, abort
-
 from sqlalchemy.orm import joinedload
+
+from adminbuy.resources.core import BaseCanoniseResource, BaseTokeniseResource
 
 from .model import Good
 from .service import GoodService, GoodServiceException
-from config import PATH_TO_GENERATE_INVOICE, PATH_WEB
 
-from adminbuy.resources.core import BaseCanoniseResource, BaseTokeniseResource
+from config import PATH_TO_GENERATE_INVOICE, PATH_WEB
 
 
 __author__ = 'StasEvseev'

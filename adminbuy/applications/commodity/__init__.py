@@ -3,6 +3,7 @@
 from flask import Blueprint
 
 from adminbuy.resources import MyApi
+
 from .resource import CommodityCanonResource
 from .service import CommodityService
 

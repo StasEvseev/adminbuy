@@ -1,9 +1,13 @@
 # coding: utf-8
+
 from collections import defaultdict
 import json
 from sqlalchemy import desc
-from applications.events.model import Event
-from services.core import BaseSQLAlchemyModelService
+
+from adminbuy.services.core import BaseSQLAlchemyModelService
+
+from .model import Event
+
 
 __author__ = 'StasEvseev'
 
@@ -37,7 +41,7 @@ class EventService(BaseSQLAlchemyModelService):
             data = json.loads(event.data)
             date = event.datetime.date()
             time = event.datetime.time()
-            item = {}
+            item = dict()
             item['time'] = time
             item['title_from'] = data.get('title_from', '')
             item['title'] = data.get('title', '')

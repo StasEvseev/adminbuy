@@ -1,8 +1,9 @@
 # coding: utf-8
 
 from flask.ext.restful import fields
-from applications.good.model import Good
-from resources.core import GetResource
+
+from adminbuy.applications.good.model import Good
+from adminbuy.resources.core import GetResource
 
 
 class GoodCommodityResource(GetResource):

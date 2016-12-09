@@ -6,6 +6,7 @@ from adminbuy.resources import MyApi
 
 from .resource import GoodResourceCanon, GoodPrintBarcode
 
+
 __author__ = 'StasEvseev'
 
 

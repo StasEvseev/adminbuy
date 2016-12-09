@@ -3,13 +3,13 @@
 from sqlalchemy import asc
 
 from adminbuy.models.invoiceitem import InvoiceItem
+from adminbuy.applications.price.service import PriceService
+
 
 __author__ = 'StasEvseev'
 
 
 def _stub(invoice):
-    from adminbuy.applications.price.service import PriceService
-
     items = PriceService.generate_price_stub(
         invoice.items.order_by(asc(InvoiceItem.id)))
 

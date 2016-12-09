@@ -14,6 +14,7 @@ from .constant import (COUNT_AFTER_ATTR, GOOD_ATTR, GOOD_ID_ATTR,
 
 from log import warning
 
+
 __author__ = 'StasEvseev'
 
 

@@ -1,9 +1,12 @@
 # coding: utf-8
 
 import json
-from applications.events.service import EventService
-from tests import BaseTestCase
-from tests.helpers import Generator
+
+from .service import EventService
+
+from adminbuy.tests import BaseTestCase
+from adminbuy.tests.helpers import Generator
+
 
 __author__ = 'StasEvseev'
 
