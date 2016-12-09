@@ -1,0 +1,456 @@
+<div class="wrapper">
+
+<header class="main-header" ng-controller="HeaderController" ng-cloak>
+    <!-- Logo -->
+    <a ui-sref="index.dash" class="logo">
+        <!-- mini logo for sidebar mini 50x50 pixels -->
+        <span class="logo-mini"><span ng-bind-html="companyNameShort"></span></span>
+        <!-- logo for regular state and mobile devices -->
+        <span class="logo-lg"><span ng-bind-html="companyName"></span></span>
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top" role="navigation">
+        <!-- Sidebar toggle button-->
+        <a ng-click="toggle($event)" class="sidebar-toggle">
+            <span class="sr-only">Toggle navigation</span>
+        </a>
+
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <!-- Messages: style can be found in dropdown.less-->
+
+                <li dropdown class="messages-menu" ng-show="show('index.mailbox.list')">
+                    <a href="#" dropdown-toggle>
+                        <i class="fa fa-envelope-o"></i>
+                        <span ng-if="countNew()" class="label label-success">[[countNew()]]</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="header">У вас [[countNew()]] новых писем</li>
+                        <li>
+                            <!-- inner menu: contains the actual data -->
+                            <ul class="menu">
+
+                                <li ng-repeat="message in messages()">
+                                    <a ui-sref="index.mailbox.list.read({mailId: message.id})">
+                                        <div class="pull-left">
+                                            <img class="img-circle" alt="User Image"/>
+                                        </div>
+                                        <h4>
+                                            [[message.title]]
+                                            <small><i class="fa fa-clock-o"></i> [[message.date]]</small>
+                                        </h4>
+                                        <p>[[message.data]]</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="footer"><a ui-sref="index.mailbox.list({_new:true})">Посмотреть все новые письма</a></li>
+                    </ul>
+                </li>
+                <!-- User Account: style can be found in dropdown.less -->
+                <li dropdown class="user user-menu">
+                    <a dropdown-toggle href="#">
+                        <img ng-src="[[ iconUrl ]]" class="user-image" alt="User Image"/>
+                        <span class="hidden-xs">[[userName]]</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <!-- User image -->
+                        <li class="user-header">
+                            <img ng-src="[[iconUrl]]" class="img-circle" alt="User Image"/>
+
+                            <p>
+                                [[userName]] - [[position]]
+                                <!--<small>Member since Nov. 2012</small>-->
+                            </p>
+                        </li>
+                        <!-- Menu Body -->
+                        <li class="user-body">
+                            <div class="col-xs-4 text-center">
+                            </div>
+                            <div class="col-xs-4 text-center">
+                            </div>
+                            <div class="col-xs-4 text-center">
+                            </div>
+                        </li>
+                        <!-- Menu Footer-->
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a ng-click="aboutMe()" class="btn btn-default btn-flat">Профиль</a>
+                            </div>
+                            <div class="pull-right">
+                                <a ng-click="logout()" class="btn btn-default btn-flat logout-btn">Выход</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+
+                <li style="font-size: 0.7em; color: #ffffff; margin-right: 10px; margin-left: 10px; margin-top: 7px">
+                    <ds-widget-clock data-show-digital></ds-widget-clock>
+                </li>
+                <!-- Control Sidebar Toggle Button -->
+                <!--<li>
+                  <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                </li>-->
+            </ul>
+        </div>
+    </nav>
+</header>
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar" ng-controller="SidebarController" ng-cloak>
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section tree class="sidebar">
+        <!-- Sidebar user panel -->
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img ng-src="[[ iconUrl ]]" class="img-circle" alt="User Image"/>
+            </div>
+            <div class="pull-left info">
+                <p>[[userName]]</p>
+
+                <a id="status-line" href="#"><i class="fa fa-circle text-success"></i> <span>Online</span></a>
+            </div>
+        </div>
+        <!-- search form -->
+        <!--<form action="#" method="get" class="sidebar-form">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control" placeholder="Search..."/>
+              <span class="input-group-btn">
+                <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i>
+                </button>
+              </span>
+            </div>
+        </form>-->
+        <!-- /.search form -->
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu">
+            <li class="header">ПАНЕЛЬ НАВИГАЦИИ</li>
+
+            <li>
+                <a class="mailbox-item" ng-show="show('index.mailbox.list')" ui-sref="index.mailbox.list" ui-sref-opts="{inherit: false}">
+                    <i class="fa fa-envelope-o"></i> <span>Почтовый ящик</span>
+                    <small ng-if="countNew()" class="label pull-right bg-yellow">[[countNew()]]</small>
+                </a>
+            </li>
+
+            <li>
+                <a class="acceptance-item" ng-show="show('index.acceptance.list')" ui-sref="index.acceptance.list" ui-sref-opts="{inherit: false}">
+                    <i class="fa fa-level-down"></i> <span>Приемки товара</span>
+                </a>
+            </li>
+
+            <li ng-show="show('index.invoice_in.list') || show('index.invoice.list')" class="treeview invoice-menu">
+                <a href="#">
+                    <i class="fa fa-columns"></i> <span>Накладные</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li ng-show="show('index.invoice_in.list')"><a class="invoice-item" ui-sref="index.invoice_in.list"><i class="fa fa-table"></i> Накладные прихода</a>
+                    </li>
+                    <li ng-show="show('index.invoice.list')"><a class="invoice2-item" ui-sref="index.invoice.list"><i class="fa fa-table"></i> Расходные накладные</a>
+                    </li>
+                </ul>
+            </li>
+            <li ng-show="show('index.receiver.list')">
+                <a class="receiver-item" ui-sref="index.receiver.list" ui-sref-opts="{inherit: false}">
+                    <i class="fa fa-users"></i> <span>Оптовики</span>
+                </a>
+            </li>
+            <li ng-show="show('index.commodity.list')">
+                <a class="commodity-item" ui-sref="index.commodity.list" ui-sref-opts="{inherit: false}">
+                    <i class="fa fa-bars"></i> <span>Номенклатура</span>
+                </a>
+            </li>
+            <li ng-show="show('index.good.list')">
+                <a class="good-item" ui-sref="index.good.list" ui-sref-opts="{inherit: false}">
+                    <i class="fa fa-cubes"></i> <span>Товар</span>
+                </a>
+            </li>
+            <li ng-show="show('index.pointsale.list')">
+                <a class="pointsale-item" ui-sref="index.pointsale.list" ui-sref-opts="{inherit: false}">
+                    <i class="fa fa-archive"></i> <span>Торговые точки</span>
+                </a>
+            </li>
+            <li ng-show="show('index.provider.list')">
+                <a class="provider-item" ui-sref="index.provider.list" ui-sref-opts="{inherit: false}">
+                    <i class="fa fa-truck"></i> <span>Поставщики</span>
+                </a>
+            </li>
+
+            <li ng-show="show('index.collect.list')">
+                <a class="collect-item" ui-sref="index.collect.list" ui-sref-opts="{inherit: false}">
+                    <i class="fa fa-rub"></i> <span>Инкассация</span>
+                </a>
+            </li>
+
+            <li ng-show="show('index.session.view')">
+                <a class="session-item" ui-sref="index.session.view" ui-sref-opts="{inherit: false}">
+                    <i class="fa fa-money"></i> <span>Торговая сессия</span>
+                </a>
+            </li>
+            <li ng-show="show('index.user')" class="header">АДМИНИСТРИРОВАНИЕ</li>
+
+            <li ng-show="show('index.user')" class="treeview user-menu">
+                <a href="#">
+                    <i class="fa fa-gears"></i> <span>Настройки</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+
+                <!--<ul class="treeview-menu">
+                    <li><a ui-sref="index.user.view({id: 1})"><i class="fa fa-circle-o"></i> Ваш профиль</a>
+                    </li>
+                </ul> -->
+
+                <ul class="treeview-menu">
+                    <li><a class="user-item" ui-sref="index.user.list"><i class="fa fa-user"></i> Пользователи</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+</aside>
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper" content-wr>
+
+    <div ui-view="content"></div>
+
+</div>
+<!-- /.content-wrapper -->
+<footer class="main-footer" ng-cloak>
+    <div class="pull-right hidden-xs">
+        <b>Version</b> [[version]]
+    </div>
+    <strong>Copyright &copy; 2015 <span ng-bind-html="authorLink"></span> </strong> All rights reserved.
+</footer>
+
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Create the tabs -->
+    <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+        <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+
+        <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <!-- Home tab content -->
+        <div class="tab-pane" id="control-sidebar-home-tab">
+            <h3 class="control-sidebar-heading">Recent Activity</h3>
+            <ul class='control-sidebar-menu'>
+                <li>
+                    <a href='javascript::;'>
+                        <i class="menu-icon fa fa-birthday-cake bg-red"></i>
+
+                        <div class="menu-info">
+                            <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
+
+                            <p>Will be 23 on April 24th</p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href='javascript::;'>
+                        <i class="menu-icon fa fa-user bg-yellow"></i>
+
+                        <div class="menu-info">
+                            <h4 class="control-sidebar-subheading">Frodo Updated His Profile</h4>
+
+                            <p>New phone +1(800)555-1234</p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href='javascript::;'>
+                        <i class="menu-icon fa fa-envelope-o bg-light-blue"></i>
+
+                        <div class="menu-info">
+                            <h4 class="control-sidebar-subheading">Nora Joined Mailing List</h4>
+
+                            <p>nora@example.com</p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href='javascript::;'>
+                        <i class="menu-icon fa fa-file-code-o bg-green"></i>
+
+                        <div class="menu-info">
+                            <h4 class="control-sidebar-subheading">Cron Job 254 Executed</h4>
+
+                            <p>Execution time 5 seconds</p>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+            <!-- /.control-sidebar-menu -->
+
+            <h3 class="control-sidebar-heading">Tasks Progress</h3>
+            <ul class='control-sidebar-menu'>
+                <li>
+                    <a href='javascript::;'>
+                        <h4 class="control-sidebar-subheading">
+                            Custom Template Design
+                            <span class="label label-danger pull-right">70%</span>
+                        </h4>
+
+                        <div class="progress progress-xxs">
+                            <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href='javascript::;'>
+                        <h4 class="control-sidebar-subheading">
+                            Update Resume
+                            <span class="label label-success pull-right">95%</span>
+                        </h4>
+
+                        <div class="progress progress-xxs">
+                            <div class="progress-bar progress-bar-success" style="width: 95%"></div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href='javascript::;'>
+                        <h4 class="control-sidebar-subheading">
+                            Laravel Integration
+                            <span class="label label-waring pull-right">50%</span>
+                        </h4>
+
+                        <div class="progress progress-xxs">
+                            <div class="progress-bar progress-bar-warning" style="width: 50%"></div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href='javascript::;'>
+                        <h4 class="control-sidebar-subheading">
+                            Back End Framework
+                            <span class="label label-primary pull-right">68%</span>
+                        </h4>
+
+                        <div class="progress progress-xxs">
+                            <div class="progress-bar progress-bar-primary" style="width: 68%"></div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+            <!-- /.control-sidebar-menu -->
+
+        </div>
+        <!-- /.tab-pane -->
+        <!-- Stats tab content -->
+        <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
+        <!-- /.tab-pane -->
+        <!-- Settings tab content -->
+        <div class="tab-pane" id="control-sidebar-settings-tab">
+            <form method="post">
+                <h3 class="control-sidebar-heading">General Settings</h3>
+
+                <div class="form-group">
+                    <label class="control-sidebar-subheading">
+                        Report panel usage
+                        <input type="checkbox" class="pull-right" checked/>
+                    </label>
+
+                    <p>
+                        Some information about this general settings option
+                    </p>
+                </div>
+                <!-- /.form-group -->
+
+                <div class="form-group">
+                    <label class="control-sidebar-subheading">
+                        Allow mail redirect
+                        <input type="checkbox" class="pull-right" checked/>
+                    </label>
+
+                    <p>
+                        Other sets of options are available
+                    </p>
+                </div>
+                <!-- /.form-group -->
+
+                <div class="form-group">
+                    <label class="control-sidebar-subheading">
+                        Expose author name in posts
+                        <input type="checkbox" class="pull-right" checked/>
+                    </label>
+
+                    <p>
+                        Allow the user to show his name in blog posts
+                    </p>
+                </div>
+                <!-- /.form-group -->
+
+                <h3 class="control-sidebar-heading">Chat Settings</h3>
+
+                <div class="form-group">
+                    <label class="control-sidebar-subheading">
+                        Show me as online
+                        <input type="checkbox" class="pull-right" checked/>
+                    </label>
+                </div>
+                <!-- /.form-group -->
+
+                <div class="form-group">
+                    <label class="control-sidebar-subheading">
+                        Turn off notifications
+                        <input type="checkbox" class="pull-right"/>
+                    </label>
+                </div>
+                <!-- /.form-group -->
+
+                <div class="form-group">
+                    <label class="control-sidebar-subheading">
+                        Delete chat history
+                        <a href="javascript::;" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
+                    </label>
+                </div>
+                <!-- /.form-group -->
+            </form>
+        </div>
+        <!-- /.tab-pane -->
+    </div>
+</aside>
+</div><!-- ./wrapper -->
+
+
+<script type="text/ng-template" id="ng-table/headers/checkbox.html">
+    <input type="checkbox" ng-model="checkboxes.checked" id="select_all" name="filter-checkbox" value="" />
+</script>
+
+
+<script type="text/ng-template" id="custom/pager">
+
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">Показано с [[ params.count() * (params.page() - 1) + 1 ]] по [[ params.count() * params.page() ]] из
+                [[ params.total() ]] записей
+            </div>
+        </div>
+        <div class="col-sm-7">
+            <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+                <ul class="pagination ">
+                    <!-- ngRepeat: page in pages -->
+
+                    <li ng-class="{'disabled': !page.active}" class="paginate_button" ng-repeat="page in pages"
+                        ng-switch="page.type">
+                        <a ng-switch-when="prev" ng-click="params.page(page.number)" href=""> < </a>
+                        <a ng-switch-when="first" ng-click="params.page(page.number)" href=""><span
+                                ng-bind="page.number"></span></a>
+                        <a ng-switch-when="page" ng-click="params.page(page.number)" href=""><span
+                                ng-bind="page.number"></span></a>
+                        <a ng-switch-when="more" ng-click="params.page(page.number)" href="">&#8230;</a>
+                        <a ng-switch-when="last" ng-click="params.page(page.number)" href=""><span
+                                ng-bind="page.number"></span></a>
+                        <a ng-switch-when="next" ng-click="params.page(page.number)" href=""> > </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</script>

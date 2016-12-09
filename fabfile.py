@@ -201,7 +201,7 @@ def configure_nginx():
         sudo('/etc/init.d/nginx start')
         if exists('/etc/nginx/sites-enabled/default'):
             sudo('rm /etc/nginx/sites-enabled/default')
-        put("./config/buyapi", remote_nginx_dir, use_sudo=True)
+        put("./deploy/config/buyapi", remote_nginx_dir, use_sudo=True)
 
         put("private.key", '/etc/nginx/', use_sudo=True)
         put("ssl.crt", '/etc/nginx/', use_sudo=True)

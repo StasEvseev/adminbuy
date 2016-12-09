@@ -1,0 +1,38 @@
+# coding: utf-8
+
+from collections import namedtuple
+
+from sqlalchemy.orm.exc import NoResultFound
+
+from .models import Commodity
+
+__author__ = 'StasEvseev'
+
+
+CommodityStub = namedtuple('CommodityStub', ['id', 'name', 'category'])
+
+
+class CommodityService(object):
+
+    @classmethod
+    def get_by_id(cls, id):
+        return Commodity.query.get(id)
+
+    @classmethod
+    def get_all_commodity_with_price(cls):
+        commodity_all = Commodity.query.all()
+        return commodity_all
+
+    @classmethod
+    def get_or_create_commodity(cls, name, thematic=None, numeric=None):
+        try:
+            commodity = Commodity.query.filter(Commodity.name == name).one()
+        except NoResultFound as err:
+            return False, Commodity(
+                name=name, thematic=thematic, numeric=numeric)
+        else:
+            return True, commodity
+
+    @classmethod
+    def get_commodity(cls, name):
+        return Commodity.query.filter(Commodity.name == name).one()

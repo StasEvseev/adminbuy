@@ -1,7 +1,7 @@
 # coding: utf-8
 
-from app import app
-from management import manager
+from adminbuy.app import app
+from adminbuy.management import manager
 
 __author__ = 'StasEvseev'
 

@@ -1,0 +1,59 @@
+{% extends 'admin/base.html' %}
+
+{% block head_css %}
+
+    <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon" />
+
+    {% assets 'bootstrap-css' %}
+        <link href="{{ ASSET_URL }}" rel="stylesheet"/>
+    {% endassets %}
+
+    {% assets 'font-awesome-css' %}
+        <link href="{{ ASSET_URL }}" rel="stylesheet"/>
+    {% endassets %}
+
+    {% assets 'selectize-css' %}
+        <link href="{{ ASSET_URL }}" rel="stylesheet"/>
+    {% endassets %}
+
+{% endblock %}
+
+
+{% block page_body %}
+<div class="container">
+    <div style="  margin: 100px auto 0;">
+        <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <div class="panel panel-info" >
+                <div style="padding-top:30px" class="panel-body">
+                фывфывфвыфв!!!
+
+                    <form method="POST"  class="form-horizontal" role="form">
+                        {{ form.hidden_tag() if form.hidden_tag }}
+
+                        {% for f in form if f.type != 'CSRFTokenField' %}
+                        <div style="margin-bottom: 25px" class="input-group">
+                            <input type="{{ f.type }}" name="{{ f.name }}" id="{{ f.name }}"
+                                   class="form-control" placeholder="{{ f.label }}">
+                            {% if f.errors %}
+                            <ul>
+                                {% for e in f.errors %}
+                                <li>{{ e }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+
+                        <div style="margin-top:10px" class="form-group">
+                            <div class="col-sm-12 controls">
+                                <button class="btn btn-primary" type="submit">Войти</button>
+                                <span class="pull-right">{{ link | safe }}</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock page_body %}

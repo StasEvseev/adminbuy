@@ -86,17 +86,17 @@ def prep_arg(*args):
 
 
 def debug(message, *args):
-    from app import app
+    from adminbuy.app import app
     app.logger.debug(_mess(message), *prep_arg(*args))
 
 
 def warning(message, *args):
-    from app import app
+    from adminbuy.app import app
     app.logger.warn(_mess(message), *prep_arg(*args))
 
 
 def error(message, *args):
-    from app import app
+    from adminbuy.app import app
     import traceback
     trace = traceback.format_exc()
     app.logger.error(_mess(message)+"\n"+trace, *prep_arg(*args))

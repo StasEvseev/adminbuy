@@ -5,8 +5,8 @@ config_local.py
 attachments
 /static/gen
 /static/.webassets-cache
-/tests/app.db
-/tests/app.db-journal
+/adminbuy/tests/app.db
+/adminbuy/tests/app.db-journal
 *.log
 celerybeat-schedule
 celerybeat.pid
