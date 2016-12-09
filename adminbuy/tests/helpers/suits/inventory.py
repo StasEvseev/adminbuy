@@ -1,8 +1,9 @@
-#coding: utf-8
+# coding: utf-8
+
+from ...helpers.suits import BaseSuite
+
 
 __author__ = 'StasEvseev'
-
-from tests.helpers.suits import BaseSuite
 
 
 class InventorySuite(BaseSuite):

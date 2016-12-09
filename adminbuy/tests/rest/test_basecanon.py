@@ -1,22 +1,24 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 from collections import defaultdict
 import re
 
-from applications.acceptance import AcceptanceCanon
-from applications.commodity.resource import CommodityCanonResource
-from applications.inventory import InventoryCanon
-from applications.invoice import InvoiceCanon
+from adminbuy.applications.acceptance import AcceptanceCanon
+from adminbuy.applications.commodity.resource import CommodityCanonResource
+from adminbuy.applications.inventory import InventoryCanon
+from adminbuy.applications.invoice import InvoiceCanon
 from adminbuy.applications.point_sale import PointSaleCanon
-from applications.provider_app.resource import ProviderCanon
-from applications.receiver.resource import ReceiverCanonResource
-from applications.seller import SellerResource
-from resources.revision import RevisionItemResource, RevisionResource
-from tests import BaseTestCase
-from tests.helpers import Generator
-from tests.helpers.suits.canon import BaseCanonSuite
+from adminbuy.applications.provider_app.resource import ProviderCanon
+from adminbuy.applications.receiver.resource import ReceiverCanonResource
+from adminbuy.applications.seller import SellerResource
+from adminbuy.resources.revision import RevisionItemResource, RevisionResource
+
+from .. import BaseTestCase
+from ..helpers import Generator
+from ..helpers.suits.canon import BaseCanonSuite
+
+
+__author__ = 'StasEvseev'
 
 
 class BaseCanonTest(BaseTestCase):

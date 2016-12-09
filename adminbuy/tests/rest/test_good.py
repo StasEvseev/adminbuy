@@ -1,11 +1,12 @@
 # coding: utf-8
 
-from applications.commodity.models import Commodity
-from applications.good.model import Good
-from applications.price.model import Price
-from tests import BaseTestCase
-from tests.helpers.suits.commodity import CommodityTestSuite
-from tests.helpers.suits.good import GoodTestSuite
+from adminbuy.applications.commodity.models import Commodity
+from adminbuy.applications.good.model import Good
+from adminbuy.applications.price.model import Price
+
+from .. import BaseTestCase
+from ..helpers.suits.commodity import CommodityTestSuite
+from ..helpers.suits.good import GoodTestSuite
 
 
 class GoodTest(BaseTestCase):

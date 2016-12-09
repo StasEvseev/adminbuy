@@ -1,16 +1,18 @@
-#coding: utf-8
-
-__author__ = 'StasEvseev'
+# coding: utf-8
 
 import datetime
 
-from applications.price.model import PriceParish
-from applications.price.service import PriceService
+from adminbuy.applications.price.model import PriceParish
+from adminbuy.applications.price.service import PriceService
 
-from adminbuy.models import Invoice
-from tests import BaseTestCase
-from adminbuy.tests.helpers.suits.invoice import MailInvoiceTestSuite
-from tests.helpers.suits.providersuit import ProviderTestSuite
+from adminbuy.models.invoice import Invoice
+
+from .. import BaseTestCase
+from ..helpers.suits.invoice import MailInvoiceTestSuite
+from ..helpers.suits.providersuit import ProviderTestSuite
+
+
+__author__ = 'StasEvseev'
 
 
 class ChangePriceTestCase(BaseTestCase):

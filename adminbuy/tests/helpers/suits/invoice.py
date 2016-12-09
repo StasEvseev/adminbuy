@@ -2,14 +2,15 @@
 
 import os
 
-from applications.mails.action import MailHepls, MailObjectNew
 from mock import Mock
 
-from adminbuy.models import InvoiceItem
-from excel import get_name_number
+from adminbuy.applications.mails.action import MailHepls, MailObjectNew
+from adminbuy.models.invoiceitem import InvoiceItem
+from adminbuy.excel import get_name_number
 from adminbuy.services.mailinvoice import MailInvoiceService
-from tests.helpers.suits import BaseSuite
-from tests.helpers.suits.providersuit import ProviderTestSuite
+
+from . import BaseSuite
+from ..suits.providersuit import ProviderTestSuite
 
 
 class MailInvoiceTestSuite(BaseSuite):

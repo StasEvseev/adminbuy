@@ -1,16 +1,19 @@
-#coding: utf-8
+# coding: utf-8
+
+from adminbuy.applications.inventory.constant import (COUNT_AFTER_ATTR,
+                                                      GOOD_ATTR, GOOD_ID_ATTR)
+from adminbuy.applications.inventory.models import (InventoryItems, IN_PROG,
+                                                    VALIDATED)
+from adminbuy.applications.point_sale.models import PointSaleItem
+
+from .. import BaseTestCase
+from ..helpers import Generator
+from ..helpers.suits.application import ApplicationSuite
+from ..helpers.suits.inventory import InventorySuite
+from ..helpers.suits.pointsale import PointSaleSuite
+
 
 __author__ = 'StasEvseev'
-
-from applications.inventory.constant import COUNT_AFTER_ATTR, GOOD_ATTR, GOOD_ID_ATTR
-from applications.inventory.models import InventoryItems, IN_PROG, VALIDATED
-
-from adminbuy.applications.point_sale import PointSaleItem
-from tests import BaseTestCase
-from tests.helpers import Generator
-from tests.helpers.suits.application import ApplicationSuite
-from tests.helpers.suits.inventory import InventorySuite
-from tests.helpers.suits.pointsale import PointSaleSuite
 
 
 class InventoryTest(BaseTestCase):

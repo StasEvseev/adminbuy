@@ -2,24 +2,31 @@
 
 from datetime import datetime
 
-from applications.acceptance.constant import (
-    GOOD_ATTR, COUNT_ATTR, ITEM_ID_ATTR, PRICE_GROSS_ATTR, PRICE_POST_ATTR,
-    PRICE_RETAIL_ATTR, GOOD_ID_ATTR, GOOD_OBJ_ATTR)
-from applications.acceptance.model import (
-    MAIL, NEW, Acceptance, AcceptanceItems, IN_PROG, VALIDATED)
-from applications.good.model import Good
-from applications.price.model import PriceParish
+from adminbuy.applications.acceptance.constant import (GOOD_ATTR, COUNT_ATTR,
+                                                       ITEM_ID_ATTR,
+                                                       PRICE_GROSS_ATTR,
+                                                       PRICE_POST_ATTR,
+                                                       PRICE_RETAIL_ATTR,
+                                                       GOOD_ID_ATTR,
+                                                       GOOD_OBJ_ATTR)
+from adminbuy.applications.acceptance.model import (MAIL, NEW, Acceptance,
+                                                    AcceptanceItems, IN_PROG,
+                                                    VALIDATED)
+from adminbuy.applications.good.model import Good
+from adminbuy.applications.price.model import PriceParish
 
-from adminbuy.applications.point_sale import PointSaleItem
-from adminbuy.models import Invoice
-from adminbuy.models import InvoiceItem
-from tests import BaseTestCase
-from tests.helpers import Generator
-from tests.helpers.suits.acceptance import AcceptanceSuite
-from tests.helpers.suits.application import ApplicationSuite
-from adminbuy.tests.helpers.suits.invoice import MailInvoiceTestSuite
-from tests.helpers.suits.pointsale import PointSaleSuite
-from tests.helpers.suits.providersuit import ProviderTestSuite
+from adminbuy.applications.point_sale.models import PointSaleItem
+from adminbuy.models.invoice import Invoice
+from adminbuy.models.invoiceitem import InvoiceItem
+
+from .. import BaseTestCase
+from ..helpers import Generator
+from ..helpers.suits.acceptance import AcceptanceSuite
+from ..helpers.suits.application import ApplicationSuite
+from ..helpers.suits.invoice import MailInvoiceTestSuite
+from ..helpers.suits.pointsale import PointSaleSuite
+from ..helpers.suits.providersuit import ProviderTestSuite
+
 
 __author__ = 'StasEvseev'
 

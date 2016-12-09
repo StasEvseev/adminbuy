@@ -1,10 +1,12 @@
-#coding: utf-8
+# coding: utf-8
+
+from adminbuy.applications.commodity.models import Commodity
+
+from .. import BaseTestCase
+from ..helpers.suits.commodity import CommodityTestSuite
+
 
 __author__ = 'StasEvseev'
-
-from applications.commodity.models import Commodity
-from tests import BaseTestCase
-from tests.helpers.suits.commodity import CommodityTestSuite
 
 
 class CommodityTest(BaseTestCase):
