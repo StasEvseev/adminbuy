@@ -1,17 +1,15 @@
 # coding: utf-8
 
-__author__ = 'StasEvseev'
-
 import os
 
 try:
     from config_local import USER
     from config_local import PASSWORD
 except ImportError:
-    USER = 'adminbuy'
-    PASSWORD = 'adminbuy'
+    USER = 'test'
+    PASSWORD = 'test'
 
-DB = 'adminbuy'
+DB = 'buyapi'
 
 IS_PROD = False
 
@@ -49,10 +47,15 @@ except ImportError:
     ADMIN = "stasevseev@gmail.com"
     ADMINS = [ADMIN]
 
+
+__author__ = 'StasEvseev'
+
+
 imap_server = 'imap.gmail.com'
 
 
 DIR_PROJECT = os.path.dirname(__file__)
+DIR_ALEMBIC = os.path.join(DIR_PROJECT, 'adminbuy', 'migrations')
 mail_folder = 'attachments'
 
 PATH_TO_GENERATE_INVOICE = os.path.join(DIR_PROJECT, 'static', 'files')

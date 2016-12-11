@@ -3,7 +3,7 @@
 from flask.ext.mail import Mail
 
 from adminbuy.app import app
-from tasks.instance import celery
+from .instance import celery
 
 mail = Mail(app)
 

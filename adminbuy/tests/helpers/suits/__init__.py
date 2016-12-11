@@ -5,6 +5,8 @@ import base64
 from flask import json
 from werkzeug.datastructures import Headers
 
+from adminbuy.applications.security.models import User
+
 
 __author__ = 'StasEvseev'
 
@@ -31,8 +33,6 @@ class BaseSuite(object):
         return json.loads(data)
 
     def _get_headers(self, is_json=True):
-        from applications.security.model import User
-
         with self.application.app_context():
             user = User.query.get(1)
             token = user.generate_auth_token()

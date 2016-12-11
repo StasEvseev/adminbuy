@@ -1,5 +1,7 @@
 # coding: utf-8
 
+import uuid
+import os
 from collections import namedtuple
 
 from sqlalchemy import desc, func
@@ -7,10 +9,16 @@ from sqlalchemy import desc, func
 from adminbuy.db import db
 from adminbuy.services.modelhelper import ModelService
 from adminbuy.simple_report.report import SpreadsheetReport
+from adminbuy.excel.output import PATH_TEMPLATE
+from adminbuy.applications.good.service import GoodService
+from adminbuy.applications.price.service import PriceService
+from adminbuy.applications.point_sale.service import PointSaleService
 
 from .constant import COUNT_ATTR, GOOD_ATTR
 from .models import (FROM_MAIL, WayBillItems, WayBill, TYPE, RETAIL, POINTSALE,
                      RECEIVER, RecType, StatusType, FINISH)
+
+from config import PATH_TO_GENERATE_INVOICE, PATH_WEB
 
 from log import debug, error
 
@@ -26,12 +34,6 @@ class WayBillService(object):
 
     @classmethod
     def report_multi(cls, ids):
-        import uuid
-        import os
-        from config import PATH_TO_GENERATE_INVOICE, PATH_WEB
-        from excel.output import PATH_TEMPLATE
-        from applications.good.service import GoodService
-
         COUNT_ROW = 42
         COUNT_ROW2 = 91
         file_name = str(uuid.uuid4()) + ".xlsx"
@@ -93,7 +95,6 @@ class WayBillService(object):
 
     @classmethod
     def report(cls, id):
-
         return cls.report_multi([id])
 
     @classmethod
@@ -293,9 +294,6 @@ class WayBillService(object):
 
     @classmethod
     def upgrade_items(cls, waybill, items, path_target=None, path=None):
-        from applications.price.service import PriceService
-        from applications.good.service import GoodService
-
         waybill.items.delete()
         db.session.add(waybill)
 
@@ -327,7 +325,6 @@ class WayBillService(object):
 
     @classmethod
     def status(cls, waybill, status):
-        from adminbuy.applications.point_sale import PointSaleService
         debug(u"Смена статуса `накладной` id = '%s' с %s на %s." % (
             waybill.id, waybill.status, StatusType[status]))
 
@@ -341,12 +338,15 @@ class WayBillService(object):
                       u"отправителе id = '%s'" % from_point.id)
                 for item in waybill.items:
                     PointSaleService.sync_good_increment(
-                        from_point.id, item.good_id, item.count * -1 if item.count else 0)
+                        from_point.id, item.good_id,
+                        item.count * -1 if item.count else 0)
             else:
                 to_point = waybill.pointsale
-                debug(u"Пересчет кол-ва товаров на точке отправителе id = '%s' "
-                      u"и точке получаете id = '%s'." % (
-                        from_point.id, to_point.id))
+                debug(
+                    u"Пересчет кол-ва товаров на точке отправителе id = '%s' "
+                    u"и точке получаете id = '%s'." % (from_point.id,
+                                                       to_point.id)
+                )
                 for item in waybill.items:
                     PointSaleService.sync_good_increment(
                         from_point.id, item.good_id, item.count * -1

@@ -1,4 +1,5 @@
 # coding: utf-8
+
 from adminbuy.services.core import BaseSQLAlchemyModelService
 
 from .model import Receiver

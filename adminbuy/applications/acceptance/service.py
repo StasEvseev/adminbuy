@@ -28,8 +28,8 @@ class AcceptanceService(BaseSQLAlchemyModelService):
     def prepared_acceptance(cls, acceptance, date, pointsale_id, type,
                             provider_id, invoices):
         from adminbuy.services.mailinvoice import InvoiceService
-        from services.helperserv import HelperService
-        from services.modelhelper import ModelService
+        from adminbuy.services.helperserv import HelperService
+        from adminbuy.services.modelhelper import ModelService
         if acceptance.id is None or acceptance.status == DRAFT:
             if date is None:
                 raise AcceptanceException(
@@ -101,7 +101,7 @@ class AcceptanceService(BaseSQLAlchemyModelService):
         debug(u"Обновление фактического кол-ва по новой `прихода` id = '%s' "
               u"начато." % acceptance.id)
         from adminbuy.services.mailinvoice import InvoiceService
-        from applications.good.service import GoodService
+        from adminbuy.applications.good.service import GoodService
         invoice = acceptance.invoices[0]
         acceptance.items.delete()
         invoice.items.delete()
@@ -151,8 +151,8 @@ class AcceptanceService(BaseSQLAlchemyModelService):
 
     @classmethod
     def status(cls, acceptance, status):
-        from adminbuy.applications.point_sale import PointSaleService
-        from applications.price.service import PriceService, DataToUpdatePrice
+        from adminbuy.applications.point_sale.service import PointSaleService
+        from adminbuy.applications.price.service import PriceService, DataToUpdatePrice
         debug(u"Смена статуса `прихода` id = '%s' с %s на %s." % (
             acceptance.id, acceptance.status, StatusType[status]))
 

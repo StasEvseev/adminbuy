@@ -6,6 +6,7 @@ from flask import g
 from flask.ext.principal import RoleNeed, Permission, Identity
 from flask.ext.restful import abort
 
+
 __author__ = 'StasEvseev'
 
 

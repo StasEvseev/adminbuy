@@ -13,7 +13,9 @@ from log import init_logging, debug
 
 from config import admin_imap, admin_pass, DATABASE_URI, SECRET_KEY, IS_PROD
 
+
 __author__ = 'StasEvseev'
+
 
 os.environ['TZ'] = 'Europe/Moscow'
 
@@ -49,9 +51,11 @@ def init_app(application):
     application.permanent_session_lifetime = timedelta(minutes=30)
 
     Triangle(application)
+
     assets.init_app(application)
     api.init_app(application)
     api.application = application
+
     db.init_app(application)
     login_manager.init_app(application)
     security.init_app(application)

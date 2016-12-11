@@ -11,7 +11,6 @@ from sqlalchemy.orm import joinedload
 from adminbuy.models.invoice import Invoice
 from adminbuy.models.invoiceitem import InvoiceItem
 from adminbuy.resources.core import BaseCanoniseResource, BaseInnerCanon
-
 from adminbuy.applications.acceptance.model import Acceptance
 
 from log import error

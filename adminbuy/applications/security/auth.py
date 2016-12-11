@@ -7,6 +7,7 @@ from . import auth, auth_admin
 
 from .models import User
 
+
 __author__ = 'StasEvseev'
 
 

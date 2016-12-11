@@ -22,9 +22,9 @@ __author__ = 'StasEvseev'
 
 
 class BaseCanonTest(BaseTestCase):
-
     RESOURCES = [
-        AcceptanceCanon, CommodityCanonResource, PointSaleCanon, ProviderCanon, ReceiverCanonResource, RevisionResource,
+        AcceptanceCanon, CommodityCanonResource, PointSaleCanon, ProviderCanon,
+        ReceiverCanonResource, RevisionResource,
         SellerResource, RevisionItemResource, InventoryCanon, InvoiceCanon,
     ]
 
@@ -107,10 +107,9 @@ class BaseCanonTest(BaseTestCase):
         self.test_url = defaultdict(dict)
 
         for res, url, _ in api.resources:
-            if hasattr(res, 'parent') and type(getattr(res, 'parent')) in self.RESOURCES:
-                
+            if (hasattr(res, 'parent') and
+                        type(getattr(res, 'parent')) in self.RESOURCES):
                 self.test_url[res.parent][url[0]] = res
-                # self.test_url[res.parent][1].append(res)
 
         def main_url(urls):
             for url in urls:
@@ -122,7 +121,10 @@ class BaseCanonTest(BaseTestCase):
             url = main_url(url_res.keys())
             values = url_res.values()
             del self.test_url[resource]
-            self.test_url[resource]['data'] = {"url": prefix + url, "items": values}
+            self.test_url[resource]['data'] = {
+                "url": prefix + url,
+                "items": values
+            }
 
         self.base_canon_suite = BaseCanonSuite(self.client, self.application)
 

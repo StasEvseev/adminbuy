@@ -615,7 +615,7 @@ class TokenResource(BaseTokeniseResource):
 
 class ProfileResourceById(BaseTokeniseResource):
     def get(self, id):
-        from services.userservice import UserService
+        from adminbuy.services.userservice import UserService
         user = UserService.get_by_id(id)
 
         fname = user.first_name or ""
@@ -635,7 +635,7 @@ class ProfileResourceById(BaseTokeniseResource):
 
 class ProfileResource(BaseTokeniseResource):
     def get(self):
-        from services.userservice import UserService
+        from adminbuy.services.userservice import UserService
         token = request.authorization['username']
 
         user = UserService.user_to_token(token)
@@ -662,7 +662,7 @@ class RegistrationResource(Resource):
     def post(self):
         if request.json is None:
             abort(400, message=u"Пустые параметры")
-        from services.userservice import UserService
+        from adminbuy.services.userservice import UserService
         login = request.json.get('login')
         email = request.json.get('email')
         password = request.json.get('password')
@@ -688,7 +688,7 @@ class RegistrationResource(Resource):
 
 class IdentityResource(BaseTokeniseResource):
     def get(self):
-        from services.userservice import UserService
+        from adminbuy.services.userservice import UserService
         token = request.authorization['username']
 
         user = UserService.user_to_token(token)
@@ -699,7 +699,7 @@ class IdentityResource(BaseTokeniseResource):
 
 class AuthResource(Resource):
     def post(self):
-        from applications.security.models import User
+        from adminbuy.applications.security.models import User
 
         def is_empty(at):
             return at in [None, ""]

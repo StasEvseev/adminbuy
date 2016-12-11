@@ -1,6 +1,7 @@
 # coding:utf-8
 
 import datetime as dtmodule
+
 from sqlalchemy_utils.types.choice import ChoiceType
 
 from adminbuy.db import db

@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from tasks.instance import celery
+from .instance import celery
 
 
 @celery.task

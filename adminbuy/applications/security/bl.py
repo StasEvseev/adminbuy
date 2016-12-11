@@ -6,6 +6,7 @@ from adminbuy.resources import MyApi
 
 from .resource import UserCanon, RoleCanon
 
+
 __author__ = 'StasEvseev'
 
 

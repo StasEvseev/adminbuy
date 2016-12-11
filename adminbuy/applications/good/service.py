@@ -40,7 +40,7 @@ class GoodService(object):
     @classmethod
     def get_or_create_commodity_numbers(
             cls, commodity_id, number_local=None, number_global=None, id=None):
-        from applications.commodity.service import CommodityService
+        from adminbuy.applications.commodity.service import CommodityService
         commodity = CommodityService.get_by_id(commodity_id)
 
         if commodity.numeric:
@@ -92,7 +92,7 @@ class GoodService(object):
 
     @classmethod
     def get_price(cls, good_id):
-        from applications.price.service import PriceService
+        from adminbuy.applications.price.service import PriceService
         good = cls.get_good(good_id)
         if good.price_id:
             return PriceService.get_price(good.price_id)

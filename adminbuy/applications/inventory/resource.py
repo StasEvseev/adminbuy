@@ -111,7 +111,7 @@ class InventoryPrint(BasePrintResource):
     TEMPLATE = "print_inventory.xls"
 
     def handle(self, pi, id):
-        from applications.good.service import GoodService
+        from adminbuy.applications.good.service import GoodService
         inventory = InventoryService.get_by_id(id)
 
         su = sum(map(

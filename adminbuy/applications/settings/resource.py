@@ -4,6 +4,7 @@ from flask import request, g
 from flask.ext.restful import fields, marshal_with
 
 from adminbuy.db import db
+
 from adminbuy.resources.core import BaseCanoniseResource, BaseTokeniseResource
 
 from .model import Profile

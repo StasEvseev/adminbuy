@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from ...helpers.suits import BaseSuite
+from ..suits import BaseSuite
 
 
 __author__ = 'StasEvseev'

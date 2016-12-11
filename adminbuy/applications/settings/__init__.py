@@ -3,7 +3,9 @@
 from flask import Blueprint
 
 from adminbuy.resources import MyApi
+
 from adminbuy.applications.settings.resource import ProfileCanon
+
 
 __author__ = 'StasEvseev'
 

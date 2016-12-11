@@ -2,6 +2,7 @@
 
 from adminbuy.db import db
 
+
 __author__ = 'StasEvseev'
 
 

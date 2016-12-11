@@ -11,6 +11,7 @@ from flask import json
 from adminbuy.app import app
 from adminbuy.db import db
 from adminbuy.management import man
+from adminbuy.services.userservice import UserService
 
 from config import COMMON_URL, USER, PASSWORD, DB
 
@@ -67,8 +68,6 @@ class BaseTestCase(unittest.TestCase):
         """
         Инициализация БД. Нужен как минимум один пользователь.
         """
-
-        from services.userservice import UserService
 
         with self.application.app_context():
             user = UserService.registration('I', 'a@a2.ru', 'I')

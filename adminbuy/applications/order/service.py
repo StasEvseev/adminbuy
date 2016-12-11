@@ -22,8 +22,8 @@ class OrderService(BaseSQLAlchemyModelService):
     @classmethod
     def handle_orderitem(cls, full_name, name, number_local, number_global,
                          date, remission, NDS, price_prev, price_post, order):
-        from applications.good.service import GoodService
-        from applications.commodity.service import CommodityService
+        from adminbuy.applications.good.service import GoodService
+        from adminbuy.applications.commodity.service import CommodityService
         item = OrderItem()
         item.full_name = full_name,
         item.name = name

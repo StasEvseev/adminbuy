@@ -44,7 +44,7 @@ class GoodResourceCanon(BaseCanoniseResource):
     }
 
     def pre_save(self, obj, data):
-        from applications.commodity.service import CommodityService
+        from adminbuy.applications.commodity.service import CommodityService
         obj.number_local = str(obj.number_local) if obj.number_local else None
         obj.number_global = str(obj.number_global) if obj.number_global \
             else None

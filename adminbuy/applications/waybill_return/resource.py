@@ -7,6 +7,7 @@ from flask import request
 from flask.ext.restful import marshal_with, fields, abort
 
 from adminbuy.db import db
+
 from adminbuy.applications.waybill.constant import GOOD_ATTR, COUNT_ATTR
 from adminbuy.excel.output import PrintInvoice, PATH_TEMPLATE
 from adminbuy.resources.core import (BaseTokeniseResource,

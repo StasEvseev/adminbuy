@@ -3,11 +3,11 @@
 from adminbuy.db import db
 from adminbuy.services.core import BaseSQLAlchemyModelService
 
+from log import debug
+
 from .constant import (COUNT_AFTER_ATTR, GOOD_ATTR, GOOD_ID_ATTR,
                        COUNT_BEFORE_ATTR)
 from .models import Inventory, InventoryItems, VALIDATED, DRAFT, StatusType
-
-from log import debug
 
 
 __author__ = 'StasEvseev'
@@ -35,7 +35,7 @@ class InventoryService(BaseSQLAlchemyModelService):
         Инициализация ревизии. Если вдруг ревизия не первая, то нужно заполнить
         позиции ревизии пунктами из точки.
         """
-        from adminbuy.applications.point_sale import PointSaleService
+        from adminbuy.applications.point_sale.service import PointSaleService
         try:
             location_id = obj.location_id
             if location_id:
@@ -63,7 +63,7 @@ class InventoryService(BaseSQLAlchemyModelService):
 
     @classmethod
     def sync_to_point(cls, obj):
-        from adminbuy.applications.point_sale import PointSaleService
+        from adminbuy.applications.point_sale.service import PointSaleService
         try:
             location_id = obj.location_id
             exc_items = []
@@ -81,7 +81,7 @@ class InventoryService(BaseSQLAlchemyModelService):
         """
         Сохранение позиций инвентаризации.
         """
-        from applications.good.service import GoodService
+        from adminbuy.applications.good.service import GoodService
         if obj.status not in [VALIDATED, DRAFT]:
             debug(u"Удаление связанных записей в инвентаризации (%s)" % obj.id)
             obj.items.delete()

@@ -8,6 +8,7 @@ from adminbuy.applications.mails.action import MailHepls, MailObjectNew
 from adminbuy.models.invoiceitem import InvoiceItem
 from adminbuy.excel import get_name_number
 from adminbuy.services.mailinvoice import MailInvoiceService
+from config import DIR_PROJECT
 
 from . import BaseSuite
 from ..suits.providersuit import ProviderTestSuite
@@ -56,13 +57,12 @@ class MailInvoiceTestSuite(BaseSuite):
         }
 
     def get_stub(self, datetime, file_name):
-
         def date_stub():
             return datetime
 
         def file_stub():
-            return os.path.join(
-                os.getcwd(), "tests", "helpers", "stubs", file_name)
+            return os.path.join(DIR_PROJECT, "adminbuy", "tests", "helpers",
+                                "stubs", file_name)
 
         return MailObjectNew(
             title="NEW", date_=date_stub(),
@@ -82,6 +82,8 @@ class MailInvoiceTestSuite(BaseSuite):
                 'action': 'R',
                 'index': 0
             }), headers=self._get_headers(True))
+
+        assert resp.status_code == 200
 
         return resp
 

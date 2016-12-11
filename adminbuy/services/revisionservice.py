@@ -26,7 +26,7 @@ class RevisionService(BaseSQLAlchemyModelService):
         Инициализация ревизии. Если вдруг ревизия не первая, то нужно заполнить
         позиции ревизии пунктами из точки.
         """
-        from adminbuy.applications.point_sale import PointSaleService
+        from adminbuy.applications.point_sale.service import PointSaleService
         try:
             pointsale_id = obj.pointsale_id
             if pointsale_id and cls.exists_point(pointsale_id, obj.id):
@@ -40,7 +40,7 @@ class RevisionService(BaseSQLAlchemyModelService):
 
     @classmethod
     def sync_to_point(cls, obj):
-        from adminbuy.applications.point_sale import PointSaleService
+        from adminbuy.applications.point_sale.service import PointSaleService
         try:
             pointsale_id = obj.pointsale_id
             exc_items = []

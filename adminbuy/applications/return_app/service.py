@@ -26,8 +26,8 @@ class ReturnService(BaseSQLAlchemyModelService):
     def handle_returnitem(cls, full_name, name, number_local, number_global,
                           date, date_to, price_without_NDS, price_with_NDS,
                           remission, count_delivery, count_rem, return_inst):
-        from applications.commodity.service import CommodityService
-        from applications.good.service import GoodService
+        from adminbuy.applications.commodity.service import CommodityService
+        from adminbuy.applications.good.service import GoodService
         item = ReturnItem()
         item.full_name = full_name
         item.name = name

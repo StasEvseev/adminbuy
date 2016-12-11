@@ -74,14 +74,14 @@ class PriceArgumentExc(PriceServiceException):
 
 
 def rate_retail():
-    from applications.settings.service import SettingsService
+    from adminbuy.applications.settings.service import SettingsService
     user = g.user
     profile = SettingsService.setting_to_user(user)
     return profile.rate_retail
 
 
 def rate_gross():
-    from applications.settings.service import SettingsService
+    from adminbuy.applications.settings.service import SettingsService
     user = g.user
     profile = SettingsService.setting_to_user(user)
     return profile.rate_gross
@@ -146,7 +146,7 @@ class PriceService(object):
         """
         invoice_id = invoice_model.id
         debug(u"Начало сохранения цен в позициях накладной %d", invoice_id)
-        from applications.good.service import GoodService
+        from adminbuy.applications.good.service import GoodService
         from adminbuy.services.mailinvoice import InvoiceService
         try:
             for data in data_items:
@@ -194,7 +194,7 @@ class PriceService(object):
         """
         Получаем цену по номенклатуре, номерам и дате.
         """
-        from applications.commodity.service import CommodityService
+        from adminbuy.applications.commodity.service import CommodityService
         commodity = CommodityService.get_by_id(commodity_id)
         if commodity.numeric:
             # ОБРАБОТКА НОМЕРНОЙ НОМЕНКЛАТУРЫ
@@ -238,7 +238,7 @@ class PriceService(object):
         """
         Получаем цену по номенклатуре, номерам и дате.
         """
-        from applications.commodity.service import CommodityService
+        from adminbuy.applications.commodity.service import CommodityService
         commodity = CommodityService.get_by_id(commodity_id)
         if commodity.numeric:
             # ОБРАБОТКА НОМЕРНОЙ НОМЕНКЛАТУРЫ
@@ -286,7 +286,7 @@ class PriceService(object):
 
         Генерирует NotFindPriceExc, PriceArgumentExc, NotFindPriceParishExc.
         """
-        from applications.commodity.service import CommodityService
+        from adminbuy.applications.commodity.service import CommodityService
         try:
             priceparish = cls.get_priceparish(
                 commodity_id, number_local, number_global, date)
@@ -497,7 +497,7 @@ class PriceService(object):
         Выдераем все данные из позиции накладной,
         чтобы выдать рекомендации по ценам, изменяемость цен.
         """
-        from applications.commodity.service import CommodityService
+        from adminbuy.applications.commodity.service import CommodityService
         commodity = CommodityService.get_commodity(invoiceitem.name)
         price = PriceService.get_price_invoiceitem(invoiceitem)
 

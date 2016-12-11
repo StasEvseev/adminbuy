@@ -3,6 +3,11 @@
 from sqlalchemy import desc
 
 from adminbuy.db import db
+
+from adminbuy.applications.point_sale.service import PointSaleService
+from adminbuy.applications.return_app.service import ReturnService
+from adminbuy.applications.price.service import PriceService
+from adminbuy.applications.good.service import GoodService
 from adminbuy.services.core import BaseSQLAlchemyModelService
 from adminbuy.services.modelhelper import ModelService
 
@@ -111,9 +116,6 @@ class WayBillReturnService(BaseSQLAlchemyModelService):
 
     @classmethod
     def upgrade_items(cls, waybillreturn, items):
-        from applications.price.service import PriceService
-        from applications.good.service import GoodService
-
         waybillreturn.items.delete()
         db.session.add(waybillreturn)
 
@@ -136,8 +138,6 @@ class WayBillReturnService(BaseSQLAlchemyModelService):
 
     @classmethod
     def status(cls, waybillreturn, status):
-        from adminbuy.applications.point_sale import PointSaleService
-        from applications.return_app.service import ReturnService
         debug(u"Смена статуса `накладной возврата` %s с %s на %s." % (
             waybillreturn.id, waybillreturn.status, StatusType[status]))
 

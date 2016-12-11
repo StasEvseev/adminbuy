@@ -84,9 +84,9 @@ class InvoiceService(object):
 
     @classmethod
     def get_items_acceptance(cls, acc_id, remain=True):
-        from applications.point_sale.service import PointSaleService
-        from applications.acceptance.service import AcceptanceService
-        from applications.waybill.service import WayBillService
+        from adminbuy.applications.point_sale.service import PointSaleService
+        from adminbuy.applications.acceptance.service import AcceptanceService
+        from adminbuy.applications.waybill.service import WayBillService
         acceptance = AcceptanceService.get_by_id(acc_id)
         pointsale = acceptance.pointsale
 
@@ -151,8 +151,8 @@ class InvoiceService(object):
 
     @classmethod
     def get_item_to_acceptance(cls, invoice_id, acceptance_id):
-        from adminbuy.applications.point_sale import PointSaleService
-        from applications.acceptance.service import AcceptanceService
+        from adminbuy.applications.point_sale.service import PointSaleService
+        from adminbuy.applications.acceptance.service import AcceptanceService
         acceptance = AcceptanceService.get_by_id(acceptance_id)
         pointsale = acceptance.pointsale
 
@@ -202,8 +202,8 @@ class InvoiceService(object):
 
         Для редактирования надо передать инстанс накладной в переменную invoice.
         """
-        from applications.price.service import DataToUpdatePrice, PriceService
-        from adminbuy.applications.point_sale import PointSaleService
+        from adminbuy.applications.price.service import DataToUpdatePrice, PriceService
+        from adminbuy.applications.point_sale.service import PointSaleService
         try:
             if invoice:
                 invmodel = invoice
@@ -293,7 +293,7 @@ class InvoiceService(object):
         Сохраняем в БД позицию.
         Создаем товар в системе.
         """
-        from applications.commodity.service import CommodityService
+        from adminbuy.applications.commodity.service import CommodityService
         invitem = InvoiceItem()
 
         invitem.full_name = full_name
@@ -375,7 +375,7 @@ class MailInvoiceService(object):
         """
         Метод обрабатывает почтовый ящик
         """
-        from applications.provider_app.service import ProviderService
+        from adminbuy.applications.provider_app.service import ProviderService
         res = []
         debug(u"Начало проверки почты")
         emails = ProviderService.get_all_emails()

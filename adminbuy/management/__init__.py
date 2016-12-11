@@ -8,6 +8,8 @@ from flask.ext.script import Manager
 from adminbuy.app import app
 from adminbuy.db import db
 
+from config import DIR_ALEMBIC
+
 from .changepassword import ChangePassword
 from .create_superuser import SuperUserCommand
 from .scaffold import ScaffoldingCommand
@@ -42,7 +44,7 @@ class MyMan(Manager):
 man = MyMan(app)
 man.add_command('db', MigrateCommand)
 
-migrate = Migrate(app, db)
+Migrate(app, db, directory=DIR_ALEMBIC)
 manager = Manager(app)
 
 

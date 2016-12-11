@@ -8,6 +8,7 @@ from adminbuy.resources.core import BaseCanoniseResource, BaseInnerCanon
 from .service import PointSaleService
 from .models import PointSale, PointSaleItem
 
+
 __author__ = 'StasEvseev'
 
 

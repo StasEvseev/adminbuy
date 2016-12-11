@@ -9,12 +9,7 @@ __author__ = 'StasEvseev'
 
 
 class ProviderService(BaseSQLAlchemyModelService):
-
     model = Provider
-
-    # @classmethod
-    # def get_by_id(cls, id):
-    #     return Provider.query.get(id)
 
     @classmethod
     def get_all(cls):

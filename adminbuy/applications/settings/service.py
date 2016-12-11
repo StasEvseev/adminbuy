@@ -1,9 +1,11 @@
 # coding: utf-8
 
 from adminbuy.db import db
+
 from adminbuy.services.core import BaseSQLAlchemyModelService
 
 from .model import Profile
+
 
 __author__ = 'StasEvseev'
 
