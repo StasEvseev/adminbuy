@@ -6,10 +6,10 @@ try:
     from config_local import USER
     from config_local import PASSWORD
 except ImportError:
-    USER = 'test'
-    PASSWORD = 'test'
+    USER = 'adminbuy'
+    PASSWORD = 'adminbuy'
 
-DB = 'buyapi'
+DB = 'adminbuy'
 
 IS_PROD = False
 

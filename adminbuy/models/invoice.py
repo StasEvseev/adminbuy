@@ -2,6 +2,7 @@
 
 from adminbuy.db import db
 
+
 __author__ = 'StasEvseev'
 
 
@@ -40,13 +41,13 @@ class Invoice(db.Model):
 
     @property
     def is_acceptance(self):
-        from applications.acceptance.service import AcceptanceService
+        from adminbuy.applications.acceptance.service import AcceptanceService
         acc = AcceptanceService.get_by_invoice_id(self.id)
 
         return True if acc else False
 
     @property
     def acceptance_id(self):
-        from applications.acceptance.service import AcceptanceService
+        from adminbuy.applications.acceptance.service import AcceptanceService
         acc = AcceptanceService.get_by_invoice_id(self.id)
         return acc.id
