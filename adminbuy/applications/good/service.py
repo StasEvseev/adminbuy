@@ -5,7 +5,7 @@ from collections import namedtuple
 from sqlalchemy import not_
 from sqlalchemy.orm.exc import NoResultFound
 
-from adminbuy.models.invoiceitem import InvoiceItem
+from adminbuy.applications.invoice.models import InvoiceItem
 
 from .model import Good
 

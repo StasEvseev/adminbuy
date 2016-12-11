@@ -5,9 +5,10 @@ import os
 from mock import Mock
 
 from adminbuy.applications.mails.action import MailHepls, MailObjectNew
-from adminbuy.models.invoiceitem import InvoiceItem
 from adminbuy.excel import get_name_number
 from adminbuy.services.mailinvoice import MailInvoiceService
+from adminbuy.applications.invoice.models import InvoiceItem
+
 from config import DIR_PROJECT
 
 from . import BaseSuite

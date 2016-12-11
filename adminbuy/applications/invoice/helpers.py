@@ -2,7 +2,8 @@
 
 from sqlalchemy import asc
 
-from adminbuy.models.invoiceitem import InvoiceItem
+from .models import InvoiceItem
+
 from adminbuy.applications.price.service import PriceService
 
 

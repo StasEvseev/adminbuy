@@ -9,7 +9,10 @@ except ImportError:
     USER = 'adminbuy'
     PASSWORD = 'adminbuy'
 
-DB = 'adminbuy'
+try:
+    from config_local import DB
+except ImportError:
+    DB = 'adminbuy'
 
 IS_PROD = False
 

@@ -1,9 +1,12 @@
-#coding:utf-8
+# coding:utf-8
 
 import datetime
 from collections import namedtuple
 
 import xlrd
+
+from adminbuy.db import db
+
 
 Product = namedtuple("Product", [
     'full_name', 'name', 'number_local', 'number_global', 'count_order', 'count_postorder', 'count',
@@ -76,7 +79,6 @@ class MailFile(object):
         self.doc = xlrd.open_workbook(doc, on_demand=True, encoding_override="cp1251")
 
     def handle(self, provider, mail):
-
         pass
 
     def find_cell(self, sheet, text):
@@ -172,7 +174,7 @@ class InvoiceModel(MailFile):
 
     def handle(self, provider, mail):
         from adminbuy.services.mailinvoice import InvoiceService
-        from adminbuy.db import db
+
         invmodel = InvoiceService.create_invoice(
             number=self.number, date=self.date, provider=provider,
             sum_without_NDS=self.sum_without_NDS, sum_with_NDS=self.sum_with_NDS,

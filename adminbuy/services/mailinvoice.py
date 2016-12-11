@@ -10,8 +10,7 @@ from adminbuy.applications.mails.action import (get_count_mails, NotConnect,
 from adminbuy.applications.mails.model import Mail
 from adminbuy.applications.provider_app.service import ProviderService
 
-from adminbuy.models.invoice import Invoice
-from adminbuy.models.invoiceitem import InvoiceItem
+from adminbuy.applications.invoice.models import Invoice, InvoiceItem
 
 from log import debug, error
 

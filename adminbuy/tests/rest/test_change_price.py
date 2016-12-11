@@ -5,7 +5,7 @@ import datetime
 from adminbuy.applications.price.model import PriceParish
 from adminbuy.applications.price.service import PriceService
 
-from adminbuy.models.invoice import Invoice
+from adminbuy.applications.invoice.models import Invoice
 
 from .. import BaseTestCase
 from ..helpers.suits.invoice import MailInvoiceTestSuite

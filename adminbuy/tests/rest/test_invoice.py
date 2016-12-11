@@ -9,8 +9,7 @@ from adminbuy.applications.good.model import Good
 from adminbuy.applications.mails.model import Mail
 from adminbuy.applications.price.model import Price, PriceParish
 
-from adminbuy.models.invoice import Invoice
-from adminbuy.models.invoiceitem import InvoiceItem
+from adminbuy.applications.invoice.models import Invoice, InvoiceItem
 from adminbuy.excel import get_name_number
 
 from .. import BaseTestCase

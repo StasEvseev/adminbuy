@@ -16,8 +16,7 @@ from adminbuy.applications.good.model import Good
 from adminbuy.applications.price.model import PriceParish
 
 from adminbuy.applications.point_sale.models import PointSaleItem
-from adminbuy.models.invoice import Invoice
-from adminbuy.models.invoiceitem import InvoiceItem
+from adminbuy.applications.invoice.models import Invoice, InvoiceItem
 
 from .. import BaseTestCase
 from ..helpers import Generator

@@ -4,7 +4,7 @@ from sqlalchemy import asc
 from sqlalchemy.orm.exc import NoResultFound
 
 from adminbuy.db import db
-from adminbuy.models.invoiceitem import InvoiceItem
+from adminbuy.applications.invoice.models import InvoiceItem
 from adminbuy.services.core import BaseSQLAlchemyModelService
 
 from .constant import (ITEM_ID_ATTR, COUNT_ATTR, PRICE_POST_ATTR,
