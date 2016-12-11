@@ -35,8 +35,6 @@ api = MyApi(prefix='/api')
 
 from .core import (TokenResource, AuthResource, RegistrationResource,
                    ProfileResource, IdentityResource, ProfileResourceById)
-from invoice import (InvoicePriceItemsResource, InvoiceItemResource,
-                     InvoiceItemCountResource, InvoicePrice2ItemsResource)
 from sync import (SyncResource, SyncResourceError, SyncResourceCreate,
                   SyncSessionRes)
 from revision import RevisionResource, RevisionItemResource, RevisionApprove
@@ -54,11 +52,6 @@ api.add_resource(ProfileResourceById, '/profile_by_id/<int:id>')
 api.add_resource(MailCheck, '/mail')
 api.add_resource(MailItem, '/mail/<int:id>')
 api.add_resource(MailInvoiceItem, '/mail/<int:id>/items')
-
-api.add_resource(InvoiceItemResource, '/invoice/<int:invoice_id>/items')
-api.add_resource(InvoiceItemCountResource, '/invoice/<int:invoice_id>/count')
-
-api.add_resource(InvoicePrice2ItemsResource, '/invoiceprice2items/<int:id>')
 
 api.add_resource(SyncSessionRes, '/syncSession')
 

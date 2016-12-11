@@ -5,7 +5,8 @@ from flask.ext.restful import abort, marshal_with, fields
 
 from adminbuy.db import db
 from adminbuy.excel import InvoiceModel, InvoiceReturnModel
-from adminbuy.resources import InvoiceItemResource, core
+from adminbuy.applications.invoice.resource import InvoiceItemResource
+from adminbuy.resources import core
 
 from .model import Mail
 
