@@ -53,7 +53,7 @@ def get_name_number(full_name):
     if wt_nb != -1:
         return full_name, None, None
 
-    numbers = re.search(r'(\d+\(\d+\))(?ui)', full_name)
+    numbers = re.search(r'([\d\.]+\(\d+\))(?ui)', full_name)
 
     if numbers:
         started_pos = numbers.start()
