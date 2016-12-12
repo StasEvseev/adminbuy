@@ -1,15 +1,15 @@
 # coding:utf-8
 
 from collections import namedtuple
-from email.header import decode_header
-import email as email_module
+
+import email as emaillib
 import imaplib
 
 import os
 
 
 from .helper import (get_title, get_date, get_from, get_to, name_for_file,
-                     rus_to_eng)
+                     rus_to_eng, decode)
 from config import (mail_folder, user_imap, user_pass, imap_server,
                     DIR_PROJECT, PATH_TO_GENERATE_INVOICE, PATH_WEB)
 
@@ -31,10 +31,10 @@ class NotMails(ProjectException):
     pass
 
 
-MailObject = namedtuple('MailObject',
-                        ['title', 'date_', 'from_', 'to_', 'file_'])
-MailObjectNew = namedtuple('MailObjectNew',
-                           ['title', 'date_', 'from_', 'to_', 'files', 'text'])
+LetterModel = namedtuple(
+    'MailObject', ['title', 'date_', 'from_', 'to_', 'file_'])
+NewLetterModel = namedtuple(
+    'MailObjectNew', ['title', 'date_', 'from_', 'to_', 'files', 'text'])
 
 
 def get_mail(mail, search_str):
@@ -57,8 +57,8 @@ def get_ids_mails(email):
     Получение идентификаторов непрочитанных писем от некоего отправителя
     """
     try:
-        mail = imaplib.IMAP4_SSL(imap_server)
-        mail.login(user_imap, user_pass)
+        imap_connection = imaplib.IMAP4_SSL(imap_server)
+        imap_connection.login(user_imap, user_pass)
     except Exception as err:
         raise NotConnect(u'Нет соединения с сервером. Проверьте подключение.')
     else:
@@ -66,17 +66,17 @@ def get_ids_mails(email):
         # if from_imap:
         from_str = '(FROM "%s")' % email
         search_str.append(from_str)
-        result, data = get_mail(mail, search_str)
+        result, data = get_mail(imap_connection, search_str)
 
         ids = data[0]  # data is a list.
         id_list = ids.split()
 
-    return mail, id_list
+    return imap_connection, id_list
 
 
-class MailHepls(object):
+class EmailProvider(object):
     @classmethod
-    def get_mails(cls, emails):
+    def fetch_letters(cls, sender_emails):
         """
         Получение всех непрочитанных писем от некоего отправителя
         """
@@ -86,26 +86,29 @@ class MailHepls(object):
         if not os.path.exists(PATH_TO_GENERATE_INVOICE):
             os.makedirs(DIR_ATTACH)
 
-        mail = None
+        imap_connection = None
         try:
-            for email in emails:
+            for email in sender_emails:
                 results[email] = []
-                mail, ids = get_ids_mails(email)
-                for id in ids:
-                    result, data = mail.fetch(id, "(RFC822)")
-                    if data[0] is not None:
-                        raw_email = data[0][1]
+                imap_connection, ids = get_ids_mails(email)
 
-                        pmail = email_module.message_from_string(raw_email)
+                for id in ids:
+                    result, data = imap_connection.fetch(id, "(RFC822)")
+
+                    if data[0] is not None:
+                        raw_data = data[0][1]
+
+                        message_object = emaillib.message_from_string(raw_data)
                         try:
-                            mail_item = files_imap(pmail)
+                            letter = parse_letter(message_object)
                         except Exception:
                             raise
-                        results[email].append(mail_item)
+
+                        results[email].append(letter)
         finally:
-            if mail:
-                mail.close()
-                mail.logout()
+            if imap_connection:
+                imap_connection.close()
+                imap_connection.logout()
 
         return ids, results
 
@@ -115,27 +118,20 @@ def mark_as_unseen(ids):
     Помечаем письма с ids как непросмотренные
     """
     try:
-        mail = imaplib.IMAP4_SSL(imap_server)
-        mail.login(user_imap, user_pass)
-    except Exception as err:
+        imap_connection = imaplib.IMAP4_SSL(imap_server)
+        imap_connection.login(user_imap, user_pass)
+    except Exception:
         raise NotConnect(u'Нет соединения с сервером. Проверьте подключение.')
-    else:
-        mail.select('inbox')
-        for id in ids:
-            mail.store(id, '-FLAGS', '\Seen')
-        mail.close()
-        mail.logout()
+
+    imap_connection.select('inbox')
+    for id in ids:
+        imap_connection.store(id, '-FLAGS', '\Seen')
+
+    imap_connection.close()
+    imap_connection.logout()
 
 
-def decode(str):
-    if str and str.startswith("=?UTF"):
-        return decode_header(str)[0][0]
-    if str and str[:14] in ["=?Windows-1251", '=?windows-1251']:
-        return decode_header(str)[0][0].decode("windows-1251")
-    return str
-
-
-def files_imap(pmail):
+def parse_letter(pmail):
     title = get_title(pmail)
     date_ = get_date(pmail)
     from_ = get_from(pmail)
@@ -143,8 +139,6 @@ def files_imap(pmail):
 
     text = ""
     files = []
-
-    # body = email.message_from_file(pmail)
 
     for part in pmail.walk():
 
@@ -180,8 +174,8 @@ def files_imap(pmail):
             fp.close()
             files.append({'name': filename, 'path': filepath, 'link': link})
 
-    m = MailObjectNew(title=title, date_=date_, from_=from_, to_=to_,
-                      files=files, text=text)
+    m = NewLetterModel(
+        title=title, date_=date_, from_=from_, to_=to_, files=files, text=text)
 
     return m
 
@@ -200,18 +194,23 @@ def file_imap(pmail):
             continue
         if part.get('Content-Disposition') is None:
             continue
+
         filename = decode(part.get_filename())
+
         print "FIND FILE - ", filename
+
         if bool(filename):
             filename = name_for_file(part, DIR_ATTACH)
             filepath = os.path.join(DIR_ATTACH, filename)
+
             if not os.path.isfile(filepath):
                 print filename
+
             fp = open(filepath, 'wb')
             fp.write(part.get_payload(decode=True))
             fp.close()
 
-            m = MailObject(title=title, date_=date_, from_=from_, to_=to_,
-                           file_=filepath)
+            m = LetterModel(
+                title=title, date_=date_, from_=from_, to_=to_, file_=filepath)
 
             return m

@@ -2,6 +2,15 @@
 
 import datetime
 import os
+from email.header import decode_header
+
+
+def decode(str):
+    if str and str.startswith("=?UTF"):
+        return decode_header(str)[0][0]
+    if str and str[:14] in ["=?Windows-1251", '=?windows-1251']:
+        return decode_header(str)[0][0].decode("windows-1251")
+    return str
 
 
 def rus_to_eng(text):
@@ -28,7 +37,6 @@ def get_date(part):
 
 
 def get_title(part):
-    from applications.mails.action import decode
     for par in part._headers:
         name, value = par
         if name == "Subject":
@@ -37,7 +45,6 @@ def get_title(part):
 
 
 def get_from(part):
-
     for p in part._headers:
         name, value = p
         if name == "From":
@@ -67,7 +74,6 @@ def name_for_file(part, path):
     """
     Генерация имени для файла(без корреляции).
     """
-    from applications.mails.action import decode
     cont_t = get_cont_type_file(part)
     filename = decode(part.get_filename())
     ext = ''
@@ -76,8 +82,10 @@ def name_for_file(part, path):
                         filename[filename.find('.'):]
     filename = rus_to_eng(filename)
     date_ = datetime.datetime.now()
+
     result = 'nakl_%s_%s' % (filename, date_.strftime('%d%m%Y'))
     result = ''.join([result, ext])
+
     if os.path.isfile(os.path.join(path, result)):
         result = ''.join(['(%s)' % id(path), result])
 

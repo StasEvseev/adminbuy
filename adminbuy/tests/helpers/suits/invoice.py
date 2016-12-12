@@ -4,7 +4,7 @@ import os
 
 from mock import Mock
 
-from adminbuy.applications.mails.action import MailHepls, MailObjectNew
+from adminbuy.applications.mails.action import EmailProvider, NewLetterModel
 from adminbuy.excel import get_name_number
 from adminbuy.services.mailinvoice import MailInvoiceService
 from adminbuy.applications.invoice.models import InvoiceItem
@@ -65,7 +65,7 @@ class MailInvoiceTestSuite(BaseSuite):
             return os.path.join(DIR_PROJECT, "adminbuy", "tests", "helpers",
                                 "stubs", file_name)
 
-        return MailObjectNew(
+        return NewLetterModel(
             title="NEW", date_=date_stub(),
             from_=ProviderTestSuite.EMAIL, to_="a@a.ru",
             files=[{'link': '', 'path': file_stub(), 'name': 'stub'}], text="")
@@ -73,7 +73,7 @@ class MailInvoiceTestSuite(BaseSuite):
     def handle_invoice(self, datetime, file_name, mail_id):
         mail_stub = self.get_stub(datetime, file_name)
 
-        MailHepls.get_mails = Mock(return_value=(
+        EmailProvider.fetch_letters = Mock(return_value=(
             ProviderTestSuite.EMAIL, {ProviderTestSuite.EMAIL: [mail_stub]}))
         MailInvoiceService.get_count_new_mails = Mock(return_value=1)
         MailInvoiceService.handle_mail()

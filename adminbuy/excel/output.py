@@ -90,10 +90,6 @@ class PrintInvoice(object):
                     write_sheet.write(begin, index + offset, value, style)
 
                 write_sheet.col(index).width = cell.width
-                # if widths:
-                #     for i in widths:
-                #         index, width = i
-                #         write_sheet.col(index).width = width
             begin += 1
         self.global_begin = begin
 

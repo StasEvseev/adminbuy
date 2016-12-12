@@ -6,7 +6,7 @@ from sqlalchemy import desc
 from adminbuy.db import db
 from adminbuy.applications.good.service import GoodService, GoodArgumentExc
 from adminbuy.applications.mails.action import (get_count_mails, NotConnect,
-                                                MailHepls, mark_as_unseen)
+                                                EmailProvider, mark_as_unseen)
 from adminbuy.applications.mails.model import Mail
 from adminbuy.applications.provider_app.service import ProviderService
 
@@ -389,7 +389,7 @@ class MailInvoiceService(object):
         if count > 0 and emails > 0:
             ids = []
             try:
-                ids, mails = MailHepls.get_mails(emails)
+                ids, mails = EmailProvider.fetch_letters(emails)
                 for _from in mails:
                     provider = ProviderService.get_provider_by_email(_from)
                     mailss = mails[_from]

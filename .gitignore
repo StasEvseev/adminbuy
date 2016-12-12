@@ -11,5 +11,8 @@ attachments
 celerybeat-schedule
 celerybeat.pid
 .vagrant
+
+
 .cache
 .coverage
+htmlcov/
