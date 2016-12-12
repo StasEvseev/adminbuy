@@ -1,8 +1,10 @@
-#coding:utf-8
+# coding:utf-8
 
 import xlrd
 import datetime
 from collections import namedtuple
+import re
+
 
 Product = namedtuple("Product", [
     'full_name', 'name', 'number_local', 'number_global', 'count_order', 'count_postorder', 'count',
@@ -47,10 +49,23 @@ def get_name_number(full_name):
     if wt_nb != -1:
         return full_name, None, None
 
-    st = full_name.split(u"№")
-    name = st[0].strip()
-    number_local = st[1].split(u"(")[0]
-    number_global = substring(st[1], "(", ")")
+    numbers = re.search(r'(\d+\(\d+\))(?ui)', full_name)
+
+    if numbers:
+        started_pos = numbers.start()
+        name = full_name[:started_pos]
+        numbers = numbers.group()
+
+        name = name.replace(u"№", u"").strip()
+
+        number_local = numbers.split(u"(")[0]
+        number_global = substring(numbers, u"(", u")")
+    else:
+        st = full_name.split(u"№")
+        name = st[0].strip()
+        number_local = st[1].split(u"(")[0]
+        number_global = substring(st[1], u"(", u")")
+
     return name, number_local, number_global
 
 
@@ -63,8 +78,6 @@ class InvoiceFabric(object):
         if value.startswith(u"Расходная накладная"):
             return InvoiceModel(file)
         elif get_value(sheet, 1, 0).startswith(u"Лист заказ"):
-            # value =
-            # if value:
             return InvoiceOrderModel(file)
         elif get_value(sheet, 1, 4).startswith(u"Список товаров, которые необходимо вернуть"):
             return InvoiceReturnModel(file)
@@ -121,8 +134,6 @@ class InvoiceModel(MailFile):
         assert self.sum_NDS is not None
         assert self.weight is not None
         assert self.responsible is not None
-
-        # assert self.number and self.date and self.sum_without_NDS and self.sum_with_NDS and self.sum_NDS and self.weight and self.responsible
 
     def get_products(self):
         """
