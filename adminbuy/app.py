@@ -37,10 +37,10 @@ def create_app():
 
 
 def init_app(application):
-    from resources import api
-    from assets import assets
-    from applications.security.auth import login_manager
-    from security import security
+    from adminbuy.resources import api
+    from adminbuy.assets import assets
+    from adminbuy.applications.security.auth import login_manager
+    from adminbuy.security import security
 
     application.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
     application.config['SECURITY_TOKEN_AUTHENTICATION_HEADER'] = (
@@ -70,23 +70,23 @@ def init_app(application):
 
 
 def initialize_blueprints(app):
-    from applications.commodity import blueprint as ComBl
-    from applications.point_sale import blueprint as PSBl
-    from applications.inventory import blueprint as InvBl
-    from applications.provider_app import blueprint as PrBl
-    from applications.waybill import blueprint as WbBl
-    from applications.acceptance import blueprint as AcBl
-    from applications.receiver import blueprint as RcBl
-    from applications.good import blueprint as GdBl
-    from applications.invoice import blueprint as InBl
-    from applications.price import blueprint as PriceBl
-    from applications.settings import blueprint as SetBl
-    from applications.order import blueprint as OrBl
-    from applications.return_app import blueprint as ReBl
-    from applications.waybill_return import blueprint as WRBl
-    from applications.seller import blueprint as SelBl
-    from applications.collection import blueprint as ColBl
-    from applications.security.bl import blueprint as UsBl
+    from adminbuy.applications.commodity import blueprint as ComBl
+    from adminbuy.applications.point_sale import blueprint as PSBl
+    from adminbuy.applications.inventory import blueprint as InvBl
+    from adminbuy.applications.provider_app import blueprint as PrBl
+    from adminbuy.applications.waybill import blueprint as WbBl
+    from adminbuy.applications.acceptance.blueprint import blueprint as AcBl
+    from adminbuy.applications.receiver import blueprint as RcBl
+    from adminbuy.applications.good import blueprint as GdBl
+    from adminbuy.applications.invoice.blueprint import blueprint as InBl
+    from adminbuy.applications.price import blueprint as PriceBl
+    from adminbuy.applications.settings.blueprint import blueprint as SetBl
+    from adminbuy.applications.order import blueprint as OrBl
+    from adminbuy.applications.return_app import blueprint as ReBl
+    from adminbuy.applications.waybill_return import blueprint as WRBl
+    from adminbuy.applications.seller import blueprint as SelBl
+    from adminbuy.applications.collection import blueprint as ColBl
+    from adminbuy.applications.security.bl import blueprint as UsBl
 
     app.register_blueprint(ComBl)
     app.register_blueprint(PSBl)
@@ -155,4 +155,4 @@ app.change_password = change_password
 
 if __name__ == "__main__":
     debug(u"Запуск системы.")
-    app.run(debug=True)
+    app.run(debug=True, port=50001)

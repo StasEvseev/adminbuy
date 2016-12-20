@@ -6,6 +6,7 @@ __author__ = 'StasEvseev'
 
 
 class SyncSession(db.Model):
+    __tablename__ = 'sync_session'
     id = db.Column(db.Integer, primary_key=True)
     # Дата
     datetime = db.Column(db.DateTime)
@@ -16,32 +17,42 @@ class WorkDay(db.Model):
     """
     Рабочий день на торговой точке.
     """
+    __tablename__ = 'work_day'
     id = db.Column(db.Integer, primary_key=True)
     datetime_start = db.Column(db.DateTime)
     datetime_end = db.Column(db.DateTime)
+
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship(
-        'User', backref=db.backref('workdays', lazy='dynamic'))
+        'applications.security.models.User',
+        backref=db.backref('workdays', lazy='dynamic'))
+
     username = db.Column(db.String)
 
     sync_start_id = db.Column(db.Integer, db.ForeignKey('sync_session.id'))
     sync_start = db.relationship(
-        'SyncSession', backref=db.backref('workday_start', lazy='dynamic'),
+        SyncSession,
+        backref=db.backref('workday_start', lazy='dynamic'),
         foreign_keys='WorkDay.sync_start_id')
+
     sync_end_id = db.Column(db.Integer, db.ForeignKey('sync_session.id'))
     sync_end = db.relationship(
-        'SyncSession', backref=db.backref('workday_end', lazy='dynamic'),
+        SyncSession, backref=db.backref('workday_end', lazy='dynamic'),
         foreign_keys='WorkDay.sync_end_id')
 
 
 class SyncItemSession(db.Model):
+    __tablename__ = 'sync_item_session'
     id = db.Column(db.Integer, primary_key=True)
+
     sync_id = db.Column(db.Integer, db.ForeignKey('sync_session.id'))
     sync = db.relationship(
-        'SyncSession', backref=db.backref('items', lazy='dynamic'))
+        SyncSession, backref=db.backref('items', lazy='dynamic'))
+
     workday_id = db.Column(db.Integer, db.ForeignKey('work_day.id'))
     workday = db.relationship(
-        'WorkDay', backref=db.backref('workdayitems', lazy='dynamic'))
+        WorkDay, backref=db.backref('workdayitems', lazy='dynamic'))
+
     barcode = db.Column(db.String)
     datetime = db.Column(db.DateTime)
     operation = db.Column(db.Integer)
@@ -49,6 +60,7 @@ class SyncItemSession(db.Model):
 
 
 class Sync(db.Model):
+    __tablename__ = 'sync'
 
     id = db.Column(db.Integer, primary_key=True)
     # Дата начала

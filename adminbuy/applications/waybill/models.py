@@ -34,11 +34,15 @@ RecType = {
     RECEIVER: "Receiver"
 }
 
+x = 1
+
 
 class WayBill(db.Model):
     """
     накладная.
     """
+    __tablename__ = 'way_bill'
+
     id = db.Column(db.Integer, primary_key=True)
     # Номер
     number = db.Column(db.String(250))
@@ -48,16 +52,19 @@ class WayBill(db.Model):
     # Торговая точка - откуда пересылают товар
     pointsale_from_id = db.Column(db.Integer, db.ForeignKey('point_sale.id'))
     pointsale_from = db.relationship(
-        'PointSale', foreign_keys='WayBill.pointsale_from_id',
+        'applications.point_sale.models.PointSale',
+        foreign_keys='WayBill.pointsale_from_id',
         backref=db.backref('from_waybills', lazy='dynamic'))
 
     receiver_id = db.Column(db.Integer, db.ForeignKey('receiver.id'))
     receiver = db.relationship(
-        'Receiver', backref=db.backref('waybills', lazy='dynamic'))
+        'applications.receiver.model.Receiver',
+        backref=db.backref('waybills', lazy='dynamic'))
 
     pointsale_id = db.Column(db.Integer, db.ForeignKey('point_sale.id'))
     pointsale = db.relationship(
-        'PointSale', foreign_keys='WayBill.pointsale_id',
+        'applications.point_sale.models.PointSale',
+        foreign_keys='WayBill.pointsale_id',
         backref=db.backref('waybills', lazy='dynamic'))
 
     type = db.Column(ChoiceType(TYPE), default=RETAIL)
@@ -66,7 +73,8 @@ class WayBill(db.Model):
     # Основание
     invoice_id = db.Column(db.Integer, db.ForeignKey('invoice.id'))
     invoice = db.relationship(
-        'Invoice', backref=db.backref('waybills', lazy='dynamic'))
+        'applications.invoice.models.Invoice',
+        backref=db.backref('waybills', lazy='dynamic'))
 
     status = db.Column(ChoiceType(StatusType), default=DRAFT)
 
@@ -102,16 +110,20 @@ class WayBillItems(db.Model):
     """
     Позиция в накладной.
     """
+    __tablename__ = 'way_bill_items'
+
     id = db.Column(db.Integer, primary_key=True)
 
     # накладная
     waybill_id = db.Column(db.Integer, db.ForeignKey('way_bill.id'))
     waybill = db.relationship(
-        'WayBill', backref=db.backref('items', lazy='dynamic'))
+        WayBill,
+        backref=db.backref('items'))
 
     good_id = db.Column(db.Integer, db.ForeignKey('good.id'))
     good = db.relationship(
-        'Good', backref=db.backref('waybillitems', lazy='dynamic'))
+        'applications.good.model.Good',
+        backref=db.backref('waybillitems'))
 
     count = db.Column(db.Integer)
 

@@ -4,7 +4,7 @@ from flask import Blueprint
 
 from adminbuy.resources import MyApi
 
-from .resource import (InventoryCanon, InventoryStatusResource,
+from adminbuy.applications.inventory.resource import (InventoryCanon, InventoryStatusResource,
                        InventoryItemCanon, InventoryItemInnerCanon,
                        InventoryPrint)
 

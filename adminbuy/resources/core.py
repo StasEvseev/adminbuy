@@ -15,7 +15,7 @@ from adminbuy.db import db
 from adminbuy.models.helper import get_relation_model
 from adminbuy.excel.output import PrintInvoice, PATH_TEMPLATE
 
-from adminbuy.applications.security import auth, auth_admin
+from adminbuy.applications.security import auth as auth_RTER, auth_admin
 
 from log import error, debug
 
@@ -33,15 +33,15 @@ parser.add_argument("ids", type=unicode, location='args')
 
 
 class BaseTokenMixinResource(object):
-    decorators = [auth.login_required]
+    decorators = [auth_RTER.login_required]
 
 
 class BaseTokeniseResource(Resource):
-    decorators = [auth.login_required]
+    decorators = [auth_RTER.login_required]
 
 
 class BaseTokeniseAdminResource(BaseTokeniseResource):
-    decorators = [auth.login_required,
+    decorators = [auth_RTER.login_required,
                   auth_admin.login_required]
 
 

@@ -4,7 +4,7 @@ from flask.ext.restful import fields
 
 from adminbuy.resources.core import BaseCanoniseResource
 
-from .models import Provider
+from adminbuy.applications.provider_app.models import Provider
 
 
 __author__ = 'StasEvseev'

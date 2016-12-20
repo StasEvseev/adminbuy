@@ -6,10 +6,15 @@ from adminbuy.db import db
 __author__ = 'StasEvseev'
 
 
+x = 1
+
+
 class Invoice(db.Model):
     """
     Приходная накладная.
     """
+    __tablename__ = 'invoice'
+
     id = db.Column(db.Integer, primary_key=True)
     # Номер
     number = db.Column(db.String(250))
@@ -18,7 +23,8 @@ class Invoice(db.Model):
     # Поставщик
     provider_id = db.Column(db.Integer, db.ForeignKey('provider.id'))
     provider = db.relationship(
-        'Provider', backref=db.backref('invoices', lazy='dynamic'))
+        'applications.provider_app.models.Provider',
+        backref=db.backref('invoices', lazy='dynamic'))
 
     # Сумма без НДС, руб.
     sum_without_NDS = db.Column(db.DECIMAL)
@@ -57,6 +63,8 @@ class InvoiceItem(db.Model):
     """
     Элемент приходной накладной
     """
+    __tablename__ = 'invoice_item'
+
     id = db.Column(db.Integer, primary_key=True)
 
     # Полное наименование издания
@@ -98,14 +106,16 @@ class InvoiceItem(db.Model):
     # Накладная
     invoice_id = db.Column(db.Integer, db.ForeignKey('invoice.id'))
     invoice = db.relationship(
-        'Invoice', backref=db.backref('items', lazy='dynamic'))
+        Invoice,
+        backref=db.backref('items', lazy='dynamic'))
 
     fact_count = db.Column(db.Integer)
 
     # Товар в системе
     good_id = db.Column(db.Integer, db.ForeignKey('good.id'))
     good = db.relationship(
-        'Good', backref=db.backref('invoiceitem', lazy='dynamic'))
+        'applications.good.model.Good',
+        backref=db.backref('invoiceitem', lazy='dynamic'))
 
     # Розничная цена
     price_retail = db.Column(db.DECIMAL)

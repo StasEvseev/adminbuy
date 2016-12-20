@@ -13,7 +13,7 @@ from adminbuy.resources.core import (BaseCanoniseResource, BaseInnerCanon,
 from adminbuy.applications.invoice.helpers import _stub
 from adminbuy.applications.acceptance.model import Acceptance
 
-from .models import Invoice, InvoiceItem
+from adminbuy.applications.invoice.models import Invoice, InvoiceItem
 
 from log import error
 

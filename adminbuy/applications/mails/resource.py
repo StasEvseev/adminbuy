@@ -5,7 +5,6 @@ from flask.ext.restful import abort, marshal_with, fields
 
 from adminbuy.db import db
 from adminbuy.excel import InvoiceModel, InvoiceReturnModel
-from adminbuy.applications.invoice.resource import InvoiceItemResource
 from adminbuy.resources import core
 
 from .model import Mail
@@ -37,6 +36,7 @@ ITEM = {
 
 class MailInvoiceItem(core.BaseTokeniseResource):
     def get(self, id):
+        from adminbuy.applications.invoice import InvoiceItemResource
         from adminbuy.services.mailinvoice import MailInvoiceService
         mail = MailInvoiceService.get_mail(id)
         return InvoiceItemResource().get(mail.invoice_id)

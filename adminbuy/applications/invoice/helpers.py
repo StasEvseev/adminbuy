@@ -2,9 +2,9 @@
 
 from sqlalchemy import asc
 
-from .models import InvoiceItem
-
 from adminbuy.applications.price.service import PriceService
+
+from adminbuy.applications.invoice.models import InvoiceItem
 
 
 __author__ = 'StasEvseev'

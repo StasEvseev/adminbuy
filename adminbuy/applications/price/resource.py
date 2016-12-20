@@ -3,12 +3,12 @@
 from flask import request
 from flask.ext.restful import abort, marshal_with, fields
 
-from adminbuy.db import db
-from adminbuy.applications.good.service import GoodService
+from db import db
+from applications.good.service import GoodService
 from adminbuy.resources.core import BaseTokeniseResource
 from adminbuy.services.mailinvoice import InvoiceService, MailInvoiceService
 
-from .service import (PriceService, NotFindPriceParishExc,
+from adminbuy.applications.price.service import (PriceService, NotFindPriceParishExc,
                       PriceServiceException)
 
 from log import debug, error

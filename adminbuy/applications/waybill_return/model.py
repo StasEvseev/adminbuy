@@ -34,6 +34,8 @@ class WayBillReturn(db.Model):
     """
     накладная.
     """
+    __tablename__ = 'way_bill_return'
+
     id = db.Column(db.Integer, primary_key=True)
     # Номер
     number = db.Column(db.String(250))
@@ -43,11 +45,13 @@ class WayBillReturn(db.Model):
 
     receiver_id = db.Column(db.Integer, db.ForeignKey('receiver.id'))
     receiver = db.relationship(
-        'Receiver', backref=db.backref('waybillreturns', lazy='dynamic'))
+        'applications.receiver.model.Receiver',
+        backref=db.backref('waybillreturns'))
 
     pointsale_id = db.Column(db.Integer, db.ForeignKey('point_sale.id'))
     pointsale = db.relationship(
-        'PointSale', backref=db.backref('waybillreturns', lazy='dynamic'))
+        'applications.point_sale.models.PointSale',
+        backref=db.backref('waybillreturns'))
 
     type = db.Column(ChoiceType(TYPE), default=RETAIL)
 
@@ -55,7 +59,8 @@ class WayBillReturn(db.Model):
     # Основание
     returninst_id = db.Column(db.Integer, db.ForeignKey('return.id'))
     returninst = db.relationship(
-        'Return', backref=db.backref('waybillreturns', lazy='dynamic'))
+        'applications.return_app.model.Return',
+        backref=db.backref('waybillreturns'))
 
     status = db.Column(ChoiceType(StatusType), default=DRAFT)
 
@@ -76,16 +81,20 @@ class WayBillReturnItems(db.Model):
     """
     Позиция в накладной.
     """
+    __tablename__ = 'way_bill_return_items'
+
     id = db.Column(db.Integer, primary_key=True)
 
     # накладная
     waybill_id = db.Column(db.Integer, db.ForeignKey('way_bill_return.id'))
     waybill = db.relationship(
-        'WayBillReturn', backref=db.backref('items', lazy='dynamic'))
+        WayBillReturn,
+        backref=db.backref('items'))
 
     good_id = db.Column(db.Integer, db.ForeignKey('good.id'))
     good = db.relationship(
-        'Good', backref=db.backref('waybillreturnitems', lazy='dynamic'))
+        'applications.good.model.Good',
+        backref=db.backref('waybillreturnitems'))
 
     count_plan = db.Column(db.Integer)
 

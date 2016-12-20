@@ -19,7 +19,8 @@ class RetailInvoice(db.Model):
     # Основание
     invoice_id = db.Column(db.Integer, db.ForeignKey('invoice.id'))
     invoice = db.relationship(
-        'Invoice', backref=db.backref('retailinvoices', lazy='dynamic'))
+        'applications.invoice.models.Invoice',
+        backref=db.backref('retailinvoices', lazy='dynamic'))
 
     # Файл накладной
     file = db.Column(db.String)

@@ -5,9 +5,7 @@ from collections import namedtuple
 from sqlalchemy import not_
 from sqlalchemy.orm.exc import NoResultFound
 
-from adminbuy.applications.invoice.models import InvoiceItem
-
-from .model import Good
+from adminbuy.applications.good.model import Good
 
 
 GoodStub = namedtuple('GoodStub',
@@ -79,6 +77,7 @@ class GoodService(object):
 
     @classmethod
     def get_good_exlude_invoice(cls, invoice_id):
+        from adminbuy.applications.invoice.models import InvoiceItem
         return Good.query.join(InvoiceItem).filter(
             InvoiceItem.invoice_id != invoice_id).all()
 

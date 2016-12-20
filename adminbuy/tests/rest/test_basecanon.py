@@ -6,7 +6,7 @@ import re
 from adminbuy.applications.acceptance import AcceptanceCanon
 from adminbuy.applications.commodity.resource import CommodityCanonResource
 from adminbuy.applications.inventory import InventoryCanon
-from adminbuy.applications.invoice import InvoiceCanon
+from applications.invoice.resource import InvoiceCanon
 from adminbuy.applications.point_sale import PointSaleCanon
 from adminbuy.applications.provider_app.resource import ProviderCanon
 from adminbuy.applications.receiver.resource import ReceiverCanonResource

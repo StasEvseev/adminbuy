@@ -4,7 +4,7 @@ from flask import Blueprint
 
 from adminbuy.resources import MyApi
 
-from .resource import ProviderCanon
+from adminbuy.applications.provider_app.resource import ProviderCanon
 
 
 __author__ = 'StasEvseev'

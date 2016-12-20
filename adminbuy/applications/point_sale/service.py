@@ -5,7 +5,7 @@ from sqlalchemy.orm.exc import NoResultFound
 
 from adminbuy.db import db
 
-from .models import PointSale, PointSaleItem
+from adminbuy.applications.point_sale.models import PointSale, PointSaleItem
 
 
 __author__ = 'StasEvseev'

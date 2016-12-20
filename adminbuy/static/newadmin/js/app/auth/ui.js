@@ -84,6 +84,8 @@ angular.module('auth.ui', ['ui.router', 'indexedDB'])
                     };
                     q = $q.defer();
 
+                    debugger
+
                     $http.post("/api/auth", {user: user.name, password: user.password}).then(successAuth, failureAuth);
 
                     return q.promise;
@@ -93,6 +95,7 @@ angular.module('auth.ui', ['ui.router', 'indexedDB'])
                 }
 
                 function successAuth(resp) {
+                    debugger
                     console.info("Success Auth.");
                     var user = {
                         name: identity.login,
@@ -129,6 +132,7 @@ angular.module('auth.ui', ['ui.router', 'indexedDB'])
                 }
 
                 function failureAuth(resp) {
+                    debugger
                     console.info("Failure Auth.");
                     if (resp.status == 0) {
                         $indexedDB.openStore('users', function(store) {

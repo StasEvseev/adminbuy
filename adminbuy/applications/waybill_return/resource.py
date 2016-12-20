@@ -14,8 +14,8 @@ from adminbuy.resources.core import (BaseTokeniseResource,
                                      BaseCanoniseResource, BaseInnerCanon)
 from adminbuy.services.helperserv import HelperService
 
-from .model import WayBillReturn, WayBillReturnItems, RETAIL, FINISH
-from .service import WayBillReturnService
+from adminbuy.applications.waybill_return.model import WayBillReturn, WayBillReturnItems, RETAIL, FINISH
+from adminbuy.applications.waybill_return.service import WayBillReturnService
 
 from config import PATH_TO_GENERATE_INVOICE, PATH_WEB
 

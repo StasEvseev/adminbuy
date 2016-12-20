@@ -10,6 +10,8 @@ class Provider(db.Model):
     """
     Поставщик
     """
+    __tablename__ = 'provider'
+
     id = db.Column(db.Integer, primary_key=True)
     # Наименование
     name = db.Column(db.String(250))

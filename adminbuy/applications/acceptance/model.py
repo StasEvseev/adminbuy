@@ -4,6 +4,7 @@ from sqlalchemy_utils import ChoiceType
 
 from adminbuy.db import db
 
+
 __author__ = 'StasEvseev'
 
 
@@ -32,15 +33,19 @@ class Acceptance(db.Model):
     """
     Приемка товара
     """
+    __tablename__ = 'acceptance'
+
     id = db.Column(db.Integer, primary_key=True)
 
     pointsale_id = db.Column(db.Integer, db.ForeignKey('point_sale.id'))
     pointsale = db.relationship(
-        'PointSale', backref=db.backref('acceptances', lazy=True))
+        'applications.point_sale.models.PointSale',
+        backref=db.backref('acceptances', lazy=True))
 
     provider_id = db.Column(db.Integer, db.ForeignKey('provider.id'))
     provider = db.relationship(
-        'Provider', backref=db.backref('acceptances', lazy='dynamic'))
+        'applications.provider_app.models.Provider',
+        backref=db.backref('acceptances', lazy='dynamic'))
 
     # Дата приема товара
     date = db.Column(db.Date)
@@ -48,8 +53,10 @@ class Acceptance(db.Model):
     type = db.Column(ChoiceType(RecType), default=MAIL)
     status = db.Column(ChoiceType(StatusType), default=DRAFT)
 
-    invoices = db.relationship('Invoice', secondary=linkacceptanceinvoice,
-                               backref=db.backref('acceptances', lazy='dynamic'))
+    invoices = db.relationship(
+        'applications.invoice.models.Invoice',
+        secondary=linkacceptanceinvoice,
+        backref=db.backref('acceptances', lazy='dynamic'))
 
     def __repr__(self):
         return '<Acceptance %r>' % self.id
@@ -87,16 +94,20 @@ class AcceptanceItems(db.Model):
     """
     Позиция в накладной.
     """
+    __tablename__ = 'acceptance_items'
+
     id = db.Column(db.Integer, primary_key=True)
 
     # накладная
     acceptance_id = db.Column(db.Integer, db.ForeignKey('acceptance.id'))
     acceptance = db.relationship(
-        'Acceptance', backref=db.backref('items', lazy='dynamic'))
+        Acceptance,
+        backref=db.backref('items', lazy='dynamic'))
 
     good_id = db.Column(db.Integer, db.ForeignKey('good.id'))
     good = db.relationship(
-        'Good', backref=db.backref('acceptanceitems', lazy='dynamic'))
+        'applications.good.model.Good',
+        backref=db.backref('acceptanceitems', lazy='dynamic'))
 
     count = db.Column(db.Integer)
     fact_count = db.Column(db.Integer)

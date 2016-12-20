@@ -7,6 +7,9 @@ __author__ = 'StasEvseev'
 
 
 class Seller(db.Model):
+    __tablename__ = 'seller'
+    __table_args__ = {'extend_existing': True}
+
     id = db.Column(db.Integer, primary_key=True)
 
     fname = db.Column(db.String(250))

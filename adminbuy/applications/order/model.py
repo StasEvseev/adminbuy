@@ -10,6 +10,8 @@ class Order(db.Model):
     """
     Модель заказа
     """
+    __tablename__ = 'order'
+
     id = db.Column(db.Integer, primary_key=True)
     # Заказ с
     date_start = db.Column(db.Date)
@@ -17,8 +19,9 @@ class Order(db.Model):
     date_end = db.Column(db.Date)
     # Поставщик
     provider_id = db.Column(db.Integer, db.ForeignKey('provider.id'))
-    provider = db.relationship('Provider',
-        backref=db.backref('orders', lazy='dynamic'))
+    provider = db.relationship(
+        'applications.provider_app.models.Provider',
+        backref=db.backref('orders'))
 
     def __repr__(self):
         return '<Order from %r>' % self.provider.name
@@ -28,6 +31,11 @@ class OrderItem(db.Model):
     """
     Позиция в заказе.
     """
+    __tablename__ = 'order_items'
+    __table_args__ = {'useexisting': True}
+    # ___magic_reuse_previous_mapper__ = True
+    # __table_args__ = {'extend_existing': True}
+
     id = db.Column(db.Integer, primary_key=True)
 
     full_name = db.Column(db.String(250))
@@ -53,12 +61,14 @@ class OrderItem(db.Model):
     # Товар в системе
     good_id = db.Column(db.Integer, db.ForeignKey('good.id'))
     good = db.relationship(
-        'Good', backref=db.backref('orderitem', lazy='dynamic'))
+        'applications.good.model.Good',
+        backref=db.backref('orderitem'))
 
     # Заказ
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
-    order = db.relationship('Order',
-        backref=db.backref('items', lazy='dynamic'))
+    order = db.relationship(
+        Order,
+        backref=db.backref('items'))
 
     def __repr__(self):
         return '<OrderItem %r>' % self.name

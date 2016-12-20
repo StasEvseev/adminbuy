@@ -7,8 +7,8 @@ from adminbuy.db import db
 
 from adminbuy.resources.core import BaseCanoniseResource, BaseTokeniseResource
 
-from .model import Profile
-from .service import SettingsService
+from adminbuy.applications.settings.model import Profile
+from adminbuy.applications.settings.service import SettingsService
 
 
 __author__ = 'StasEvseev'

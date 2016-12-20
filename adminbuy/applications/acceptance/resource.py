@@ -7,8 +7,8 @@ from adminbuy.db import db
 from adminbuy.resources import Date, core
 from adminbuy.services.mailinvoice import InvoiceService
 
-from .model import Acceptance, AcceptanceItems, MAIL, NEW, IN_PROG, VALIDATED
-from .service import AcceptanceService, AcceptanceException
+from adminbuy.applications.acceptance.model import Acceptance, AcceptanceItems, MAIL, NEW, IN_PROG, VALIDATED
+from adminbuy.applications.acceptance.service import AcceptanceService, AcceptanceException
 
 from log import warning, debug, error
 

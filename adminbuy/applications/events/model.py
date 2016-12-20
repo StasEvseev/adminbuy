@@ -9,6 +9,7 @@ class Event(db.Model):
     """
     Событие
     """
+    # __tablename__ = 'event'
 
     MAIL = 1
     INVOICE = 2
@@ -24,5 +25,5 @@ class Event(db.Model):
     datetime = db.Column(db.DateTime())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship(
-        'User', backref=db.backref('events', lazy='dynamic'))
+        'security.models.User', backref=db.backref('events', lazy='dynamic'))
     data = db.Column(db.TEXT)

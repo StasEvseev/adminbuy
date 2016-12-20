@@ -8,8 +8,8 @@ from sqlalchemy.orm import joinedload
 
 from adminbuy.resources.core import BaseCanoniseResource, BaseTokeniseResource
 
-from .model import Good
-from .service import GoodService, GoodServiceException
+from adminbuy.applications.good.model import Good
+from adminbuy.applications.good.service import GoodService, GoodServiceException
 
 from config import PATH_TO_GENERATE_INVOICE, PATH_WEB
 

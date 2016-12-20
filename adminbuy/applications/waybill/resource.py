@@ -17,7 +17,7 @@ from adminbuy.resources.core import (BaseTokeniseResource,
 from adminbuy.services.helperserv import HelperService
 
 from .constant import GOOD_ATTR, COUNT_ATTR
-from .models import WayBill, WayBillItems, FINISH
+from adminbuy.applications.waybill.models import WayBill, WayBillItems, FINISH
 from .service import WayBillService, WayBillServiceException
 
 from config import PATH_TO_GENERATE_INVOICE

@@ -6,7 +6,7 @@ from flask.ext.restful import fields
 from adminbuy.resources.core import BaseCanoniseResource, BaseInnerCanon
 
 from .service import PointSaleService
-from .models import PointSale, PointSaleItem
+from adminbuy.applications.point_sale.models import PointSale, PointSaleItem
 
 
 __author__ = 'StasEvseev'

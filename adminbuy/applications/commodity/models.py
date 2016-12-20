@@ -9,6 +9,10 @@ class Commodity(db.Model):
     """
     Единица товара
     """
+    __tablename__ = 'commodity'
+    __table_args__ = {'extend_existing': True}
+    # __table_args__ = {'extend_existing': True}
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(250))
     thematic = db.Column(db.String(250))

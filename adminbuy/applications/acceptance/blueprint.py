@@ -4,7 +4,7 @@ from flask import Blueprint
 
 from resources import MyApi
 
-from adminbuy.applications.acceptance.resource import (AcceptanceCanon, AcceptanceItemsResource,
+from resource import (AcceptanceCanon, AcceptanceItemsResource,
                       AcceptanceRemainItemsResource, AcceptanceStatusResource,
                       AcceptanceItemInnerCanon)
 

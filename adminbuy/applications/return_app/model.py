@@ -4,6 +4,7 @@ from sqlalchemy_utils import ChoiceType
 
 from adminbuy.db import db
 
+
 __author__ = 'StasEvseev'
 
 
@@ -21,6 +22,8 @@ class Return(db.Model):
     """
     Модель возврата
     """
+    __tablename__ = 'return'
+
     id = db.Column(db.Integer, primary_key=True)
     # Возврат с
     date_start = db.Column(db.Date)
@@ -30,8 +33,9 @@ class Return(db.Model):
 
     # Поставщик
     provider_id = db.Column(db.Integer, db.ForeignKey('provider.id'))
-    provider = db.relationship('Provider',
-        backref=db.backref('returns', lazy='dynamic'))
+    provider = db.relationship(
+        'applications.provider_app.models.Provider',
+        backref=db.backref('returns'))
 
     status = db.Column(ChoiceType(StatusType), default=DRAFT)
 
@@ -48,6 +52,8 @@ class ReturnItem(db.Model):
     """
     Позиция в возврате.
     """
+    __tablename__ = 'return_item'
+
     id = db.Column(db.Integer, primary_key=True)
 
     full_name = db.Column(db.String(250))
@@ -76,12 +82,14 @@ class ReturnItem(db.Model):
     # Товар в системе
     good_id = db.Column(db.Integer, db.ForeignKey('good.id'))
     good = db.relationship(
-        'Good', backref=db.backref('returnitem', lazy='dynamic'))
+        'applications.good.model.Good',
+        backref=db.backref('returnitem'))
 
     # Заказ
     return_id = db.Column(db.Integer, db.ForeignKey('return.id'))
-    return_item = db.relationship('Return',
-        backref=db.backref('items', lazy='dynamic'))
+    return_item = db.relationship(
+        Return,
+        backref=db.backref('items'))
 
     def __repr__(self):
         return '<OrderItem %r>' % self.name

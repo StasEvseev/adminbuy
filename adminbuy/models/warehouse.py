@@ -10,6 +10,7 @@ class WareHouse(db.Model):
     """
     Склад товара
     """
+    __tablename__ = 'ware_house'
     id = db.Column(db.Integer, primary_key=True)
 
     # Наименование склада

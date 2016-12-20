@@ -4,7 +4,7 @@ from flask import Blueprint
 
 from adminbuy.resources import MyApi
 
-from .resource import (WayBillReturnStatusResource,
+from resource import (WayBillReturnStatusResource,
                        WayBillReturnItemInnerCanon, WayBillReturnCanon,
                        WayBillReturnPrint)
 

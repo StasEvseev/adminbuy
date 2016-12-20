@@ -11,7 +11,7 @@ from adminbuy.applications.good.service import GoodService
 from adminbuy.services.core import BaseSQLAlchemyModelService
 from adminbuy.services.modelhelper import ModelService
 
-from .model import (WayBillReturn, TYPE, RecType, POINTSALE, RECEIVER,
+from adminbuy.applications.waybill_return.model import (WayBillReturn, TYPE, RecType, POINTSALE, RECEIVER,
                     WayBillReturnItems, RETAIL, StatusType, FINISH, IN_PROG,
                     DRAFT)
 

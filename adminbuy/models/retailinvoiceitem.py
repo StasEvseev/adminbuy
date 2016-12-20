@@ -15,12 +15,13 @@ class RetailInvoiceItem(db.Model):
     # Розничная накладная
     retailinvoice_id = db.Column(db.Integer, db.ForeignKey('retail_invoice.id'))
     retailinvoice = db.relationship(
-        'RetailInvoice', backref=db.backref('retailinvoiceitems',
+        'retail.models.RetailInvoice', backref=db.backref('retailinvoiceitems',
                                             lazy='dynamic'))
 
     good_id = db.Column(db.Integer, db.ForeignKey('good.id'))
     good = db.relationship(
-        'Good', backref=db.backref('retailinvoiceitems', lazy='dynamic'))
+        'applications.good.model.Good',
+        backref=db.backref('retailinvoiceitems', lazy='dynamic'))
 
     def __repr__(self):
         return '<RetailInvoiceItem %r>' % self.good.full_name or ''

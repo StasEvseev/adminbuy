@@ -17,6 +17,8 @@ StatusType = {
 
 
 class Inventory(db.Model):
+    __tablename__ = 'inventory'
+
     id = db.Column(db.Integer, primary_key=True)
     # Номер
     number = db.Column(db.String(250))
@@ -25,7 +27,8 @@ class Inventory(db.Model):
         db.DateTime(timezone=True), default=dtmodule.datetime.now)
     location_id = db.Column(db.Integer, db.ForeignKey('point_sale.id'))
     location = db.relationship(
-        'PointSale', backref=db.backref('inventors', lazy='dynamic'))
+        'applications.point_sale.models.PointSale',
+        backref=db.backref('inventors'))
 
     of = db.Column(db.SmallInteger)
 
@@ -38,15 +41,18 @@ class Inventory(db.Model):
 
 
 class InventoryItems(db.Model):
+    __tablename__ = 'inventory_items'
+
     id = db.Column(db.Integer, primary_key=True)
 
     inventory_id = db.Column(db.Integer, db.ForeignKey('inventory.id'))
     inventory = db.relationship(
-        Inventory, backref=db.backref('items', lazy='dynamic'))
+        Inventory, backref=db.backref('items'))
 
     # Товар в системе
     good_id = db.Column(db.Integer, db.ForeignKey('good.id'))
     good = db.relationship(
-        'Good', backref=db.backref('inventarisations', uselist=False))
+        'applications.good.model.Good',
+        backref=db.backref('inventarisations'))
     count_before = db.Column(db.Integer)
     count_after = db.Column(db.Integer)

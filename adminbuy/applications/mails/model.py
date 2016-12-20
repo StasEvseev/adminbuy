@@ -8,6 +8,9 @@ from adminbuy.applications.return_app.model import Return
 
 
 class Mail(db.Model):
+    # ___magic_reuse_previous_mapper__ = True
+    __table_args__ = {'useexisting': True}
+
     __tablename__ = 'mails'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String)
@@ -19,13 +22,16 @@ class Mail(db.Model):
     is_handling = db.Column(db.BOOLEAN)
     provider_id = db.Column(db.Integer, db.ForeignKey('provider.id'))
     provider = db.relationship(
-        'Provider', backref=db.backref('mails', lazy='dynamic'))
+        'applications.provider_app.models.Provider',
+        backref=db.backref('mails', lazy='dynamic'))
     invoice_id = db.Column(db.Integer, db.ForeignKey('invoice.id'))
     invoice = db.relationship(
-        'Invoice', backref=db.backref('mails', lazy='dynamic'))
+        'applications.invoice.models.Invoice',
+        backref=db.backref('mails', lazy='dynamic'))
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
     order = db.relationship(
-        'Order', backref=db.backref('mails_from_order', lazy='dynamic'))
+        'applications.order.model.Order',
+        backref=db.backref('mails_from_order', lazy='dynamic'))
     return_id = db.Column(db.Integer, db.ForeignKey('return.id'))
     return_item = db.relationship(
         Return, backref=db.backref('mails_from_return', lazy='dynamic'))

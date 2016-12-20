@@ -7,6 +7,7 @@ __author__ = 'StasEvseev'
 
 
 class PointSale(db.Model):
+    __tablename__ = 'point_sale'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(250))
@@ -23,15 +24,18 @@ class PointSale(db.Model):
 
 
 class PointSaleItem(db.Model):
+    __tablename__ = 'point_sale_item'
+
     id = db.Column(db.Integer, primary_key=True)
 
     pointsale_id = db.Column(db.Integer, db.ForeignKey('point_sale.id'))
     pointsale = db.relationship(
-        PointSale, backref=db.backref('items', lazy='dynamic'))
+        PointSale, backref=db.backref('items'))
 
     # Товар в системе
     good_id = db.Column(db.Integer, db.ForeignKey('good.id'))
     good = db.relationship(
-        'Good', backref=db.backref('pointsaleitems', uselist=False))
+        'applications.good.model.Good',
+        backref=db.backref('pointsaleitems'))
 
     count = db.Column(db.Integer)

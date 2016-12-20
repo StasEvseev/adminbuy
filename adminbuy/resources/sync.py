@@ -13,8 +13,7 @@ from adminbuy.models.sync import (Sync, SyncSession, SyncItemSession,
 
 from adminbuy.resources.core import BaseTokeniseResource
 
-from adminbuy.services.syncservice import SyncService
-from adminbuy.services.userservice import UserService
+from adminbuy.services import syncservice, userservice
 
 __author__ = 'StasEvseev'
 
@@ -39,10 +38,13 @@ class SyncSessionRes(BaseTokeniseResource):
             db.session.add(sync)
 
             for workday_item in workday_items:
-                user = UserService.get_by_name(workday_item['username'])
-                datetime_start = parser.parse(workday_item['date_start'])
+                user = userservice.UserService.get_by_name(
+                    workday_item['username'])
+                datetime_start = parser.parse(
+                    workday_item['date_start'])
 
-                workday = SyncService.get_or_create(user.id, datetime_start)
+                workday = syncservice.SyncService.get_or_create(
+                    user.id, datetime_start)
 
                 if not workday.id:
                     workday.sync_start = sync
@@ -69,6 +71,7 @@ class SyncSessionRes(BaseTokeniseResource):
                     s_item.count = cnt
                     db.session.add(s_item)
             db.session.commit()
+
             return "ok"
         except Exception as exc:
             abort(400, message="BLA")
@@ -94,6 +97,7 @@ class SyncResource(BaseTokeniseResource):
         sync.status = COMPLETE
         db.session.add(sync)
         db.session.commit()
+
         return "ok"
 
 
@@ -104,4 +108,5 @@ class SyncResourceError(BaseTokeniseResource):
         sync.status = status
         db.session.add(sync)
         db.session.commit()
+
         return "ok"

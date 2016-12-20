@@ -7,8 +7,8 @@ from flask.ext.restful import fields
 from adminbuy.resources.core import BaseCanoniseResource, BaseInnerCanon
 from adminbuy.services.helperserv import HelperService
 
-from .model import Order, OrderItem
-from .service import OrderService
+from adminbuy.applications.order.model import Order, OrderItem
+from adminbuy.applications.order.service import OrderService
 
 
 __author__ = 'StasEvseev'

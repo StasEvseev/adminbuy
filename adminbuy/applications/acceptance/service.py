@@ -10,7 +10,7 @@ from adminbuy.services.core import BaseSQLAlchemyModelService
 from .constant import (ITEM_ID_ATTR, COUNT_ATTR, PRICE_POST_ATTR,
                        PRICE_RETAIL_ATTR, PRICE_GROSS_ATTR, GOOD_OBJ_ATTR,
                        GOOD_ID_ATTR)
-from .model import (Acceptance, StatusType, AcceptanceItems, IN_PROG,
+from adminbuy.applications.acceptance.model import (Acceptance, StatusType, AcceptanceItems, IN_PROG,
                     VALIDATED, MAIL, NEW, DRAFT)
 
 from log import debug

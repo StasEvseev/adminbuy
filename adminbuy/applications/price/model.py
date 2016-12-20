@@ -9,6 +9,8 @@ class Price(db.Model):
     """
     Единица товара
     """
+    __tablename__ = 'price'
+
     id = db.Column(db.Integer, primary_key=True)
 
     # Розничная цена
@@ -26,11 +28,14 @@ class PriceParish(db.Model):
     """
     Цена прихода
     """
+    __tablename__ = 'price_parish'
+
     id = db.Column(db.Integer, primary_key=True)
     commodity_id = db.Column(
         db.Integer, db.ForeignKey('commodity.id'), nullable=False)
     commodity = db.relationship(
-        'Commodity', backref=db.backref('priceparish', lazy='dynamic'))
+        'applications.commodity.models.Commodity',
+        backref=db.backref('priceparish'))
 
     number_local_from = db.Column(db.String(250))
     number_global_from = db.Column(db.String(250))
@@ -45,9 +50,11 @@ class PriceParish(db.Model):
 
     price_id = db.Column(db.Integer, db.ForeignKey('price.id'), nullable=False)
     price = db.relationship(
-        'Price', backref=db.backref('priceparish', lazy='dynamic'))
+        Price,
+        backref=db.backref('priceparish'))
     # Накладная основание
     invoice_id = db.Column(
         db.Integer, db.ForeignKey('invoice.id'), nullable=False)
     invoice = db.relationship(
-        'Invoice', backref=db.backref('priceparish', lazy='dynamic'))
+        'applications.invoice.models.Invoice',
+        backref=db.backref('priceparish'))

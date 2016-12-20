@@ -15,7 +15,7 @@ from adminbuy.applications.price.service import PriceService
 from adminbuy.applications.point_sale.service import PointSaleService
 
 from .constant import COUNT_ATTR, GOOD_ATTR
-from .models import (FROM_MAIL, WayBillItems, WayBill, TYPE, RETAIL, POINTSALE,
+from adminbuy.applications.waybill.models import (FROM_MAIL, WayBillItems, WayBill, TYPE, RETAIL, POINTSALE,
                      RECEIVER, RecType, StatusType, FINISH)
 
 from config import PATH_TO_GENERATE_INVOICE, PATH_WEB

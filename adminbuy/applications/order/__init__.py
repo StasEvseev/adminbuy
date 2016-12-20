@@ -4,7 +4,7 @@ from flask import Blueprint
 
 from adminbuy.resources import MyApi
 
-from .resource import OrderCanon, OrderItemInnerCanon
+from adminbuy.applications.order.resource import OrderCanon, OrderItemInnerCanon
 
 
 __author__ = 'StasEvseev'

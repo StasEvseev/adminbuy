@@ -4,7 +4,7 @@ from adminbuy.db import db
 
 from adminbuy.services.core import BaseSQLAlchemyModelService
 
-from .model import Profile
+from adminbuy.applications.settings.model import Profile
 
 
 __author__ = 'StasEvseev'

@@ -33,11 +33,19 @@ class MyApi(restful.Api):
 api = MyApi(prefix='/api')
 
 
-from .core import (TokenResource, AuthResource, RegistrationResource,
-                   ProfileResource, IdentityResource, ProfileResourceById)
-from sync import (SyncResource, SyncResourceError, SyncResourceCreate,
-                  SyncSessionRes)
-from revision import RevisionResource, RevisionItemResource, RevisionApprove
+from adminbuy.resources.core import (TokenResource,
+                                     AuthResource,
+                                     RegistrationResource,
+                                     ProfileResource,
+                                     IdentityResource,
+                                     ProfileResourceById)
+from adminbuy.resources.sync import (SyncResource,
+                                     SyncResourceError,
+                                     SyncResourceCreate,
+                                     SyncSessionRes)
+from adminbuy.resources.revision import (RevisionResource,
+                                         RevisionItemResource,
+                                         RevisionApprove)
 
 from adminbuy.applications.mails.resource import (MailCheck, MailInvoiceItem,
                                                   MailItem)
