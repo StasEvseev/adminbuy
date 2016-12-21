@@ -155,4 +155,4 @@ app.change_password = change_password
 
 if __name__ == "__main__":
     debug(u"Запуск системы.")
-    app.run(debug=True, port=50001)
+    app.run(debug=True, port=50002)

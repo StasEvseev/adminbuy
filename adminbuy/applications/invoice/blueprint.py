@@ -2,7 +2,7 @@
 
 from flask import Blueprint
 
-from resources import MyApi
+from adminbuy.resources import MyApi
 
 from resource import (InvoiceCanon, InvoiceItemInnerCanon,
                       InvoiceItemAcceptanceInnerCanon, InvoiceItemResource,
