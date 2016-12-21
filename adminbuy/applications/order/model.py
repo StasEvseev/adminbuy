@@ -31,10 +31,7 @@ class OrderItem(db.Model):
     """
     Позиция в заказе.
     """
-    __tablename__ = 'order_items'
-    __table_args__ = {'useexisting': True}
-    # ___magic_reuse_previous_mapper__ = True
-    # __table_args__ = {'extend_existing': True}
+    __tablename__ = 'order_item'
 
     id = db.Column(db.Integer, primary_key=True)
 
