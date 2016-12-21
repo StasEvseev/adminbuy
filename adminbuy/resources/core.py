@@ -378,7 +378,8 @@ class BaseCanoniseResource(object):
                             objnest = value
                     except AttributeError as exc:
                         break
-                    except Exception as exc:
+                    except Exception:
+                        raise
                         pass
                 else:
                     try:

@@ -46,12 +46,12 @@ class WayBillReturn(db.Model):
     receiver_id = db.Column(db.Integer, db.ForeignKey('receiver.id'))
     receiver = db.relationship(
         'applications.receiver.model.Receiver',
-        backref=db.backref('waybillreturns'))
+        backref=db.backref('waybillreturns', lazy='dynamic'))
 
     pointsale_id = db.Column(db.Integer, db.ForeignKey('point_sale.id'))
     pointsale = db.relationship(
         'applications.point_sale.models.PointSale',
-        backref=db.backref('waybillreturns'))
+        backref=db.backref('waybillreturns', lazy='dynamic'))
 
     type = db.Column(ChoiceType(TYPE), default=RETAIL)
 
@@ -60,7 +60,7 @@ class WayBillReturn(db.Model):
     returninst_id = db.Column(db.Integer, db.ForeignKey('return.id'))
     returninst = db.relationship(
         'applications.return_app.model.Return',
-        backref=db.backref('waybillreturns'))
+        backref=db.backref('waybillreturns', lazy='dynamic'))
 
     status = db.Column(ChoiceType(StatusType), default=DRAFT)
 
@@ -89,12 +89,12 @@ class WayBillReturnItems(db.Model):
     waybill_id = db.Column(db.Integer, db.ForeignKey('way_bill_return.id'))
     waybill = db.relationship(
         WayBillReturn,
-        backref=db.backref('items'))
+        backref=db.backref('items', lazy='dynamic'))
 
     good_id = db.Column(db.Integer, db.ForeignKey('good.id'))
     good = db.relationship(
         'applications.good.model.Good',
-        backref=db.backref('waybillreturnitems'))
+        backref=db.backref('waybillreturnitems', lazy='dynamic'))
 
     count_plan = db.Column(db.Integer)
 

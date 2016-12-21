@@ -38,7 +38,7 @@ class RevisionItem(db.Model):
     good_id = db.Column(db.Integer, db.ForeignKey('good.id'))
     good = db.relationship(
         'applications.good.model.Good',
-        backref=db.backref('revisions', uselist=False))
+        backref=db.backref('revisions', lazy='dynamic'))
 
     count_before = db.Column(db.Integer)
     count_after = db.Column(db.Integer)

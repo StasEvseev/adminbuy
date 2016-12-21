@@ -30,12 +30,12 @@ class PointSaleItem(db.Model):
 
     pointsale_id = db.Column(db.Integer, db.ForeignKey('point_sale.id'))
     pointsale = db.relationship(
-        PointSale, backref=db.backref('items'))
+        PointSale, backref=db.backref('items', lazy='dynamic'))
 
     # Товар в системе
     good_id = db.Column(db.Integer, db.ForeignKey('good.id'))
     good = db.relationship(
         'applications.good.model.Good',
-        backref=db.backref('pointsaleitems'))
+        backref=db.backref('pointsaleitems', lazy='dynamic'))
 
     count = db.Column(db.Integer)

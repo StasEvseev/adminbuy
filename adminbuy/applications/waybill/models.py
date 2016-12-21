@@ -118,12 +118,12 @@ class WayBillItems(db.Model):
     waybill_id = db.Column(db.Integer, db.ForeignKey('way_bill.id'))
     waybill = db.relationship(
         WayBill,
-        backref=db.backref('items'))
+        backref=db.backref('items', lazy='dynamic'))
 
     good_id = db.Column(db.Integer, db.ForeignKey('good.id'))
     good = db.relationship(
         'applications.good.model.Good',
-        backref=db.backref('waybillitems'))
+        backref=db.backref('waybillitems', lazy='dynamic'))
 
     count = db.Column(db.Integer)
 

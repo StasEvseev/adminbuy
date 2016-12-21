@@ -35,7 +35,7 @@ class Return(db.Model):
     provider_id = db.Column(db.Integer, db.ForeignKey('provider.id'))
     provider = db.relationship(
         'applications.provider_app.models.Provider',
-        backref=db.backref('returns'))
+        backref=db.backref('returns', lazy='dynamic'))
 
     status = db.Column(ChoiceType(StatusType), default=DRAFT)
 
@@ -83,13 +83,13 @@ class ReturnItem(db.Model):
     good_id = db.Column(db.Integer, db.ForeignKey('good.id'))
     good = db.relationship(
         'applications.good.model.Good',
-        backref=db.backref('returnitem'))
+        backref=db.backref('returnitem', lazy='dynamic'))
 
     # Заказ
     return_id = db.Column(db.Integer, db.ForeignKey('return.id'))
     return_item = db.relationship(
         Return,
-        backref=db.backref('items'))
+        backref=db.backref('items', lazy='dynamic'))
 
     def __repr__(self):
         return '<OrderItem %r>' % self.name

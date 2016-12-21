@@ -4,7 +4,8 @@ from flask.ext.sqlalchemy import _BoundDeclarativeMeta
 
 
 def get_relation_model(obj, name):
-    relation_model = obj._sa_class_manager[name].property.argument
+    relation_model = obj._sa_class_manager[name].property.mapper.class_
+
     if isinstance(relation_model, _BoundDeclarativeMeta):
         return relation_model
     else:

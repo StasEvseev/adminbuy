@@ -35,7 +35,7 @@ class PriceParish(db.Model):
         db.Integer, db.ForeignKey('commodity.id'), nullable=False)
     commodity = db.relationship(
         'applications.commodity.models.Commodity',
-        backref=db.backref('priceparish'))
+        backref=db.backref('priceparish', lazy='dynamic'))
 
     number_local_from = db.Column(db.String(250))
     number_global_from = db.Column(db.String(250))
@@ -51,10 +51,10 @@ class PriceParish(db.Model):
     price_id = db.Column(db.Integer, db.ForeignKey('price.id'), nullable=False)
     price = db.relationship(
         Price,
-        backref=db.backref('priceparish'))
+        backref=db.backref('priceparish', lazy='dynamic'))
     # Накладная основание
     invoice_id = db.Column(
         db.Integer, db.ForeignKey('invoice.id'), nullable=False)
     invoice = db.relationship(
         'applications.invoice.models.Invoice',
-        backref=db.backref('priceparish'))
+        backref=db.backref('priceparish', lazy='dynamic'))

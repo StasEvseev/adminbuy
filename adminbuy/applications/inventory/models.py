@@ -28,7 +28,7 @@ class Inventory(db.Model):
     location_id = db.Column(db.Integer, db.ForeignKey('point_sale.id'))
     location = db.relationship(
         'applications.point_sale.models.PointSale',
-        backref=db.backref('inventors'))
+        backref=db.backref('inventors', lazy='dynamic'))
 
     of = db.Column(db.SmallInteger)
 
@@ -47,12 +47,12 @@ class InventoryItems(db.Model):
 
     inventory_id = db.Column(db.Integer, db.ForeignKey('inventory.id'))
     inventory = db.relationship(
-        Inventory, backref=db.backref('items'))
+        Inventory, backref=db.backref('items', lazy='dynamic'))
 
     # Товар в системе
     good_id = db.Column(db.Integer, db.ForeignKey('good.id'))
     good = db.relationship(
         'applications.good.model.Good',
-        backref=db.backref('inventarisations'))
+        backref=db.backref('inventarisations', lazy='dynamic'))
     count_before = db.Column(db.Integer)
     count_after = db.Column(db.Integer)

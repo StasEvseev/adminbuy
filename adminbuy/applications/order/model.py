@@ -21,7 +21,7 @@ class Order(db.Model):
     provider_id = db.Column(db.Integer, db.ForeignKey('provider.id'))
     provider = db.relationship(
         'applications.provider_app.models.Provider',
-        backref=db.backref('orders'))
+        backref=db.backref('orders', lazy='dynamic'))
 
     def __repr__(self):
         return '<Order from %r>' % self.provider.name
@@ -62,13 +62,13 @@ class OrderItem(db.Model):
     good_id = db.Column(db.Integer, db.ForeignKey('good.id'))
     good = db.relationship(
         'applications.good.model.Good',
-        backref=db.backref('orderitem'))
+        backref=db.backref('orderitem', lazy='dynamic'))
 
     # Заказ
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
     order = db.relationship(
         Order,
-        backref=db.backref('items'))
+        backref=db.backref('items', lazy='dynamic'))
 
     def __repr__(self):
         return '<OrderItem %r>' % self.name

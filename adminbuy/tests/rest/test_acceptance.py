@@ -2,16 +2,13 @@
 
 from datetime import datetime
 
-from adminbuy.applications.acceptance.constant import (GOOD_ATTR, COUNT_ATTR,
-                                                       ITEM_ID_ATTR,
-                                                       PRICE_GROSS_ATTR,
-                                                       PRICE_POST_ATTR,
-                                                       PRICE_RETAIL_ATTR,
-                                                       GOOD_ID_ATTR,
-                                                       GOOD_OBJ_ATTR)
-from adminbuy.applications.acceptance.model import (MAIL, NEW, Acceptance,
-                                                    AcceptanceItems, IN_PROG,
-                                                    VALIDATED)
+from adminbuy.applications.acceptance.constant import (
+    GOOD_ATTR, COUNT_ATTR, ITEM_ID_ATTR, PRICE_GROSS_ATTR, PRICE_POST_ATTR,
+    PRICE_RETAIL_ATTR, GOOD_ID_ATTR, GOOD_OBJ_ATTR
+)
+from adminbuy.applications.acceptance.model import (
+    MAIL, NEW, Acceptance, AcceptanceItems, IN_PROG, VALIDATED
+)
 from adminbuy.applications.good.model import Good
 from adminbuy.applications.price.model import PriceParish
 
