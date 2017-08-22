@@ -31,7 +31,7 @@ def initializetest(app):
         conn.commit()
 
     app.config['SQLALCHEMY_DATABASE_URI'] = COMMON_URL % (
-        USER, PASSWORD, "test")
+        USER, PASSWORD, DB_HOST, "test")
     app.config['TESTING'] = True
 
     old_argv = sys.argv
