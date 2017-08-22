@@ -8,7 +8,7 @@ import psycopg2
 
 from flask import json
 
-from config import COMMON_URL, USER, PASSWORD, DB
+from config import COMMON_URL, USER, PASSWORD, DB, DB_HOST
 
 from management import man
 
@@ -22,7 +22,7 @@ PATH_DB = os.path.join(CURRENT_DIR, "app.db")
 
 
 def initializetest(app):
-    conn = psycopg2.connect(COMMON_URL % (USER, PASSWORD, DB))
+    conn = psycopg2.connect(COMMON_URL % (USER, PASSWORD, DB_HOST, DB))
     with conn.cursor() as cur:
         conn.autocommit = True
         conn.set_isolation_level(0)
