@@ -1,0 +1,72 @@
+<div class="top-bar">
+    <section class="content-header">
+        <h1>Расходная накладная<small>SMALL</small></h1>
+
+        <ol class="breadcrumb" ui-view>
+            <li><a ui-sref="index.dash"><i class="fa fa-dashboard"></i> Дом</a></li>
+            <li><a ui-sref="index.mailbox.list">Почтовый ящик</a></li>
+            <li><a ui-sref="index.mailbox.list.read({mailId:item.id})">[[item.title]]</a> </li>
+            <li class="active">Расстановка цен за товар</li>
+        </ol>
+
+        <div class="row" style="margin: 10px 0 10px 0">
+            <div class="col-md-6 col-sm-6 col-xs-6 ng-scope">
+                <span>
+                    <button class="btn-sv btn-flat btn btn-primary btn-sm" ng-click="save()">Сохранить</button>
+                </span>
+                <span>
+                    <button class="btn-cn btn-flat btn btn-warning btn-sm" ng-click="cancel()">Отмена</button>
+                </span>
+            </div>
+        </div>
+
+    </section>
+</div>
+
+
+<div class="main-content" my-auto-padding>
+    <!-- Main content -->
+    <span ng-cloak ng-hide="loadingFinish" class="spinner">
+        <span us-spinner="{lines: 13, length: 5, width: 2, radius: 5}" class="ng-scope"><div class="spinner" role="progressbar" style="position: absolute; width: 0px; z-index: 2000000000; left: 50%; top: 50%;"><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-0-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-0-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(0deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-1-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-1-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(27deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-2-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-2-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(55deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-3-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-3-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(83deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-4-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-4-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(110deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-5-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-5-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(138deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-6-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-6-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(166deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-7-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-7-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(193deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-8-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-8-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(221deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-9-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-9-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(249deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-10-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-10-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(276deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-11-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-11-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(304deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-12-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-12-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(332deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div></div></span>
+    </span>
+
+    <section class="invoice">
+
+
+    <!-- Table row -->
+    <div class="row">
+        <div class="col-xs-12 table-responsive">
+            <table class="table table-striped table-local">
+                <thead>
+                    <tr>
+                        <th>Наименование</th>
+                        <th>Цена с НДС</th>
+                        <th>Цена розницы</th>
+                        <th>Рек. цена розн.</th>
+                        <th>Цена опта</th>
+                        <th>Рек. цена опта</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="row in items">
+                        <td>[[ row.full_name]]</td>
+                        <td>[[ row.price_post ]]</td>
+                        <td><input ng-model="row.price_retail"></td>
+                        <td><span ng-bind-html="row.price_retail_recommendation | rub"></span></td>
+                        <td><input ng-model="row.price_gross"></td>
+                        <td><span ng-bind-html="row.price_gross_recommendation | rub"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+
+
+</section>
+</div>
+
+
+
+

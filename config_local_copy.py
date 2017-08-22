@@ -1,5 +1,8 @@
 # coding: utf-8
 
+DB = 'buyapi'
+DB_HOST = 'localhost'
+
 USER = ''
 PASSWORD = ''
 

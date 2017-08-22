@@ -1,0 +1,78 @@
+<form name="myForm.item">
+    <div class="box-body">
+
+        <div class="form-group">
+            <label>Дата</label>
+
+            <div class="input-group">
+
+                <div ng-click="open($event)" class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                </div>
+
+                <input type="text" class="form-control"
+                       datepicker-popup="yyyy-MM-dd"
+                       name="date"
+                       ng-model="model.date"
+                       is-open="status.opened"
+                       max-date="'2020-06-22'"
+                       datepicker-options="dateOptions"
+                       date-disabled="disabled(date, mode)"
+                       ng-required="true"
+                       ng-disabled="editForm"
+                       close-text="Закрыть" />
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{'has-error':  Form.isSubmitted() && myForm.item.location.$error.required}">
+            <label for="exampleInputPassword1">Торговая точка</label>
+
+            <dict-select-field
+                    ng-model="model.location"
+                    service="PointService"
+                    lazy="true"
+                    select="model.location_id"
+                    style="width: 100%"
+                    dng-required="true"
+                    dname="location"
+                    dng-disabled="editForm"
+                    >
+                <dict-select-field-match placeholder="Введите название...">[[$select.selected.name]]</dict-select-field-match>
+                <dict-select-field-choices repeat="item in $items | propsFilter: {name: $select.search}">
+                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                </dict-select-field-choices>
+            </dict-select-field>
+
+        </div>
+
+        <div class="form-group" ng-class="{'has-error':  Form.isSubmitted() && myForm.item.user.$error.required}">
+            <label for="exampleInputPassword1">Продавец</label>
+
+            <dict-select-field
+                    ng-model="model.user"
+                    service="UserService"
+                    lazy="true"
+                    select="model.user_id"
+                    style="width: 100%"
+                    dng-required="true"
+                    dname="user"
+                    dng-disabled="editForm"
+                    can-create="false"
+                    can-edit="false"
+                    >
+                <dict-select-field-match placeholder="Введите имя...">[[$select.selected.full_name]]</dict-select-field-match>
+                <dict-select-field-choices repeat="item in $items | propsFilter: {full_name: $select.search}">
+                    <div ng-bind-html="item.full_name | highlight: $select.search"></div>
+                </dict-select-field-choices>
+            </dict-select-field>
+
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': Form.isSubmitted() && myForm.item.sum.$error.required}">
+            <label>Сумма</label>
+            <input type="text" ng-model="model.sum" name="sum" class="form-control" id="exampleInputPassword1"
+                   placeholder="Введите сумму">
+        </div>
+
+    </div>
+</form>

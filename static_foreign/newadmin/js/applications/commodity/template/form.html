@@ -1,0 +1,22 @@
+<form name="myForm.item">
+    <div class="box-body">
+
+        <div class="form-group" ng-class="{'has-error': Form.isSubmitted() && myForm.item.name.$error.required}">
+            <label>Название</label>
+            <input type="text" ng-model="model.name" required name="name" class="form-control" id="exampleInputPassword1"
+                   placeholder="Введите название">
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': Form.isSubmitted() && myForm.item.thematic.$error.required}">
+            <label>Тематика</label>
+            <input type="text" ng-model="model.thematic" required name="thematic" class="form-control" id="exampleInputPassword1"
+                   placeholder="Введите тематику">
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': Form.isSubmitted() && myForm.item.numeric.$error.required}">
+            <label>Номерная</label>
+            <input type="checkbox" ng-model="model.numeric" id="exampleInputPassword1">
+        </div>
+
+    </div>
+</form>
