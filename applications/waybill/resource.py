@@ -179,9 +179,18 @@ class WayBillBulk(BaseTokeniseResource):
                 receiver_items = receivers
 
             for item in receiver_items:
-                waybill = WayBillService.create(
-                    pointSource['id'], None, date, None, item['id'], type,
-                    typeRec)
+                if typeRec == str(POINTSALE):
+                    waybill = WayBillService.create(
+                        pointsale_from_id=pointSource['id'], invoice_id=None, date=date, receiver_id=None,
+                        pointsale_id=item['id'], type=type,
+                        typeRec=typeRec
+                    )
+                else:
+                    waybill = WayBillService.create(
+                        pointsale_from_id=pointSource['id'], invoice_id=None, date=date, receiver_id=item['id'],
+                        pointsale_id=None, type=type, typeRec=typeRec
+                    )
+
                 waybill.waybill_items = items
                 if waybill.waybill_items:
                     debug(u"Сохранение позиций накладной %s." % waybill)
