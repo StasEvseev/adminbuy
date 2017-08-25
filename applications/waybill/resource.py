@@ -13,7 +13,7 @@ from applications.waybill.constant import GOOD_ATTR, COUNT_ATTR
 from db import db
 
 from log import error, debug, warning
-from applications.waybill.models import WayBill, WayBillItems, FINISH
+from applications.waybill.models import WayBill, WayBillItems, FINISH, POINTSALE
 from applications.waybill.service import (WayBillService,
                                           WayBillServiceException)
 
@@ -164,6 +164,7 @@ class WayBillBulk(BaseTokeniseResource):
             debug(u"Сохранение пачки накладных.")
             pointSource = request.json['pointSource']
             pointitems = request.json['pointReceiver']
+            receivers = request.json.get('Receiver')
             items = request.json['items']
             date = request.json['date']
             date = HelperService.convert_to_pydate(date)
@@ -171,7 +172,13 @@ class WayBillBulk(BaseTokeniseResource):
             typeRec = request.json['typeRec']
             for it in items:
                 it['count'] = 0
-            for item in pointitems:
+
+            if typeRec == str(POINTSALE):
+                receiver_items = pointitems
+            else:
+                receiver_items = receivers
+
+            for item in receiver_items:
                 waybill = WayBillService.create(
                     pointSource['id'], None, date, None, item['id'], type,
                     typeRec)

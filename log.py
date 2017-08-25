@@ -1,6 +1,7 @@
 # coding: utf-8
 
 import logging
+import os
 from logging.handlers import RotatingFileHandler
 from kombu.exceptions import EncodeError
 import traceback
@@ -9,9 +10,12 @@ from config import admin_imap, admin_pass
 
 MAX_BYTES = 1048576
 BACKUP_COUNT = 50
-LOG_FILE_NAME_ERROR = "logs/error.log"
-LOG_FILE_NAME_WARNING = "logs/warning.log"
-LOG_FILE_NAME_DEBUG = "logs/debug.log"
+
+PROJECT_DIR = os.path.dirname(__file__)
+
+LOG_FILE_NAME_ERROR = os.path.join(PROJECT_DIR, "logs/error.log")
+LOG_FILE_NAME_WARNING = os.path.join(PROJECT_DIR, "logs/warning.log")
+LOG_FILE_NAME_DEBUG = os.path.join(PROJECT_DIR, "logs/debug.log")
 
 
 class MyHandler(logging.Handler):

@@ -44,7 +44,7 @@ def init_app(application):
     application.config['SECURITY_TOKEN_AUTHENTICATION_HEADER'] = (
         "AUTHORIZATION")
     application.config['SECURITY_REMEMBER_SALT'] = "SALT123123123"
-    application.config['SQLALCHEMY_ECHO'] = True
+    # application.config['SQLALCHEMY_ECHO'] = True
     application.config['SECRET_KEY'] = SECRET_KEY
     application.permanent_session_lifetime = timedelta(minutes=30)
 

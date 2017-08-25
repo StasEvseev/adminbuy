@@ -228,7 +228,8 @@
                         <tbody>
                         <tr ng-repeat="row in model.items">
                             <td>[[ row.good.full_name ]]</td>
-                            <td ng-bind-html="row.good.price.price_retail | rub"></td>
+                            <td ng-bind-html="row.good.price.price_retail | rub" ng-show="model.typeRec == 1"></td>
+                            <td ng-bind-html="row.good.price.price_gross | rub" ng-show="model.typeRec == 2"></td>
                             <td><a style="cursor:pointer;" ng-click="removeRow(row)">Удалить</a></td>
                         </tr>
                         <tr>
