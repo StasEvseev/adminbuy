@@ -45,10 +45,10 @@ class MyHandler(logging.Handler):
 
 
 def init_logging(application):
-    if admin_imap and admin_pass:
-        my_h = MyHandler()
-        my_h.setLevel(logging.ERROR)
-        application.logger.addHandler(my_h)
+    # if admin_imap and admin_pass:
+    #     my_h = MyHandler()
+    #     my_h.setLevel(logging.ERROR)
+    #     application.logger.addHandler(my_h)
     rotate_handler1 = RotatingFileHandler(
         LOG_FILE_NAME_ERROR, maxBytes=MAX_BYTES, backupCount=BACKUP_COUNT)
     rotate_handler1.setLevel(logging.ERROR)
