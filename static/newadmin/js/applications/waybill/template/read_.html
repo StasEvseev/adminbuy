@@ -138,8 +138,8 @@
                     <tr ng-repeat="row in items">
                         <td>[[ row.good.full_name ]]</td>
                         <td>[[ row.count ]]</td>
-                        <td>[[ row.good.price.price_retail ]] руб.</td>
-                        <td>[[ row.count * row.good.price.price_retail ]]</td>
+                        <td>[[ price_item(row) ]] руб.</td>
+                        <td>[[ sum_item(row) ]]</td>
                     </tr>
                     </tbody>
                 </table>

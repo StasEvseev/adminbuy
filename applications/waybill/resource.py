@@ -168,22 +168,24 @@ class WayBillBulk(BaseTokeniseResource):
             items = request.json['items']
             date = request.json['date']
             date = HelperService.convert_to_pydate(date)
-            type = request.json['type']
-            typeRec = request.json['typeRec']
+
+            typeRec = int(request.json['typeRec'])
+            #: type is equals the same as typeRec
+            type = typeRec
+
             for it in items:
                 it['count'] = 0
 
-            if typeRec == str(POINTSALE):
+            if typeRec == POINTSALE:
                 receiver_items = pointitems
             else:
                 receiver_items = receivers
 
             for item in receiver_items:
-                if typeRec == str(POINTSALE):
+                if typeRec == POINTSALE:
                     waybill = WayBillService.create(
                         pointsale_from_id=pointSource['id'], invoice_id=None, date=date, receiver_id=None,
-                        pointsale_id=item['id'], type=type,
-                        typeRec=typeRec
+                        pointsale_id=item['id'], type=type, typeRec=typeRec
                     )
                 else:
                     waybill = WayBillService.create(

@@ -71,6 +71,10 @@
                                                 [[ invoice.number ]]
                                             </td>
 
+                                            <td style="cursor:pointer;" ng-click="detail(invoice.id)" data-title="'Тип накладной'">
+                                                [[ invoice.type_str ]]
+                                            </td>
+
                                             <td style="cursor:pointer;" ng-click="detail(invoice.id)" data-title="'Получатель'" sortable="'pointsale'">
                                                 [[ invoice.pointsale ]]
                                             </td>

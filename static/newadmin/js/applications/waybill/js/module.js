@@ -344,7 +344,6 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
             var url = resp.data.link;
             window.open(url, "_target");
         })
-
     };
 
     $scope.edit = function() {
@@ -361,11 +360,22 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
 
     $scope.nameInvoice = Company.nameInvoice();
 
+    $scope.price_item = function (row) {
+        return $scope.model.type === 1 ? row.good.price.price_retail : row.good.price.price_gross;
+    }
+
+    $scope.sum_item = function (row) {
+        var price = $scope.price_item(row);
+        return row.count * price;
+    }
+
     $scope.getTotal = function () {
         var total = 0;
         for (var i = 0; i < $scope.items.length; i++) {
             var product = $scope.items[i];
-            total += (product.count * product.good.price.price_retail);
+            var price = $scope.price_item(product);
+            // var price = $scope.model.type === 1 ? product.good.price.price_retail : product.good.price.price_gross;
+            total += (product.count * price);
         }
         return total;
     }
