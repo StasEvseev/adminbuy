@@ -62,6 +62,8 @@ def init_app(application):
     if IS_PROD:
         init_logging(application)
 
+        application.config['ASSETS_DEBUG'] = False
+
     return application
 
 
@@ -125,10 +127,11 @@ def index():
 def create_superuser():
     from services.userservice import UserService
     with app.app_context():
-        if UserService.check_duplicate('admin'):
+        if UserService.check_duplicate(login='admin'):
             user = UserService.registration(
-                'admin', 'a@a.ru', 'admin', is_superuser=True,
-                first_name='Админов', last_name='Админ', role=['admin'])
+                login='admin', email='a@a.ru', password='admin', is_superuser=True,
+                first_name='Админов', last_name='Админ', role=['admin']
+            )
             db.session.add(user)
             db.session.commit()
         else:

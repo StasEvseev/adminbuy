@@ -18,30 +18,30 @@ LOG_FILE_NAME_WARNING = os.path.join(PROJECT_DIR, "logs/warning.log")
 LOG_FILE_NAME_DEBUG = os.path.join(PROJECT_DIR, "logs/debug.log")
 
 
-class MyHandler(logging.Handler):
-    """
-    Обработчик, исключений. Ставящий задания в очередь по отправке ошибок на
-    почту.
-    """
-
-    def __init__(self, *args, **kwargs):
-        super(MyHandler, self).__init__(*args, **kwargs)
-
-    def emit(self, record):
-        from tasks.mailmodule import send_error
-        try:
-            send_error.apply_async([record])
-        except EncodeError as exc:
-            # при ошибке сериализации записи, оповестить
-            # ошибку взбросить выше
-            tracebackold = traceback.format_exc()
-            t, e, tr = record.exc_info
-            try:
-                raise e, None, tr
-            except Exception:
-                error(u"Произошла ошибка при конвертации: " +
-                      unicode(tracebackold) + "\n>>>>>\n")
-                raise
+# class MyHandler(logging.Handler):
+#     """
+#     Обработчик, исключений. Ставящий задания в очередь по отправке ошибок на
+#     почту.
+#     """
+#
+#     def __init__(self, *args, **kwargs):
+#         super(MyHandler, self).__init__(*args, **kwargs)
+#
+#     def emit(self, record):
+#         from tasks.mailmodule import send_error
+#         try:
+#             send_error.apply_async([record])
+#         except EncodeError as exc:
+#             # при ошибке сериализации записи, оповестить
+#             # ошибку взбросить выше
+#             tracebackold = traceback.format_exc()
+#             t, e, tr = record.exc_info
+#             try:
+#                 raise e, None, tr
+#             except Exception:
+#                 error(u"Произошла ошибка при конвертации: " +
+#                       unicode(tracebackold) + "\n>>>>>\n")
+#                 raise
 
 
 def init_logging(application):

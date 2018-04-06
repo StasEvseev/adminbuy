@@ -4,8 +4,10 @@ import sys
 
 from flask.ext.script import Manager
 from flask.ext.migrate import Migrate, MigrateCommand
+from flask_assets import ManageAssets
 
 from app import app
+from assets import assets
 from db import db
 
 from .changepassword import ChangePassword
@@ -50,3 +52,4 @@ manager.add_command('db', MigrateCommand)
 manager.add_command('create_superuser', SuperUserCommand())
 manager.add_command('change_password', ChangePassword())
 manager.add_command('scaffold', ScaffoldingCommand())
+manager.add_command("assets", ManageAssets(assets))

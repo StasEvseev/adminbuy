@@ -127,11 +127,11 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
                                             checked   +=  ($scope.checkboxes.items[item.id]) || 0;
                                             unchecked += (!$scope.checkboxes.items[item.id]) || 0;
                                         });
-                                        if ((unchecked == 0) || (checked == 0)) {
-                                            $scope.checkboxes.checked = (checked == total);
+                                        if ((unchecked === 0) || (checked === 0)) {
+                                            $scope.checkboxes.checked = (checked === total);
                                         }
                                         // grayed checkbox
-                                        angular.element(document.getElementById("select_all")).prop("indeterminate", (checked != 0 && unchecked != 0));
+                                        angular.element(document.getElementById("select_all")).prop("indeterminate", (checked !== 0 && unchecked !== 0));
                             }, true);
 
                                 },
@@ -287,7 +287,6 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
 
     // watch for data checkboxes
     $scope.$watch('checkboxes.items', function(values) {
-        //debugger
         var items = $scope.tableParams.data;
         if (!items) {
             return;
@@ -298,11 +297,11 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
             checked   +=  ($scope.checkboxes.items[item.id]) || 0;
             unchecked += (!$scope.checkboxes.items[item.id]) || 0;
         });
-        if ((unchecked == 0) || (checked == 0)) {
-            $scope.checkboxes.checked = (checked == total);
+        if ((unchecked === 0) || (checked === 0)) {
+            $scope.checkboxes.checked = (checked === total);
         }
         // grayed checkbox
-        angular.element(document.getElementById("select_all")).prop("indeterminate", (checked != 0 && unchecked != 0));
+        angular.element(document.getElementById("select_all")).prop("indeterminate", (checked !== 0 && unchecked !== 0));
     }, true);
 })
 
@@ -320,7 +319,7 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
     $scope.model.receiver = receiver;
 
     $scope.toStatus = function(number) {
-        if(number == 4) {
+        if(number === 4) {
             if(confirm("Вы переводите накладную в финальный статус (когда товар уже должен быть доставлен). " +
                 "Внимание! Операция необратимая.")){
                 doIt();
@@ -362,12 +361,12 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
 
     $scope.price_item = function (row) {
         return $scope.model.type === 1 ? row.good.price.price_retail : row.good.price.price_gross;
-    }
+    };
 
     $scope.sum_item = function (row) {
         var price = $scope.price_item(row);
         return row.count * price;
-    }
+    };
 
     $scope.getTotal = function () {
         var total = 0;
@@ -449,8 +448,8 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
     $scope.model.pointReceiver = pointReceiver;
     $scope.model.receiver = receiver;
 
-    $scope.tableEdit = $scope.model.status == 2;
-    $scope.editForm = !(!$scope.model.status || $scope.model.status == 1);
+    $scope.tableEdit = $scope.model.status === 2;
+    $scope.editForm = !(!$scope.model.status || $scope.model.status === 1);
 
     $scope.removeRow = function(row) {
         if (confirm("Вы действительно хотите удалить запись из накладной?")) {
@@ -543,11 +542,11 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
                         checked   +=  ($scope.checkboxes.items[item.id]) || 0;
                         unchecked += (!$scope.checkboxes.items[item.id]) || 0;
                     });
-                    if ((unchecked == 0) || (checked == 0)) {
-                        $scope.checkboxes.checked = (checked == total);
+                    if ((unchecked === 0) || (checked === 0)) {
+                        $scope.checkboxes.checked = (checked === total);
                     }
                     // grayed checkbox
-                    angular.element(document.getElementById("select_all")).prop("indeterminate", (checked != 0 && unchecked != 0));
+                    angular.element(document.getElementById("select_all")).prop("indeterminate", (checked !== 0 && unchecked !== 0));
         }, true);
 
             },
