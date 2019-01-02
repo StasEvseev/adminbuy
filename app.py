@@ -154,4 +154,4 @@ app.change_password = change_password
 
 if __name__ == "__main__":
     debug(u"Запуск системы.")
-    app.run(debug=True)
+    app.run(debug=not IS_PROD)

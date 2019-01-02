@@ -5,7 +5,7 @@
 angular.module('waybill.service', ['core.service'])
 
 .factory('waybills', function($http, BaseModelService) {
-    var path = '/api/waybill';
+    var path = 'http://127.0.0.1:8000/api/waybill/';
 
     var child = Object.create(BaseModelService);
     child._getPath = function () {
@@ -19,7 +19,7 @@ angular.module('waybill.service', ['core.service'])
     };
 
     child.createBulk = function(data) {
-        return $http.post("/api/waybillbulk", data);
+        return $http.post("http://127.0.0.1:8000/api/waybillbulk/", data);
     };
 
     return child;
@@ -28,7 +28,7 @@ angular.module('waybill.service', ['core.service'])
 .factory('waybillstatus', function($http) {
     return {
         doStatus: function(id, number) {
-            return $http.post("/api/waybill/" + id + "/status", {data: {status: number}});
+            return $http.post("http://127.0.0.1:8000/api/waybill/" + id + "/status/", {data: {status: number}});
         }
     }
 })
@@ -36,14 +36,14 @@ angular.module('waybill.service', ['core.service'])
 .factory('waybillprint', function($http) {
     return {
         print: function(id) {
-            return $http.get("/api/waybill/print/" + id);
+            return $http.get("http://127.0.0.1:8000/api/waybill/print/" + id + "/");
         },
         printBulk: function(ids) {
             var par = {
                 'ids': JSON.stringify(ids)
             };
 
-            return $http.get("/api/waybill/print_bulk", {params: par});
+            return $http.get("http://127.0.0.1:8000/api/waybill/print_bulk", {params: par});
         }
     }
 })
@@ -55,7 +55,7 @@ angular.module('waybill.service', ['core.service'])
                 if (excl_ids) {
                     par['exclude_good_id'] = JSON.stringify(excl_ids);
                 }
-                return $http.get('/api/invoice_canon/' + id + '/items', {params: par}).then(function(resp) {
+                return $http.get('http://127.0.0.1:8000/api/invoice_canon/' + id + '/items/', {params: par}).then(function(resp) {
                     return resp.data;
                 });
             }
@@ -65,7 +65,7 @@ angular.module('waybill.service', ['core.service'])
 .factory('waybillitems', function($http) {
         return {
             all: function(id) {
-                return $http.get('/api/waybill/' + id + '/items').then(function(resp) {
+                return $http.get('http://127.0.0.1:8000/api/waybill/' + id + '/items/').then(function(resp) {
                     return resp.data.items;
                 });
             }

@@ -12,7 +12,36 @@ jquery_bundle = Bundle(
     'js/lib/jquery.ba-resize.min.js'
 )
 
+na_css_bundle = Bundle(
+    'newadmin/css/main.css',
+    'newadmin/css/AdminLTE.css',
+    'newadmin/css/adminlte_extens.css',
+    'newadmin/css/dataTables.bootstrap.css',
+    'newadmin/css/skins/_all-skins.min.css', output='gen/na.css'
+)
+
+moment_bundle = Bundle(
+    'js/lib/moment-with-locales.js',
+)
+
 icheck_bundle = Bundle('js/lib/icheck.min.js')
+icheck_css_line_bundle = Bundle(
+    'newadmin/css/line/_all.css',
+    output='gen/line/_all.css',
+)
+icheck_css_minimal_bundle = Bundle(
+    'newadmin/css/minimal/_all.css',
+    output='gen/minimal/_all.css',
+)
+icheck_css_square_bundle = Bundle(
+    'newadmin/css/square/_all.css',
+    output='gen/square/_all.css',
+)
+icheck_css_flat_bundle = Bundle(
+    'newadmin/css/flat/_all.css',
+    output='gen/flat/_all.css',
+)
+
 qtip_js_bundle = Bundle('js/lib/jquery.qtip.min.js')
 underscore_bundle = Bundle('js/lib/underscore-min.1.8.3.js')
 angularjs_lib_bundle = Bundle(
@@ -125,19 +154,14 @@ angularjs_utils_css_bundle = Bundle(
 bundles = {
     'NAjs': NAjs_bundle,
 
-    'NAcss': Bundle(
-        'newadmin/css/main.css',
-        'newadmin/css/AdminLTE.css',
-        'newadmin/css/adminlte_extens.css',
-        'newadmin/css/dataTables.bootstrap.css',
-        'newadmin/css/skins/_all-skins.min.css'),
+    'NAcss': na_css_bundle,
 
     'jquery': jquery_bundle,
 
     'sw': sw_bundle,
 
     'icheck': icheck_bundle,
-    'login_css': Bundle('newadmin/css/all.css'),
+    'login_css': Bundle('newadmin/css/all.css', output='gen/login_css.css'),
 
     'DT_JS': Bundle(
         'js/lib/jquery.dataTables.js'
@@ -153,11 +177,12 @@ bundles = {
     'underscore': underscore_bundle,
 
     'font-awesome-css': Bundle(
-        'css/lib/font-awesome-4.1.0/css/font-awesome.min.css'),
+        'css/lib/font-awesome-4.1.0/css/font-awesome.min.css', output='gen/font-awesome-css.css'
+    ),
 
-    'selectize-css': Bundle('css/lib/selectize.default.css'),
+    'selectize-css': Bundle('css/lib/selectize.default.css', output='gen/selectize-css.css'),
 
-    'bootstrap-css': Bundle('css/lib/bootstrap.min.css'),
+    'bootstrap-css': Bundle('css/lib/bootstrap.min.css', output='gen/bootstrap.min.css'),
     'bootstrap-js': Bundle('js/lib/bootstrap.min.js'),
 
     'ng-grid-css': Bundle('css/lib/ng-grid.css'),
@@ -172,7 +197,7 @@ bundles = {
     'indexmail': Bundle('js/mail/indexmail.js'),
     'prices': Bundle('js/mail/prices.js'),
 
-    'toastrcss': Bundle('css/lib/toastr.min.css'),
+    'toastrcss': Bundle('css/lib/toastr.min.css', output='gen/toastr.min.css'),
     'toastrjs': toastrjs_bundle,
 
     'angularjs-utils-css': angularjs_utils_css_bundle,
@@ -201,17 +226,28 @@ bundles = {
     'qtip_css': qtip_css_bundle,
     'qtip_js': qtip_js_bundle,
 
+    'icheck_css_line_bundle': icheck_css_line_bundle,
+    'icheck_css_flat_bundle': icheck_css_flat_bundle,
+    'icheck_css_square_bundle': icheck_css_square_bundle,
+    'icheck_css_minimal_bundle': icheck_css_minimal_bundle,
+
+
     'css_all_1': Bundle(
         ng_table_css_bundle,
         qtip_css_bundle,
         select_css_bundle,
         angularjs_utils_css_bundle,
 
+        # icheck_css_line_bundle,
+        # icheck_css_flat_bundle,
+        # icheck_css_square_bundle,
+        # icheck_css_minimal_bundle,
         output='gen/css_all_1.css'
     ),
 
     'js_all_1': Bundle(
         jquery_bundle,
+        moment_bundle,
         icheck_bundle,
         qtip_js_bundle,
         underscore_bundle,

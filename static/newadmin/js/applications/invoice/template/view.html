@@ -71,7 +71,7 @@
                         <tbody>
                         <tr ng-repeat="row in model.items">
                             <td>[[ row.full_name ]]</td>
-                            <td ng-bind-html="row.price_with_NDS | rub"></td>
+                            <td ng-bind-html="row.price_with_nds | rub"></td>
                             <td ng-bind-html="row.good.price.price_retail | rub"></td>
                             <td ng-bind-html="row.good.price.price_gross | rub"></td>
                         </tr>

@@ -84,7 +84,11 @@ angular.module('auth.ui', ['ui.router', 'indexedDB'])
                     };
                     q = $q.defer();
 
-                    $http.post("/api/auth", {user: user.name, password: user.password}).then(successAuth, failureAuth);
+                    $http({
+                        method: 'POST',
+                        url: "http://127.0.0.1:8000/api/auth",
+                        data: {user: user.name, password: user.password}
+                    }).then(successAuth, failureAuth);
 
                     return q.promise;
                 } else {
@@ -171,7 +175,7 @@ angular.module('auth.ui', ['ui.router', 'indexedDB'])
 
                 //Пытаемся получить identity онлайн, если отсутствует сеть - берем из локальной базы
                 //
-                $http.get("/api/identity").success(function(data){
+                $http.get("http://127.0.0.1:8000/api/identity").success(function(data){
 
                     var q = $q.defer();
 

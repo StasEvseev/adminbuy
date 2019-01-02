@@ -19,13 +19,13 @@ angular.module('pointsales.service', ['core.service'])
     };
 
     child._getPath = function() {
-        return "/api/pointsale/" + pointId + "/items";
+        return "http://127.0.0.1:8000/api/pointsale/" + pointId + "/items";
     };
     return child;
 })
 
 .factory('pointsales', function($http, BaseModelService) {
-    var path = '/api/pointsale';
+    var path = 'http://127.0.0.1:8000/api/pointsale/';
 
     var child = Object.create(BaseModelService);
     child._getPath = function () {
@@ -39,7 +39,7 @@ angular.module('pointsales.service', ['core.service'])
     };
 
     child.getCentralPoint = function() {
-        return $http.get("/api/pointsale", {params: {is_central: true}}).then(function(resp) {
+        return $http.get("http://127.0.0.1:8000/api/pointsale/", {params: {is_central: 'True'}}).then(function(resp) {
             var res = undefined;
             if (resp.data.count) {
                 res = resp.data.items[0]
@@ -49,7 +49,7 @@ angular.module('pointsales.service', ['core.service'])
     };
 
     child.getSlavePoint = function() {
-        return $http.get("/api/pointsale", {params: {is_central: false}}).then(function(resp) {
+        return $http.get("http://127.0.0.1:8000/api/pointsale/", {params: {is_central: 'False'}}).then(function(resp) {
             return resp.data.items;
         });
     };

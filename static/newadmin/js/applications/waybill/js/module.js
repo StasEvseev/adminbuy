@@ -393,14 +393,16 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
         return 'index.invoice_in.list';
     };
 
+    $scope.select = function(date) {
+      // here you will get updated date
+        $scope.model.date = moment(date).format('YYYY-MM-DD');
+    };
+
     $scope.PointService = PointService;
     $scope.ReceiverService = ReceiverService;
 
-    $scope.datepickers = {
-        dt: false
-    };
     $scope.today = function() {
-        $scope.model.date = new Date();
+        $scope.model.date = moment().format('YYYY-MM-DD');
     };
     $scope.today();
     $scope.showWeeks = true;
@@ -423,7 +425,6 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
         opened: false
     };
     $scope.dateOptions = {
-        'year-format': "'yy'",
         'starting-day': 1
     };
 
@@ -450,6 +451,11 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
 
     $scope.tableEdit = $scope.model.status === 2;
     $scope.editForm = !(!$scope.model.status || $scope.model.status === 1);
+
+    $scope.select = function(date) {
+      // here you will get updated date
+        $scope.model.date = moment(date).format('YYYY-MM-DD');
+    };
 
     $scope.removeRow = function(row) {
         if (confirm("Вы действительно хотите удалить запись из накладной?")) {
