@@ -61,9 +61,9 @@ api.add_resource(IdentityResource, '/identity')
 api.add_resource(ProfileResource, '/profile')
 api.add_resource(ProfileResourceById, '/profile_by_id/<int:id>')
 
-api.add_resource(MailCheck, '/mail/')
-api.add_resource(MailItem, '/mail/<int:id>/')
-api.add_resource(MailInvoiceItem, '/mail/<int:id>/items/')
+api.add_resource(MailCheck, '/mail')
+api.add_resource(MailItem, '/mail/<int:id>')
+api.add_resource(MailInvoiceItem, '/mail/<int:id>/items')
 
 api.add_resource(InvoiceItemResource, '/invoice/<int:invoice_id>/items')
 api.add_resource(InvoiceItemCountResource, '/invoice/<int:invoice_id>/count')

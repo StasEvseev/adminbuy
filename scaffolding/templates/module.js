@@ -21,7 +21,7 @@ angular.module('{{ name }}.module', ['core.controllers', '{{ name }}.service']).
             url: "?filter&page",
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/js/applications/{{ name }}/template/list.html",
+                    templateUrl: "/static/newadmin/js/applications/{{ name }}/template/list.html",
                     controller: "{{ name_cap }}ListCntr"
                 }
             }
@@ -30,7 +30,7 @@ angular.module('{{ name }}.module', ['core.controllers', '{{ name }}.service']).
             url: '/create',
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/js/applications/{{ name }}/template/create.html",
+                    templateUrl: "/static/newadmin/js/applications/{{ name }}/template/create.html",
                     controller: "{{ name_cap }}CreateCntr"
                 }
             }
@@ -40,7 +40,7 @@ angular.module('{{ name }}.module', ['core.controllers', '{{ name }}.service']).
             url: "/:id",
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/js/applications/{{ name }}/template/view.html",
+                    templateUrl: "/static/newadmin/js/applications/{{ name }}/template/view.html",
                     controller: "{{ name_cap }}ViewCntr"
                 }
             },
@@ -54,7 +54,7 @@ angular.module('{{ name }}.module', ['core.controllers', '{{ name }}.service']).
             url: "/edit",
             views: {
                 'content@index': {
-                    templateUrl: "static/newadmin/js/applications/{{ name }}/template/edit.html",
+                    templateUrl: "/static/newadmin/js/applications/{{ name }}/template/edit.html",
                     controller: "{{ name_cap }}EditCntr"
                 }
             },

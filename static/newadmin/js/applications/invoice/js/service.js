@@ -16,7 +16,7 @@ angular.module('invoice.service', ['core.service'])
 
 
 .factory('invoices', function(BaseModelService, $http, apiConfig) {
-    var path = apiConfig.baseUrl + '/api/invoice_canon/';
+    var path = apiConfig.baseUrl + '/api/invoice_canon';
 
     var child = Object.create(BaseModelService);
     child._getPath = function () {
@@ -30,19 +30,19 @@ angular.module('invoice.service', ['core.service'])
     };
 
     child.getItems = function(id) {
-        return $http.get(apiConfig.baseUrl + "/api/invoice_canon/" + id + "/items/").then(function(resp) {
+        return $http.get(apiConfig.baseUrl + "/api/invoice_canon/" + id + "/items").then(function(resp) {
             return resp.data.items;
         });
     };
 
     child.getRowInvoiceIn = function(id) {
-        return $http.get(apiConfig.baseUrl + "/api/invoiceprice2items/" + id + "/").then(function(resp) {
+        return $http.get(apiConfig.baseUrl + "/api/invoiceprice2items/" + id).then(function(resp) {
             return resp.data.items;
         });
     };
 
     child.savePriceFromInvoice = function(id, items) {
-        return $http.post(apiConfig.baseUrl + "/api/pricebulkinvoice/", {data: {invoice_id: id, items: items}}).then(function(resp) {
+        return $http.post(apiConfig.baseUrl + "/api/pricebulkinvoice", {data: {invoice_id: id, items: items}}).then(function(resp) {
             return resp;
         });
     };

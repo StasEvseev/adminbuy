@@ -25,7 +25,7 @@ angular.module('acceptance.service', ['core.service'])
 
 
 .factory('acceptances', function(BaseModelService, $http, apiConfig) {
-    var path = apiConfig.baseUrl + '/api/acceptance/';
+    var path = apiConfig.baseUrl + '/api/acceptance';
 
     var child = Object.create(BaseModelService);
     child._getPath = function () {
