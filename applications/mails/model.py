@@ -1,6 +1,7 @@
 #coding:utf-8
 
 from flask import json
+import ast
 
 from db import db
 
@@ -44,11 +45,11 @@ class Mail(db.Model):
         return "<Mail ('%s', '%s')>" % (self.title, self.date)
 
     def get_file_to_index(self, index):
-        return json.loads(self.files)[index]
+        return ast.literal_eval(self.files)[index]
 
     @property
     def files_(self):
-        return json.loads(self.files)
+        return ast.literal_eval(self.files)
 
     @property
     def provider_name(self):

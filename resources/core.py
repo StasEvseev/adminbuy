@@ -534,8 +534,8 @@ class BaseInnerCanon(BaseCanoniseResource):
     model = None
     attr_link = "items"
 
-    prefix_url_with_id = "/<int:inner_id>/items/<int:id>"
-    prefix_url_without_id = "/<int:inner_id>/items"
+    prefix_url_with_id = "/<int:inner_id>/items/<int:id>/"
+    prefix_url_without_id = "/<int:inner_id>/items/"
 
     def post(self, inner_id, id):
         error(u"Вызов post в BaseInnerCanon")

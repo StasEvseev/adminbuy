@@ -126,6 +126,10 @@ AdminApp.config(function ($interpolateProvider) {
     $interpolateProvider.startSymbol('[[').endSymbol(']]');
 });
 
+AdminApp.constant('apiConfig', {
+  baseUrl: 'http://127.0.0.1:5000',
+});
+
 AdminApp.run(function($rootScope) {
     $rootScope.$on('$stateChangeSuccess', function(ev, to, toParams, from, fromParams) {
         $rootScope.previousState = from;

@@ -4,8 +4,8 @@
 
 angular.module('waybill.service', ['core.service'])
 
-.factory('waybills', function($http, BaseModelService) {
-    var path = 'http://127.0.0.1:8000/api/waybill/';
+.factory('waybills', function($http, BaseModelService, apiConfig) {
+    var path = apiConfig.baseUrl + "/api/waybill/";
 
     var child = Object.create(BaseModelService);
     child._getPath = function () {
@@ -19,53 +19,53 @@ angular.module('waybill.service', ['core.service'])
     };
 
     child.createBulk = function(data) {
-        return $http.post("http://127.0.0.1:8000/api/waybillbulk/", data);
+        return $http.post(apiConfig.baseUrl + "/api/waybillbulk/", data);
     };
 
     return child;
 })
 
-.factory('waybillstatus', function($http) {
+.factory('waybillstatus', function($http, apiConfig) {
     return {
         doStatus: function(id, number) {
-            return $http.post("http://127.0.0.1:8000/api/waybill/" + id + "/status/", {data: {status: number}});
+            return $http.post(apiConfig.baseUrl + "/api/waybill/" + id + "/status/", {data: {status: number}});
         }
     }
 })
 
-.factory('waybillprint', function($http) {
+.factory('waybillprint', function($http, apiConfig) {
     return {
         print: function(id) {
-            return $http.get("http://127.0.0.1:8000/api/waybill/print/" + id + "/");
+            return $http.get(apiConfig.baseUrl + "/api/waybill/print/" + id + "/");
         },
         printBulk: function(ids) {
             var par = {
                 'ids': JSON.stringify(ids)
             };
 
-            return $http.get("http://127.0.0.1:8000/api/waybill/print_bulk", {params: par});
+            return $http.get(apiConfig.baseUrl + "/api/waybill/print_bulk", {params: par});
         }
     }
 })
 
-.factory("invoice_canon_items", function($http) {
+.factory("invoice_canon_items", function($http, apiConfig) {
         return {
             all: function(id, excl_ids) {
                 var par = {};
                 if (excl_ids) {
                     par['exclude_good_id'] = JSON.stringify(excl_ids);
                 }
-                return $http.get('http://127.0.0.1:8000/api/invoice_canon/' + id + '/items/', {params: par}).then(function(resp) {
+                return $http.get(apiConfig.baseUrl + "/api/invoice_canon/" + id + '/items/', {params: par}).then(function(resp) {
                     return resp.data;
                 });
             }
         }
 })
 
-.factory('waybillitems', function($http) {
+.factory('waybillitems', function($http, apiConfig) {
         return {
             all: function(id) {
-                return $http.get('http://127.0.0.1:8000/api/waybill/' + id + '/items/').then(function(resp) {
+                return $http.get(apiConfig.baseUrl + "/api/waybill/" + id + '/items/').then(function(resp) {
                     return resp.data.items;
                 });
             }

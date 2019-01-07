@@ -51990,6 +51990,10 @@ AdminApp.config(function ($interpolateProvider) {
     $interpolateProvider.startSymbol('[[').endSymbol(']]');
 });
 
+AdminApp.constant('apiConfig', {
+  baseUrl: 'http://127.0.0.1:5000',
+});
+
 AdminApp.run(function($rootScope) {
     $rootScope.$on('$stateChangeSuccess', function(ev, to, toParams, from, fromParams) {
         $rootScope.previousState = from;
@@ -52882,7 +52886,7 @@ angular.module("core.utils", [])
 .factory("remoteHelper", function($http) {
         return {
             itemById: function(url, id) {
-                return $http.get(url + id).then(function(resp){
+                return $http.get(url + id + "/").then(function(resp){
                     return resp.data;
                 });
             },
@@ -52910,7 +52914,7 @@ angular.module("core.utils", [])
                 return params;
             },
             update: function(url, id, params) {
-                return $http.post(url + id, {data: params});
+                return $http.post(url + id + "/", {data: params});
             },
             create: function(url, params) {
                 return $http.put(url, {data: params});
@@ -53332,8 +53336,8 @@ angular.module('core.service', ['core.utils'])
 
 angular.module('mails.service', ['core.utils'])
 
-.factory('mails', function($http, $q, remoteHelper) {
-    var path = 'http://127.0.0.1:8000/api/mail/';
+.factory('mails', function($http, $q, remoteHelper, apiConfig) {
+    var path = apiConfig.baseUrl + "/api/mail/";
     var cnt = 0;
     var items = [];
     var items_id = [];
@@ -53342,12 +53346,12 @@ angular.module('mails.service', ['core.utils'])
 
     var factory = {};
 
-    factory.handle_mail = function(id, index, action) {
-        return $http.post("http://127.0.0.1:8000/api/mail/" + id + "/", {index: index, action: action});
+    factory.handle_mail = function(id, index, action, apiConfig) {
+        return $http.post(apiConfig.baseUrl + "/api/mail/" + id + "/", {index: index, action: action});
     };
 
     factory.checkMail = function() {
-        return $http.post('http://127.0.0.1:8000/api/mail/').then(function(resp) {
+        return $http.post(apiConfig.baseUrl + "/api/mail/").then(function(resp) {
             return resp.data;
         });
     };
@@ -53368,7 +53372,7 @@ angular.module('mails.service', ['core.utils'])
     };
 
     factory.fetch = function() {
-        return $http.get("http://127.0.0.1:8000/api/mail/", {params: {'_new': true}}).then(function(resp) {
+        return $http.get(apiConfig.baseUrl + "/api/mail/", {params: {'_new': true}}).then(function(resp) {
             items_new = resp.data.items;
         }, function(resp) {
             var isOnline = true;
@@ -53913,8 +53917,8 @@ angular.module('invoice.service', ['core.service'])
 })
 
 
-.factory('invoices', function(BaseModelService, $http) {
-    var path = 'http://127.0.0.1:8000/api/invoice_canon/';
+.factory('invoices', function(BaseModelService, $http, apiConfig) {
+    var path = apiConfig.baseUrl + '/api/invoice_canon/';
 
     var child = Object.create(BaseModelService);
     child._getPath = function () {
@@ -53928,19 +53932,19 @@ angular.module('invoice.service', ['core.service'])
     };
 
     child.getItems = function(id) {
-        return $http.get("http://127.0.0.1:8000/api/invoice_canon/" + id + "/items").then(function(resp) {
+        return $http.get(apiConfig.baseUrl + "/api/invoice_canon/" + id + "/items/").then(function(resp) {
             return resp.data.items;
         });
     };
 
     child.getRowInvoiceIn = function(id) {
-        return $http.get("http://127.0.0.1:8000/api/invoiceprice2items/" + id).then(function(resp) {
+        return $http.get(apiConfig.baseUrl + "/api/invoiceprice2items/" + id + "/").then(function(resp) {
             return resp.data.items;
         });
     };
 
     child.savePriceFromInvoice = function(id, items) {
-        return $http.post("http://127.0.0.1:8000/api/pricebulkinvoice/", {data: {invoice_id: id, items: items}}).then(function(resp) {
+        return $http.post(apiConfig.baseUrl + "/api/pricebulkinvoice/", {data: {invoice_id: id, items: items}}).then(function(resp) {
             return resp;
         });
     };
@@ -53953,8 +53957,8 @@ angular.module('invoice.service', ['core.service'])
 
 angular.module('waybill.service', ['core.service'])
 
-.factory('waybills', function($http, BaseModelService) {
-    var path = 'http://127.0.0.1:8000/api/waybill/';
+.factory('waybills', function($http, BaseModelService, apiConfig) {
+    var path = apiConfig.baseUrl + "/api/waybill/";
 
     var child = Object.create(BaseModelService);
     child._getPath = function () {
@@ -53968,53 +53972,53 @@ angular.module('waybill.service', ['core.service'])
     };
 
     child.createBulk = function(data) {
-        return $http.post("http://127.0.0.1:8000/api/waybillbulk/", data);
+        return $http.post(apiConfig.baseUrl + "/api/waybillbulk/", data);
     };
 
     return child;
 })
 
-.factory('waybillstatus', function($http) {
+.factory('waybillstatus', function($http, apiConfig) {
     return {
         doStatus: function(id, number) {
-            return $http.post("http://127.0.0.1:8000/api/waybill/" + id + "/status/", {data: {status: number}});
+            return $http.post(apiConfig.baseUrl + "/api/waybill/" + id + "/status/", {data: {status: number}});
         }
     }
 })
 
-.factory('waybillprint', function($http) {
+.factory('waybillprint', function($http, apiConfig) {
     return {
         print: function(id) {
-            return $http.get("http://127.0.0.1:8000/api/waybill/print/" + id + "/");
+            return $http.get(apiConfig.baseUrl + "/api/waybill/print/" + id + "/");
         },
         printBulk: function(ids) {
             var par = {
                 'ids': JSON.stringify(ids)
             };
 
-            return $http.get("http://127.0.0.1:8000/api/waybill/print_bulk", {params: par});
+            return $http.get(apiConfig.baseUrl + "/api/waybill/print_bulk/", {params: par});
         }
     }
 })
 
-.factory("invoice_canon_items", function($http) {
+.factory("invoice_canon_items", function($http, apiConfig) {
         return {
             all: function(id, excl_ids) {
                 var par = {};
                 if (excl_ids) {
                     par['exclude_good_id'] = JSON.stringify(excl_ids);
                 }
-                return $http.get('http://127.0.0.1:8000/api/invoice_canon/' + id + '/items/', {params: par}).then(function(resp) {
+                return $http.get(apiConfig.baseUrl + "/api/invoice_canon/" + id + '/items/', {params: par}).then(function(resp) {
                     return resp.data;
                 });
             }
         }
 })
 
-.factory('waybillitems', function($http) {
+.factory('waybillitems', function($http, apiConfig) {
         return {
             all: function(id) {
-                return $http.get('http://127.0.0.1:8000/api/waybill/' + id + '/items/').then(function(resp) {
+                return $http.get(apiConfig.baseUrl + "/api/waybill/" + id + '/items/').then(function(resp) {
                     return resp.data.items;
                 });
             }
@@ -54602,7 +54606,7 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
 
 angular.module('pointsales.service', ['core.service'])
 
-.factory('pointsalesgoods', function($http, BaseModelService){
+.factory('pointsalesgoods', function($http, BaseModelService, apiConfig){
 //    var path = '';
     var child = Object.create(BaseModelService);
     var pointId;
@@ -54617,13 +54621,13 @@ angular.module('pointsales.service', ['core.service'])
     };
 
     child._getPath = function() {
-        return "http://127.0.0.1:8000/api/pointsale/" + pointId + "/items";
+        return apiConfig.baseUrl + "/api/pointsale/" + pointId + "/items";
     };
     return child;
 })
 
-.factory('pointsales', function($http, BaseModelService) {
-    var path = 'http://127.0.0.1:8000/api/pointsale/';
+.factory('pointsales', function($http, BaseModelService, apiConfig) {
+    var path = apiConfig.baseUrl + "/api/pointsale/";
 
     var child = Object.create(BaseModelService);
     child._getPath = function () {
@@ -54637,7 +54641,7 @@ angular.module('pointsales.service', ['core.service'])
     };
 
     child.getCentralPoint = function() {
-        return $http.get("http://127.0.0.1:8000/api/pointsale/", {params: {is_central: 'True'}}).then(function(resp) {
+        return $http.get(apiConfig.baseUrl + "/api/pointsale/", {params: {is_central: 'True'}}).then(function(resp) {
             var res = undefined;
             if (resp.data.count) {
                 res = resp.data.items[0]
@@ -54647,7 +54651,7 @@ angular.module('pointsales.service', ['core.service'])
     };
 
     child.getSlavePoint = function() {
-        return $http.get("http://127.0.0.1:8000/api/pointsale/", {params: {is_central: 'False'}}).then(function(resp) {
+        return $http.get(apiConfig.baseUrl + "/api/pointsale/", {params: {is_central: 'False'}}).then(function(resp) {
             return resp.data.items;
         });
     };
@@ -55653,17 +55657,17 @@ angular.module('acceptance.service', ['core.service'])
 })
 
 
-.factory('acceptancestatus', function($http) {
+.factory('acceptancestatus', function($http, apiConfig) {
     return {
         doStatus: function(id, number) {
-            return $http.post("http://127.0.0.1:8000/api/acceptance/" + id + "/status", {data: {status: number}});
+            return $http.post(apiConfig.baseUrl + "/api/acceptance/" + id + "/status", {data: {status: number}});
         }
     }
 })
 
 
-.factory('acceptances', function(BaseModelService, $http) {
-    var path = 'http://127.0.0.1:8000/api/acceptance/';
+.factory('acceptances', function(BaseModelService, $http, apiConfig) {
+    var path = apiConfig.baseUrl + '/api/acceptance/';
 
     var child = Object.create(BaseModelService);
     child._getPath = function () {
@@ -55677,7 +55681,7 @@ angular.module('acceptance.service', ['core.service'])
     };
 
     child.getItems = function(id) {
-        return $http.get("http://127.0.0.1:8000/api/acceptance/" + id + "/items/").then(function(resp) {
+        return $http.get(apiConfig.baseUrl + "/api/acceptance/" + id + "/items/").then(function(resp) {
             return resp.data.items;
         });
     };
@@ -56971,8 +56975,8 @@ angular.module("auth.http", ["core.helpers"])
  */
 angular.module('auth.ui', ['ui.router', 'indexedDB'])
 
-.factory('principal', ['$q', '$http', '$timeout', '$window', '$indexedDB',
-    function($q, $http, $timeout, $window, $indexedDB) {
+.factory('principal', ['$q', '$http', '$timeout', '$window', '$indexedDB', 'apiConfig',
+    function($q, $http, $timeout, $window, $indexedDB, apiConfig) {
         var _identity = undefined, _authenticated = false;
 
         return {
@@ -57054,7 +57058,7 @@ angular.module('auth.ui', ['ui.router', 'indexedDB'])
 
                     $http({
                         method: 'POST',
-                        url: "http://127.0.0.1:8000/api/auth",
+                        url: apiConfig.baseUrl + "/api/auth",
                         data: {user: user.name, password: user.password}
                     }).then(successAuth, failureAuth);
 
@@ -57143,7 +57147,7 @@ angular.module('auth.ui', ['ui.router', 'indexedDB'])
 
                 //Пытаемся получить identity онлайн, если отсутствует сеть - берем из локальной базы
                 //
-                $http.get("http://127.0.0.1:8000/api/identity").success(function(data){
+                $http.get(apiConfig.baseUrl + "/api/identity").success(function(data){
 
                     var q = $q.defer();
 

@@ -3,8 +3,8 @@
  */
 angular.module('auth.ui', ['ui.router', 'indexedDB'])
 
-.factory('principal', ['$q', '$http', '$timeout', '$window', '$indexedDB',
-    function($q, $http, $timeout, $window, $indexedDB) {
+.factory('principal', ['$q', '$http', '$timeout', '$window', '$indexedDB', 'apiConfig',
+    function($q, $http, $timeout, $window, $indexedDB, apiConfig) {
         var _identity = undefined, _authenticated = false;
 
         return {
@@ -86,7 +86,7 @@ angular.module('auth.ui', ['ui.router', 'indexedDB'])
 
                     $http({
                         method: 'POST',
-                        url: "http://127.0.0.1:8000/api/auth",
+                        url: apiConfig.baseUrl + "/api/auth",
                         data: {user: user.name, password: user.password}
                     }).then(successAuth, failureAuth);
 
@@ -175,7 +175,7 @@ angular.module('auth.ui', ['ui.router', 'indexedDB'])
 
                 //Пытаемся получить identity онлайн, если отсутствует сеть - берем из локальной базы
                 //
-                $http.get("http://127.0.0.1:8000/api/identity").success(function(data){
+                $http.get(apiConfig.baseUrl + "/api/identity").success(function(data){
 
                     var q = $q.defer();
 

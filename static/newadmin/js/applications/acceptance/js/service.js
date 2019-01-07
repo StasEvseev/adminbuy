@@ -15,17 +15,17 @@ angular.module('acceptance.service', ['core.service'])
 })
 
 
-.factory('acceptancestatus', function($http) {
+.factory('acceptancestatus', function($http, apiConfig) {
     return {
         doStatus: function(id, number) {
-            return $http.post("http://127.0.0.1:8000/api/acceptance/" + id + "/status", {data: {status: number}});
+            return $http.post(apiConfig.baseUrl + "/api/acceptance/" + id + "/status", {data: {status: number}});
         }
     }
 })
 
 
-.factory('acceptances', function(BaseModelService, $http) {
-    var path = 'http://127.0.0.1:8000/api/acceptance/';
+.factory('acceptances', function(BaseModelService, $http, apiConfig) {
+    var path = apiConfig.baseUrl + '/api/acceptance/';
 
     var child = Object.create(BaseModelService);
     child._getPath = function () {
@@ -39,7 +39,7 @@ angular.module('acceptance.service', ['core.service'])
     };
 
     child.getItems = function(id) {
-        return $http.get("http://127.0.0.1:8000/api/acceptance/" + id + "/items/").then(function(resp) {
+        return $http.get(apiConfig.baseUrl + "/api/acceptance/" + id + "/items/").then(function(resp) {
             return resp.data.items;
         });
     };

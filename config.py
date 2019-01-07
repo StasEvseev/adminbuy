@@ -10,9 +10,9 @@ try:
     from config_local import DB
     from config_local import DB_HOST
 except ImportError:
-    USER = 'adminbuy'
-    PASSWORD = 'adminbuy'
-    DB = 'adminbuy'
+    USER = 'buyapi'
+    PASSWORD = 'buyapi'
+    DB = 'buyapi'
     DB_HOST = 'localhost'
 
 IS_PROD = False
