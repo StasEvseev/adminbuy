@@ -1,6 +1,8 @@
 # coding: utf-8
 
 from flask.ext.assets import Environment, Bundle
+from webassets.filter.jinja2 import Jinja2
+from config import API_LOCATION
 
 __author__ = 'StasEvseev'
 
@@ -138,7 +140,9 @@ NAjs_bundle = Bundle(
     'newadmin/js/app/auth/ui.js',
     'newadmin/js/angular-indexed-db.js',
     'js/lib/counter.js',
-    output='gen/myapp.min.js'
+    output='gen/myapp.min.js',
+    filters=Jinja2(context={'api_location': API_LOCATION}),
+
 )
 toastrjs_bundle = Bundle('js/lib/toastr.min.js')
 sw_bundle = Bundle('newadmin/js/serviceworkerinit.js')

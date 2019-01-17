@@ -19,13 +19,13 @@ angular.module('pointsales.service', ['core.service'])
     };
 
     child._getPath = function() {
-        return apiConfig.baseUrl + "/api/pointsale/" + pointId + "/items";
+        return apiConfig.baseUrl + "/pointsale/" + pointId + "/items";
     };
     return child;
 })
 
 .factory('pointsales', function($http, BaseModelService, apiConfig) {
-    var path = apiConfig.baseUrl + "/api/pointsale";
+    var path = apiConfig.baseUrl + "/pointsale";
 
     var child = Object.create(BaseModelService);
     child._getPath = function () {
@@ -39,7 +39,7 @@ angular.module('pointsales.service', ['core.service'])
     };
 
     child.getCentralPoint = function() {
-        return $http.get(apiConfig.baseUrl + "/api/pointsale", {params: {is_central: 'True'}}).then(function(resp) {
+        return $http.get(apiConfig.baseUrl + "/pointsale", {params: {is_central: 'True'}}).then(function(resp) {
             var res = undefined;
             if (resp.data.count) {
                 res = resp.data.items[0]
@@ -49,7 +49,7 @@ angular.module('pointsales.service', ['core.service'])
     };
 
     child.getSlavePoint = function() {
-        return $http.get(apiConfig.baseUrl + "/api/pointsale", {params: {is_central: 'False'}}).then(function(resp) {
+        return $http.get(apiConfig.baseUrl + "/pointsale", {params: {is_central: 'False'}}).then(function(resp) {
             return resp.data.items;
         });
     };

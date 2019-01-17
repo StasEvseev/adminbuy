@@ -1,6 +1,6 @@
 angular.module('user', [])
 
-.service("User", function($q, $http) {
+.service("User", function($q, $http, apiConfig) {
     var name = "", iconUrl = "", position = "", is_superuser = false, id = '';
 
     return {
@@ -20,7 +20,7 @@ angular.module('user', [])
             return is_superuser;
         },
         fetch: function() {
-            return $http.get('/api/profile').then(function(resp) {
+            return $http.get(apiConfig.baseUrl + '/profile').then(function(resp) {
                 name = resp.data.name;
                 iconUrl = resp.data.iconUrl;
                 position = resp.data.position;

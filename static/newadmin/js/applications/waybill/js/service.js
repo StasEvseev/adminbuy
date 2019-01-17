@@ -5,7 +5,7 @@
 angular.module('waybill.service', ['core.service'])
 
 .factory('waybills', function($http, BaseModelService, apiConfig) {
-    var path = apiConfig.baseUrl + "/api/waybill";
+    var path = apiConfig.baseUrl + "/waybill";
 
     var child = Object.create(BaseModelService);
     child._getPath = function () {
@@ -19,7 +19,7 @@ angular.module('waybill.service', ['core.service'])
     };
 
     child.createBulk = function(data) {
-        return $http.post(apiConfig.baseUrl + "/api/waybillbulk", data);
+        return $http.post(apiConfig.baseUrl + "/waybillbulk", data);
     };
 
     return child;
@@ -28,7 +28,7 @@ angular.module('waybill.service', ['core.service'])
 .factory('waybillstatus', function($http, apiConfig) {
     return {
         doStatus: function(id, number) {
-            return $http.post(apiConfig.baseUrl + "/api/waybill/" + id + "/status", {data: {status: number}});
+            return $http.post(apiConfig.baseUrl + "/waybill/" + id + "/status", {data: {status: number}});
         }
     }
 })
@@ -36,14 +36,14 @@ angular.module('waybill.service', ['core.service'])
 .factory('waybillprint', function($http, apiConfig) {
     return {
         print: function(id) {
-            return $http.get(apiConfig.baseUrl + "/api/waybill/print/" + id);
+            return $http.get(apiConfig.baseUrl + "/waybill/print/" + id);
         },
         printBulk: function(ids) {
             var par = {
                 'ids': JSON.stringify(ids)
             };
 
-            return $http.get(apiConfig.baseUrl + "/api/waybill/print_bulk", {params: par});
+            return $http.get(apiConfig.baseUrl + "/waybill/print_bulk", {params: par});
         }
     }
 })
@@ -55,7 +55,7 @@ angular.module('waybill.service', ['core.service'])
                 if (excl_ids) {
                     par['exclude_good_id'] = JSON.stringify(excl_ids);
                 }
-                return $http.get(apiConfig.baseUrl + "/api/invoice_canon/" + id + '/items', {params: par}).then(function(resp) {
+                return $http.get(apiConfig.baseUrl + "/invoice_canon/" + id + '/items', {params: par}).then(function(resp) {
                     return resp.data;
                 });
             }
@@ -65,7 +65,7 @@ angular.module('waybill.service', ['core.service'])
 .factory('waybillitems', function($http, apiConfig) {
         return {
             all: function(id) {
-                return $http.get(apiConfig.baseUrl + "/api/waybill/" + id + '/items').then(function(resp) {
+                return $http.get(apiConfig.baseUrl + "/waybill/" + id + '/items').then(function(resp) {
                     return resp.data.items;
                 });
             }

@@ -22,6 +22,11 @@ try:
 except ImportError:
     pass
 
+if IS_PROD:
+    API_LOCATION = 'https://evfam.com/v2/api'
+else:
+    API_LOCATION = 'http://127.0.0.1:8000/api'
+
 COMMON_URL = 'postgresql://%s:%s@%s:5432/%s'
 
 DATABASE_URI = COMMON_URL % (USER, PASSWORD, DB_HOST, DB)

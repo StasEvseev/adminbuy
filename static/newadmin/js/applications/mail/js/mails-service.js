@@ -5,7 +5,7 @@
 angular.module('mails.service', ['core.utils'])
 
 .factory('mails', function($http, $q, remoteHelper, apiConfig) {
-    var path = apiConfig.baseUrl + "/api/mail";
+    var path = apiConfig.baseUrl + "/mail";
     var cnt = 0;
     var items = [];
     var items_id = [];
@@ -15,11 +15,11 @@ angular.module('mails.service', ['core.utils'])
     var factory = {};
 
     factory.handle_mail = function(id, index, action) {
-        return $http.post(apiConfig.baseUrl + "/api/mail/" + id + "/", {index: index, action: action});
+        return $http.post(apiConfig.baseUrl + "/mail/" + id + "/", {index: index, action: action});
     };
 
     factory.checkMail = function() {
-        return $http.post(apiConfig.baseUrl + "/api/mail/").then(function(resp) {
+        return $http.post(apiConfig.baseUrl + "/mail").then(function(resp) {
             return resp.data;
         });
     };
@@ -40,7 +40,7 @@ angular.module('mails.service', ['core.utils'])
     };
 
     factory.fetch = function() {
-        return $http.get(apiConfig.baseUrl + "/api/mail", {params: {'_new': true}}).then(function(resp) {
+        return $http.get(apiConfig.baseUrl + "/mail", {params: {'_new': true}}).then(function(resp) {
             items_new = resp.data.items;
         }, function(resp) {
             var isOnline = true;

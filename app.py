@@ -5,6 +5,7 @@ from datetime import timedelta
 
 from flask import Flask, render_template
 from flask.ext.triangle import Triangle
+from assets import assets
 
 from werkzeug.contrib.fixers import ProxyFix
 
@@ -19,7 +20,11 @@ os.environ['TZ'] = 'Europe/Moscow'
 
 
 def create_app():
-    app = Flask(__name__)
+    if IS_PROD:
+        app = Flask(__name__)
+    else:
+        app = Flask(__name__)
+
     app.config.update(
         CELERY_BROKER_URL='redis://localhost:6379/0',
         CELERY_RESULT_BACKEND='redis://localhost:6379/0'
@@ -61,6 +66,10 @@ def init_app(application):
 
     if IS_PROD:
         init_logging(application)
+
+        with application.app_context():
+            assets.debug = False
+            assets.auto_build = False
 
         application.config['ASSETS_DEBUG'] = False
 

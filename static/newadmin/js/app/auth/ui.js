@@ -86,7 +86,7 @@ angular.module('auth.ui', ['ui.router', 'indexedDB'])
 
                     $http({
                         method: 'POST',
-                        url: apiConfig.baseUrl + "/api/auth",
+                        url: apiConfig.baseUrl + "/auth",
                         data: {user: user.name, password: user.password}
                     }).then(successAuth, failureAuth);
 
@@ -175,7 +175,7 @@ angular.module('auth.ui', ['ui.router', 'indexedDB'])
 
                 //Пытаемся получить identity онлайн, если отсутствует сеть - берем из локальной базы
                 //
-                $http.get(apiConfig.baseUrl + "/api/identity").success(function(data){
+                $http.get(apiConfig.baseUrl + "/identity").success(function(data){
 
                     var q = $q.defer();
 

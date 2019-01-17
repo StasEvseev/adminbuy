@@ -127,7 +127,7 @@ AdminApp.config(function ($interpolateProvider) {
 });
 
 AdminApp.constant('apiConfig', {
-  baseUrl: 'http://127.0.0.1:5000',
+  baseUrl: '{{ api_location }}',
 });
 
 AdminApp.run(function($rootScope) {
