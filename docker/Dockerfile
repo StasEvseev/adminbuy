@@ -1,7 +1,5 @@
 FROM ubuntu:16.04
 
-MAINTAINER stasevseev@gmail.com
-
 RUN apt-get update -y
 RUN apt-get install -y python2.7 python-setuptools supervisor git build-essential gcc libxml2-dev libxslt1-dev \
     libpq-dev python2.7-dev libjpeg-dev

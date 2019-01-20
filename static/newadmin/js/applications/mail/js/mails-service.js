@@ -15,7 +15,7 @@ angular.module('mails.service', ['core.utils'])
     var factory = {};
 
     factory.handle_mail = function(id, index, action) {
-        return $http.post(apiConfig.baseUrl + "/mail/" + id + "/", {index: index, action: action});
+        return $http.post(apiConfig.baseUrl + "/mail/" + id, {index: index, action: action});
     };
 
     factory.checkMail = function() {
