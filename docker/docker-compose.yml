@@ -8,8 +8,7 @@ services:
       - media_volume:/code/media
       - docker_homecrm_media_volume:/code/media_homecrm
     ports:
-      - 127.0.0.1:80:80
-      - 127.0.0.1:443:443
+      - 127.0.0.1:8100:80
     depends_on:
       - buyapi_web
   buyapi_web:
@@ -17,8 +16,6 @@ services:
     build:
       context: ../
       dockerfile: docker/Dockerfile
-    ports:
-      - 127.0.0.1:8100:8000
     volumes:
       - ../:/code
       - static_volume:/code/static
