@@ -1,11 +1,38 @@
 version: '3'
 services:
-  web:
+  buyapi_nginx:
+    image: nginx:latest
+    volumes:
+      - ../config/:/etc/nginx/conf.d/
+      - static_volume:/code/static
+      - media_volume:/code/media
+    ports:
+      - 127.0.0.1:80:80
+      - 127.0.0.1:443:443
+    depends_on:
+      - buyapi_web
+  buyapi_web:
     image: buyapi:1.0
     build:
       context: ../
       dockerfile: docker/Dockerfile
     ports:
-    - "127.0.0.1:8100:8000"
+      - 127.0.0.1:8100:8000
     volumes:
-    - ../:/code
+      - ../:/code
+      - static_volume:/code/static
+      - media_volume:/code/media
+
+volumes:
+  static_volume:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/volumes/static
+      o: bind
+  media_volume:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/volumes/static
+      o: bind
