@@ -6,6 +6,7 @@ services:
       - ../config/:/etc/nginx/conf.d/
       - static_volume:/code/static
       - media_volume:/code/media
+      - docker_homecrm_media_volume:/code/media_homecrm
     ports:
       - 127.0.0.1:80:80
       - 127.0.0.1:443:443
@@ -24,6 +25,8 @@ services:
       - media_volume:/code/media
 
 volumes:
+  docker_homecrm_media_volume:
+    external: true
   static_volume:
     driver: local
     driver_opts:
