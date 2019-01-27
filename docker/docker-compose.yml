@@ -20,6 +20,11 @@ services:
       - ../:/code
       - static_volume:/code/static
       - media_volume:/code/media
+  dockerhost:
+    image: qoomon/docker-host
+    cap_add: [ 'NET_ADMIN', 'NET_RAW' ]
+    mem_limit: 4M
+    restart: on-failure
 
 volumes:
   docker_homecrm_media_volume:
