@@ -4,8 +4,8 @@ services:
     image: nginx:latest
     volumes:
       - ../config/:/etc/nginx/conf.d/
-      - static_volume:/code/static
-      - media_volume:/code/media
+      - static_volume:/code/staticd
+      - media_volume:/code/mediad
       - docker_homecrm_media_volume:/code/media_homecrm
     ports:
       - 127.0.0.1:8100:80
