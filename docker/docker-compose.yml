@@ -30,3 +30,4 @@ volumes:
       type: none
       device: $PWD/volumes/static
       o: bind
+  static_volume: {}
