@@ -18,8 +18,8 @@ services:
       dockerfile: docker/Dockerfile
     volumes:
       - ../:/code
-      - static_volume:/code/static
-      - media_volume:/code/media
+      - static_volume:/code/staticd
+      - media_volume:/code/mediad
 
 volumes:
   docker_homecrm_media_volume:
