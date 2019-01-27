@@ -28,6 +28,6 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: $PWD/volumes/static
+      device: $PWD/volumes/media
       o: bind
   static_volume: {}
