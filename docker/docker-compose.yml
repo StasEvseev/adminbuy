@@ -7,6 +7,7 @@ services:
       - static_volume:/code/static
       - media_volume:/code/media
       - docker_homecrm_media_volume:/code/media_homecrm
+      - docker_homecrm_static_volume:/code/static_homecrm
     ports:
       - 127.0.0.1:8100:80
     depends_on:
@@ -27,6 +28,8 @@ services:
 
 volumes:
   docker_homecrm_media_volume:
+    external: true
+  docker_homecrm_static_volume:
     external: true
   media_volume:
     driver: local
