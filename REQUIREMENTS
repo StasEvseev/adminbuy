@@ -1,5 +1,5 @@
 functools32
-psycopg2
+psycopg2-binary
 Fabric==1.10.2
 flask==0.10.1
 flask-admin==1.3.0
@@ -12,6 +12,7 @@ Flask-Mail==0.9.1
 Flask-Migrate==1.6.0
 Flask-Principal==0.4.0
 flask-restful==0.3.1
+flask-s3==0.3.3
 Flask-Script==2.0.5
 Flask-Security==1.7.4
 Flask-SocketIO==0.6.0

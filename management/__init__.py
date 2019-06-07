@@ -13,6 +13,7 @@ from db import db
 from .changepassword import ChangePassword
 from .create_superuser import SuperUserCommand
 from .scaffold import ScaffoldingCommand
+from .upload_static_files import UploadStaticFiles
 
 
 class MyMan(Manager):
@@ -50,6 +51,7 @@ manager = Manager(app)
 
 manager.add_command('db', MigrateCommand)
 manager.add_command('create_superuser', SuperUserCommand())
+manager.add_command('upload_static_files', UploadStaticFiles())
 manager.add_command('change_password', ChangePassword())
 manager.add_command('scaffold', ScaffoldingCommand())
 manager.add_command("assets", ManageAssets(assets))

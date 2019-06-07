@@ -12,7 +12,7 @@ from werkzeug.contrib.fixers import ProxyFix
 from db import db
 from log import init_logging, debug
 
-from config import admin_imap, admin_pass, DATABASE_URI, SECRET_KEY, IS_PROD
+from config import admin_imap, admin_pass, DATABASE_URI, SECRET_KEY, IS_PROD, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
 
 __author__ = 'StasEvseev'
 
@@ -51,6 +51,14 @@ def init_app(application):
     application.config['SECURITY_REMEMBER_SALT'] = "SALT123123123"
     # application.config['SQLALCHEMY_ECHO'] = True
     application.config['SECRET_KEY'] = SECRET_KEY
+
+    application.config['FLASK_ASSETS_USE_S3'] = True
+    application.config['FLASKS3_BUCKET_NAME'] = 'adminbuytest'
+    application.config['FLASKS3_FORCE_MIMETYPE'] = True
+    #application.config['FLASKS3_ONLY_MODIFIED'] = True
+    application.config['AWS_ACCESS_KEY_ID'] = AWS_ACCESS_KEY_ID
+    application.config['AWS_SECRET_ACCESS_KEY'] = AWS_SECRET_ACCESS_KEY
+
     application.permanent_session_lifetime = timedelta(minutes=30)
 
     Triangle(application)
@@ -132,6 +140,12 @@ def index():
     return render_template('home.html')
 
 
+def upload_static_files(app):
+    import flask_s3
+
+    flask_s3.create_all(app)
+
+
 # commands
 def create_superuser():
     from services.userservice import UserService
@@ -160,6 +174,7 @@ def change_password(username, password):
 
 app.create_superuser = create_superuser
 app.change_password = change_password
+app.upload_static_files = upload_static_files
 
 if __name__ == "__main__":
     debug(u"Запуск системы.")
