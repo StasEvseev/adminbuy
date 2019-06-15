@@ -23,6 +23,8 @@ admin_imap = ''
 admin_pass = ''
 imap_server = 'imap.gmail.com'
 
+FLASK_ASSETS_USE_S3 = True
+
 
 if IS_PROD:
     API_LOCATION = 'https://evfam.com/v2/api'

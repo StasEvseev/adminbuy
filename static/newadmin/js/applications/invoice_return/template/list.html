@@ -1,179 +1,82 @@
 <div class="top-bar">
-
-
     <div class="content-header">
-
         <h1>
-            Накладные прихода
-            <small></small>
+            [[name_head]]
+            <small>SMALL</small>
         </h1>
 
         <ol class="breadcrumb">
             <li><a ui-sref="index.dash"><i class="fa fa-dashboard"></i> Дом</a></li>
-            <li><a ui-sref="index.invoice_in.list">Накладные</a></li>
-            <li class="active">[[ item.number ]]</li>
+            <li class="active">[[name_head]]</li>
         </ol>
 
         <div class="btn-custom-group">
             <div class="row">
-                <div class="col-md-6 col-xs-6">
+                <div class="col-md-12 col-sm-12 col-xs-12">
                     <span>
-                        <button class="btn-edt btn-flat btn btn-default btn-sm" ng-click="edit()">Редактировать</button>
                     </span>
-                </div>
-
-                <div class="col-md-6 col-xs-6">
-                    <div class="btn-group" dropdown>
-                        <button type="button" class="btn btn-flat btn-default btn-sm" dropdown-toggle>
-                          Больше <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-
-                            <li><a class="btn btn-print" ng-click="print()">Печать</a></li>
-
-                            <li role="menuitem"><a class="btn-del" ng-click="delete_()">Удалить</a></li>
-                        </ul>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <header class="status-bar">
-        <div>
-            <span>
-                <button class="btn btn-danger btn-flat btn-sm" ng-click="toStatus(2)"
-                        ng-show="!model.status || model.status == 1">Начать формирование</button>
-                <button class="btn btn-danger btn-flat btn-sm" ng-click="toStatus(3)"
-                        ng-show="model.status == 2">Отправить получателю</button>
-                <button class="btn btn-danger btn-flat btn-sm" ng-click="toStatus(4)"
-                        ng-show="model.status == 3">Подтвердить доставку</button>
-                <button class="btn btn-danger btn-flat btn-sm" ng-click="toStatus(1)"
-                        ng-show="model.status == 2">Отменить формирование</button>
-                <button class="btn btn-danger btn-flat btn-sm" ng-click="toStatus(2)"
-                        ng-show="model.status == 3">Отменить отправление</button>
-            </span>
-
-            <ul class="pull-right status-bar" style="float:right;">
-                <li class="status-item" ng-class="{'active': model.status == 1 || model.status == undefined}">
-                    <span>Черновик</span>
-                </li>
-                <li class="status-item" ng-class="{'active': model.status == 2}"
-                    >
-                    <span>Оформление</span>
-                </li>
-                <li class="status-item" ng-class="{'active': model.status == 3}">
-                    <span>Доставка</span>
-                </li>
-                <li class="status-item" ng-class="{'active': model.status == 4}">
-                    <span>Товар на точке</span>
-                </li>
-            </ul>
-        </div>
-
-    </header>
 </div>
-
 
 <div class="main-content" my-auto-padding>
 
     <span ng-cloak ng-hide="loadingFinish" class="spinner">
         <span us-spinner="{lines: 13, length: 5, width: 2, radius: 5}" class="ng-scope"><div class="spinner" role="progressbar" style="position: absolute; width: 0px; z-index: 2000000000; left: 50%; top: 50%;"><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-0-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-0-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(0deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-1-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-1-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(27deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-2-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-2-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(55deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-3-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-3-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(83deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-4-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-4-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(110deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-5-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-5-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(138deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-6-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-6-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(166deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-7-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-7-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(193deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-8-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-8-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(221deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-9-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-9-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(249deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-10-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-10-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(276deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-11-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-11-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(304deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div><div style="position: absolute; top: -1px; opacity: 0.25; -webkit-animation: opacity-100-25-12-13 1s linear infinite; animation-duration: 1s; animation-timing-function: linear; animation-delay: initial; animation-iteration-count: infinite; animation-direction: initial; animation-fill-mode: initial; -webkit-animation-play-state: initial; animation-play-state: initial; animation-name: opacity-100-25-12-13;"><div style="position: absolute; width: 7px; height: 2px; -webkit-box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px; -webkit-transform-origin: left 50% 0px; -webkit-transform: rotate(332deg) translate(5px, 0px); border-radius: 1px; background: rgb(0, 0, 0);"></div></div></div></span>
     </span>
-
-    <section class="invoice">
-        <!-- title row -->
+    <section class="content">
         <div class="row">
             <div class="col-xs-12">
-                <h2 class="page-header">
-                    <i class="fa fa-globe"></i> [[nameInvoice]]
-                    <small class="pull-right">Дата: [[ item.date | date:'d MMM y' ]]</small>
-                </h2>
-            </div>
-            <!-- /.col -->
-        </div>
-        <!-- info row -->
-        <div class="row invoice-info">
-            <div class="col-sm-4 invoice-col">
-                От
-                <address>
-                    <strong>[[ item.pointsale_from ]]</strong><br>
-                    <br>
-                    Адрес: [[model.pointSource.address]]
-                </address>
-            </div>
-            <!-- /.col -->
-            <div class="col-sm-4 invoice-col">
-                К
-                <address>
-                    <strong>[[ item.rec ]]</strong><br>
-                    <br>
-                    Адрес: [[model.pointReceiver.address]]
-                </address>
-            </div>
-            <!-- /.col -->
-            <div class="col-sm-4 invoice-col">
-                <b>Invoice #[[ item.number ]]</b><br/>
-                <br/>
-                <!--<b><br/>-->
-                <!--<b>Payment Due:</b> 2/22/2014<br/>
-                <b>Account:</b> 968-34567-->
-            </div>
-            <!-- /.col -->
-        </div>
-        <!-- /.row -->
 
-        <!-- Table row -->
-        <div class="row" ng-hide="!model.status || model.status == 1">
-            <div class="col-xs-12 table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>Наименование</th>
-                        <th>Кол-во</th>
-                        <th>Цена</th>
-                        <th>Сумма</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="row in items">
-                        <td>[[ row.good.full_name ]]</td>
-                        <td>[[ row.count ]]</td>
-                        <td>[[ price_item(row) ]] руб.</td>
-                        <td>[[ sum_item(row) ]]</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <!-- /.col -->
-        </div>
-        <!-- /.row -->
+                <div class="box box-danger">
+                    <div class="box-header">
+                        <!--<h3 class="box-title">Накладные</h3>-->
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                            <div class="row">
+                                <div class="col-sm-6">
 
-        <div class="row" ng-hide="!model.status || model.status == 1">
-            <div class="col-xs-6">
-            </div>
-            <div class="col-xs-6">
-                <p class="lead">Сумма</p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div id="example1_filter" class="dataTables_filter">
+                                        <form ng-submit="filter(searchText)"><label>Поиск:<input type="search"
+                                                                                                 ng-model="searchText"
+                                                                                                            class="form-control input-sm"
+                                                                                                            placeholder=""
+                                                                                                            aria-controls="example1"></label></form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table ng-table="tableParams" class="table table-hover table-bordered table-striped dataTable"
+                                           role="grid"
+                                           aria-describedby="example1_info" template-pagination="custom/pager">
+                                        <!-- TODO!!! style into css -->
+                                        <tr style="cursor:pointer;" ng-click="detail(item.id)" ng-repeat="item in $data">
+                                            <td data-title="'Поставщик'" sortable="'provider'">
+                                                [[ item.provider_name ]]
+                                            </td>
+                                            <td data-title="'Дата от'" sortable="'date_start'">
+                                                [[ item.date_start ]]
+                                            </td>
+                                            <td data-title="'Дата до'" sortable="'date_end'">
+                                                [[ item.date_end ]]
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
 
-                <div class="table-responsive">
-                    <table class="table">
-                        <tr>
-                            <th style="width:50%">Итог:</th>
-                            <td>[[ getTotal() ]] р.</td>
-                        </tr>
-                    </table>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
                 </div>
             </div>
         </div>
-
-        <!-- this row will not appear when printing -->
-        <div class="row no-print">
-            <div class="col-xs-12">
-                <a ng-click="print()" class="btn btn-default"><i class="fa fa-print"></i> Печать</a>
-                <button class="btn btn-flat btn-primary pull-right" style="margin-right: 5px;"><i class="fa fa-download"></i>
-                    Генерация PDF
-                </button>
-            </div>
-        </div>
     </section>
-    <!-- /.content -->
 </div>

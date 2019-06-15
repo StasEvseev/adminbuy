@@ -1,7 +1,3 @@
-/**
- * Created by user on 24.08.15.
- */
-
 angular.module('invoice.service', ['core.service'])
 
 .factory('InvoiceService', function(BaseDictService, invoices) {

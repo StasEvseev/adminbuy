@@ -144,10 +144,9 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li ng-show="show('index.invoice_in.list')"><a class="invoice-item" ui-sref="index.invoice_in.list"><i class="fa fa-table"></i> Накладные прихода</a>
-                    </li>
-                    <li ng-show="show('index.invoice.list')"><a class="invoice2-item" ui-sref="index.invoice.list"><i class="fa fa-table"></i> Расходные накладные</a>
-                    </li>
+                    <li ng-show="show('index.invoice_in.list')"><a class="invoice-item" ui-sref="index.invoice_in.list"><i class="fa fa-table"></i>Накладные прихода</a></li>
+                    <li ng-show="show('index.invoice.list')"><a class="invoice2-item" ui-sref="index.invoice.list"><i class="fa fa-table"></i>Расходные накладные</a></li>
+                    <li ng-show="show('index.invoice_return.list')"><a class="invoice-return-item" ui-sref="index.invoice_return.list"><i class="fa fa-table"></i>Возвратные накладные</a></li>
                 </ul>
             </li>
             <li ng-show="show('index.receiver.list')">
@@ -155,26 +154,31 @@
                     <i class="fa fa-users"></i> <span>Оптовики</span>
                 </a>
             </li>
+            <!--
             <li ng-show="show('index.commodity.list')">
                 <a class="commodity-item" ui-sref="index.commodity.list" ui-sref-opts="{inherit: false}">
                     <i class="fa fa-bars"></i> <span>Номенклатура</span>
                 </a>
             </li>
+
             <li ng-show="show('index.good.list')">
                 <a class="good-item" ui-sref="index.good.list" ui-sref-opts="{inherit: false}">
                     <i class="fa fa-cubes"></i> <span>Товар</span>
                 </a>
-            </li>
+            </li> -->
             <li ng-show="show('index.pointsale.list')">
                 <a class="pointsale-item" ui-sref="index.pointsale.list" ui-sref-opts="{inherit: false}">
                     <i class="fa fa-archive"></i> <span>Торговые точки</span>
                 </a>
             </li>
+
+            <!--
             <li ng-show="show('index.provider.list')">
                 <a class="provider-item" ui-sref="index.provider.list" ui-sref-opts="{inherit: false}">
                     <i class="fa fa-truck"></i> <span>Поставщики</span>
                 </a>
             </li>
+
 
             <li ng-show="show('index.collect.list')">
                 <a class="collect-item" ui-sref="index.collect.list" ui-sref-opts="{inherit: false}">
@@ -182,11 +186,15 @@
                 </a>
             </li>
 
+            -->
+
             <li ng-show="show('index.session.view')">
                 <a class="session-item" ui-sref="index.session.view" ui-sref-opts="{inherit: false}">
                     <i class="fa fa-money"></i> <span>Торговая сессия</span>
                 </a>
             </li>
+
+            <!--
             <li ng-show="show('index.user')" class="header">АДМИНИСТРИРОВАНИЕ</li>
 
             <li ng-show="show('index.user')" class="treeview user-menu">
@@ -195,16 +203,17 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
 
-                <!--<ul class="treeview-menu">
+                <ul class="treeview-menu">
                     <li><a ui-sref="index.user.view({id: 1})"><i class="fa fa-circle-o"></i> Ваш профиль</a>
                     </li>
-                </ul> -->
+                </ul>
 
                 <ul class="treeview-menu">
                     <li><a class="user-item" ui-sref="index.user.list"><i class="fa fa-user"></i> Пользователи</a>
                     </li>
                 </ul>
             </li>
+            -->
         </ul>
     </section>
     <!-- /.sidebar -->

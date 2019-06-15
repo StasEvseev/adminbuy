@@ -4,13 +4,13 @@
 
         <h1>
             [[name_head]]
-            <small></small>
+            <small>SMALL</small>
         </h1>
 
         <ol class="breadcrumb">
             <li><a ui-sref="index.dash"><i class="fa fa-dashboard"></i> Дом</a></li>
-            <li><a ui-sref="index.invoice.list">[[name_head]]</a></li>
-            <li><a ui-sref="index.invoice.view({id:model.id})">[[ model.number ]]</a> </li>
+            <li><a ui-sref="index.invoice_return.list">[[name_head]]</a></li>
+            <li><a ui-sref="index.invoice_return.view({id:model.id})">[[ model.provider_name ]] ([[ model.date_start ]] - [[ model.date_end ]] )</a> </li>
             <li class="active">Редактирование</li>
         </ol>
 
@@ -48,22 +48,23 @@
                 <thead>
                     <tr>
                         <th>Наименование</th>
-                        <th>Цена с НДС</th>
-                        <th>Цена розницы</th>
-                        <th>Рек. цена розн.</th>
-                        <th>Цена опта</th>
-                        <th>Рек. цена опта</th>
+                        <th>Дата возврата</th>
+                        <th>Выдано (шт.)</th>
+                        <th>Ремиссия (шт.)</th>
+                        <th>Количество</th>
                     </tr>
                 </thead>
                 <tbody>
+
                     <tr ng-repeat="row in model.items">
-                        <td>[[ row.full_name]]</td>
-                        <td>[[ row.price_post ]]</td>
-                        <td><input ng-model="row.price_retail"></td>
-                        <td><span ng-bind-html="row.price_retail_recommendation | rub"></span></td>
-                        <td><input ng-model="row.price_gross"></td>
-                        <td><span ng-bind-html="row.price_gross_recommendation | rub"></span></td>
+                        <td>[[ row.full_name ]]</td>
+                        <td ng-bind-html="row.date_to | date:'d MMM y' "></td>
+                        <td>[[ row.count_delivery ]]</td>
+                        <td>[[ row.count_rem ]]</td>
+                        <td><input ng-model="row.count" type="number"></td>
+
                     </tr>
+
                 </tbody>
             </table>
         </div>
