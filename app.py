@@ -12,7 +12,7 @@ from werkzeug.contrib.fixers import ProxyFix
 from db import db
 from log import init_logging, debug
 
-from config import admin_imap, admin_pass, DATABASE_URI, SECRET_KEY, IS_PROD, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
+from config import admin_imap, admin_pass, DATABASE_URI, SECRET_KEY, IS_PROD, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, FLASK_ASSETS_USE_S3
 
 __author__ = 'StasEvseev'
 
@@ -52,7 +52,7 @@ def init_app(application):
     # application.config['SQLALCHEMY_ECHO'] = True
     application.config['SECRET_KEY'] = SECRET_KEY
 
-    application.config['FLASK_ASSETS_USE_S3'] = True
+    application.config['FLASK_ASSETS_USE_S3'] = FLASK_ASSETS_USE_S3
     application.config['FLASKS3_BUCKET_NAME'] = 'adminbuytest'
     application.config['FLASKS3_FORCE_MIMETYPE'] = True
     #application.config['FLASKS3_ONLY_MODIFIED'] = True

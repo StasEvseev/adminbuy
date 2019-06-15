@@ -13,3 +13,11 @@ celerybeat.pid
 .cache
 .coverage
 venv
+
+.DS_Store
+
+# ignore home.html and index.html. we publish them from local machine
+/static/home.html
+/static/index.html
+/home.html
+/index.html

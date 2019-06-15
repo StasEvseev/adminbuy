@@ -4,8 +4,6 @@ from flask.ext.assets import Environment, Bundle
 from webassets.filter.jinja2 import Jinja2
 from config import API_LOCATION
 
-__author__ = 'StasEvseev'
-
 
 assets = Environment()
 
@@ -102,6 +100,9 @@ NAjs_bundle = Bundle(
 
     'newadmin/js/applications/invoice/js/module.js',
     'newadmin/js/applications/invoice/js/service.js',
+
+    'newadmin/js/applications/invoice_return/js/module.js',
+    'newadmin/js/applications/invoice_return/js/service.js',
 
     'newadmin/js/applications/waybill/js/service.js',
     'newadmin/js/applications/waybill/js/module.js',

@@ -4,13 +4,13 @@
 
         <h1>
             [[name_head]]
-            <small></small>
+            <small>SMALL</small>
         </h1>
 
         <ol class="breadcrumb">
             <li><a ui-sref="index.dash"><i class="fa fa-dashboard"></i> Дом</a></li>
-            <li><a ui-sref="index.invoice.list">[[name_head]]</a></li>
-            <li class="active">[[ model.number ]]</li>
+            <li><a ui-sref="index.invoice_return.list">[[name_head]]</a></li>
+            <li class="active">[[ model.provider_name ]] ([[ model.date_start ]] - [[ model.date_end ]] )</li>
         </ol>
 
         <div class="btn-custom-group">
@@ -18,7 +18,7 @@
                 <div class="col-md-8 col-sm-8 col-xs-8 ng-scope">
                     <span>
                         <button class="btn-edt btn-flat btn btn-default btn-sm" ng-click="edit()">Редактировать</button>
-                        <button class="btn-edt btn-flat btn btn-default btn-sm" ng-click="createBulk()">Создать пачку накладных из расхода</button>
+                        <!--<button class="btn-edt btn-flat btn btn-default btn-sm" ng-click="createBulk()">Создать пачку накладных из расхода</button> -->
                     </span>
                 </div>
 
@@ -27,9 +27,9 @@
                         <button type="button" class="btn btn-default btn-flat btn-sm" dropdown-toggle>
                           Больше <span class="caret"></span>
                         </button>
-                        <!--<ul class="dropdown-menu" role="menu">
+                        <ul class="dropdown-menu" role="menu">
                             <li role="menuitem"><a class="btn-del" ng-click="delete_()">Удалить</a></li>
-                        </ul> -->
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -50,8 +50,8 @@
             <div class="row">
                 <div class="col-xs-12">
                     <h2 class="page-header">
-                        [[model.number]]
-                        <small class="pull-right">Дата: [[ model.date | date:'d MMM y' ]]</small>
+                        <small class="pull-left">Дата с: [[ model.date_start | date:'d MMM y' ]]</small>
+                        <small class="pull-right">Дата по: [[ model.date_end | date:'d MMM y' ]]</small>
                     </h2>
                 </div>
                 <!-- /.col -->
@@ -63,17 +63,19 @@
                         <thead>
                         <tr>
                             <th>Наименование</th>
-                            <th>Цена с НДС</th>
-                            <th>Цена розницы</th>
-                            <th>Цена опта</th>
+                            <th>Дата возврата</th>
+                            <th>Выдано (шт.)</th>
+                            <th>Ремиссия (шт.)</th>
+                            <th>Количество</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr ng-repeat="row in model.items">
                             <td>[[ row.full_name ]]</td>
-                            <td ng-bind-html="row.price_with_nds | rub"></td>
-                            <td ng-bind-html="row.good.price.price_retail | rub"></td>
-                            <td ng-bind-html="row.good.price.price_gross | rub"></td>
+                            <td ng-bind-html="row.date_to | date:'d MMM y' "></td>
+                            <td>[[ row.count_delivery ]]</td>
+                            <td>[[ row.count_rem ]]</td>
+                            <td>[[ row.count ]]</td>
                         </tr>
                         </tbody>
                     </table>

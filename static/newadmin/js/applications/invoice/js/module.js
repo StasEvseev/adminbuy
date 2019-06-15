@@ -1,11 +1,3 @@
-/**
- * Created by user on 02.09.15.
- */
-
-/**
- * Created by user on 14.08.15.
- */
-
 angular.module('invoice.module', ['core.controllers', 'pointsales.service']).constant('InvoiceConfig', {
     name: "Расходные накладные",
     formname: "InvoiceForm"

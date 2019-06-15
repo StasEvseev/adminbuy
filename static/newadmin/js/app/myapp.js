@@ -18,6 +18,9 @@ AdminApp = angular.module('AdminApp', [
     'invoice.service',
     'invoice.module',
 
+    'invoice_return.service',
+    'invoice_return.module',
+
     'waybill.module',
     'waybill.service',
 

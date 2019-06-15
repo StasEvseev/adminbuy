@@ -63,6 +63,14 @@ angular.module("mails.module", ['ui.router'])
                         $scope.hasNext = mails.hasNext;
                         $scope.hasPrev = mails.hasPrev;
 
+                        $scope.class_for_file = function(filename) {
+                            if (filename.endsWith('.xls')) {
+                                return 'fa-file-excel-o';
+                            }
+
+                            return 'fa-file-o';
+                        };
+
                         $scope.rashod = function(event, index) {
                             showSpinner();
 
@@ -72,6 +80,19 @@ angular.module("mails.module", ['ui.router'])
                                 });
                             }).catch(function() {
                                 showError("Не удалось обработать накладную как расход. Обратитесь к администратору.");
+                                hideSpinner();
+                            });
+                        };
+
+                        $scope.handleAsReturn = function(event, index) {
+                            showSpinner();
+
+                            mails.handle_mail($scope.item.id, index, 'V').then(function(data) {
+                                $state.go('index.invoice_return.view', {id: data.data.return_field_id}).then(function() {
+                                    hideSpinner();
+                                });
+                            }).catch(function() {
+                                showError("Не удалось обработать накладную как возврат. Обратитесь к администратору.");
                                 hideSpinner();
                             });
                         };
