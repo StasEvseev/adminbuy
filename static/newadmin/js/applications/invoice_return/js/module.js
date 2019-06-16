@@ -164,6 +164,16 @@ angular.module('invoice_return.module', ['ui.router', 'core.controllers', 'point
 
     };
 
+    $scope.printEmpty = function() {
+        invoices_return.print(id).then(function(data) {
+            const blob = new Blob([data.data], { type: data.headers('content-type') });
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = 'report_empty_' + id + '.xlsx';
+            link.click();
+        })
+    };
+
     // $scope.createBulk = function() {
     //     $scope.loadingFinish = false;
     //     var from_pointsale_id = '', to_pointsale_ids = '';
