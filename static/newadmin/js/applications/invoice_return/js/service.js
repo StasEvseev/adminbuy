@@ -31,6 +31,17 @@ angular.module('invoice_return.service', ['core.service'])
         });
     };
 
+    child.print = function(id) {
+        let config = {
+            dataType : "binary",
+            processData : false,
+            responseType : 'arraybuffer'
+        };
+        return $http.get(apiConfig.baseUrl + "/refund/" + id + "/print", config).then(function(data) {
+            return data;
+        });
+    };
+
     child.saveAmountFromInvoice = function (id, items) {
         return $http.put(apiConfig.baseUrl + "/refund/" + id + "/items", {data: {items: items}}).then(function(resp) {
             return resp;

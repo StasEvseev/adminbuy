@@ -55,7 +55,7 @@ def init_app(application):
     application.config['FLASK_ASSETS_USE_S3'] = FLASK_ASSETS_USE_S3
     application.config['FLASKS3_BUCKET_NAME'] = 'adminbuytest'
     application.config['FLASKS3_FORCE_MIMETYPE'] = True
-    #application.config['FLASKS3_ONLY_MODIFIED'] = True
+    application.config['FLASKS3_ONLY_MODIFIED'] = True
     application.config['AWS_ACCESS_KEY_ID'] = AWS_ACCESS_KEY_ID
     application.config['AWS_SECRET_ACCESS_KEY'] = AWS_SECRET_ACCESS_KEY
 
