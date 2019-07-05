@@ -113,7 +113,9 @@
                             style="width: 100%"
                             dng-required='model.type == 2'
                             dname="provider"
-                            dng-disabled="editForm"
+                            dng-disabled="tableEditEnabled"
+                            can-edit="false"
+                            can-create="false"
                             >
                         <dict-select-field-match placeholder="Введите название...">[[$select.selected.name]]</dict-select-field-match>
                         <dict-select-field-choices repeat="item in $items | propsFilter: {name: $select.search}">

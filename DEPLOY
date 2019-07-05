@@ -14,3 +14,10 @@ sudo swapon /swapfile
 CREATE ROLE test WITH PASSWORD 'test' LOGIN;
 CREATE DATABASE buyapi;
 GRANT ALL PRIVILEGES ON DATABASE buyapi TO test;
+
+
+
+#: from local machine
+make venv
+API_LOCATION=https://homecrm.herokuapp.com/api make static_generate
+venv/bin/python manage.py upload_static_files

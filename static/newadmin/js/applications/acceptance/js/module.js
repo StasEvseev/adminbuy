@@ -57,6 +57,9 @@ angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).
                 }
             },
             resolve: {
+                pointsale: function(item, pointsales) {
+                    return pointsales.getById(item.pointsale_id);
+                },
                 item: function(acceptances, $stateParams) {
                     return acceptances.getById(parseInt($stateParams.id))
                 },
@@ -76,14 +79,17 @@ angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).
             },
             resolve: {
                 topointsale: function (pointsales, $stateParams) {
-                    if ($stateParams.to_pointsale_id) {
-                        return pointsales.getByIds($stateParams.to_pointsale_id).then(function (resp) {
+                    if ($stateParams.pointsale_id) {
+                        return pointsales.getByIds($stateParams.pointsale_id).then(function (resp) {
                             return resp.items;
                         });
                     } else {
                         return pointsales.getCentralPoint();
                     }
-                }
+                },
+                pointsale: function(item, pointsales) {
+                    return pointsales.getById(item.pointsale_id);
+                },
             }
         })
 })
@@ -140,7 +146,7 @@ angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).
 })
 
 .controller("AcceptanceEditCntr", function($scope, $compile, $controller, $state, $q, goods, item,
-                                           items, acceptances, AcceptanceConfig, topointsale) {
+                                           items, acceptances, AcceptanceConfig, topointsale, pointsale) {
     $controller('AcceptanceCreateCntr', {$scope: $scope, topointsale: topointsale});
 
     $scope.name_head = AcceptanceConfig.name;
@@ -150,6 +156,7 @@ angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).
 
     $scope.item = angular.copy(item);
     $scope.model = $scope.item;
+    $scope.model.pointsale = pointsale;
     $scope.model.items = angular.copy(items);
 
     $scope.tableEditEnabled = $scope.model.status == 2;
@@ -187,10 +194,8 @@ angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).
                     "<h5>" +
                     "Полное наименование: "+data.full_name +
                     "</h5>" +
-                    "<h5>" +
-                    "Номенклатура: <a ui-sref='index.commodity.view({id: "+data.commodity.id+"})'>"+data.commodity.name+"</a>" +
-                    "</h5>" +
                     "<h6>Цена розницы: "+data['price.price_retail']+"</h6>" +
+                    "<h6>Цена опта: "+data['price.price_gross']+"</h6>" +
                     "</div>";
 
                 var linkFn = $compile(template);
@@ -204,13 +209,14 @@ angular.module('acceptance.module', ['core.controllers', 'acceptance.service']).
 })
 
 .controller("AcceptanceViewCntr", function($scope, $stateParams, $state, acceptancestatus,
-                                           AcceptanceConfig, invoices, item, items) {
+                                           AcceptanceConfig, invoices, item, items, pointsale) {
     $scope.name_head = AcceptanceConfig.name;
 
     $scope.loadingFinish = true;
 
     var id = $stateParams.id;
     $scope.model = item;
+    $scope.model.pointsale = pointsale;
     $scope.model.items = items;
 
     $scope.edit = function() {
