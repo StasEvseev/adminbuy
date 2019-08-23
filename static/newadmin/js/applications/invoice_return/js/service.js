@@ -32,6 +32,7 @@ angular.module('invoice_return.service', ['core.service'])
     };
 
     child.print = function(id) {
+        'use strict';
         let config = {
             dataType : "binary",
             processData : false,
