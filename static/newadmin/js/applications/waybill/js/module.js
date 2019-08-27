@@ -145,7 +145,7 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
                             });
                             modalInstance.result.then(function (items) {
                                 items = _.map(items, function(item) {
-                                    item.count = '';
+                                    item.count = null;
                                     return item;
                                 });
                                 $scope.model.items = $scope.model.items.concat(items);
@@ -566,7 +566,7 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
         });
         modalInstance.result.then(function (items) {
             items = _.map(items, function(item) {
-                item.count = '';
+                item.count = null;
                 return item;
             });
             $scope.model.items = $scope.model.items.concat(items);
