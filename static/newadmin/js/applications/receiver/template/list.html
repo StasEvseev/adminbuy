@@ -13,9 +13,6 @@
         <div class="btn-custom-group">
             <div class="row">
                 <div class="col-md-12 col-xs-12">
-                    <span>
-                        <button class="btn-crt btn-flat btn btn-danger btn-sm" ng-click="create()">Создать</button>
-                    </span>
                 </div>
             </div>
         </div>
@@ -76,6 +73,9 @@
 
                                             <td data-title="'Паспортные данные'" sortable="'passport'">
                                                 [[ item.passport ]]
+                                            </td>
+                                            <td data-title="'Активный'" sortable="'active'">
+                                                [[ item.active | yesNo ]]
                                             </td>
                                         </tr>
                                     </table>

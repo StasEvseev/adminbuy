@@ -13,9 +13,6 @@
         <div class="btn-custom-group">
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <span>
-                        <button class="btn-crt btn-flat btn btn-danger btn-sm" ng-click="create()">Создать</button>
-                    </span>
                 </div>
             </div>
         </div>
@@ -73,6 +70,9 @@
                                                 <span ng-show="!item.is_central" class="label label-warning">
                                                     Подчиненная
                                                 </span>
+                                            </td>
+                                            <td data-title="'Активный'" sortable="'active'" width="100px">
+                                                [[ item.active | yesNo ]]
                                             </td>
                                         </tr>
                                     </table>

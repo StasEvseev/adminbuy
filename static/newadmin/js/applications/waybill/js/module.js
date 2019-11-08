@@ -382,7 +382,7 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
 })
 
 .controller('InvoiceInCreateCntr', function ($scope, $state, Form, waybills, pointsales, receivers,
-                                             Company, $controller, $q, PointService, ReceiverService) {
+                                             Company, $controller, $q, PointService, PointServiceFilterInactive, ReceiverService, ReceiverServiceFilterInactive) {
     $controller('BaseCreateController', {$scope: $scope});
 
     $scope.model.typeRec = 1;
@@ -400,7 +400,9 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
     };
 
     $scope.PointService = PointService;
+    $scope.PointServiceFilterInactive = PointServiceFilterInactive;
     $scope.ReceiverService = ReceiverService;
+    $scope.ReceiverServiceFilterInactive = ReceiverServiceFilterInactive;
 
     $scope.today = function() {
         $scope.model.date = moment().format('YYYY-MM-DD');

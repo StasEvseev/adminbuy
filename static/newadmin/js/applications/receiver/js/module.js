@@ -6,7 +6,15 @@ angular.module("receivers.module", ['ui.router', 'core.service', 'core.controlle
 .run(function($templateCache, $http) {
     $templateCache.put("ReceiverForm", $http.get("/static/newadmin/js/applications/receiver/template/form.html"));
 })
+.factory('ReceiverServiceFilterInactive', function(BaseDictService, receivers) {
 
+    var child = Object.create(BaseDictService);
+    child.records = function (text) {
+        return receivers.filter(text, 1, 20, {active: 'True'});
+    };
+
+    return child;
+})
 .factory('ReceiverService', function(BaseDictService, receivers) {
 
     var child = Object.create(BaseDictService);

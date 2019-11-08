@@ -12,8 +12,8 @@ angular.module('receivers.service', ['core.service'])
     child._getPath = function () {
         return url;
     };
-    child.filter = function(text, page, count) {
-        return BaseModelService.filter.call(this, text, page, count).then(function(resp) {
+    child.filter = function(text, page, count, extra_params) {
+        return BaseModelService.filter.call(this, text, page, count, extra_params).then(function(resp) {
             items = resp.data.items;
             return items;
         });

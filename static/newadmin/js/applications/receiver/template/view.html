@@ -16,20 +16,9 @@
         <div class="btn-custom-group">
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-6 ng-scope">
-                    <span>
-                        <button class="btn-edt btn-flat btn btn-default btn-sm" ng-click="edit()">Редактировать</button>
-                    </span>
                 </div>
 
                 <div class="col-md-6 col-sm-6 col-xs-6 ng-scope">
-                    <div class="btn-group" dropdown>
-                        <button type="button" class="btn btn-default btn-flat btn-sm" dropdown-toggle>
-                          Больше <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li role="menuitem"><a class="btn-del" ng-click="delete_()">Удалить</a></li>
-                        </ul>
-                    </div>
                 </div>
             </div>
         </div>
@@ -60,45 +49,34 @@
                             <div class="form-group">
                                 <label>Фамилия</label>
                                 <div>[[model.fname]]</div>
-                                <!--<input type="text" ng-model="model.fname" class="form-control" id="exampleInputPassword1"
-                                       placeholder="Введите фамилию">-->
                             </div>
 
                             <div class="form-group">
                                 <label>Имя</label>
                                 <div>[[model.lname]]</div>
-                                <!--<input type="text" ng-model="model.lname" class="form-control" id="exampleInputPassword1"
-                                       placeholder="Введите имя"> -->
                             </div>
 
                             <div class="form-group">
                                 <label>Отчество</label>
                                 <div>[[model.pname]]</div>
-                                <!--<input type="text" ng-model="model.pname" class="form-control" id="exampleInputPassword1"
-                                       placeholder="Введите отчество">-->
                             </div>
 
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Адрес</label>
                                 <div>[[model.address]]</div>
-
-                                <!--<input type="text" ng-model="model.address" class="form-control" id="exampleInputPassword1"
-                                       placeholder="Введите адрес">-->
                             </div>
 
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Паспортные данные</label>
                                 <div>[[model.passport]]</div>
-                                <!--<input type="text" ng-model="model.passport" class="form-control" id="exampleInputPassword1"
-                                       placeholder="Введите паспортные данные">-->
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Активный</label>
+                                <div>[[ model.active | yesNo ]]</div>
                             </div>
                         </div>
-                        <!--<button ng-click="cancel()"></button>-->
-                        <!-- /.box-body -->
 
-                        <!--<div class="box-footer">
-                            <button type="submit" class="btn btn-primary">Сохранить</button>
-                        </div> -->
                     </form>
                 </div>
                 <!-- /.box -->

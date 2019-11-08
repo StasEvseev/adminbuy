@@ -32,8 +32,8 @@ angular.module('pointsales.service', ['core.service'])
         return path;
     };
 
-    child.filter = function(text, page, count) {
-        return BaseModelService.filter.call(this, text, page, count).then(function(resp) {
+    child.filter = function(text, page, count, extra_params) {
+        return BaseModelService.filter.call(this, text, page, count, extra_params).then(function(resp) {
             return resp.data.items;
         });
     };

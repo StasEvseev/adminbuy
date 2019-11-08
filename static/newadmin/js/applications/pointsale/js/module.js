@@ -7,6 +7,13 @@ angular.module('pointsales.module', ['ui.router', 'ui.bootstrap', 'core.service'
 .run(function($templateCache, $http) {
     $templateCache.put("PointsaleForm", $http.get("/static/newadmin/js/applications/pointsale/template/form.html"));
 })
+.factory('PointServiceFilterInactive', function(BaseDictService, pointsales, $controller) {
+    var child = Object.create(BaseDictService);
+    child.records = function (text) {
+        return pointsales.filter(text, 1, 20, {active: 'True'});
+    };
+    return child;
+})
 
 .factory('PointService', function(BaseDictService, pointsales, $controller) {
 

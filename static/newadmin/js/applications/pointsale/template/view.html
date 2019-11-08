@@ -16,20 +16,9 @@
         <div class="btn-custom-group">
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-6">
-                    <span>
-                        <button class="btn-edt btn-flat btn btn-default btn-sm" ng-click="edit()">Редактировать</button>
-                    </span>
                 </div>
 
                 <div class="col-md-6 col-sm-6 col-xs-6">
-                    <div class="btn-group" dropdown>
-                        <button type="button" class="btn btn-flat btn-default btn-sm" dropdown-toggle>
-                          Больше <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li role="menuitem"><a class="btn-del" ng-click="delete_()">Удалить</a></li>
-                        </ul>
-                    </div>
                 </div>
             </div>
         </div>
@@ -65,6 +54,11 @@
                             <div class="form-group">
                                 <strong>Центральная</strong>
                                 <p class="text-muted">[[model.is_central | yesNo]]</p>
+                            </div>
+
+                            <div class="form-group">
+                                <strong>Активный</strong>
+                                <p class="text-muted">[[model.active | yesNo]]</p>
                             </div>
                         </div>
                     </form>
