@@ -13,9 +13,9 @@ angular.module('core.service', ['core.utils'])
         _setCount: function(count) {
             this.cnt = count;
         },
-        filter: function(text, page, count) {
+        filter: function(text, page, count, extra_params) {
             var self = this;
-            var params = remoteHelper.createParams(text, undefined, page, count);
+            var params = remoteHelper.createParams(text, undefined, page, count, extra_params);
             return remoteHelper.filterItems(self._getPath(), params).then(function(resp) {
                 self._setCount(resp.data.max);
                 return resp;

@@ -290,3 +290,8 @@ div.btn-change-action {
         font-size: 12px;
     }
 }
+
+div.invoice_is_favor {
+    font-weight: bold;
+    color: coral;
+}

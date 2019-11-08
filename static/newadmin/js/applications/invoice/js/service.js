@@ -9,6 +9,15 @@ angular.module('invoice.service', ['core.service'])
 
     return child;
 })
+.factory('InvoiceServiceAddNew', function(BaseDictService, invoices) {
+
+    var child = Object.create(BaseDictService);
+    child.records = function (text) {
+        return invoices.filter(text, 1, 50, {add_from_invoice: true, number: text, date: text});
+    };
+
+    return child;
+})
 
 
 .factory('invoices', function(BaseModelService, $http, apiConfig) {
@@ -19,8 +28,8 @@ angular.module('invoice.service', ['core.service'])
         return path;
     };
 
-    child.filter = function(text, page, count) {
-        return BaseModelService.filter.call(this, text, page, count).then(function(resp) {
+    child.filter = function(text, page, count, extra_params) {
+        return BaseModelService.filter.call(this, text, page, count, extra_params).then(function(resp) {
             return resp.data.items;
         });
     };

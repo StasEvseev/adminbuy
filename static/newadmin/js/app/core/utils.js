@@ -25,8 +25,8 @@ angular.module("core.utils", [])
 
                 return $http.get(url, {params: prms});
             },
-            createParams: function(text, field, page, count) {
-                var params = {};
+            createParams: function(text, field, page, count, extra_params) {
+                var params = extra_params || {};
                 if (text) {
                     params['filter_text'] = text;
                     params['filter_field'] = field ? field : 'filter_field';

@@ -19,5 +19,11 @@ GRANT ALL PRIVILEGES ON DATABASE buyapi TO test;
 
 #: from local machine
 make venv
+
+API_LOCATION=http://localhost:8000/api make static_generate
+
 API_LOCATION=https://homecrm.herokuapp.com/api make static_generate
-venv/bin/python manage.py upload_static_files
+FLASKS3_BUCKET_NAME=adminbuytest venv/bin/python manage.py upload_static_files
+
+API_LOCATION=https://evfam.com/v2/api make static_generate
+FLASKS3_BUCKET_NAME=evfam.com venv/bin/python manage.py upload_static_files

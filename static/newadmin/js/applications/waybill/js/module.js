@@ -57,7 +57,7 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
                         $scope.openWindowSelect = function() {
                             var modalInstance = $modal.open({
                                 templateUrl: 'InvoiceSelectGood',
-                                controller: function($scope, ngTableParams, $modalInstance, arrayhelp, invoice_canon_items, excl_id, InvoiceService) {
+                                controller: function($scope, ngTableParams, $modalInstance, arrayhelp, invoice_canon_items, excl_id, InvoiceService, InvoiceServiceAddNew) {
 
                                     var items = [];
 
@@ -71,6 +71,7 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
                                     };
 
                                     $scope.InvoiceService = InvoiceService;
+                                    $scope.InvoiceServiceAddNew = InvoiceServiceAddNew;
 
                                     $scope.invoiceSelect = function(item) {
 
@@ -478,7 +479,7 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
     $scope.openWindowSelect = function() {
         var modalInstance = $modal.open({
             templateUrl: "/static/newadmin/js/applications/waybill/template/w_add_from_invoice.html",
-            controller: function($scope, ngTableParams, $modalInstance, arrayhelp, invoice_canon_items, excl_id, InvoiceService) {
+            controller: function($scope, ngTableParams, $modalInstance, arrayhelp, invoice_canon_items, excl_id, InvoiceService, InvoiceServiceAddNew) {
 
                 var items = [];
 
@@ -492,6 +493,7 @@ angular.module("waybill.module", ['ui.router', 'core.controllers', 'waybill.serv
                 };
 
                 $scope.InvoiceService = InvoiceService;
+                $scope.InvoiceServiceAddNew = InvoiceServiceAddNew;
 
                 $scope.invoiceSelect = function(item) {
 
