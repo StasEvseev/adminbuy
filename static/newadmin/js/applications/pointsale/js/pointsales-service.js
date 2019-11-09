@@ -39,7 +39,7 @@ angular.module('pointsales.service', ['core.service'])
     };
 
     child.getCentralPoint = function() {
-        return $http.get(apiConfig.baseUrl + "/pointsale", {params: {is_central: 'True'}}).then(function(resp) {
+        return $http.get(apiConfig.baseUrl + "/pointsale", {params: {is_central: 'True', active: 'True'}}).then(function(resp) {
             var res = undefined;
             if (resp.data.count) {
                 res = resp.data.items[0]
@@ -49,7 +49,7 @@ angular.module('pointsales.service', ['core.service'])
     };
 
     child.getSlavePoint = function() {
-        return $http.get(apiConfig.baseUrl + "/pointsale", {params: {is_central: 'False'}}).then(function(resp) {
+        return $http.get(apiConfig.baseUrl + "/pointsale", {params: {is_central: 'False', active: 'True'}}).then(function(resp) {
             return resp.data.items;
         });
     };
