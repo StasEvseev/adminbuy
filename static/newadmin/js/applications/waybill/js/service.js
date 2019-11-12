@@ -13,7 +13,7 @@ angular.module('waybill.service', ['core.service'])
     };
 
     child.filter = function(text, page, count) {
-        return BaseModelService.filter.call(this, text, page, count).then(function(resp) {
+        return BaseModelService.filter.call(this, text, page, 15).then(function(resp) {
             return resp.data.items;
         });
     };
